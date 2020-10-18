@@ -10,7 +10,7 @@ namespace dotNet5781_00_2033_0032
     {
         static partial void Welcome0032()
         {
-            Console.WriteLine("Hello Worlddddddd");
+            Console.WriteLine("Hello Worlddddd");
         }
     }
 }
