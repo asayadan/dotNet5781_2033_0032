@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{88CC797E-24B7-40CD-AB97-D4D5B5F85DA7}</ProjectGuid>
+    <ProjectGuid>{71DC4BC1-6362-404E-823D-176DA4BAB850}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>dotNet5781_01_2033_0032</RootNamespace>
-    <AssemblyName>dotNet5781_01_2033_0032</AssemblyName>
+    <RootNamespace>dotNet5781_00_2033_0032</RootNamespace>
+    <AssemblyName>dotNet5781_00_2033_0032</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Program0032.cs" />
+    <Compile Include="Program2033.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

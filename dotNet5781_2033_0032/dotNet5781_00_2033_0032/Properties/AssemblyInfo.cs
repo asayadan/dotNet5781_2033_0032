@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("dotNet5781_01_2033_0032")]
+[assembly: AssemblyTitle("dotNet5781_00_2033_0032")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("dotNet5781_01_2033_0032")]
+[assembly: AssemblyProduct("dotNet5781_00_2033_0032")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("78d607a1-84d0-4882-8b8a-626407cc3fa7")]
+[assembly: Guid("71dc4bc1-6362-404e-823d-176da4bab850")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -10,6 +10,7 @@ namespace BusClass
 {
     class Bus
     {
+        #region hulo
         private int licensePlateNumber;
         private DateTime inceptionDate;
         private float fuel;
@@ -18,6 +19,7 @@ namespace BusClass
         private DateTime timeOfRefuel;
 
         static int FULL_GAS_TANK = 1200;
+        #endregion
         /*
             * Constructor.
             * checkes  if the input is valid 
