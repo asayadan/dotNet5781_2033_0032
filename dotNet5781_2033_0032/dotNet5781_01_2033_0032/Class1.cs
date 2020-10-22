@@ -10,16 +10,19 @@ namespace BusClass
 {
     class Bus
     {
-        #region hulo
+        #region variables
         private int licensePlateNumber;
         private DateTime inceptionDate;
         private float fuel;
         private float mileage;
-        private float maileageInLastRepair;
-        private DateTime timeOfRefuel;
+        private float maileageInLastTreatment;
+        private DateTime timeOfLastTreatment;
 
         static int FULL_GAS_TANK = 1200;
         #endregion
+
+
+
         /*
             * Constructor.
             * checkes  if the input is valid 
@@ -34,10 +37,10 @@ namespace BusClass
             {
                 licensePlateNumber = _licensePlateNumber;
                 inceptionDate = _date;
-                timeOfRefuel = _date;
+                timeOfLastTreatment = _date;
                 mileage = 0;
-                maileageInLastRepair = 0;
-                fuel =FULL_GAS_TANK;//i assume that every bus starts with full gas tank
+                maileageInLastTreatment = 0;
+                fuel = FULL_GAS_TANK;//i assume that every bus starts with full gas tank
             }
             else
             {
@@ -45,6 +48,39 @@ namespace BusClass
                 return;
             }
         }
+
+
+        public int licensePlate
+        {get { return licensePlateNumber; }}
+
+        public float _mileage
+        { get { return mileage; }}
+
+        public float _fuel
+        { get { return fuel; } }
+
+
+        public float rideKM
+        {
+            set
+            {
+                mileage += value;
+                fuel -= value;
+            }
+        }
+
+        public void refuel()
+        {
+            fuel = 1200;
+        }
+
+        public void treatmrnt(DateTime _date)
+        {
+            maileageInLastTreatment = mileage;
+            timeOfLastTreatment = _date;
+        }
+
+
 
         public void Print_licensePlateNumber()
         {
