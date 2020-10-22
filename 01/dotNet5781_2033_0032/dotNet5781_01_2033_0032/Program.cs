@@ -10,6 +10,7 @@ namespace dotNet5781_01_2033_0032
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("ta");
         }
     }
 }
