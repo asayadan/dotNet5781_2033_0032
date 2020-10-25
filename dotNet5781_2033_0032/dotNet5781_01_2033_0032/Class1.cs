@@ -71,7 +71,7 @@ namespace BusClass
 
         public void refuel()
         {
-            fuel = 1200;
+            fuel = FULL_GAS_TANK;
         }
 
         public void treatmrnt(DateTime _date)
