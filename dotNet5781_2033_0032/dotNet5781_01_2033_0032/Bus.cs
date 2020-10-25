@@ -30,23 +30,14 @@ namespace BusClass
 
        */
         public Bus(int _licensePlateNumber, DateTime _date)
-        {
-
-            if ((_date.Year >= 2018) && (_licensePlateNumber > 9999999) ||
-                (_date.Year < 2018) && (_licensePlateNumber <= 9999999))
-            {
+        {   
                 licensePlateNumber = _licensePlateNumber;
                 inceptionDate = _date;
                 timeOfLastTreatment = _date;
                 mileage = 0;
                 maileageInLastTreatment = 0;
                 fuel = FULL_GAS_TANK;//i assume that every bus starts with full gas tank
-            }
-            else
-            {
-                Console.WriteLine("error: can't have this license Plate Number");
-                return;
-            }
+            
         }
 
 
@@ -74,7 +65,7 @@ namespace BusClass
             fuel = 1200;
         }
 
-        public void treatmrnt(DateTime _date)
+        public void treatment(DateTime _date)
         {
             maileageInLastTreatment = mileage;
             timeOfLastTreatment = _date;
