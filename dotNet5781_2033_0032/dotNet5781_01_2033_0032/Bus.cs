@@ -18,11 +18,11 @@ namespace BusClass
         private float maileageInLastTreatment;
         private DateTime timeOfLastTreatment;
 
-        static int FULL_GAS_TANK = 1200;
+        static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
 
 
-
+        #region const
         /*
             * Constructor.
             * checkes  if the input is valid 
@@ -39,8 +39,10 @@ namespace BusClass
                 fuel = FULL_GAS_TANK;//i assume that every bus starts with full gas tank
             
         }
+        #endregion
 
 
+        #region properties
         public int licensePlate
         {get { return licensePlateNumber; }}
 
@@ -92,4 +94,5 @@ namespace BusClass
         }
 
     }
+    #endregion
 }
