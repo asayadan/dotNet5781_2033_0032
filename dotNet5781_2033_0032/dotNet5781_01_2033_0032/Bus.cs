@@ -43,29 +43,31 @@ namespace BusClass
 
 
         #region properties
-        public int licensePlate
+        public int licensePlate//returns th license plate number
         {get { return licensePlateNumber; }}
 
-        public float _mileage
+        public float _mileage//returns the number of km the bus drove untile now
         { get { return mileage; }}
 
-        public float _fuel
+        public float _fuel//returns the number of km the bus can ride without Refueling
         { get { return fuel; } }
 
-
+//add ride  getting the number of km to ride
         public float rideKM
         {
             set
             {
-                mileage += value;
-                fuel -= value;
+                mileage += value;//adding the number of km who were being traveled to the mileage
+                fuel -= value;//Subtracting  the number of km who were being traveled from the amount we can ride without Refueling 
             }
         }
 
-        public void refuel()
+        public void refuel()//we set the number of km the bus can ride without Refueling to the maximum value
         {
             fuel = FULL_GAS_TANK;
         }
+
+
 
         public void treatment(DateTime _date)
         {
