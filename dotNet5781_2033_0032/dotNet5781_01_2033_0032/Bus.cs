@@ -52,7 +52,10 @@ namespace BusClass
         public float _fuel//returns the number of km the bus can ride without Refueling
         { get { return fuel; } }
 
-//add ride  getting the number of km to ride
+        public float mileage_Since_Treatment//returns th license plate number
+        { get { return mileage- maileageInLastTreatment; } }
+
+        //add ride  getting the number of km to ride
         public float rideKM
         {
             set
