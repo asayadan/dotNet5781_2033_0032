@@ -58,7 +58,6 @@ namespace BusClass
         //add ride  getting the number of km to ride
         public void rideKM(int value)
         {
-            
             if (mileageSinceTreatment > 20000 || _fuel < value)
                 Console.WriteLine("This bus can't be used!");
             else {
