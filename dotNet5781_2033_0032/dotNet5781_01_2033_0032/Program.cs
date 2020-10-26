@@ -8,10 +8,10 @@ using BusClass;
 //enum
 enum states
 {
-    Add_Bus,
+    addBus,
     ride,
-    fuel_or_fix,
-    print_mileage,
+    fuelOrTreatment,
+    printMileage,
     exit
 }
 
@@ -26,11 +26,11 @@ namespace dotNet5781_01_2033_0032
             bool flag = true;
             while (flag)
 	        {
-                Console.WriteLine("Choose an option:\n0. Add a bus.\n1. Choose a bus for a ride.\n2.Fuel or fix a bus.\n3. Print mileage of every bus. \n4. Exit.");
+                Console.WriteLine("\nChoose an option:\n0. Add a bus.\n1. Choose a bus for a ride.\n2. Fuel or Treat a bus.\n3. Print mileage of every bus. \n4. Exit.");
                 int.TryParse(Console.ReadLine(), out i);
                 switch (i)
 	            {
-                    case (int)states.Add_Bus:
+                    case (int)states.addBus:
                         DateTime date = new DateTime();
                         int licensePlateNumber;
                         Console.WriteLine("Enter a date in the format (YYYY-MM-DD):");
@@ -40,19 +40,51 @@ namespace dotNet5781_01_2033_0032
                         if (checkValidation(licensePlateNumber, date))
                             buses.Add(new Bus(licensePlateNumber, date));
                         break;
+
                     case (int)states.ride:
-                        int randNum;
+                        int randKM;
                         Console.WriteLine("Enter license plate number:");
                         int.TryParse(Console.ReadLine(), out licensePlateNumber);
                         Random rnd = new Random(DateTime.Now.Millisecond);
-                        randNum = rnd.Next();
+                        randKM = rnd.Next(2400);
 
-                        
+                        Bus bus = buses.Find(x => x.licensePlate.Equals(licensePlateNumber));
+                        if (bus == null)
+                            Console.WriteLine("Bus not found!");
+                        else bus.rideKM(randKM);
                         break;
-                    case (int)states.fuel_or_fix:
+
+                    case (int)states.fuelOrTreatment:
+                        int option;
+                        Console.WriteLine("Enter license plate number:");
+                        int.TryParse(Console.ReadLine(), out licensePlateNumber);
+                        Console.WriteLine("Choose an option:\n1. Fuel\n2. Treat");
+                        int.TryParse(Console.ReadLine(), out option);
+                        Bus myBus = buses.Find(x => x.licensePlate.Equals(licensePlateNumber));
+                        if (myBus != null)
+                            switch (option)
+	                        {
+                                case 1:
+                                    myBus.refuel();
+                                    break;
+                                case 2:
+                                    myBus.treatment(DateTime.Now);
+                                    break;
+		                        default:
+                                    Console.WriteLine("Option not found.");
+                                    break;
+	                        }
+                        else
+                            Console.WriteLine("Bus not found.");
                         break;
-                    case (int)states.print_mileage:
+
+                    case (int)states.printMileage:
+                        foreach (Bus aBus in buses) {
+                            aBus.Print_licensePlateNumber();
+                            Console.Write(" | {0}", aBus.mileageSinceTreatment);
+                        }
                         break;
+
                     case (int)states.exit:
                         flag = false;
                         break;
