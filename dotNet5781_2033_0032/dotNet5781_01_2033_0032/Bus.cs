@@ -34,7 +34,7 @@ namespace BusClass
                 licensePlateNumber = _licensePlateNumber;
                 inceptionDate = _date;
                 timeOfLastTreatment = _date;
-                mileage = 0;
+                mileage = 20001;
                 maileageInLastTreatment = 0;
                 fuel = FULL_GAS_TANK;//i assume that every bus starts with full gas tank
             
@@ -52,22 +52,25 @@ namespace BusClass
         public float _fuel//returns the number of km the bus can ride without Refueling
         { get { return fuel; } }
 
-        public float mileage_Since_Treatment//returns th license plate number
-        { get { return mileage- maileageInLastTreatment; } }
+        public float mileageSinceTreatment//returns the mileage since last treatment
+        { get { return mileage - maileageInLastTreatment; } }
 
         //add ride  getting the number of km to ride
-        public float rideKM
+        public void rideKM(int value)
         {
-            set
-            {
+            
+            if (mileageSinceTreatment > 20000 || _fuel < value)
+                Console.WriteLine("This bus can't be used!");
+            else {
                 mileage += value;//adding the number of km who were being traveled to the mileage
                 fuel -= value;//Subtracting  the number of km who were being traveled from the amount we can ride without Refueling 
+                Console.WriteLine("Ride finished succesfuly!");
             }
         }
 
         public void refuel()//we set the number of km the bus can ride without Refueling to the maximum value
         {
-            fuel = FULL_GAS_TANK;
+            fuel = 20000;//FULL_GAS_TANK;
         }
 
 
@@ -86,14 +89,14 @@ namespace BusClass
             {
                 Console.Write((licensePlateNumber/100000).ToString()+"-");
                 Console.Write(((licensePlateNumber / 1000)%100).ToString() + "-");
-                Console.WriteLine((licensePlateNumber % 1000).ToString());
+                Console.Write((licensePlateNumber % 1000).ToString());
 
             }
             else   
             {
                 Console.Write((licensePlateNumber / 100000).ToString() + "-");
                 Console.Write(((licensePlateNumber / 100) % 1000).ToString() + "-");
-                Console.WriteLine((licensePlateNumber % 100).ToString());
+                Console.Write((licensePlateNumber % 100).ToString());
 
             }
         }
