@@ -82,7 +82,7 @@ namespace dotNet5781_01_2033_0032
                     case (int)states.printMileage:
                         foreach (Bus aBus in buses) {
                             aBus.Print_licensePlateNumber();
-                            Console.Write(" | {0}", aBus.mileageSinceTreatment);
+                            Console.Write(" | {0}", aBus._mileage);
                         }
                         break;
 

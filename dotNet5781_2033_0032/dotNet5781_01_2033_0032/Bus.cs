@@ -34,9 +34,9 @@ namespace BusClass
                 licensePlateNumber = _licensePlateNumber;
                 inceptionDate = _date;
                 timeOfLastTreatment = _date;
-                mileage = 20001;
+                mileage = 0;
                 maileageInLastTreatment = 0;
-                fuel = FULL_GAS_TANK;//i assume that every bus starts with full gas tank
+                fuel = FULL_GAS_TANK;//we assume that every bus starts with full gas tank
             
         }
         #endregion
@@ -58,7 +58,7 @@ namespace BusClass
         //add ride  getting the number of km to ride
         public void rideKM(int value)
         {
-            if (mileageSinceTreatment > 20000 || _fuel < value)
+            if (mileageSinceTreatment > 20000 || _fuel < value)//checking if the bus can do this ride
                 Console.WriteLine("This bus can't be used!");
             else {
                 mileage += value;//adding the number of km who were being traveled to the mileage
@@ -69,7 +69,7 @@ namespace BusClass
 
         public void refuel()//we set the number of km the bus can ride without Refueling to the maximum value
         {
-            fuel = 20000;//FULL_GAS_TANK;
+            fuel =FULL_GAS_TANK;
         }
 
 
@@ -81,17 +81,17 @@ namespace BusClass
         }
 
 
-
+        //we print the license plate number on the right format
         public void Print_licensePlateNumber()
         {
-            if (inceptionDate.Year>=2018)
+            if (inceptionDate.Year>=2018)//the number has 8 digits
             {
                 Console.Write((licensePlateNumber/100000).ToString()+"-");
                 Console.Write(((licensePlateNumber / 1000)%100).ToString() + "-");
                 Console.Write((licensePlateNumber % 1000).ToString());
 
             }
-            else   
+            else  //the number has 7 digits 
             {
                 Console.Write((licensePlateNumber / 100000).ToString() + "-");
                 Console.Write(((licensePlateNumber / 100) % 1000).ToString() + "-");
