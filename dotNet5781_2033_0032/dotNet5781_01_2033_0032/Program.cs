@@ -37,8 +37,9 @@ namespace dotNet5781_01_2033_0032
                         DateTime.TryParse(Console.ReadLine(), out date);
                         Console.WriteLine("Enter license plate number:");
                         int.TryParse(Console.ReadLine(), out licensePlateNumber);
-                        if (checkValidation(licensePlateNumber, date))
+                        if (checkValidation(licensePlateNumber, date) && (buses.Count == 0 || buses.Find(x => x.licensePlate.Equals(licensePlateNumber)) == null))
                             buses.Add(new Bus(licensePlateNumber, date));
+                        else Console.WriteLine("Invalid license plate number.");
                         break;
 
                     case (int)states.ride:
