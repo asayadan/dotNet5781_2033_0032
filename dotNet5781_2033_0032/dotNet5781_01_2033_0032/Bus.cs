@@ -12,13 +12,13 @@ namespace BusClass
     {
         #region variables
         private int licensePlateNumber;
-        private DateTime inceptionDate;
+        private DateTime registreationDate;
         private float fuel;
         private float mileage;
         private float maileageInLastTreatment;
         private DateTime timeOfLastTreatment;
 
-        static int FULL_GAS_TANK = 1200;//const the size of full gas tank
+        public static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
 
 
@@ -32,7 +32,7 @@ namespace BusClass
         public Bus(int _licensePlateNumber, DateTime _date)
         {   
                 licensePlateNumber = _licensePlateNumber;
-                inceptionDate = _date;
+                registreationDate = _date;
                 timeOfLastTreatment = _date;
                 mileage = 0;
                 maileageInLastTreatment = 0;
@@ -43,7 +43,7 @@ namespace BusClass
 
 
         #region properties
-        public int licensePlate//returns th license plate number
+        public int licensePlate//returns the license plate number
         {get { return licensePlateNumber; }}
 
         public float _mileage//returns the number of km the bus drove untile now
@@ -84,18 +84,18 @@ namespace BusClass
         //we print the license plate number on the right format
         public void Print_licensePlateNumber()
         {
-            if (inceptionDate.Year>=2018)//the number has 8 digits
+            if (registreationDate.Year>=2018)//the number has 8 digits
             {
-                Console.Write((licensePlateNumber/100000).ToString()+"-");
-                Console.Write(((licensePlateNumber / 1000)%100).ToString() + "-");
-                Console.Write((licensePlateNumber % 1000).ToString());
+                Console.Write((licensePlateNumber/100000).ToString()+"-");//first three numbers and hyphen
+                Console.Write(((licensePlateNumber / 1000)%100).ToString() + "-");// the two middle numbers numbers and hyphen
+                Console.Write((licensePlateNumber % 1000).ToString());//the last three numbers
 
             }
-            else  //the number has 7 digits 
+            else  //the number has 7 digits (the license plate number is valid)
             {
-                Console.Write((licensePlateNumber / 100000).ToString() + "-");
-                Console.Write(((licensePlateNumber / 100) % 1000).ToString() + "-");
-                Console.Write((licensePlateNumber % 100).ToString());
+                Console.Write((licensePlateNumber / 100000).ToString() + "-");//first two numbers and hyphen
+                Console.Write(((licensePlateNumber / 100) % 1000).ToString() + "-");// the three middle numbers numbers and hyphen
+                Console.Write((licensePlateNumber % 100).ToString());//the last two numbers
 
             }
         }

@@ -28,40 +28,57 @@ namespace dotNet5781_01_2033_0032
 	        {
                 Console.WriteLine("\nChoose an option:\n0. Add a bus.\n1. Choose a bus for a ride.\n2. Fuel or Treat a bus.\n3. Print mileage of every bus. \n4. Exit.");
                 int.TryParse(Console.ReadLine(), out i);
+
                 switch (i)
 	            {
-                    case (int)states.addBus:
+                    case (int)states.addBus://adding new bus
+
                         DateTime date = new DateTime();
                         int licensePlateNumber;
+
                         Console.WriteLine("Enter a date in the format (YYYY-MM-DD):");
-                        DateTime.TryParse(Console.ReadLine(), out date);
+                        DateTime.TryParse(Console.ReadLine(), out date);//we get the date of registration
+
                         Console.WriteLine("Enter license plate number:");
-                        int.TryParse(Console.ReadLine(), out licensePlateNumber);
-                        if (checkValidation(licensePlateNumber, date) && (buses.Count == 0 || buses.Find(x => x.licensePlate.Equals(licensePlateNumber)) == null))
-                            buses.Add(new Bus(licensePlateNumber, date));
-                        else Console.WriteLine("Invalid license plate number.");
+                        int.TryParse(Console.ReadLine(), out licensePlateNumber);//we get the license plate number for the new bus as an integer
+
+                        if (checkValidation(licensePlateNumber, date) && (buses.Count == 0 || buses.Find(x => x.licensePlate.Equals(licensePlateNumber)) == null))//if we can addd this bus i.e. the bus doesn't exists already and the license plate number and the year fit 
+                            buses.Add(new Bus(licensePlateNumber, date));//adding  the new bus
+
+                        else Console.WriteLine("Invalid license plate number.");//if we can't add this bus
+
                         break;
 
-                    case (int)states.ride:
+                    case (int)states.ride://we make a new ride
+
                         int randKM;
-                        Console.WriteLine("Enter license plate number:");
-                        int.TryParse(Console.ReadLine(), out licensePlateNumber);
-                        Random rnd = new Random(DateTime.Now.Millisecond);
-                        randKM = rnd.Next(2400);
 
-                        Bus bus = buses.Find(x => x.licensePlate.Equals(licensePlateNumber));
+                        Console.WriteLine("Enter license plate number(without hyphen):");
+                        int.TryParse(Console.ReadLine(), out licensePlateNumber);//we get the license Plate Number that will drive
+
+                        Random rnd = new Random(DateTime.Now.Millisecond);
+                        randKM = rnd.Next(Bus.FULL_GAS_TANK);//we get random number of km for this ride(with max km of the capacity of the gas tank so it wont take to much to find a number that will actualy enable us to drive)
+
+                        Bus bus = buses.Find(x => x.licensePlate.Equals(licensePlateNumber));//we get the bus we want to drive
                         if (bus == null)
-                            Console.WriteLine("Bus not found!");
-                        else bus.rideKM(randKM);
+                            Console.WriteLine("Bus not found!");//this bus is not in the system
+
+                        else bus.rideKM(randKM);//we make the ride
                         break;
 
-                    case (int)states.fuelOrTreatment:
+                    case (int)states.fuelOrTreatment://we are refuling or treating the bus
+
                         int option;
+
                         Console.WriteLine("Enter license plate number:");
-                        int.TryParse(Console.ReadLine(), out licensePlateNumber);
+                        int.TryParse(Console.ReadLine(), out licensePlateNumber);//we get the number of the bus we want
+
                         Console.WriteLine("Choose an option:\n1. Fuel\n2. Treat");
-                        int.TryParse(Console.ReadLine(), out option);
-                        Bus myBus = buses.Find(x => x.licensePlate.Equals(licensePlateNumber));
+                        int.TryParse(Console.ReadLine(), out option);//the user selects betwen refuling and and treating the bus
+
+                        Bus myBus = buses.Find(x => x.licensePlate.Equals(licensePlateNumber));//we find the requested bus
+
+
                         if (myBus != null)
                             switch (option)
 	                        {
@@ -76,14 +93,17 @@ namespace dotNet5781_01_2033_0032
                                     break;
 	                        }
                         else
-                            Console.WriteLine("Bus not found.");
+                            Console.WriteLine("Bus not found.");//this bus is not in the system
                         break;
 
                     case (int)states.printMileage:
-                        foreach (Bus aBus in buses) {
-                            aBus.Print_licensePlateNumber();
-                            Console.Write(" | {0}", aBus._mileage);
+
+
+                        foreach (Bus aBus in buses) {//for each bus
+                            aBus.Print_licensePlateNumber();//we print the license palte number
+                            Console.WriteLine(" | {0}", aBus._mileage);//we print the mileage
                         }
+
                         break;
 
                     case (int)states.exit:
@@ -98,13 +118,12 @@ namespace dotNet5781_01_2033_0032
 
         }
 
-        //checks if the input is valid
+        //checks if the license plate number is valid
         public static bool checkValidation(int _licensePlateNumber, DateTime _date) {
-            if ((_date.Year >= 2018) && (_licensePlateNumber > 9999999) ||
-                (_date.Year < 2018) && (_licensePlateNumber <= 9999999))
-                return true;
+            if (((_date.Year >= 2018) && (_licensePlateNumber > 9999999))&& (_licensePlateNumber <= 99999999) ||//the bus registered after 2018 and has 8 digits
+                ((_date.Year < 2018) && (_licensePlateNumber <= 9999999))&& (_licensePlateNumber > 999999))//the bus registered before 2018 and has 7 digits
+                return true;//the license plate number is valid
             else {
-                Console.WriteLine("error: can't have this license Plate Number");
                 return false;
             }
         }
