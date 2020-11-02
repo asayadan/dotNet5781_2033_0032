@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace BusClass
+namespace dotNet5781_01_2033_0032
 {
     class Bus
     {
