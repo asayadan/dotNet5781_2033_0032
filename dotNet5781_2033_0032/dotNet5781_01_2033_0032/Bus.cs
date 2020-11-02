@@ -22,7 +22,7 @@ namespace BusClass
         #endregion
 
 
-        #region const
+        #region ctor
         /*
             * Constructor.
             * checkes  if the input is valid 
