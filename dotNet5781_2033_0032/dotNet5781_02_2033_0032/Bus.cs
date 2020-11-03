@@ -85,14 +85,15 @@ namespace dotNet5781_02_2033_0032
             var arr = stations.ToArray();
 
             a += "Forth route stations:\n";
-            for (int i = 0; i < stations.Count; i++)
-                a += stations[i].ToString() + "\n";
+            foreach (var station in stations)
+                a += station.ToString() + "\n";
 
             a += "Back route stations:\n";
-            for (int i = stations.Count - 1; i >= 0; i--)
-                a += stations[i].ToString() + "\n";
+            stations.Reverse();
+            foreach (var station in stations)
+                a += station.ToString() + "\n";
 
-
+            stations.Reverse();
             return a;
         }
         public void addStation(BusStationLine _station, int index)
@@ -140,8 +141,8 @@ namespace dotNet5781_02_2033_0032
                 index1 = index1 ^ index2;
             }
 
-            for (int i = index1 + 1; i <= index2; i++)
-                time += stations[i].getTimeSinceLastStation;
+            foreach (var station in stations.GetRange(index1 + 1, index2 - index1))
+                time += station.getTimeSinceLastStation;
 
             return time;
 
