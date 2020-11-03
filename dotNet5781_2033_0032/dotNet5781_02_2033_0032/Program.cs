@@ -10,6 +10,7 @@ namespace dotNet5781_02_2033_0032
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("hello");
         }
     }
 }

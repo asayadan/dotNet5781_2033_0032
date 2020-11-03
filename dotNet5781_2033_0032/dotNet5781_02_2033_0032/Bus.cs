@@ -52,7 +52,7 @@ namespace dotNet5781_02_2033_0032
     class BusLine : IComparable
     {
         #region variables
-        private int busLine;
+        private int BusLine;
         private BusStationLine firstStation;
         private BusStationLine lastStation;
         private Area area;
@@ -81,12 +81,12 @@ namespace dotNet5781_02_2033_0032
         }
         public override string ToString()
         {
-            string a = "Bus line: " + busLine + " Area: " + checkArea(area) + "\n";
+            string a = "Bus line: " + BusLine + " Area: " + checkArea(area) + "\n";
             var arr = stations.ToArray();
 
             a += "Forth route stations:\n";
             for (int i = 0; i < stations.Count; i++)
-                a += stations[i].ToString() + "\n";
+                a += stations[i].ToString() + "\n";//foreach?
 
             a += "Back route stations:\n";
             for (int i = stations.Count - 1; i >= 0; i--)
@@ -156,7 +156,7 @@ namespace dotNet5781_02_2033_0032
 
             temp.stations = stations.GetRange(Math.Min(index1, index2), length);
             temp.area = area;
-            temp.busLine = busLine;
+            temp.BusLine = BusLine;
             temp.firstStation = temp.stations[0];
             temp.lastStation = temp.stations[length - 1];
 
@@ -164,9 +164,9 @@ namespace dotNet5781_02_2033_0032
         }
         #endregion
 
-        BusLine IComparable.CompareTo(object obj)
+        public int IComparable.CompareTo(object obj)
         {
-            
+            return 0;
             
         }
 
