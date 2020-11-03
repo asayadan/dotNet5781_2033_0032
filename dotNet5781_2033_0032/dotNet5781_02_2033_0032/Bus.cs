@@ -52,7 +52,7 @@ namespace dotNet5781_02_2033_0032
     class BusLine : IComparable
     {
         #region variables
-        private int BusLine;
+        private int busLine;
         private BusStationLine firstStation;
         private BusStationLine lastStation;
         private Area area;
@@ -81,18 +81,19 @@ namespace dotNet5781_02_2033_0032
         }
         public override string ToString()
         {
-            string a = "Bus line: " + BusLine + " Area: " + checkArea(area) + "\n";
+            string a = "Bus line: " + busLine + " Area: " + checkArea(area) + "\n";
             var arr = stations.ToArray();
 
             a += "Forth route stations:\n";
-            for (int i = 0; i < stations.Count; i++)
-                a += stations[i].ToString() + "\n";//foreach?
+            foreach (var station in stations)
+                a += station.ToString() + "\n";
 
             a += "Back route stations:\n";
-            for (int i = stations.Count - 1; i >= 0; i--)
-                a += stations[i].ToString() + "\n";
+            stations.Reverse();
+            foreach (var station in stations)
+                a += station.ToString() + "\n";
 
-
+            stations.Reverse();
             return a;
         }
         public void addStation(BusStationLine _station, int index)
@@ -140,8 +141,8 @@ namespace dotNet5781_02_2033_0032
                 index1 = index1 ^ index2;
             }
 
-            for (int i = index1 + 1; i <= index2; i++)
-                time += stations[i].getTimeSinceLastStation;
+            foreach (var station in stations.GetRange(index1 + 1, index2 - index1))
+                time += station.getTimeSinceLastStation;
 
             return time;
 
@@ -156,7 +157,7 @@ namespace dotNet5781_02_2033_0032
 
             temp.stations = stations.GetRange(Math.Min(index1, index2), length);
             temp.area = area;
-            temp.BusLine = BusLine;
+            temp.busLine = busLine;
             temp.firstStation = temp.stations[0];
             temp.lastStation = temp.stations[length - 1];
 
@@ -164,9 +165,9 @@ namespace dotNet5781_02_2033_0032
         }
         #endregion
 
-        public int IComparable.CompareTo(object obj)
+        BusLine IComparable.CompareTo(object obj)
         {
-            return 0;
+            
             
         }
 
