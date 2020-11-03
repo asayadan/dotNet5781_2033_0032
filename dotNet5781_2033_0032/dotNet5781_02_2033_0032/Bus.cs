@@ -60,6 +60,7 @@ namespace dotNet5781_02_2033_0032
         #endregion
 
         #region methods
+
         public static string checkArea(Area area)
         {
             switch (area)
@@ -165,10 +166,9 @@ namespace dotNet5781_02_2033_0032
         }
         #endregion
 
-        BusLine IComparable.CompareTo(object obj)
+        public int CompareTo(object obj)
         {
-            
-            
+            return time(firstStation,lastStation).CompareTo((obj as BusLine).time((obj as BusLine).firstStation, (obj as BusLine).lastStation));
         }
 
     }
