@@ -24,7 +24,16 @@ namespace dotNet5781_02_2033_0032
 
         #region methods
 
+        public BusLine(int num)
+        {
+            stations = new List<BusStationLine>();
+            busLine = num;
+        }
 
+        public BusLine()
+        {
+            stations = new List<BusStationLine>();
+        }
         public int _lineNumber
         { get { return busLine; } }
         public static string checkArea(Area area)
@@ -64,25 +73,30 @@ namespace dotNet5781_02_2033_0032
         {
             if (!stations.Exists(x => x.GetBusStationKey == _station.GetBusStationKey))
             {
-                stations.Insert(index, _station);
-                if (index == 0)
+                if (true)
                 {
-                    firstStation = _station;
-                    if (stations.Count >= 2)
+
+                    stations.Insert(index, _station);
+                    if (index == 0)
                     {
-                        stations[1].DistFromLastStation = distance;
-                        stations[1].TimeSinceLastStation = time;
-                    }                   
+                        firstStation = _station;
+                        if (stations.Count >= 2)
+                        {
+                            stations[1].DistFromLastStation = distance;
+                            stations[1].TimeSinceLastStation = time;
+                        }
+                    }
+                     if (index == stations.Count - 1)
+                    {
+                        lastStation = _station;
+                    }
+                    else
+                    {
+                        stations[index + 1].DistFromLastStation = distance;
+                        stations[index + 1].TimeSinceLastStation = time;
+                    }
                 }
-                else if (index == stations.Count - 1)
-                {
-                    lastStation = _station;
-                }
-                else
-                {
-                    stations[index+1].DistFromLastStation = distance;
-                    stations[index+1].TimeSinceLastStation = time;
-                }
+                else throw new IndexOutOfRangeException("your index is out of range");
             }
             else throw new ArgumentException ("this station is already in our line");
 
@@ -150,6 +164,12 @@ namespace dotNet5781_02_2033_0032
             else throw new ArgumentOutOfRangeException("one or more of the stations is not in this line");
 
         }
+
+        public float totalTime()
+        { return time(firstStation,lastStation); }
+
+        public float totalDistance()
+        { return distance(firstStation, lastStation); }
 
         public BusLine subLine(BusStationLine station1, BusStationLine station2)
         {

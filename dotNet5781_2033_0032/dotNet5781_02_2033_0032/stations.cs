@@ -24,6 +24,14 @@ namespace dotNet5781_02_2033_0032
         protected float longitude;
         protected string stationAddress;
         #endregion
+        public BusStation(int _busStationKey)
+        {
+            busStationKey = _busStationKey;
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            latitude = rnd.Next(310,333)/10;
+            longitude = rnd.Next(343, 355) / 10;
+        }
+
         public override string ToString()
         {
             return (string)("Bus Station Code: " + busStationKey + " "
@@ -36,6 +44,12 @@ namespace dotNet5781_02_2033_0032
         private float distFromLastStation;
         private float timeSinceLastStation;
 
+
+        public BusStationLine(int _busStationKey, int _distFromLastStation, int _timeSinceLastStation):base(_busStationKey)
+        {
+            distFromLastStation = _distFromLastStation;
+            timeSinceLastStation = _timeSinceLastStation;
+        }
         public float DistFromLastStation
         {
             get { return distFromLastStation; }
@@ -44,8 +58,8 @@ namespace dotNet5781_02_2033_0032
 
         public float TimeSinceLastStation
         {
-            get { return TimeSinceLastStation; }
-            set { TimeSinceLastStation = value; }
+            get { return timeSinceLastStation; }
+            set { timeSinceLastStation = value; }
         }
 
         public float GetBusStationKey
