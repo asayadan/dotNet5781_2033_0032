@@ -101,11 +101,27 @@ namespace dotNet5781_02_2033_0032
             else throw new ArgumentException ("this station is already in our line");
 
         }
-        public void removeStation(BusStationLine _station)
+        public void removeStation(BusStationLine _station,int distance,int time)
         {
-            if (stations.Exists(x => x.GetBusStationKey == _station.GetBusStationKey))
+            int indx = stations.FindIndex(x => x.GetBusStationKey == _station.GetBusStationKey);
+            if (indx >= 0)
             {
+                _station = stations[indx];
                 stations.Remove(_station);
+                if (indx!=stations.Count)
+                {
+                    stations[indx].DistFromLastStation = distance;
+                    stations[indx].TimeSinceLastStation = time;
+                    if (indx==0)
+                    {
+                        firstStation = stations[0];
+                    }
+                }
+                else if(indx!=0)
+                {
+                    lastStation = stations[indx - 1];
+                }
+
             }
             else throw new ArgumentOutOfRangeException("this station is not in our line");
         }

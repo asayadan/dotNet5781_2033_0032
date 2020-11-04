@@ -26,10 +26,14 @@ namespace dotNet5781_02_2033_0032
         #endregion
         public BusStation(int _busStationKey)
         {
-            busStationKey = _busStationKey;
-            Random rnd = new Random(DateTime.Now.Millisecond);
-            latitude = rnd.Next(310,333)/10;
-            longitude = rnd.Next(343, 355) / 10;
+            if (_busStationKey<=999999)
+            {
+                busStationKey = _busStationKey;
+                Random rnd = new Random(DateTime.Now.Millisecond);
+                latitude = rnd.Next(310, 333) / 10;
+                longitude = rnd.Next(343, 355) / 10;
+            }
+            else throw  new ArgumentException("the number is too bid");
         }
 
         public override string ToString()
