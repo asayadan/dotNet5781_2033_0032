@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +51,14 @@ namespace dotNet5781_02_2033_0032
                 return getTimeSinceLastStation;
             }
         }
+
+        public float GetBusStationKey
+        {
+            get
+            {
+                return busStationKey;
+            }
+        }
     }
 
     class BusLine : IComparable
@@ -85,16 +97,13 @@ namespace dotNet5781_02_2033_0032
             string a = "Bus line: " + busLine + " Area: " + checkArea(area) + "\n";
             var arr = stations.ToArray();
 
-            a += "Forth route stations:\n";
+            a += "Route stations:\n";
             foreach (var station in stations)
                 a += station.ToString() + "\n";
 
-            a += "Back route stations:\n";
-            stations.Reverse();
-            foreach (var station in stations)
-                a += station.ToString() + "\n";
+           
 
-            stations.Reverse();
+           
             return a;
         }
         public void addStation(BusStationLine _station, int index)
@@ -106,9 +115,10 @@ namespace dotNet5781_02_2033_0032
             stations.Remove(_station);
         }
 
-        public bool exist(BusStationLine _station)
+        public bool exist(int BusStationKey)
         {
-            return stations.Contains(_station);
+            var check = stations.Find(x => x.GetBusStationKey == BusStationKey);
+            return check != null;
         }
 
         public float distance(BusStationLine station1, BusStationLine station2)
@@ -170,6 +180,61 @@ namespace dotNet5781_02_2033_0032
         {
             return time(firstStation,lastStation).CompareTo((obj as BusLine).time((obj as BusLine).firstStation, (obj as BusLine).lastStation));
         }
+
+
+    }
+
+    class LineCollection : IEnumerable
+    {
+        #region varibles
+        private List<BusLine> lines;
+        #endregion 
+        
+        public void addLine(BusLine line)
+        {
+            if (lines.FindAll(x => x == line).Count <= 2)
+                lines.Add(line);
+            else throw new ArgumentException("Bus already exists twice.");
+
+        }
+
+        public void removeLine(BusLine line)
+        {
+            if (lines.FindAll(x => x == line).Count != 0)
+                lines.Add(line);
+            else throw new ArgumentException("Bus doesn't exist.");
+
+        }
+
+        public List<BusLine> checkStation(int busStationKey)
+        {   
+            var linesOfStation = lines.FindAll(x => x.exist(busStationKey));
+            if (linesOfStation.Count != 0)
+                return linesOfStation;
+            else throw new ArgumentException("No bus passes this station.");
+
+        }
+
+        public List<BusLine> sortedStations()
+        {
+
+            lines.Sort(delegate (BusLine x, BusLine y)
+            {
+                return x.CompareTo(y);
+            });
+
+            return lines;
+        }
+
+        public BusLine this[int busStationKey] => lines.Find(x => x.exist(busStationKey));
+        public IEnumerator GetEnumerator()
+        {
+            return lines.GetEnumerator();
+        }
+
+        
+        
+        
 
     }
 }
