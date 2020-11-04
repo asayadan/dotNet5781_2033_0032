@@ -65,11 +65,14 @@ namespace dotNet5781_02_2033_0032
             if (!stations.Exists(x => x.GetBusStationKey == _station.GetBusStationKey))
             {
                 stations.Insert(index, _station);
-                if (index == 0 && stations.Count >= 2)
+                if (index == 0)
                 {
                     firstStation = _station;
-                    stations[1].DistFromLastStation = distance;
-                    stations[1].TimeSinceLastStation = time;
+                    if (stations.Count >= 2)
+                    {
+                        stations[1].DistFromLastStation = distance;
+                        stations[1].TimeSinceLastStation = time;
+                    }                   
                 }
                 else if (index == stations.Count - 1)
                 {
@@ -77,13 +80,11 @@ namespace dotNet5781_02_2033_0032
                 }
                 else
                 {
-
+                    stations[index+1].DistFromLastStation = distance;
+                    stations[index+1].TimeSinceLastStation = time;
                 }
             }
-            else
-            {
-                //exception
-            }
+            else throw new ArgumentException ("this station is already in our line");
 
         }
         public void removeStation(BusStationLine _station)
@@ -92,10 +93,7 @@ namespace dotNet5781_02_2033_0032
             {
                 stations.Remove(_station);
             }
-            else
-            {
-                //exeption
-            }
+            else throw new ArgumentOutOfRangeException("this station is not in our line");
         }
 
         public bool exist(int BusStationKey)
@@ -127,10 +125,7 @@ namespace dotNet5781_02_2033_0032
                     distance += stations[i].DistFromLastStation;
                 return distance;
             }
-            else
-            {
-                //exeption
-            }
+            else throw new ArgumentOutOfRangeException("one or more of the stations is not in this line");
         }
 
         public float time(BusStationLine station1, BusStationLine station2)
@@ -152,10 +147,7 @@ namespace dotNet5781_02_2033_0032
                 return time;
 
             }
-            else
-            {
-                //exeption
-            }
+            else throw new ArgumentOutOfRangeException("one or more of the stations is not in this line");
 
         }
 
@@ -175,16 +167,13 @@ namespace dotNet5781_02_2033_0032
 
                 return temp;
             }
-            else
-            {
-                //exeption
-            }
+            else throw new ArgumentOutOfRangeException("one or more of the stations is not in this line");
 
         }
 
         public static bool operator ==(BusLine bus1, BusLine bus2)//I need to do it
         {
-            if (bus1._lineNumber == bus2._lineNumber &&)
+            if (bus1._lineNumber == bus2._lineNumber && bus1.firstStation.GetBusStationKey == bus2.firstStation.GetBusStationKey&&bus1.lastStation.GetBusStationKey==bus2.lastStation.GetBusStationKey)
             {
                 return true;
             }
