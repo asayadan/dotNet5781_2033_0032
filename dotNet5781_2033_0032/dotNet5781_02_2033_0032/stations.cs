@@ -24,6 +24,18 @@ namespace dotNet5781_02_2033_0032
         protected float longitude;
         protected string stationAddress;
         #endregion
+
+        public BusStation(int _busStationKey,int _latitude, int _longitude)
+        {
+            if (_busStationKey <= 999999)
+            {
+                busStationKey = _busStationKey;
+                Random rnd = new Random(DateTime.Now.Millisecond);
+                latitude = _latitude;
+                longitude = _longitude;
+            }
+            else throw new ArgumentException("the number is too bid");
+        }
         public BusStation(int _busStationKey)
         {
             if (_busStationKey<=999999)

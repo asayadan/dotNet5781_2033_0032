@@ -76,7 +76,7 @@ namespace dotNet5781_02_2033_0032
         {
             if (!stations.Exists(x => x.GetBusStationKey == _station.GetBusStationKey))
             {
-                if (true)
+                if (index<=stations.Count)
                 {
 
                     stations.Insert(index, _station);
