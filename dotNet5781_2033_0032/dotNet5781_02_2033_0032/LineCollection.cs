@@ -16,24 +16,30 @@ namespace dotNet5781_02_2033_0032
         #region varibles
         private List<BusLine> lines;
         #endregion
-
+        #region constactors
+        public LineCollection()
+        {
+            lines = new List<BusLine>();
+        
+        }
+        #endregion
         public void addLine(BusLine line)
         {
             if (lines.FindAll(x => x._lineNumber == line._lineNumber).Count == 0)
                 lines.Add(line);
-            else if (lines.FindAll(x => x._lineNumber == line._lineNumber).Count == 1)
+            else if (lines.Exists(x => x == line))
             {
-                if (lines.Find(x => x._lineNumber == line._lineNumber).isReverse(line))//I will need to come back to it later
-                {
-                    lines.Add(line);
-                }
-                else
-                {
-
-                }
+                throw new ArgumentException("this bus is already in this collection");
             }
-            else throw new ArgumentException("Bus already exists twice.");
-
+            else if (lines.FindAll(x => x._lineNumber == line._lineNumber).Count == 2)
+            {
+                throw new ArgumentException("Bus already exists twice.");
+            }
+            else if (lines.Find(x => x._lineNumber == line._lineNumber).isReverse(line))//I will need to come back to it later
+            {
+                lines.Add(line);
+            }
+            else throw new ArgumentException("this bus needs to be the  opposite of the other line with the same line number");
         }
 
         public void removeLine(BusLine line)

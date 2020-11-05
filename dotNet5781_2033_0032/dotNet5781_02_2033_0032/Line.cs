@@ -22,7 +22,7 @@ namespace dotNet5781_02_2033_0032
         private List<BusStationLine> stations;
         #endregion
 
-        #region methods
+
 
         public BusLine(int num)
         {
@@ -34,6 +34,9 @@ namespace dotNet5781_02_2033_0032
         {
             stations = new List<BusStationLine>();
         }
+        #region methods
+
+
         public int _lineNumber
         { get { return busLine; } }
         public static string checkArea(Area area)
