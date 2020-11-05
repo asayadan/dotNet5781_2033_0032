@@ -213,11 +213,24 @@ namespace dotNet5781_02_2033_0032
             {
                 return true;
             }
-            return false;
+            else return false;
         }
         public static bool operator !=(BusLine bus1, BusLine bus2)
         {
             return !(bus1 == bus2);
+        }
+
+        public static bool operator ==(BusLine bus1, int _lineNumber)
+        {
+            if (bus1._lineNumber == _lineNumber )
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool operator !=(BusLine bus1, int _lineNumber)
+        {
+            return !(bus1 == _lineNumber);
         }
         public int CompareTo(object obj)
         {

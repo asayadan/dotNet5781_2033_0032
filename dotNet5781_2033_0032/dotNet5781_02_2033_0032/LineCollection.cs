@@ -49,13 +49,12 @@ namespace dotNet5781_02_2033_0032
             var linesOfStation = lines.FindAll(x => x.exist(busStationKey));
             if (linesOfStation.Count != 0)
                 return linesOfStation;
-            else throw new ArgumentException("No bus passes this station.");
+            else throw new ArgumentOutOfRangeException("No bus passes this station.");
 
         }
 
         public List<BusLine> sortedStations()
         {
-
             lines.Sort(delegate (BusLine x, BusLine y)
             {
                 return x.CompareTo(y);
@@ -64,7 +63,19 @@ namespace dotNet5781_02_2033_0032
             return lines;
         }
 
-        public BusLine this[int busStationKey] => lines.Find(x => x.exist(busStationKey));
+        public BusLine this[int busLine] =>lines[returnIndexer(busLine)];
+
+        private int returnIndexer(int busline)
+        {
+            int indx = lines.FindIndex(x => x == busline);
+
+            if (indx>=0)
+            {
+                 return indx;
+            }
+            else throw new ArgumentOutOfRangeException("we don't have this busLine");
+        }
+
         public IEnumerator GetEnumerator()
         {
             return lines.GetEnumerator();
