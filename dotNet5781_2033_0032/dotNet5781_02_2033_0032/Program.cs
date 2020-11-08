@@ -59,6 +59,7 @@ namespace dotNet5781_02_2033_0032
                         int key2, dist3,time3;
 
                         int.TryParse(Console.ReadLine(), out key2);
+
                         int.TryParse(Console.ReadLine(), out dist3);
                         int.TryParse(Console.ReadLine(), out time3);
                         BusStationLine station2 = new BusStationLine(key2,0,0);

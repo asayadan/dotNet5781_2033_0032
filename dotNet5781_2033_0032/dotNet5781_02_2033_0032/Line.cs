@@ -237,7 +237,7 @@ namespace dotNet5781_02_2033_0032
         }
         public int CompareTo(object obj)
         {
-            return time(firstStation, lastStation).CompareTo((obj as BusLine).time((obj as BusLine).firstStation, (obj as BusLine).lastStation));
+            return totalTime().CompareTo((obj as BusLine).totalTime());
         }
         #endregion
 
