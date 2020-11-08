@@ -50,11 +50,14 @@ namespace dotNet5781_02_2033_0032
             {
                 busStationKey = _busStationKey;
                 Random rnd = new Random(DateTime.Now.Millisecond);
-                latitude = (float)rnd.Next(3100000, 333000) / 1000;
-                longitude = (float)rnd.Next(343000, 355000) / 1000;
+                latitude = (float)rnd.Next(310, 333) / 10;
+                longitude = (float)rnd.Next(343, 355) / 10;
             }
             else throw  new ArgumentException("the number is too bid");
         }
+
+        public int _key
+        { get { return busStationKey; } }
 
         public override string ToString()
         {

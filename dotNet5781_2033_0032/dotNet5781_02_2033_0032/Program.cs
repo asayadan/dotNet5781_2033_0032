@@ -72,8 +72,7 @@ namespace dotNet5781_02_2033_0032
                         case 3:
                             break;
                         case 4:
-                            int keeee;
-                            int.TryParse(Console.ReadLine(), out keeee);
+
 
                             break;
                         case 5:
@@ -126,5 +125,6 @@ namespace dotNet5781_02_2033_0032
             }
 
         }
+
     }
 }

@@ -39,6 +39,9 @@ namespace dotNet5781_02_2033_0032
 
         public int _lineNumber
         { get { return busLine; } }
+
+        public int _numStations
+        { get { return stations.Count; } }
         public static string checkArea(Area area)
         {
             switch (area)
