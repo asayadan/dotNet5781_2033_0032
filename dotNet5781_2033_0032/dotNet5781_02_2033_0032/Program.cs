@@ -5,9 +5,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
+
 
 namespace dotNet5781_02_2033_0032
 {
+
     class Program
     {
         static void Main(string[] args)
@@ -17,15 +20,16 @@ namespace dotNet5781_02_2033_0032
             LineCollection collection = new LineCollection();
             initilize(ref collection, ref stations);
             bool flag = true;
-            try
-            {
 
-                while (flag == true)
+            int help;
+            int lineTemp, stationTemp, stationTemp2, indexTemp;
+            float timeHelp, distHelp;
+            while (flag == true)
+            {
+                try
                 {
                     Console.WriteLine("\nChoose an option:\n1. Add a line or station to line.\n2. Delete a line or station to line.\n3. Search for lines going through a station or checking what's the fastest choice .\n4. Print all lines or all stations. \n5. Exit.");
-                    int help;
-                    int lineTemp, stationTemp, indexTemp;
-                    float timeHelp, distHelp;
+
                     int.TryParse(Console.ReadLine(), out help);
                     switch (help)
                     {
@@ -65,42 +69,83 @@ namespace dotNet5781_02_2033_0032
                                     Console.WriteLine("Enter the line number and station number.");
                                     int.TryParse(Console.ReadLine(), out lineTemp);
                                     int.TryParse(Console.ReadLine(), out stationTemp);
-                                    collection[lineTemp].removeStation(new BusStationLine(lineTemp, 0, 0));
+                                    collection[lineTemp].removeStation(new BusStationLine(lineTemp));
                                     break;
                             }
                             break;
                         case 3:
-                            break;
-                        case 4:
-                            int keeee;
-                            int.TryParse(Console.ReadLine(), out keeee);
+                            Console.WriteLine("1. Search for lines going through a station.\n2. checking what's the fastest choice");
+                            int.TryParse(Console.ReadLine(), out help);
+                            switch (help)
+                            {
+                                case 1:
+                                    Console.WriteLine("Enter the station number.");
+                                    int.TryParse(Console.ReadLine(), out stationTemp);
+                                    collection.checkStation(stationTemp);
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Enter the first and last stations.");
+                                    int.TryParse(Console.ReadLine(), out stationTemp);
+                                    int.TryParse(Console.ReadLine(), out stationTemp2);
+                                    var listA = collection.checkStation(stationTemp);
+                                    var listB = collection.checkStation(stationTemp2);
+                                    var listRes = new List<BusLine>();
 
+                                    foreach (var lineA in listA)
+                                        foreach (var lineB in listB)
+                                            if (lineA == lineB)
+                                                listRes.Add(lineA.subLine(new BusStationLine(stationTemp), new BusStationLine(stationTemp2)));
+
+                                    break;
+                            }
                             break;
+                        case 4: // Print all lines or all stations.
+                            Console.WriteLine("1. Print all lines \n2. Print all stations");
+                            int.TryParse(Console.ReadLine(), out help);
+                            switch (help)
+                            {
+                                case 1:
+                                    foreach (var line in collection)
+                                        Console.WriteLine(line.ToString());
+                                    break;
+
+                                case 2:
+                                    foreach (var station in stations)
+                                    {
+
+                                        Console.Write("{0} | Lines: ", station.ToString());
+                                        foreach (var line in collection.checkStation(station.GetBusStationKey))
+                                            Console.Write("{0} ", (line._lineNumber));
+                                        Console.WriteLine();
+                                    }
+
+                                    break;
+                            }
+                            break;
+
                         case 5:
-                            int key2, dist3, time3;
-
-                            int.TryParse(Console.ReadLine(), out key2);
-
-                            int.TryParse(Console.ReadLine(), out dist3);
-                            int.TryParse(Console.ReadLine(), out time3);
+                            flag = false;
+                            Console.WriteLine("Good Bye!");
                             break;
                         default:
                             flag = false;
                             break;
                     }
                 }
+
+                catch (ArgumentException exArgument)
+                {
+                    Console.WriteLine(exArgument.Message);
+
+                }
+
+                catch (IndexOutOfRangeException exIndex)
+                {
+                    Console.WriteLine(exIndex.Message);
+                }
             }
 
-            catch (ArgumentException exArgument)
-            {
-                Console.WriteLine(exArgument.Message);
 
-            }
-
-            catch (IndexOutOfRangeException exIndex)
-            {
-                Console.WriteLine(exIndex.Message);
-            }
         }
 
 

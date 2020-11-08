@@ -85,7 +85,10 @@ namespace dotNet5781_02_2033_0032
 
         public IEnumerator GetEnumerator()
         {
-            return lines.GetEnumerator();
+            foreach (var item in lines)
+            {
+                yield return item;
+            }
         }
 
 
