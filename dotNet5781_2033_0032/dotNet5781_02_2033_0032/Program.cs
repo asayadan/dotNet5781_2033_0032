@@ -28,8 +28,7 @@ namespace dotNet5781_02_2033_0032
                             int.TryParse(Console.ReadLine(), out dist2);
                             int.TryParse(Console.ReadLine(), out time2);
                             int.TryParse(Console.ReadLine(), out index);
-                            BusStationLine station = new BusStationLine(key, dist, time);
-                            Line.addStation(station, index, dist2, time2);
+                            Line.addStation(new BusStationLine(key, dist, time), index, dist2, time2);
                         }
                         catch (ArgumentException exArgument)
                         {
@@ -62,8 +61,7 @@ namespace dotNet5781_02_2033_0032
 
                         int.TryParse(Console.ReadLine(), out dist3);
                         int.TryParse(Console.ReadLine(), out time3);
-                        BusStationLine station2 = new BusStationLine(key2,0,0);
-                        Line.removeStation(station2,dist3,time3);
+                        Line.removeStation(new BusStationLine(key2, 0, 0), dist3,time3);
                         break;
                     default:
                         flag = false;

@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,13 @@ namespace dotNet5781_02_2033_0032
         protected string stationAddress;
         #endregion
 
+
+        public BusStation(BusStation _station)
+        {
+            busStationKey = _station.busStationKey;
+            latitude = _station.latitude;
+            longitude = _station.longitude;
+        }
         public BusStation(int _busStationKey,int _latitude, int _longitude)
         {
             if (_busStationKey <= 999999)
@@ -61,6 +69,12 @@ namespace dotNet5781_02_2033_0032
         private float timeSinceLastStation;
 
 
+
+        public BusStationLine(BusStation _busStation, int _distFromLastStation, int _timeSinceLastStation) : base(_busStation)
+        {
+            distFromLastStation = _distFromLastStation;
+            timeSinceLastStation = _timeSinceLastStation;
+        }
         public BusStationLine(int _busStationKey, int _distFromLastStation, int _timeSinceLastStation):base(_busStationKey)
         {
             distFromLastStation = _distFromLastStation;
