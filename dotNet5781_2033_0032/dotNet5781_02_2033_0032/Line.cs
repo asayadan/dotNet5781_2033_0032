@@ -72,7 +72,7 @@ namespace dotNet5781_02_2033_0032
 
             return a;
         }
-        public void addStation(BusStationLine _station, int index, int distance, int time)
+        public void addStation(BusStationLine _station, int index, float distance, float time)
         {
             if (!stations.Exists(x => x.GetBusStationKey == _station.GetBusStationKey))
             {
@@ -104,17 +104,17 @@ namespace dotNet5781_02_2033_0032
             else throw new ArgumentException ("this station is already in our line");
 
         }
-        public void removeStation(BusStationLine _station,int distance,int time)
+        public void removeStation(BusStationLine _station)
         {
             int indx = stations.FindIndex(x => x.GetBusStationKey == _station.GetBusStationKey);
             if (indx >= 0)
             {
                 _station = stations[indx];
-                stations.Remove(_station);
+                stations.Remove(stations.Find(x => x.GetBusStationKey == _station.GetBusStationKey));
                 if (indx!=stations.Count)
                 {
-                    stations[indx].DistFromLastStation = distance;
-                    stations[indx].TimeSinceLastStation = time;
+                    stations[indx].DistFromLastStation = stations[indx + 1].DistFromLastStation;
+                    stations[indx].TimeSinceLastStation = stations[indx + 1].TimeSinceLastStation;
                     if (indx==0)
                     {
                         firstStation = stations[0];
@@ -126,7 +126,7 @@ namespace dotNet5781_02_2033_0032
                 }
 
             }
-            else throw new ArgumentOutOfRangeException("this station is not in our line");
+            else throw new ArgumentOutOfRangeException("this station is not in this line");
         }
 
         public bool exist(int BusStationKey)
