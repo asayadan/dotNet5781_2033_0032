@@ -53,7 +53,7 @@ namespace dotNet5781_02_2033_0032
                                     Console.WriteLine("enter the distance abd time between the new station and the station after the new station");
                                     float.TryParse(Console.ReadLine(), out distHelp2);
                                     float.TryParse(Console.ReadLine(), out timeHelp2);
-                                    int help_indx = stations.FindIndex(x => x.GetBusStationKey == stationTemp);
+                                    int help_indx = stations.FindIndex(x => x.GetBusStationKey == stationTemp); //606389 661660
                                     if (help_indx>=0)
                                     {
                                         collection[lineTemp].addStation(new BusStationLine(stations[help_indx], distHelp, timeHelp), indexTemp, distHelp2, timeHelp2);
@@ -83,8 +83,8 @@ namespace dotNet5781_02_2033_0032
                                     int.TryParse(Console.ReadLine(), out lineTemp);
                                     int.TryParse(Console.ReadLine(), out stationTemp);
                                     Console.WriteLine("enter the distance abd time between the station before and after the deleted station");
-                                    float.TryParse(Console.ReadLine(), out distHelp2);
-                                    float.TryParse(Console.ReadLine(), out timeHelp2);
+                                    float.TryParse(Console.ReadLine(), out distHelp);
+                                    float.TryParse(Console.ReadLine(), out timeHelp);
                                     collection[lineTemp].removeStation(new BusStationLine(stationTemp), distHelp,timeHelp);
                                     break;
                             }
@@ -97,7 +97,8 @@ namespace dotNet5781_02_2033_0032
                                 case 1:
                                     Console.WriteLine("Enter the station number.");
                                     int.TryParse(Console.ReadLine(), out stationTemp);
-                                    collection.checkStation(stationTemp);
+                                    foreach (var line in collection.checkStation(stationTemp))
+                                            Console.Write("{0} ", (line._lineNumber));
                                     break;
                                 case 2:
                                     Console.WriteLine("Enter the first and last stations.");
@@ -105,13 +106,15 @@ namespace dotNet5781_02_2033_0032
                                     int.TryParse(Console.ReadLine(), out stationTemp2);
                                     var listA = collection.checkStation(stationTemp);
                                     var listB = collection.checkStation(stationTemp2);
-                                    var listRes = new List<BusLine>();
-
+                                    var tempCollection = new LineCollection();
                                     foreach (var lineA in listA)
                                         foreach (var lineB in listB)
                                             if (lineA == lineB)
-                                                listRes.Add(lineA.subLine(new BusStationLine(stationTemp), new BusStationLine(stationTemp2)));
+                                                tempCollection.addLine(lineA.subLine(new BusStationLine(stationTemp), new BusStationLine(stationTemp2)));
 
+                                    foreach (var line in tempCollection)
+                                        Console.WriteLine(line.ToString());
+                                    
                                     break;
                             }
                             break;

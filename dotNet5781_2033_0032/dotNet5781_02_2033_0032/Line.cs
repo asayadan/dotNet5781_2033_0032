@@ -213,17 +213,13 @@ namespace dotNet5781_02_2033_0032
 
         }
 
-        public static bool operator ==(BusLine bus1, BusLine bus2)//I need to do it
+        public static bool operator ==(BusLine bus1, Object bus2)//I need to do it
         {
-            if (bus1._lineNumber == bus2._lineNumber && bus1.firstStation.GetBusStationKey == bus2.firstStation.GetBusStationKey&&bus1.lastStation.GetBusStationKey==bus2.lastStation.GetBusStationKey)
-            {
-                return true;
-            }
-            else return false;
+            return (bus2 != null) && bus1._lineNumber == (bus2 as BusLine)._lineNumber;
         }
-        public static bool operator !=(BusLine bus1, BusLine bus2)
+        public static bool operator !=(BusLine bus1, Object bus2)
         {
-            return !(bus1 == bus2);
+            return !(bus1 == bus2) ;
         }
 
         public static bool operator ==(BusLine bus1, int _lineNumber)
