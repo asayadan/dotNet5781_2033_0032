@@ -16,9 +16,10 @@ public enum Area { General, North, South, Center, Jerusalem };
 namespace dotNet5781_02_2033_0032
 {
 
-
     class BusStation
     {
+        public static Random rnd = new Random(DateTime.Now.Millisecond);
+
         #region variables
         protected int busStationKey;
         protected float latitude;
@@ -49,21 +50,38 @@ namespace dotNet5781_02_2033_0032
             if (_busStationKey<=999999)
             {
                 busStationKey = _busStationKey;
-                Random rnd = new Random(DateTime.Now.Millisecond);
-                latitude = (float)rnd.Next(310, 333) / 10;
-                longitude = (float)rnd.Next(343, 355) / 10;
+                
+                latitude = (float)rnd.Next(310000, 333000) / 1000;
+                longitude = (float)rnd.Next(343000, 355000) / 1000;
             }
             else throw  new ArgumentException("the number is too bid");
         }
-
-        public int _key
-        { get { return busStationKey; } }
 
         public override string ToString()
         {
             return (string)("Bus Station Code: " + busStationKey + " "
                              + latitude + "°N " + longitude + "°E");
         }
+
+        public static bool operator==(BusStation left, BusStation right)
+        {
+            return left.busStationKey == right.busStationKey;
+
+        }
+
+        public static bool operator !=(BusStation left, BusStation right)
+        {
+            return !(left == right);
+
+        }
+        public int GetBusStationKey
+        {
+            get
+            {
+                return busStationKey;
+            }
+        }
+
     }
 
     class BusStationLine : BusStation
@@ -78,7 +96,7 @@ namespace dotNet5781_02_2033_0032
             distFromLastStation = _distFromLastStation;
             timeSinceLastStation = _timeSinceLastStation;
         }
-        public BusStationLine(int _busStationKey, float _distFromLastStation, float _timeSinceLastStation):base(_busStationKey)
+        public BusStationLine(int _busStationKey, float _distFromLastStation=0, float _timeSinceLastStation=0):base(_busStationKey)
         {
             distFromLastStation = _distFromLastStation;
             timeSinceLastStation = _timeSinceLastStation;
@@ -95,13 +113,7 @@ namespace dotNet5781_02_2033_0032
             set { timeSinceLastStation = value; }
         }
 
-        public float GetBusStationKey
-        {
-            get
-            {
-                return busStationKey;
-            }
-        }
+        
     }
 
 }
