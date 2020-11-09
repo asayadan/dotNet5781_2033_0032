@@ -85,7 +85,7 @@ namespace dotNet5781_02_2033_0032
                                     Console.WriteLine("enter the distance abd time between the station before and after the deleted station");
                                     float.TryParse(Console.ReadLine(), out distHelp2);
                                     float.TryParse(Console.ReadLine(), out timeHelp2);
-                                    collection[lineTemp].removeStation(new BusStationLine(stationTemp), distHelp,timeHelp);
+                                    collection[lineTemp].removeStation(new BusStationLine(stationTemp), distHelp2,timeHelp2);
                                     break;
                             }
                             break;

@@ -113,7 +113,7 @@ namespace dotNet5781_02_2033_0032
             if (indx >= 0)
             {
                 _station = stations[indx];
-                stations.Remove(stations.Find(x => x.GetBusStationKey == _station.GetBusStationKey));
+                stations.Remove(_station);
                 if (indx!=stations.Count)
                 {
                     stations[indx].DistFromLastStation = _distance;
