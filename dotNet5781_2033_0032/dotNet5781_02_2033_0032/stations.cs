@@ -51,8 +51,8 @@ namespace dotNet5781_02_2033_0032
             {
                 busStationKey = _busStationKey;
                 
-                latitude = (float)rnd.Next(310000, 333000) / 1000;
-                longitude = (float)rnd.Next(343000, 355000) / 1000;
+                latitude = (float)rnd.Next(310, 333) / 10;
+                longitude = (float)rnd.Next(343, 355) / 10;
             }
             else throw  new ArgumentException("the number is too bid");
         }
@@ -75,12 +75,7 @@ namespace dotNet5781_02_2033_0032
 
         }
         public int GetBusStationKey
-        {
-            get
-            {
-                return busStationKey;
-            }
-        }
+        { get {return busStationKey; } }
 
     }
 

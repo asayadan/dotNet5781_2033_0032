@@ -107,7 +107,7 @@ namespace dotNet5781_02_2033_0032
             else throw new ArgumentException ("this station is already in our line");
 
         }
-        public void removeStation(BusStationLine _station)
+        public void removeStation(BusStationLine _station,float _distance, float _time)
         {
             int indx = stations.FindIndex(x => x.GetBusStationKey == _station.GetBusStationKey);
             if (indx >= 0)
@@ -116,8 +116,8 @@ namespace dotNet5781_02_2033_0032
                 stations.Remove(stations.Find(x => x.GetBusStationKey == _station.GetBusStationKey));
                 if (indx!=stations.Count)
                 {
-                    stations[indx].DistFromLastStation = stations[indx + 1].DistFromLastStation;
-                    stations[indx].TimeSinceLastStation = stations[indx + 1].TimeSinceLastStation;
+                    stations[indx].DistFromLastStation = _distance;
+                    stations[indx].TimeSinceLastStation = _time;
                     if (indx==0)
                     {
                         firstStation = stations[0];

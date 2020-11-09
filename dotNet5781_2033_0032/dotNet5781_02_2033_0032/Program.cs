@@ -23,7 +23,7 @@ namespace dotNet5781_02_2033_0032
 
             int help;
             int lineTemp, stationTemp, stationTemp2, indexTemp;
-            float timeHelp, distHelp;
+            float timeHelp, distHelp, timeHelp2, distHelp2;
             while (flag == true)
             {
                 try
@@ -50,7 +50,20 @@ namespace dotNet5781_02_2033_0032
                                     int.TryParse(Console.ReadLine(), out indexTemp);
                                     float.TryParse(Console.ReadLine(), out distHelp);
                                     float.TryParse(Console.ReadLine(), out timeHelp);
-                                    collection[lineTemp].addStation(new BusStationLine(stationTemp, distHelp, timeHelp), indexTemp, distHelp, timeHelp);
+                                    Console.WriteLine("enter the distance abd time between the new station and the station after the new station");
+                                    float.TryParse(Console.ReadLine(), out distHelp2);
+                                    float.TryParse(Console.ReadLine(), out timeHelp2);
+                                    int help_indx = stations.FindIndex(x => x.GetBusStationKey == stationTemp);
+                                    if (help_indx>=0)
+                                    {
+                                        collection[lineTemp].addStation(new BusStationLine(stations[help_indx], distHelp, timeHelp), indexTemp, distHelp2, timeHelp2);
+                                    }
+                                    else
+                                    {
+                                        BusStationLine new_station = new BusStationLine(stationTemp, distHelp, timeHelp);
+                                        stations.Add(new_station);
+                                        collection[lineTemp].addStation(new_station, indexTemp, distHelp2, timeHelp2);
+                                    }
                                     break;
                             }
                             break;
@@ -69,7 +82,10 @@ namespace dotNet5781_02_2033_0032
                                     Console.WriteLine("Enter the line number and station number.");
                                     int.TryParse(Console.ReadLine(), out lineTemp);
                                     int.TryParse(Console.ReadLine(), out stationTemp);
-                                    collection[lineTemp].removeStation(new BusStationLine(lineTemp));
+                                    Console.WriteLine("enter the distance abd time between the station before and after the deleted station");
+                                    float.TryParse(Console.ReadLine(), out distHelp2);
+                                    float.TryParse(Console.ReadLine(), out timeHelp2);
+                                    collection[lineTemp].removeStation(new BusStationLine(stationTemp), distHelp,timeHelp);
                                     break;
                             }
                             break;
@@ -151,11 +167,23 @@ namespace dotNet5781_02_2033_0032
 
         public static void initilize(ref LineCollection collection, ref List<BusStation> stations)
         {
+            int num_stations=40;
             Random rnd = new Random(DateTime.Now.Millisecond);
             int[] stationKeys = new int[] { 160071, 193860, 227778, 249392, 258514, 276786, 322044, 388389, 466106, 481441, 485115, 491827, 497524, 598965, 603645, 606389, 644600, 661660, 682695, 686646, 687693, 691926, 732433, 763550, 766222, 772620, 810898, 844006, 853796, 865922, 880286, 884243, 894569, 895390, 904295, 953591, 961725, 972100, 975522, 999364 };
             int[] lineKeys = new int[] { 5, 97, 267, 315, 456, 527, 690, 755, 870, 978 };
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i <  num_stations ; i++)
                 stations.Add(new BusStation(stationKeys[i]));
+
+            //for (int i = 0; i < num_stations; i++)
+            //{
+            //    int help_station_key = rnd.Next(999999);
+            //    if (!stations.Exists(x => x.GetBusStationKey == help_station_key))
+            //    {
+            //        stations.Add(new BusStation(help_station_key));
+            //    }
+            //    else
+            //        i--;
+            //}
 
             float dist;
             for (int i = 0; i < 10; i++)
@@ -163,8 +191,8 @@ namespace dotNet5781_02_2033_0032
                 BusLine line = new BusLine(lineKeys[i]);
                 for (int j = 0; j < 6; j++)
                 {
-                    dist = (float)rnd.NextDouble() + rnd.Next(5, 10);
-                    line.addStation(new BusStationLine(stations[(i * 6 + j) % 40], dist, dist / 2), j, dist, dist / 2);
+                    dist = (float)rnd.NextDouble() + rnd.Next( 10);
+                    line.addStation(new BusStationLine(stations[(i * 6 + j) % num_stations], dist, dist / 2), j, dist, dist / 2);
                 }
 
                 collection.addLine(line);
