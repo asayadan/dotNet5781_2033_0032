@@ -13,6 +13,8 @@ namespace dotNet5781_02_2033_0032
 
     class Program
     {
+        public const int STATIONS_PER_LINE = 11;
+
         static void Main(string[] args)
         {
 
@@ -24,13 +26,16 @@ namespace dotNet5781_02_2033_0032
             int help;
             int lineTemp, stationTemp, stationTemp2, indexTemp;
             float timeHelp, distHelp, timeHelp2, distHelp2;
+            string addrTemp = null;
+            bool ifAddr;
             while (flag == true)
             {
                 try
                 {
+                    addrTemp = null;
                     Console.WriteLine("\nChoose an option:\n1. Add a line or station to line.\n2. Delete a line or station to line.\n3. Search for lines going through a station or checking what's the fastest choice .\n4. Print all lines or all stations. \n5. Exit.");
-
                     int.TryParse(Console.ReadLine(), out help);
+
                     switch (help)
                     {
                         case 1: //Add
@@ -44,19 +49,22 @@ namespace dotNet5781_02_2033_0032
                                     collection.addLine(new BusLine(lineTemp));
                                     break;
                                 case 2:
-                                    Console.WriteLine("Enter the line number, station number, index in line and distance and time since last station");
+                                    Console.WriteLine("Enter the line number, station number, index in line, distance and time since last station and 'true' if to input address as well");
                                     int.TryParse(Console.ReadLine(), out lineTemp);
                                     int.TryParse(Console.ReadLine(), out stationTemp);
                                     int.TryParse(Console.ReadLine(), out indexTemp);
                                     float.TryParse(Console.ReadLine(), out distHelp);
                                     float.TryParse(Console.ReadLine(), out timeHelp);
+                                    bool.TryParse(Console.ReadLine(), out ifAddr);
+                                    if (ifAddr)
+                                        addrTemp = Console.ReadLine();
                                     Console.WriteLine("enter the distance abd time between the new station and the station after the new station");
                                     float.TryParse(Console.ReadLine(), out distHelp2);
                                     float.TryParse(Console.ReadLine(), out timeHelp2);
                                     int help_indx = stations.FindIndex(x => x.GetBusStationKey == stationTemp); //606389 661660
                                     if (help_indx>=0)
                                     {
-                                        collection[lineTemp].addStation(new BusStationLine(stations[help_indx], distHelp, timeHelp), indexTemp, distHelp2, timeHelp2);
+                                        collection[lineTemp].addStation(new BusStationLine(stations[help_indx], distHelp, timeHelp, addrTemp), indexTemp, distHelp2, timeHelp2);
                                     }
                                     else
                                     {
@@ -192,10 +200,10 @@ namespace dotNet5781_02_2033_0032
             for (int i = 0; i < 10; i++)
             {
                 BusLine line = new BusLine(lineKeys[i]);
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < STATIONS_PER_LINE; j++)
                 {
-                    dist = (float)rnd.NextDouble() + rnd.Next( 10);
-                    line.addStation(new BusStationLine(stations[(i * 6 + j) % num_stations], dist, dist / 2), j, dist, dist / 2);
+                    dist = (float)rnd.NextDouble() + rnd.Next(10);
+                    line.addStation(new BusStationLine(stations[(i * STATIONS_PER_LINE + j) % num_stations], dist, dist / 2), j, dist, dist / 2);
                 }
 
                 collection.addLine(line);
@@ -204,3 +212,5 @@ namespace dotNet5781_02_2033_0032
         }
     }
 }
+
+
