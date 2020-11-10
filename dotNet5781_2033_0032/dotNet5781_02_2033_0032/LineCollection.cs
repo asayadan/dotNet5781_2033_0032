@@ -44,8 +44,9 @@ namespace dotNet5781_02_2033_0032
 
         public void removeLine(BusLine line)
         {
-            if (lines.Exists(x => x == line))
-                lines.Remove(line);
+            var tempLine = lines.Find(x => x == line);
+            if (tempLine != null)
+                lines.Remove(tempLine);
             else throw new ArgumentException("Bus doesn't exist.");
 
         }
