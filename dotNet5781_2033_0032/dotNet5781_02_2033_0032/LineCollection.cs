@@ -60,7 +60,7 @@ namespace dotNet5781_02_2033_0032
 
         }
 
-        public List<BusLine> sortedStations()
+        public List<BusLine> sortedLines()
         {
             lines.Sort(delegate (BusLine x, BusLine y)
             {

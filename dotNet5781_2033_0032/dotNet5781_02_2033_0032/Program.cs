@@ -83,9 +83,9 @@ namespace dotNet5781_02_2033_0032
                                     int.TryParse(Console.ReadLine(), out lineTemp);
                                     int.TryParse(Console.ReadLine(), out stationTemp);
                                     Console.WriteLine("enter the distance abd time between the station before and after the deleted station");
-                                    float.TryParse(Console.ReadLine(), out distHelp);
-                                    float.TryParse(Console.ReadLine(), out timeHelp);
-                                    collection[lineTemp].removeStation(new BusStationLine(stationTemp), distHelp,timeHelp);
+                                    float.TryParse(Console.ReadLine(), out distHelp2);
+                                    float.TryParse(Console.ReadLine(), out timeHelp2);
+                                    collection[lineTemp].removeStation(new BusStationLine(stationTemp), distHelp2,timeHelp2);
                                     break;
                             }
                             break;
@@ -111,9 +111,9 @@ namespace dotNet5781_02_2033_0032
                                         foreach (var lineB in listB)
                                             if (lineA == lineB)
                                                 tempCollection.addLine(lineA.subLine(new BusStationLine(stationTemp), new BusStationLine(stationTemp2)));
-
-                                    foreach (var line in tempCollection)
-                                        Console.WriteLine(line.ToString());
+                                    tempCollection.sortedLines();
+                                    foreach (BusLine line in tempCollection)
+                                        Console.WriteLine(line.ToString()+line.totalTime().ToString());
                                     
                                     break;
                             }
@@ -179,7 +179,7 @@ namespace dotNet5781_02_2033_0032
 
             //for (int i = 0; i < num_stations; i++)
             //{
-            //    int help_station_key = rnd.Next(999999);
+            //    int help_station_key = rnd.Next(100000,999999);
             //    if (!stations.Exists(x => x.GetBusStationKey == help_station_key))
             //    {
             //        stations.Add(new BusStation(help_station_key));
@@ -194,12 +194,31 @@ namespace dotNet5781_02_2033_0032
                 BusLine line = new BusLine(lineKeys[i]);
                 for (int j = 0; j < 6; j++)
                 {
-                    dist = (float)rnd.NextDouble() + rnd.Next( 10);
+                    dist = (float)rnd.NextDouble() + rnd.Next( 20);
                     line.addStation(new BusStationLine(stations[(i * 6 + j) % num_stations], dist, dist / 2), j, dist, dist / 2);
                 }
 
                 collection.addLine(line);
             }
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //int help_bus_key = rnd.Next(100000, 999999);
+            //if (!stations.Exists(x => x. == help_bus_key))
+            //{
+            //    stations.Add(new BusStation(help_bus_key));
+            //}
+            //else
+            //    i--;
+            //    BusLine line = new BusLine(lineKeys[i]);
+            //    for (int j = 0; j < 6; j++)
+            //    {
+            //        dist = (float)rnd.NextDouble() + rnd.Next(20);
+            //        line.addStation(new BusStationLine(stations[(i * 6 + j) % num_stations], dist, dist / 2), j, dist, dist / 2);
+            //    }
+
+            //    collection.addLine(line);
+            //}
 
         }
     }

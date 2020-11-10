@@ -18,7 +18,7 @@ namespace dotNet5781_02_2033_0032
 
     class BusStation
     {
-        public static Random rnd = new Random(DateTime.Now.Millisecond);
+        
 
         #region variables
         protected int busStationKey;
@@ -49,6 +49,7 @@ namespace dotNet5781_02_2033_0032
         {
             if (_busStationKey<=999999)
             {
+                Random rnd = new Random(DateTime.Now.Millisecond);
                 busStationKey = _busStationKey;
                 
                 latitude = (float)rnd.Next(310, 333) / 10;
