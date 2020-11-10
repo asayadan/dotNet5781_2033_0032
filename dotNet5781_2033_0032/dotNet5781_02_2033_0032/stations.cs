@@ -87,15 +87,16 @@ namespace dotNet5781_02_2033_0032
 
 
 
-        public BusStationLine(BusStation _busStation, float _distFromLastStation, float _timeSinceLastStation) : base(_busStation)
+        public BusStationLine(BusStation _busStation, float _distFromLastStation, float _timeSinceLastStation, string addr=null) : base(_busStation)
         {
             distFromLastStation = _distFromLastStation;
             timeSinceLastStation = _timeSinceLastStation;
         }
-        public BusStationLine(int _busStationKey, float _distFromLastStation=0, float _timeSinceLastStation=0):base(_busStationKey)
+        public BusStationLine(int _busStationKey, float _distFromLastStation=0, float _timeSinceLastStation=0, string addr=null):base(_busStationKey)
         {
             distFromLastStation = _distFromLastStation;
             timeSinceLastStation = _timeSinceLastStation;
+            stationAddress = addr;
         }
         public float DistFromLastStation
         {
