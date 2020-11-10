@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -15,12 +16,12 @@ public enum Area { General, North, South, Center, Jerusalem };
 
 namespace dotNet5781_02_2033_0032
 {
-
     class BusStation
     {
-        
+
 
         #region variables
+        private static Random rnd = new Random(DateTime.Now.Millisecond);
         protected int busStationKey;
         protected float latitude;
         protected float longitude;
@@ -39,11 +40,10 @@ namespace dotNet5781_02_2033_0032
             if (_busStationKey <= 999999)
             {
                 busStationKey = _busStationKey;
-                Random rnd = new Random(DateTime.Now.Millisecond);
                 latitude = _latitude;
                 longitude = _longitude;
             }
-            else throw new ArgumentException("the number is too bid");
+            else throw new ArgumentException("the key is too big");
         }
         public BusStation(int _busStationKey)
         {
@@ -51,13 +51,16 @@ namespace dotNet5781_02_2033_0032
             {
                 Random rnd = new Random(DateTime.Now.Millisecond);
                 busStationKey = _busStationKey;
-                
-                latitude = (float)rnd.Next(310, 333) / 10;
-                longitude = (float)rnd.Next(343, 355) / 10;
+                latitude = next_float(33.3, 31);
+                longitude = next_float(34.3, 35.5); 
             }
-            else throw  new ArgumentException("the number is too bid");
+            else throw  new ArgumentException("the key is too big");
         }
 
+        public float next_float(double start, double end)
+        {
+            return (float)(rnd.NextDouble() * (end - start) + start);
+        }
         public override string ToString()
         {
             return (string)("Bus Station Code: " + busStationKey + " "

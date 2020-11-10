@@ -25,21 +25,16 @@ namespace dotNet5781_02_2033_0032
         #endregion
         public void addLine(BusLine line)
         {
-            if (lines.FindAll(x => x._lineNumber == line._lineNumber).Count == 0)
+            int help = num_station(line._lineNumber);
+            if ( help== 0)
                 lines.Add(line);
-            else if (lines.Exists(x => x == line))
+            else if (help==1)
             {
-                throw new ArgumentException("this bus is already in this collection");
-            }
-            else if (lines.FindAll(x => x._lineNumber == line._lineNumber).Count == 2)
-            {
-                throw new ArgumentException("Bus already exists twice.");
-            }
-            else if (lines.Find(x => x._lineNumber == line._lineNumber).isReverse(line))//I will need to come back to it later
-            {
+                line._direction = false;
                 lines.Add(line);
             }
-            else throw new ArgumentException("this bus needs to be the  opposite of the other line with the same line number");
+            else throw new ArgumentException("Bus already exists twice.");
+            
         }
 
         public void removeLine(BusLine line)
@@ -50,7 +45,8 @@ namespace dotNet5781_02_2033_0032
             else throw new ArgumentException("Bus doesn't exist.");
 
         }
-
+        public int num_station(int line_key)
+        { return lines.FindAll(x => x._lineNumber == line_key).Count;  }
         public List<BusLine> checkStation(int busStationKey)
         {
             var linesOfStation = lines.FindAll(x => x.exist(busStationKey));
@@ -70,12 +66,12 @@ namespace dotNet5781_02_2033_0032
             return lines;
         }
 
-        public BusLine this[int busLine] =>lines[returnIndexer(busLine)];
+        public BusLine this[int busLine,bool help=true] =>lines[returnIndexer(busLine,help)];
 
         
-        private int returnIndexer(int busline)
+        private int returnIndexer(int busline, bool help)
         {
-            int indx = lines.FindIndex(x => x == busline);
+            int indx = lines.FindIndex(x => x == busline&&x._direction==help);
 
             if (indx>=0)
             {

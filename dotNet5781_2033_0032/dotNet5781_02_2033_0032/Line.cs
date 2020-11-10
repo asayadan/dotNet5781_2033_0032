@@ -19,6 +19,7 @@ namespace dotNet5781_02_2033_0032
         private BusStationLine firstStation;
         private BusStationLine lastStation;
         private Area area;
+        bool direction;
         private List<BusStationLine> stations;
         #endregion
 
@@ -28,18 +29,24 @@ namespace dotNet5781_02_2033_0032
         {
             stations = new List<BusStationLine>();
             busLine = num;
+            direction = true;
         }
 
         public BusLine()
         {
             stations = new List<BusStationLine>();
+            direction = true;
         }
         #region methods
 
 
         public int _lineNumber
         { get { return busLine; } }
-
+        public bool _direction
+        {
+          get{ return direction; }
+          set { direction = value; }
+        }
         public int _numStations
         { get { return stations.Count; } }
         public static string checkArea(Area area)
@@ -61,9 +68,19 @@ namespace dotNet5781_02_2033_0032
             }
 
         }
+
+        public static string checkDist(bool help_directio)
+        {
+
+            if (help_directio)
+            {
+                return "";
+            }
+            return "A";
+        }
         public override string ToString()
         {
-            string a = "Bus line: " + busLine + " Area: " + checkArea(area) + "\n";
+            string a = "Bus line: " + busLine+ checkDist(direction)+ " Area: " + checkArea(area) + "\n";
             var arr = stations.ToArray();
 
             a += "Route stations:\n";
@@ -215,7 +232,7 @@ namespace dotNet5781_02_2033_0032
 
         public static bool operator ==(BusLine bus1, Object bus2)//I need to do it
         {
-            return (bus2 != null) && bus1._lineNumber == (bus2 as BusLine)._lineNumber;
+            return (bus2 != null) && bus1._lineNumber == (bus2 as BusLine)._lineNumber&& bus1._direction == (bus2 as BusLine)._direction;
         }
         public static bool operator !=(BusLine bus1, Object bus2)
         {
