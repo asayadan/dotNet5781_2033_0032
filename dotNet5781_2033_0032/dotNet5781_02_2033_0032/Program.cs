@@ -182,11 +182,18 @@ namespace dotNet5781_02_2033_0032
                                 case 2:
                                     foreach (var station in stations)
                                     {
+                                        try
+                                        {
+                                            Console.Write("{0} | Lines: ", station.ToString());
+                                            foreach (var line in collection.checkStation(station.GetBusStationKey))
+                                                Console.Write("{0} ", (line._lineNumber)); //Printing all lines passing at each station.
+                                            Console.WriteLine();
+                                        }
+                                        catch (Exception)
+                                        {
 
-                                        Console.Write("{0} | Lines: ", station.ToString());
-                                        foreach (var line in collection.checkStation(station.GetBusStationKey))
-                                            Console.Write("{0} ", (line._lineNumber)); //Printing all lines passing at each station.
-                                        Console.WriteLine();
+                                            Console.WriteLine(""); ;
+                                        }
                                     }
 
                                     break;
@@ -262,7 +269,7 @@ namespace dotNet5781_02_2033_0032
                 int help_bus_key = rnd.Next(1, 999); 
                 if (!stations.Exists(x => x.GetBusStationKey == help_bus_key)) //Creating 10 lines with random keys
                 {
-                    BusLine line = new BusLine(help_bus_key);
+                    BusLine line = new BusLine(help_bus_key,rnd.Next(0,4));
                     for (int j = 0; j < STATIONS_PER_LINE; j++) // Adding STATIONS_PER_LINE (constant) stations per line.
                     {
                         dist = (float)rnd.NextDouble() + rnd.Next(20); 

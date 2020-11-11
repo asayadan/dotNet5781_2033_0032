@@ -24,11 +24,12 @@ namespace dotNet5781_02_2033_0032
         #endregion
 
         #region ctors
-        public BusLine(int num)
+        public BusLine(int num ,int _area=0)
         {
             stations = new List<BusStationLine>();
             busLine = num;
             direction = true;
+            area = (Area)_area;
         }
 
         public BusLine()
@@ -233,7 +234,9 @@ namespace dotNet5781_02_2033_0032
 
         public static bool operator ==(BusLine bus1, BusLine bus2) // does two given buses equal
         {
-            return (bus1._lineNumber == bus2._lineNumber && bus1._direction == bus2._direction);
+            bool help= (bus1._lineNumber == bus2._lineNumber && bus1._direction == bus2._direction);
+            //bool help2 = (bus1.area == bus2.area) || bus1.area == 0 || bus2.area == 0;
+            return help /*&& help2*/;
         }
         public static bool operator !=(BusLine bus1, BusLine bus2) // they wanted us to implement it so...
         {
@@ -242,7 +245,7 @@ namespace dotNet5781_02_2033_0032
 
         public static bool operator ==(BusLine bus1, int _lineNumber) // 
         {
-            return (bus1._lineNumber == _lineNumber)
+            return (bus1._lineNumber == _lineNumber);
         }
         public static bool operator !=(BusLine bus1, int _lineNumber)
         {
