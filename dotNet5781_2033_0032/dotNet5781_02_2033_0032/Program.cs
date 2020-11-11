@@ -18,9 +18,9 @@ namespace dotNet5781_02_2033_0032
         static void Main(string[] args)
         {
 
-            List<BusStation> stations = new List<BusStation>();
+            List<BusStation> stations = new List<BusStation>();//the list of the stations we have
             LineCollection collection = new LineCollection();
-            initilize(ref collection, ref stations);
+            initilize(ref collection, ref stations);//we initiilize with 10 lines and 40 stations
             bool flag = true;
 
             int help;
@@ -43,12 +43,12 @@ namespace dotNet5781_02_2033_0032
                             int.TryParse(Console.ReadLine(), out help);
                             switch (help)
                             {
-                                case 1:
+                                case 1://add line
                                     Console.WriteLine("Enter the line number.");
-                                    int.TryParse(Console.ReadLine(), out lineTemp);
+                                    int.TryParse(Console.ReadLine(), out lineTemp);//we get the line number
                                     BusLine new_line= new BusLine(lineTemp);
-                                    collection.addLine(new_line);
-                                    for (int i=0; collection[lineTemp,new_line._direction]._numStations<2;i++)
+                                    collection.addLine(new_line);//we add him to collections
+                                    for (int i=0; collection[lineTemp,new_line._direction]._numStations<2;i++)//we want to have at least two stations at any line
                                     {
                                         try
                                         {
@@ -62,7 +62,7 @@ namespace dotNet5781_02_2033_0032
                                         catch (ArgumentException exArgument) //Catching argument exceptions.
                                         {
                                             Console.WriteLine(exArgument.Message);
-                                            --i;
+                                            --i;//we need more stations
                                         }
 
                                         catch (IndexOutOfRangeException exIndex) //Catching out of index exceptions,
@@ -74,7 +74,7 @@ namespace dotNet5781_02_2033_0032
 
 
                                     break;
-                                case 2:
+                                case 2://add station
                                     Console.WriteLine("Enter the line number, station number, index in line, distance and time since last station and 'true' if to input address as well");
                                     int.TryParse(Console.ReadLine(), out lineTemp);
                                     int.TryParse(Console.ReadLine(), out stationTemp);
@@ -83,7 +83,7 @@ namespace dotNet5781_02_2033_0032
                                     float.TryParse(Console.ReadLine(), out timeHelp);
                                     bool.TryParse(Console.ReadLine(), out ifAddr);
                                     if (ifAddr)
-                                        addrTemp = Console.ReadLine();
+                                        addrTemp = Console.ReadLine();//we get the address
                                     Console.WriteLine("enter the distance abd time between the new station and the station after the new station");
                                     float.TryParse(Console.ReadLine(), out distHelp2);
                                     float.TryParse(Console.ReadLine(), out timeHelp2);
