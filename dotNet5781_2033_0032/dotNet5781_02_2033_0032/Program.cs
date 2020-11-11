@@ -57,15 +57,15 @@ namespace dotNet5781_02_2033_0032
                                             float.TryParse(Console.ReadLine(), out distHelp);
                                             float.TryParse(Console.ReadLine(), out timeHelp);
                                             
-                                            check_station(ref stations, ref collection, lineTemp, stationTemp, i, distHelp, timeHelp);
+                                            checkStation(ref stations, ref collection, lineTemp, stationTemp, i, distHelp, timeHelp);
                                         }
-                                        catch (ArgumentException exArgument)
+                                        catch (ArgumentException exArgument) //Catching argument exceptions.
                                         {
                                             Console.WriteLine(exArgument.Message);
                                             --i;
                                         }
 
-                                        catch (IndexOutOfRangeException exIndex)
+                                        catch (IndexOutOfRangeException exIndex) //Catching out of index exceptions,
                                         {
                                             --i;
                                             Console.WriteLine(exIndex.Message);
@@ -87,7 +87,7 @@ namespace dotNet5781_02_2033_0032
                                     Console.WriteLine("enter the distance abd time between the new station and the station after the new station");
                                     float.TryParse(Console.ReadLine(), out distHelp2);
                                     float.TryParse(Console.ReadLine(), out timeHelp2);
-                                    check_station(ref stations,ref collection, lineTemp, stationTemp, indexTemp, timeHelp, distHelp, timeHelp2, distHelp2);
+                                    checkStation(ref stations,ref collection, lineTemp, stationTemp, indexTemp, timeHelp, distHelp, timeHelp2, distHelp2);
                                     break;
                             }
                             break;
@@ -102,7 +102,7 @@ namespace dotNet5781_02_2033_0032
                                     int.TryParse(Console.ReadLine(), out lineTemp);
                                      helpdir = true;
                                     BusLine help_line = new BusLine(lineTemp);
-                                    if (collection.num_station(lineTemp) == 2)
+                                    if (collection.num_station(lineTemp) == 2) //multiple directions.
                                     {
                                         Console.WriteLine("we have two lines with this line number enter true for the first station and false for the second station");
                                         bool.TryParse(Console.ReadLine(), out helpdir);
@@ -110,7 +110,7 @@ namespace dotNet5781_02_2033_0032
                                         collection.removeLine(help_line);
                                         collection[lineTemp, !helpdir]._direction = true;
                                     }
-                                    else
+                                    else // only one direction
                                     {
                                         collection.removeLine(help_line);
 
@@ -155,16 +155,16 @@ namespace dotNet5781_02_2033_0032
                                     Console.WriteLine("Enter the first and last stations.");
                                     int.TryParse(Console.ReadLine(), out stationTemp);
                                     int.TryParse(Console.ReadLine(), out stationTemp2);
-                                    var listA = collection.checkStation(stationTemp);
+                                    var listA = collection.checkStation(stationTemp); 
                                     var listB = collection.checkStation(stationTemp2);
                                     var tempCollection = new LineCollection();
-                                    foreach (var lineA in listA)
+                                    foreach (var lineA in listA) 
                                         foreach (var lineB in listB)
-                                            if (lineA == lineB)
+                                            if (lineA == lineB) //Check which lines include both stations
                                                 tempCollection.addLine(lineA.subLine(new BusStationLine(stationTemp), new BusStationLine(stationTemp2)));
-                                    tempCollection.sortedLines();
-                                    foreach (BusLine line in tempCollection)
-                                        Console.WriteLine(line.ToString()+line.totalTime().ToString());
+                                    
+                                    foreach (BusLine line in tempCollection.sortedLines()) //Sort the lines
+                                        Console.WriteLine("{0} - {1}", line._lineNumber, line.totalTime()); 
                                     
                                     break;
                             }
@@ -185,7 +185,7 @@ namespace dotNet5781_02_2033_0032
 
                                         Console.Write("{0} | Lines: ", station.ToString());
                                         foreach (var line in collection.checkStation(station.GetBusStationKey))
-                                            Console.Write("{0} ", (line._lineNumber));
+                                            Console.Write("{0} ", (line._lineNumber)); //Printing all lines passing at each station.
                                         Console.WriteLine();
                                     }
 
@@ -218,15 +218,16 @@ namespace dotNet5781_02_2033_0032
 
         }
 
-        private static void check_station( ref List<BusStation> stations,ref LineCollection collection, int lineTemp, int stationTemp, int indexTemp=0, float distHelp = 0, float timeHelp=0, float timeHelp2=0, float distHelp2=0)
+        //Checking if station is valid, and if needed to assign first and last station.
+        private static void checkStation( ref List<BusStation> stations,ref LineCollection collection, int lineTemp, int stationTemp, int indexTemp=0, float distHelp = 0, float timeHelp=0, float timeHelp2=0, float distHelp2=0)
         {
-            bool helpdir = true;
+            bool helpdir = true; 
             if (collection.num_station(lineTemp)==2)
             {
                 Console.WriteLine("we have two lines with this line number enter true for the first station and false for the second station");
                 bool.TryParse(Console.ReadLine(), out helpdir);
             }
-            int help_indx = stations.FindIndex(x => x.GetBusStationKey == stationTemp); //606389 661660
+            int help_indx = stations.FindIndex(x => x.GetBusStationKey == stationTemp);
             if (help_indx >= 0)
             {
                 collection[lineTemp, helpdir].addStation(new BusStationLine(stations[help_indx], distHelp, timeHelp), indexTemp, distHelp2, timeHelp2);
@@ -239,11 +240,12 @@ namespace dotNet5781_02_2033_0032
             }
         }
 
+        // Initilizing - creating 40 stations and 10 lines driving through 
         public static void initilize(ref LineCollection collection, ref List<BusStation> stations)
         {
             int num_stations = 40;
             Random rnd = new Random(DateTime.Now.Millisecond);
-            for (int i = 0; i < num_stations; i++)
+            for (int i = 0; i < num_stations; i++) // Creating 40 lines with random coordinates and random station number.
             {
                 int help_station_key = rnd.Next(100000, 999999);
                 if (!stations.Exists(x => x.GetBusStationKey == help_station_key))
@@ -257,20 +259,20 @@ namespace dotNet5781_02_2033_0032
             float dist;
             for (int i = 0; i < 10; i++)
             {
-                int help_bus_key = rnd.Next(10, 999);
-                if (!stations.Exists(x => x.GetBusStationKey == help_bus_key))
+                int help_bus_key = rnd.Next(1, 999); 
+                if (!stations.Exists(x => x.GetBusStationKey == help_bus_key)) //Creating 10 lines with random keys
                 {
                     BusLine line = new BusLine(help_bus_key);
-                    for (int j = 0; j < STATIONS_PER_LINE; j++)
+                    for (int j = 0; j < STATIONS_PER_LINE; j++) // Adding STATIONS_PER_LINE (constant) stations per line.
                     {
-                        dist = (float)rnd.NextDouble() + rnd.Next(20);
+                        dist = (float)rnd.NextDouble() + rnd.Next(20); 
                         line.addStation(new BusStationLine(stations[(i * STATIONS_PER_LINE + j) % num_stations], dist, dist / 2), j, dist, dist / 2);
                     }
 
                     collection.addLine(line);
                 }
                 else
-                    i--;
+                    i--; // If already exists.
             }
 
         }

@@ -16,13 +16,16 @@ namespace dotNet5781_02_2033_0032
         #region varibles
         private List<BusLine> lines;
         #endregion
-        #region constactors
+
+        #region ctors
         public LineCollection()
         {
             lines = new List<BusLine>();
         
         }
         #endregion
+
+        #region methods
         public void addLine(BusLine line)
         {
             int help = num_station(line._lineNumber);
@@ -40,13 +43,15 @@ namespace dotNet5781_02_2033_0032
         public void removeLine(BusLine line)
         {
             var tempLine = lines.Find(x => x == line);
-            if (lines.Exists(x=>x==line) )
+            if (lines.Exists(x => x == line))
                 lines.Remove(tempLine);
             else throw new ArgumentException("Bus doesn't exist.");
 
         }
+
         public int num_station(int line_key)
         { return lines.FindAll(x => x._lineNumber == line_key).Count;  }
+
         public List<BusLine> checkStation(int busStationKey)
         {
             var linesOfStation = lines.FindAll(x => x.exist(busStationKey));
@@ -56,7 +61,7 @@ namespace dotNet5781_02_2033_0032
 
         }
 
-        public List<BusLine> sortedLines()
+        public List<BusLine> sortedLines() //Sort lines by the sort method
         {
             lines.Sort(delegate (BusLine x, BusLine y)
             {
@@ -66,7 +71,7 @@ namespace dotNet5781_02_2033_0032
             return lines;
         }
 
-        public BusLine this[int busLine,bool help=true] =>lines[returnIndexer(busLine,help)];
+        public BusLine this[int busLine,bool help=true] =>lines[returnIndexer(busLine,help)]; //help to check if back or forth
 
         
         private int returnIndexer(int busline, bool help)
@@ -80,12 +85,11 @@ namespace dotNet5781_02_2033_0032
             else throw new ArgumentOutOfRangeException("we don't have this busLine");
         }
 
-        public IEnumerator GetEnumerator()
+        public IEnumerator GetEnumerator() 
         {
             return lines.GetEnumerator();
         }
-
+        #endregion
 
     }
 }
-

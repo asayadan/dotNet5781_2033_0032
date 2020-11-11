@@ -23,8 +23,7 @@ namespace dotNet5781_02_2033_0032
         private List<BusStationLine> stations;
         #endregion
 
-
-
+        #region ctors
         public BusLine(int num)
         {
             stations = new List<BusStationLine>();
@@ -37,6 +36,8 @@ namespace dotNet5781_02_2033_0032
             stations = new List<BusStationLine>();
             direction = true;
         }
+        #endregion
+
         #region methods
 
 
@@ -230,22 +231,18 @@ namespace dotNet5781_02_2033_0032
 
         }
 
-        public static bool operator ==(BusLine bus1, Object bus2)//I need to do it
+        public static bool operator ==(BusLine bus1, BusLine bus2) // does two given buses equal
         {
-            return (bus2 != null) && bus1._lineNumber == (bus2 as BusLine)._lineNumber&& bus1._direction == (bus2 as BusLine)._direction;
+            return (bus1._lineNumber == bus2._lineNumber && bus1._direction == bus2._direction);
         }
-        public static bool operator !=(BusLine bus1, Object bus2)
+        public static bool operator !=(BusLine bus1, BusLine bus2) // they wanted us to implement it so...
         {
             return !(bus1 == bus2) ;
         }
 
-        public static bool operator ==(BusLine bus1, int _lineNumber)
+        public static bool operator ==(BusLine bus1, int _lineNumber) // 
         {
-            if (bus1._lineNumber == _lineNumber )
-            {
-                return true;
-            }
-            return false;
+            return (bus1._lineNumber == _lineNumber)
         }
         public static bool operator !=(BusLine bus1, int _lineNumber)
         {

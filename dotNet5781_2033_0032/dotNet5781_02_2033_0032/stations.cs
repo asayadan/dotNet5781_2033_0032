@@ -28,7 +28,7 @@ namespace dotNet5781_02_2033_0032
         protected string stationAddress;
         #endregion
 
-
+        #region ctors
         public BusStation(BusStation _station)
         {
             busStationKey = _station.busStationKey;
@@ -56,7 +56,9 @@ namespace dotNet5781_02_2033_0032
             }
             else throw  new ArgumentException("the key is too big");
         }
+        #endregion
 
+        #region methods
         public float next_float(double start, double end)
         {
             return (float)(rnd.NextDouble() * (end - start) + start);
@@ -81,15 +83,18 @@ namespace dotNet5781_02_2033_0032
         public int GetBusStationKey
         { get {return busStationKey; } }
 
+        #endregion
+
     }
 
     class BusStationLine : BusStation
     {
+        #region variables
         private float distFromLastStation;
         private float timeSinceLastStation;
+        #endregion
 
-
-
+        #region ctors
         public BusStationLine(BusStation _busStation, float _distFromLastStation, float _timeSinceLastStation, string addr=null) : base(_busStation)
         {
             distFromLastStation = _distFromLastStation;
@@ -101,6 +106,9 @@ namespace dotNet5781_02_2033_0032
             timeSinceLastStation = _timeSinceLastStation;
             stationAddress = addr;
         }
+        #endregion
+
+        #region methods
         public float DistFromLastStation
         {
             get { return distFromLastStation; }
@@ -112,6 +120,7 @@ namespace dotNet5781_02_2033_0032
             get { return timeSinceLastStation; }
             set { timeSinceLastStation = value; }
         }
+        #endregion
 
         
     }
