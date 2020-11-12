@@ -18,8 +18,6 @@ namespace dotNet5781_02_2033_0032
 {
     class BusStation
     {
-
-
         #region variables
         private static Random rnd = new Random(DateTime.Now.Millisecond);
         protected int busStationKey;

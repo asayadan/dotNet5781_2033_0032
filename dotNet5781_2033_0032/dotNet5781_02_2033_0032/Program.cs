@@ -24,7 +24,7 @@ namespace dotNet5781_02_2033_0032
             bool flag = true;
 
             int help;
-            int lineTemp, stationTemp, stationTemp2, indexTemp;
+            int lineTemp, stationTemp, stationTemp2, indexTemp,area;
             float timeHelp, distHelp, timeHelp2, distHelp2;
             string addrTemp = null;
             bool ifAddr, helpdir;
@@ -46,7 +46,9 @@ namespace dotNet5781_02_2033_0032
                                 case 1://add line
                                     Console.WriteLine("Enter the line number.");
                                     int.TryParse(Console.ReadLine(), out lineTemp);//we get the line number
-                                    BusLine new_line= new BusLine(lineTemp);
+                                    Console.WriteLine("enter the area of the line:\n0:General   1:North   2:South   3:Center   J4:erusalem");
+                                    int.TryParse(Console.ReadLine(), out area);
+                                    BusLine new_line = new BusLine(lineTemp, area);
                                     collection.addLine(new_line);//we add him to collections
                                     for (int i=0; collection[lineTemp,new_line._direction]._numStations<2;i++)//we want to have at least two stations at any line
                                     {

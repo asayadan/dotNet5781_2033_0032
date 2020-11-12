@@ -29,7 +29,12 @@ namespace dotNet5781_02_2033_0032
             stations = new List<BusStationLine>();
             busLine = num;
             direction = true;
-            area = (Area)_area;
+            if (_area <= 4 && _area >= 0)
+            {
+                area = (Area)_area;
+            }
+            else throw new ArgumentOutOfRangeException("the regions numbers can be onely 0,1,2,3 or 4");
+            
         }
 
         public BusLine()
@@ -258,6 +263,4 @@ namespace dotNet5781_02_2033_0032
         #endregion
 
     }
-
-
 }
