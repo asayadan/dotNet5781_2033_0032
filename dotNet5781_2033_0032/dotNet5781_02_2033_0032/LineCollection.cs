@@ -42,9 +42,9 @@ namespace dotNet5781_02_2033_0032
 
         public void removeLine(BusLine line)
         {
-            var tempLine = lines.Find(x => x == line);
-            if (lines.Exists(x => x == line))
-                lines.Remove(tempLine);
+            int indx_help = lines.FindIndex(x => x == line);
+            if (indx_help>=0)
+                lines.Remove(lines[indx_help]);
             else throw new ArgumentException("Bus doesn't exist.");
 
         }
