@@ -61,6 +61,7 @@ namespace dotNet5781_02_2033_0032
         {
             return (float)(rnd.NextDouble() * (end - start) + start);
         }
+
         public override string ToString()
         {
             return (string)("Bus Station Code: " + busStationKey + " "
@@ -118,9 +119,16 @@ namespace dotNet5781_02_2033_0032
             get { return timeSinceLastStation; }
             set { timeSinceLastStation = value; }
         }
+        public string time_str()
+        {
+            string hour = ((int)(timeSinceLastStation / 60)).ToString();
+            string minute = ((int)(timeSinceLastStation % 60)/10).ToString()+ ((int)(timeSinceLastStation % 60) % 10).ToString();
+            string second = ((int)((timeSinceLastStation % 1) * 60)/10).ToString()+ ((int)((timeSinceLastStation % 1) * 60)%10).ToString();
+            return "    time sinse last station-"+hour+":"+minute+":"+second;
+        }
         #endregion
 
-        
+
     }
 
 }

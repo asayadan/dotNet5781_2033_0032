@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,13 +93,14 @@ namespace dotNet5781_02_2033_0032
 
             a += "Route stations:\n";
             foreach (var station in stations)
-                a += station.ToString() + "\n";
+                a += station.ToString()+ station.time_str() + "\n";
 
 
 
 
             return a;
         }
+
         public void addStation(BusStationLine _station, int index, float distance, float time)
         {
             if (!stations.Exists(x => x.GetBusStationKey == _station.GetBusStationKey))
@@ -109,6 +111,8 @@ namespace dotNet5781_02_2033_0032
                     stations.Insert(index, _station);
                     if (index == 0)
                     {
+                        _station.DistFromLastStation = 0;
+                        _station.TimeSinceLastStation = 0;
                         firstStation = _station;
                         if (stations.Count >= 2)
                         {
@@ -159,13 +163,6 @@ namespace dotNet5781_02_2033_0032
         public bool exist(int BusStationKey)
         {
             return stations.Exists(x => x.GetBusStationKey == BusStationKey);
-        }
-
-        public bool isReverse(BusLine _bus)
-        {
-            if (firstStation == _bus.lastStation && lastStation == _bus.firstStation)
-                return true;
-            return false;
         }
 
         public float distance(BusStationLine station1, BusStationLine station2)

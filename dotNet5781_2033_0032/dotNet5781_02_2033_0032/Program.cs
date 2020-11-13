@@ -86,10 +86,10 @@ namespace dotNet5781_02_2033_0032
                                     bool.TryParse(Console.ReadLine(), out ifAddr);
                                     if (ifAddr)
                                         addrTemp = Console.ReadLine();//we get the address
-                                    Console.WriteLine("enter the distance abd time between the new station and the station after the new station");
+                                    Console.WriteLine("enter the distance and time between the new station and the station after the new station");
                                     float.TryParse(Console.ReadLine(), out distHelp2);
                                     float.TryParse(Console.ReadLine(), out timeHelp2);
-                                    checkStation(ref stations,ref collection, lineTemp, stationTemp, indexTemp, timeHelp, distHelp, timeHelp2, distHelp2);
+                                    checkStation(ref stations,ref collection, lineTemp, stationTemp, indexTemp,distHelp , timeHelp, timeHelp2, distHelp2);
                                     break;
                             }
                             break;

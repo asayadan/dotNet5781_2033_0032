@@ -21,7 +21,7 @@ namespace dotNet5781_02_2033_0032
         public LineCollection()
         {
             lines = new List<BusLine>();
-        
+
         }
         #endregion
 
@@ -29,28 +29,28 @@ namespace dotNet5781_02_2033_0032
         public void addLine(BusLine line)
         {
             int help = num_station(line._lineNumber);
-            if ( help== 0)
+            if (help == 0)
                 lines.Add(line);
-            else if (help==1)
+            else if (help == 1)
             {
                 line._direction = false;
                 lines.Add(line);
             }
             else throw new ArgumentException("Bus already exists twice.");
-            
+
         }
 
         public void removeLine(BusLine line)
         {
             int indx_help = lines.FindIndex(x => x == line);
-            if (indx_help>=0)
+            if (indx_help >= 0)
                 lines.Remove(lines[indx_help]);
             else throw new ArgumentException("Bus doesn't exist.");
 
         }
 
         public int num_station(int line_key)
-        { return lines.FindAll(x => x._lineNumber == line_key).Count;  }
+        { return lines.FindAll(x => x._lineNumber == line_key).Count; }
 
         public List<BusLine> checkStation(int busStationKey)
         {
@@ -71,19 +71,20 @@ namespace dotNet5781_02_2033_0032
             return lines;
         }
 
-        public BusLine this[int busLine,bool help=true] =>lines[returnIndexer(busLine,help)]; //help to check if back or forth
-
-        
-        private int returnIndexer(int busline, bool help)
+        public BusLine this[int busLine, bool help = true]  //help to check if back or forth
         {
-            int indx = lines.FindIndex(x => x == busline&&x._direction==help);
-
-            if (indx>=0)
+            get
             {
-                 return indx;
+                int indx = lines.FindIndex(x => x == busLine && x._direction == help);
+
+                if (indx >= 0)
+                {
+                    return lines[indx];
+                }
+                else throw new ArgumentOutOfRangeException("we don't have this busLine");
             }
-            else throw new ArgumentOutOfRangeException("we don't have this busLine");
         }
+
 
         public IEnumerator GetEnumerator() 
         {
