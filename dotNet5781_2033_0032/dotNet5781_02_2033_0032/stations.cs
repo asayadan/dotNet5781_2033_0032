@@ -124,7 +124,11 @@ namespace dotNet5781_02_2033_0032
             string hour = ((int)(timeSinceLastStation / 60)).ToString();
             string minute = ((int)(timeSinceLastStation % 60)/10).ToString()+ ((int)(timeSinceLastStation % 60) % 10).ToString();
             string second = ((int)((timeSinceLastStation % 1) * 60)/10).ToString()+ ((int)((timeSinceLastStation % 1) * 60)%10).ToString();
-            return "    time sinse last station-"+hour+":"+minute+":"+second;
+            return "    time sinse last station:    "+hour+":"+minute+":"+second;
+        }
+        public override string ToString()
+        {
+            return base.ToString()+ time_str();
         }
         #endregion
 
