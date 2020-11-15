@@ -16,7 +16,7 @@ public enum Area { General, North, South, Center, Jerusalem };
 
 namespace dotNet5781_02_2033_0032
 {
-    class BusStation
+    public class BusStation
     {
         #region variables
         private static Random rnd = new Random(DateTime.Now.Millisecond);
@@ -86,7 +86,7 @@ namespace dotNet5781_02_2033_0032
 
     }
 
-    class BusStationLine : BusStation
+    public class BusStationLine : BusStation
     {
         #region variables
         private float distFromLastStation;

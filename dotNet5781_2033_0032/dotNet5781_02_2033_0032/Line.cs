@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace dotNet5781_02_2033_0032
 {
-    class BusLine : IComparable
+    public class BusLine : IComparable
     {
         #region variables
         private int busLine;
@@ -21,7 +21,7 @@ namespace dotNet5781_02_2033_0032
         private BusStationLine lastStation;
         private Area area;
         bool direction;
-        private List<BusStationLine> stations;
+        public List<BusStationLine> stations;
         #endregion
 
         #region ctors
