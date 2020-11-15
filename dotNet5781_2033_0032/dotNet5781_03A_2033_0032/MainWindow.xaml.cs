@@ -79,8 +79,6 @@ namespace dotNet5781_03A_2033_0032
             currentDisplayBusLine = busLines[index];
             UpGrid.DataContext = currentDisplayBusLine;
             lbBusLineStations.DataContext = currentDisplayBusLine.stations;
-            tbArea.Text = currentDisplayBusLine._area;
-
 
         }
 

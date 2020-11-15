@@ -18,11 +18,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="lb_stations" Content="Bus line number:" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="25" FontFamily="Tempus Sans ITC" Foreground="#FF3AEF17" />
-            <Label x:Name="lb_region" Content="Area:" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontFamily="Sitka Small" FontSize="50" FontStyle="Italic" Foreground="#FF24F20D"/>
-            <ComboBox x:Name="cbBusLines" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="cbBusLines_SelectionChanged" FontSize="30" />
-            <TextBox x:Name="tbArea" Grid.Column="3" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="{Binding Path=Area}" VerticalAlignment="Stretch" FontSize="50" FontFamily="Sitka Text" />
+            <Label x:Name="lb_stations" Content="Bus line number:" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="25" FontFamily="Tempus Sans ITC"  FontStyle="Italic" Foreground="#FF24F20D" />
+            <Label x:Name="lb_region" Content="Area:" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontFamily="Tempus Sans ITC" FontSize="50" FontStyle="Italic" Foreground="#FF24F20D"/>
+            <ComboBox x:Name="cbBusLines" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionChanged="cbBusLines_SelectionChanged" FontSize="20" />
+            <TextBox x:Name="tbArea" Grid.Column="3" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="{Binding Path=_area}" VerticalAlignment="Stretch" FontSize="50"  FontStyle="Italic" Foreground="#FF123CDE" />
         </Grid>
-        <ListBox x:Name="lbBusLineStations" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch" ItemsSource="{Binding}" Foreground="#FFDE1616" Background="White"/>
+        <ListBox x:Name="lbBusLineStations" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch" ItemsSource="{Binding}" Foreground="#FF120000" Background="White"/>
     </Grid>
 </Window>

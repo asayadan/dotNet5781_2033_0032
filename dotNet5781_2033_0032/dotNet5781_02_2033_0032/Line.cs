@@ -57,7 +57,8 @@ namespace dotNet5781_02_2033_0032
         public int _numStations
         { get { return stations.Count; } }
         public string _area
-        { get { return checkArea(area); } }
+        { get { return checkArea(area); }
+          set { } }
         public static string checkArea(Area area)
         {
             switch (area)
