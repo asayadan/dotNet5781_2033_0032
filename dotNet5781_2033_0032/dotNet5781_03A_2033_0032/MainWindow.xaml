@@ -20,7 +20,7 @@
             </Grid.ColumnDefinitions>
             <Label x:Name="lb_stations" Content="Bus line number:" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="25" FontFamily="Tempus Sans ITC" Foreground="#FF3AEF17" />
             <Label x:Name="lb_region" Content="Area:" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontFamily="Sitka Small" FontSize="50" FontStyle="Italic" Foreground="#FF24F20D"/>
-            <ComboBox x:Name="cbBusLines" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <ComboBox x:Name="cbBusLines" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="cbBusLines_SelectionChanged" />
             <TextBox x:Name="tbArea" Grid.Column="3" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="{Binding Path=Area}" VerticalAlignment="Stretch" FontSize="18" FontFamily="Sitka Text" />
         </Grid>
         <ListBox x:Name="lbBusLineStations" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch" ItemsSource="{Binding}" Foreground="#FFDE1616" Background="White"/>

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace dotNet5781_02_2033_0032
 {
-    class LineCollection : IEnumerable
+    public class LineCollection : IEnumerable
     {
         #region varibles
         private List<BusLine> lines;
