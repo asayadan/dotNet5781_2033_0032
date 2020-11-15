@@ -31,7 +31,7 @@ namespace dotNet5781_03A_2033_0032
             InitializeComponent();
             initilize(ref busLines);
             cbBusLines.ItemsSource = busLines;
-            cbBusLines.DisplayMemberPath = " BusLineNum ";
+            cbBusLines.DisplayMemberPath = "_lineNumber";
             cbBusLines.SelectedIndex = 0;
             ShowBusLine((cbBusLines.SelectedValue as BusLine)._lineNumber);
 
@@ -79,6 +79,9 @@ namespace dotNet5781_03A_2033_0032
             currentDisplayBusLine = busLines[index];
             UpGrid.DataContext = currentDisplayBusLine;
             lbBusLineStations.DataContext = currentDisplayBusLine.stations;
+            tbArea.Text = currentDisplayBusLine._area;
+
+
         }
 
         private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
