@@ -20,6 +20,7 @@ namespace dotNet5781_03A_2033_0032
     /// </summary>
     public partial class MainWindow : Window
     {
+        private var collection = new LineCollection();
         public MainWindow()
         {
             InitializeComponent();
