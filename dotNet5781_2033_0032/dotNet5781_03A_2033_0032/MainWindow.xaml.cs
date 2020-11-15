@@ -31,7 +31,6 @@ namespace dotNet5781_03A_2033_0032
             InitializeComponent();
             initilize(ref busLines);
             cbBusLines.ItemsSource = busLines;
-
             cbBusLines.DisplayMemberPath = "_lineNumber";
             cbBusLines.SelectedIndex = 0;
             ShowBusLine((cbBusLines.SelectedValue as BusLine)._lineNumber);
