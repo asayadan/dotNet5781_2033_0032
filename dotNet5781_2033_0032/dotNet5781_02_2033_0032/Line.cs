@@ -95,7 +95,7 @@ namespace dotNet5781_02_2033_0032
 
             a += "Route stations:\n";
             foreach (var station in stations)
-                a += station.ToString()+ station.time_str() + "\n";
+                a += station.ToString() + "\n";
 
 
 

@@ -5,13 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03A_2033_0032"
         mc:Ignorable="d"
-        Title="Really Cool Buses Program" Height="640" Width="800">
+        Title="Really Cool Buses Program" Height="640" Width="800" Cursor="Arrow">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
         <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFEAF310" Offset="0.049"/>
+                    <GradientStop Color="#FFE11C1C" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -21,8 +27,22 @@
             <Label x:Name="lb_stations" Content="Bus line number:" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="25" FontFamily="Tempus Sans ITC"  FontStyle="Italic" Foreground="#FF24F20D" />
             <Label x:Name="lb_region" Content="Area:" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontFamily="Tempus Sans ITC" FontSize="50" FontStyle="Italic" Foreground="#FF24F20D"/>
             <ComboBox x:Name="cbBusLines" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionChanged="cbBusLines_SelectionChanged" FontSize="20" />
-            <TextBox x:Name="tbArea" Grid.Column="3" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="{Binding Path=_area}" VerticalAlignment="Stretch" FontSize="50"  FontStyle="Italic" Foreground="#FF123CDE" />
+            <TextBox x:Name="tbArea" Grid.Column="3" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="{Binding Path=_area}" VerticalAlignment="Stretch" FontSize="50"  FontStyle="Italic" Foreground="#FF123CDE" SelectionBrush="#FFF50421" SelectionTextBrush="#FF05FF21" BorderBrush="#FF1349EA" >
+                <TextBox.CaretBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBox.CaretBrush>
+            </TextBox>
         </Grid>
-        <ListBox x:Name="lbBusLineStations" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch" ItemsSource="{Binding}" Foreground="#FF120000" Background="White"/>
+        <ListBox x:Name="lbBusLineStations" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch" ItemsSource="{Binding}" FontSize="20" Background="#FF88FFFF">
+            <ListBox.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFD10FC2" Offset="0.751"/>
+                    <GradientStop Color="#FFF84C00"/>
+                </LinearGradientBrush>
+            </ListBox.Foreground>
+        </ListBox>
     </Grid>
 </Window>
