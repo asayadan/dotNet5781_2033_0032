@@ -21,7 +21,6 @@ namespace dotNet5781_03B_2033_0032
     public partial class MainWindow : Window
     {
         List<Bus> buses;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -30,33 +29,27 @@ namespace dotNet5781_03B_2033_0032
 
             for (int i = 0; i < buses.Count; i++)
             {
+                var number = new TextBlock();
+                number.Text = (i+1).ToString();
                 var text = new TextBlock();
                 text.Text = buses[i].licensePlate.ToString();
                 text.FontSize = 15;
                 var useButton = new Button();
                 useButton.Content = "Use";
+                useButton.Click += Drive_Button_Click;
                 var fuelButton = new Button();
                 fuelButton.Content = "Refuel";
                 var fixButton = new Button();
                 fixButton.Content = "Fix";
+                
 
+                Grid.SetRow(number, i); Grid.SetRow(text, i); Grid.SetRow(useButton, i); Grid.SetRow(fuelButton, i); Grid.SetRow(fixButton, i);
+                Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4);
 
-                Grid.SetRow(text, i); Grid.SetRow(useButton, i); Grid.SetRow(fuelButton, i); Grid.SetRow(fixButton, i);
-                Grid.SetColumn(text, 0); Grid.SetColumn(useButton, 1); Grid.SetColumn(fuelButton, 2); Grid.SetColumn(fixButton, 3);
-
-                GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton);
+                GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton);
 
                 GridData.RowDefinitions.Add(new RowDefinition());
-
-
-
-
-
-
-
             }
-
-
         }
 
 
@@ -70,7 +63,7 @@ namespace dotNet5781_03B_2033_0032
             Random rnd = new Random(DateTime.Now.Millisecond);
             int plateNumber, range, mileage, mileageInLastTreat, fuel;
             DateTime date;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 DateTime start = new DateTime(2016, 1, 1);
                 range = (DateTime.Today - start).Days;
@@ -95,6 +88,19 @@ namespace dotNet5781_03B_2033_0032
             buses.Add(new Bus(2222222, new DateTime(2012, 2, 2), new DateTime(2020, 2, 2), 19500, 0, 1000)); // Need a treatment (20K km has passed)
             buses.Add(new Bus(3333333, new DateTime(2013, 3, 3), new DateTime(2020, 3, 3), 1000, 900, 20)); // Need a refuel (almost ran out of fuel)
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Window1 AddBus = new Window1();
+            AddBus.Show();
+        }
+
+        private void Drive_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Grid.GetRow((Button)sender);
+            Ride AddRide = new Ride();
+            AddRide.Show();
         }
     }
 }
