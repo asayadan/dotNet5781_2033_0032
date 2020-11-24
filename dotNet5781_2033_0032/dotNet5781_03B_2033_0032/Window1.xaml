@@ -20,18 +20,30 @@
         </Grid.ColumnDefinitions>
         <Grid Name="labelsGrid" Grid.Column="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
 
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-        <Label  Content="bus number" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="35" FontFamily="SimSun-ExtB" />
-            <Label Content="Label" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
+            <Label  Content="bus number" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="35" FontFamily="SimSun-ExtB" />
+            <Label Content="Date (YYYY-MM-DD)" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
             <Label Content="Label2" Grid.Row="2" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
             <Label Content="Label3" Grid.Row="3" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
+        </Grid>
+        <Grid Name="textsGrid" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <Button Name="bt_finished" Content="done" HorizontalAlignment="Left" Margin="0,0.333,-0.333,-0.333" Grid.Row="4" VerticalAlignment="Top" Width="197" Height="30"/>
         </Grid>
     </Grid>
 </Window>
