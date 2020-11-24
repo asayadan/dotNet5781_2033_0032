@@ -98,9 +98,9 @@ namespace dotNet5781_03B_2033_0032
 
         private void Drive_Button_Click(object sender, RoutedEventArgs e)
         {
-            Grid.GetRow((Button)sender);
             Ride AddRide = new Ride();
             AddRide.Show();
+           // buses[Grid.GetRow((Button)sender)].rideKM( AddRide);
         }
     }
 }

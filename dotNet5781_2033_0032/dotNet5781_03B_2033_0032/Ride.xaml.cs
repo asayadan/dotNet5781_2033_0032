@@ -45,6 +45,7 @@ namespace dotNet5781_03B_2033_0032
             if (e.Key == Key.Enter)
             {
                 MessageBox.Show("new ride");
+                this.Close();
             }
         }
     }

@@ -78,11 +78,13 @@ namespace dotNet5781_03B_2033_0032
         public void rideKM(int value)
         {
             if (mileageSinceTreatment > 20000 || _fuel < value)//checking if the bus can do this ride
-                Console.WriteLine("This bus can't be used!");
-            else {
+                //Console.WriteLine("This bus can't be used!");
+                throw new ArgumentException("you need to refule of to treat the bus");
+            else
+            {
                 mileage += value;//adding the number of km who were being traveled to the mileage
                 fuel -= value;//Subtracting  the number of km who were being traveled from the amount we can ride without Refueling 
-                Console.WriteLine("Ride finished succesfuly!");
+                //Console.WriteLine("Ride finished succesfuly!");
             }
         }
 
