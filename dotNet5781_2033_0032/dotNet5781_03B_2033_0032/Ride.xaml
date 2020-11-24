@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_2033_0032"
         mc:Ignorable="d"
-        Title="add Ride" Height="60" Width="300" Cursor="Pen" WindowStyle="None">
+        Title="add Ride" Height="40" Width="300" Cursor="Pen" WindowStyle="None">
     <Grid>
-        <TextBox x:Name="tb_km" HorizontalAlignment="Stretch" Height="23"   Text="Enter the number of kilometers to ride" VerticalAlignment="Stretch"  MouseEnter="tb_km_MouseEnter" MouseLeave="tb_km_MouseLeave" KeyUp="tb_km_KeyUp" KeyDown="tb_km_KeyDown"/>
+        <TextBox x:Name="tb_km" HorizontalAlignment="Stretch"  Text="Enter the number of kilometers to ride" VerticalAlignment="Stretch"  MouseEnter="tb_km_MouseEnter" MouseLeave="tb_km_MouseLeave" KeyUp="tb_km_KeyUp" KeyDown="tb_km_KeyDown"/>
 
     </Grid>
 </Window>
