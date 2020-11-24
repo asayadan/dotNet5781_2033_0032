@@ -20,41 +20,43 @@ namespace dotNet5781_03B_2033_0032
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Bus> buses;
+        public static List<Bus> buses;
+
         public MainWindow()
         {
             InitializeComponent();
             initilize(ref buses);
 
-
             for (int i = 0; i < buses.Count; i++)
-            {
-                var number = new TextBlock();
-                number.Text = (i+1).ToString();
-                var text = new TextBlock();
-                text.Text = buses[i].licensePlate.ToString();
-                text.FontSize = 15;
-                var useButton = new Button();
-                useButton.Content = "Use";
-                useButton.Click += Drive_Button_Click;
-                var fuelButton = new Button();
-                fuelButton.Content = "Refuel";
-                var fixButton = new Button();
-                fixButton.Content = "Fix";
-                
-
-                Grid.SetRow(number, i); Grid.SetRow(text, i); Grid.SetRow(useButton, i); Grid.SetRow(fuelButton, i); Grid.SetRow(fixButton, i);
-                Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4);
-
-                GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton);
-
-                GridData.RowDefinitions.Add(new RowDefinition());
-            }
+                addBus(i);
         }
 
+        public void addBus(int index)
+        {
+            GridData.RowDefinitions.Add(new RowDefinition());
+            var text = new TextBlock();
+            text.Text = buses[index].licensePlate.ToString();
+            text.FontSize = 15;
+            text.TextAlignment = TextAlignment.Center;
+            var useButton = new Button();
+            useButton.Content = "Use";
+            useButton.Click += new RoutedEventHandler(useClick);
+            var fuelButton = new Button();
+            fuelButton.Content = "Refuel";
+            var fixButton = new Button();
+            fixButton.Content = "Fix";
+            Grid.SetRow(text, index); Grid.SetRow(useButton, index); Grid.SetRow(fuelButton, index); Grid.SetRow(fixButton, index);
+            Grid.SetColumn(text, 0); Grid.SetColumn(useButton, 1); Grid.SetColumn(fuelButton, 2); Grid.SetColumn(fixButton, 3);
+            GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton);
 
+        }
 
+        public void useClick(object sender, RoutedEventArgs e)
+        {
+            int i = Grid.GetRow((sender as Button));
+            buses[i].rideKM(15);
 
+        }
 
 
         static void initilize(ref List<Bus> buses)
@@ -63,7 +65,7 @@ namespace dotNet5781_03B_2033_0032
             Random rnd = new Random(DateTime.Now.Millisecond);
             int plateNumber, range, mileage, mileageInLastTreat, fuel;
             DateTime date;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 15; i++)
             {
                 DateTime start = new DateTime(2016, 1, 1);
                 range = (DateTime.Today - start).Days;
@@ -92,15 +94,8 @@ namespace dotNet5781_03B_2033_0032
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Window1 AddBus = new Window1();
-            AddBus.Show();
-        }
-
-        private void Drive_Button_Click(object sender, RoutedEventArgs e)
-        {
-            Ride AddRide = new Ride();
-            AddRide.Show();
-           // buses[Grid.GetRow((Button)sender)].rideKM( AddRide);
+            var v = new AddBusWindow(this);
+            v.Show();
         }
     }
 }

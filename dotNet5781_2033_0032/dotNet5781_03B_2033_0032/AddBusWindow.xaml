@@ -1,0 +1,16 @@
+﻿<Window x:Class="dotNet5781_03B_2033_0032.AddBusWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dotNet5781_03B_2033_0032"
+        mc:Ignorable="d"
+        Title="Add a new Bus" Height="300" Width="200">
+    <Grid>
+
+        <TextBox x:Name="license" HorizontalAlignment="Left" Height="23" Margin="31,30,0,0" TextWrapping="Wrap" Text="License Plate Number" VerticalAlignment="Top" Width="125" Tag="License Plate Number"  TextAlignment="Center" MouseEnter="mouseEnter"/>
+        <TextBox x:Name="date" HorizontalAlignment="Left" Height="23" Margin="31,88,0,0" TextWrapping="Wrap" Text="Date (YYYY-MM-DD)" VerticalAlignment="Top" Width="125" Tag="Date (YYYY-MM-DD)" TextAlignment="Center" MouseEnter="mouseEnter"/>
+        <Button Content="Done" Margin="60,213,58.333,36.667" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click"/>
+
+    </Grid>
+</Window>

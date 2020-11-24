@@ -12,7 +12,7 @@ enum Status
 
 namespace dotNet5781_03B_2033_0032
 {
-    class Bus
+    public class Bus
     {
         #region variables
         private int licensePlateNumber;
