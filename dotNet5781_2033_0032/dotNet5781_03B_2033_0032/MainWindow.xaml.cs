@@ -63,7 +63,7 @@ namespace dotNet5781_03B_2033_0032
             Random rnd = new Random(DateTime.Now.Millisecond);
             int plateNumber, range, mileage, mileageInLastTreat, fuel;
             DateTime date;
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 DateTime start = new DateTime(2016, 1, 1);
                 range = (DateTime.Today - start).Days;

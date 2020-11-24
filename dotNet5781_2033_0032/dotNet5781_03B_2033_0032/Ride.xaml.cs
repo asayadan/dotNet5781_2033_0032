@@ -40,12 +40,27 @@ namespace dotNet5781_03B_2033_0032
             }
         }
 
-        private void tb_km_KeyDown(object sender, KeyEventArgs e)
+
+
+        private void tb_km_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 MessageBox.Show("new ride");
                 this.Close();
+            }
+            else if (e.Key!=Key.Back&& e.Key != Key.Delete && ((int)e.Key < (int)Key.D0 || (int)e.Key > (int)Key.D9))
+            {
+                tb_km.Text = tb_km.Text.Remove(tb_km.Text.Length - 1);
+                tb_km.CaretIndex = tb_km.Text.Length ;
+            }
+        }
+
+        private void tb_km_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (tb_km.Text == "Enter the number of kilometers to ride")
+            {
+                tb_km.Text = "";
             }
         }
     }

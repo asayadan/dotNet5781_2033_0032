@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="add Ride" Height="60" Width="300" Cursor="Pen" WindowStyle="None">
     <Grid>
-        <TextBox x:Name="tb_km" HorizontalAlignment="Stretch" Height="23"   Text="Enter the number of kilometers to ride" VerticalAlignment="Stretch"  MouseEnter="tb_km_MouseEnter" MouseLeave="tb_km_MouseLeave" KeyDown="tb_km_KeyDown"/>
+        <TextBox x:Name="tb_km" HorizontalAlignment="Stretch" Height="23"   Text="Enter the number of kilometers to ride" VerticalAlignment="Stretch"  MouseEnter="tb_km_MouseEnter" MouseLeave="tb_km_MouseLeave" KeyUp="tb_km_KeyUp" KeyDown="tb_km_KeyDown"/>
 
     </Grid>
 </Window>
