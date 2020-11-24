@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
 
         </Grid>
-        <Button Content="Add Bus" Margin="284,0,320.333,0" FontFamily="Vivaldi" FontSize="40" Foreground="#FFD9FF3D">
+        <Button Content="Add Bus" Margin="284,0,320.333,0" FontFamily="Vivaldi" FontSize="40" Foreground="#FFD9FF3D" Click="Button_Click">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FFFF00FA" Offset="1"/>
