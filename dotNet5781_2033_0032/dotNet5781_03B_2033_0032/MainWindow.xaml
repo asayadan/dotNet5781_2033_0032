@@ -11,35 +11,31 @@
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
-        <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto" Background="#FF7E0000">
+        <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Background="#FF7E0000">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="98*"/>
-                <ColumnDefinition Width="101*"/>
                 <ColumnDefinition Width="199*"/>
                 <ColumnDefinition Width="198*"/>
                 <ColumnDefinition Width="198*"/>
             </Grid.ColumnDefinitions>
-
+            <Button x:Name="bt_addBus" Content="Add Bus" HorizontalAlignment="Stretch" Grid.Column="0" FontFamily="Vivaldi" FontSize="40" Foreground="#FFD9FF3D" Click="Button_Click">
+                <Button.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FFFF00FA" Offset="1"/>
+                        <GradientStop Color="#FF0053FF" Offset="0.211"/>
+                    </RadialGradientBrush>
+                </Button.Background>
+            </Button>
         </Grid>
-        <Button Content="Add Bus" Margin="284,0,320.333,0" FontFamily="Vivaldi" FontSize="40" Foreground="#FFD9FF3D" Click="Button_Click">
-            <Button.Background>
-                <RadialGradientBrush>
-                    <GradientStop Color="#FFFF00FA" Offset="1"/>
-                    <GradientStop Color="#FF0053FF" Offset="0.211"/>
-                </RadialGradientBrush>
-            </Button.Background>
-        </Button>
-        <Grid x:Name="GridData" HorizontalAlignment="Left" Height="538" Margin="0,5,0,-0.333" Grid.Row="1" VerticalAlignment="Top" Width="793">
+
+        <Grid x:Name="GridData" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="BusNumber" Width="*" />
-                <ColumnDefinition x:Name="Use" Width="*" />
-                <ColumnDefinition x:Name="Fuel" Width="*" />
-                <ColumnDefinition x:Name="Fix" Width="*" />
+                <ColumnDefinition x:Name="BusNumber" Width="25*" />
+                <ColumnDefinition Width="174*"/>
+                <ColumnDefinition x:Name="Use" Width="199*" />
+                <ColumnDefinition x:Name="Fuel" Width="198*" />
+                <ColumnDefinition x:Name="Fix" Width="198*" />
             </Grid.ColumnDefinitions>
-            
-            
         </Grid>
-
 
     </Grid>
 </Window>
