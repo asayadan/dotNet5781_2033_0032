@@ -36,7 +36,7 @@ namespace dotNet5781_03B_2033_0032
         {
             if (tb_km.Text =="")
             {
-                tb_km.Text = "Enter the number of kilometers to ride";
+                tb_km.Text = "Enter the number of kilometers to ride ";
             }
         }
 
