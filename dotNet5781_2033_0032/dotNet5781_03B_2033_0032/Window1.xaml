@@ -30,8 +30,8 @@
             </Grid.RowDefinitions>
         <Label  Content="bus number" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="35" FontFamily="SimSun-ExtB" />
             <Label Content="Label" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
-            <Label Content="Label" Grid.Row="2" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
-            <Label Content="Label" Grid.Row="3" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
+            <Label Content="Label2" Grid.Row="2" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
+            <Label Content="Label3" Grid.Row="3" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
         </Grid>
     </Grid>
 </Window>
