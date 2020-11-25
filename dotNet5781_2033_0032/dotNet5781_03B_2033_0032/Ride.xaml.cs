@@ -19,8 +19,12 @@ namespace dotNet5781_03B_2033_0032
     /// </summary>
     public partial class Ride : Window
     {
-        public Ride()
+        MainWindow win;
+        int index;
+        public Ride(MainWindow _win,int _index)
         {
+            win = _win;
+            index = _index;
             InitializeComponent();
         }
 
@@ -46,8 +50,18 @@ namespace dotNet5781_03B_2033_0032
         {
             if (e.Key == Key.Enter)
             {
-                MessageBox.Show("new ride");
-                this.Close();
+                try
+                {
+
+                    MainWindow.buses[index].rideKM(int.Parse(tb_km.Text));
+                    MessageBox.Show("new ride" + tb_km.Text);
+                    this.Close();
+                }
+                catch (ArgumentException exc)
+                {
+                    MessageBox.Show(exc.Message);
+                    this.Close();
+                }
             }
             else if (e.Key!=Key.Back&& e.Key != Key.Delete && ((int)e.Key < (int)Key.D0 || (int)e.Key > (int)Key.D9))
             {

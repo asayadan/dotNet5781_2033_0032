@@ -34,10 +34,11 @@ namespace dotNet5781_03B_2033_0032
         public void addBus(int index)
         {
             GridData.RowDefinitions.Add(new RowDefinition());
-            var text = new TextBlock();
+            TextBox text = new TextBox();
             text.Text = buses[index].licensePlate.ToString();
             text.FontSize = 15;
             text.TextAlignment = TextAlignment.Center;
+            text.MouseDoubleClick += Drive_Text_DoubleClick;
             var number = new TextBlock();
             number.Text = (index+1).ToString();
             var useButton = new Button();
@@ -90,15 +91,20 @@ namespace dotNet5781_03B_2033_0032
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Window1 AddBus = new Window1();
+            AddBusWindow AddBus = new AddBusWindow(this);
             AddBus.Show();
         }
 
         private void Drive_Button_Click(object sender, RoutedEventArgs e)
         {
-            Ride AddRide = new Ride();
+            Ride AddRide = new Ride(this, Grid.GetRow((Button)sender));
             AddRide.Show();
-            // buses[Grid.GetRow((Button)sender)].rideKM( AddRide);
+            
+        }
+        private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
+        {
+
+
         }
     }
 }

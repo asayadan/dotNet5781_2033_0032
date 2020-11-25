@@ -21,7 +21,7 @@ namespace dotNet5781_03B_2033_0032
         private float mileage;
         private float maileageInLastTreatment;
         private DateTime timeOfLastTreatment;
-
+        Status status;
         public static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
 
@@ -41,6 +41,7 @@ namespace dotNet5781_03B_2033_0032
                 mileage = 0;
                 maileageInLastTreatment = 0;
                 fuel = FULL_GAS_TANK;//we assume that every bus starts with full gas tank
+            status = Status.ready;
             
         }
 
@@ -52,6 +53,7 @@ namespace dotNet5781_03B_2033_0032
             mileage = _mileage;
             maileageInLastTreatment = _maileageInLastTreatment;
             fuel = _fuel;
+            status = Status.ready;
 
         }
         #endregion
@@ -77,14 +79,17 @@ namespace dotNet5781_03B_2033_0032
         //add ride  getting the number of km to ride
         public void rideKM(int value)
         {
-            if (mileageSinceTreatment > 20000 || _fuel < value)//checking if the bus can do this ride
-                //Console.WriteLine("This bus can't be used!");
-                throw new ArgumentException("you need to refule of to treat the bus");
-            else
+            if (status==Status.ready)
             {
-                mileage += value;//adding the number of km who were being traveled to the mileage
-                fuel -= value;//Subtracting  the number of km who were being traveled from the amount we can ride without Refueling 
-                //Console.WriteLine("Ride finished succesfuly!");
+                if (mileageSinceTreatment + value > 20000 || _fuel < value)//checking if the bus can do this ride
+                                                                           //Console.WriteLine("This bus can't be used!");
+                    throw new ArgumentException("you need to refule of to treat the bus");
+                else
+                {
+                    mileage += value;//adding the number of km who were being traveled to the mileage
+                    fuel -= value;//Subtracting  the number of km who were being traveled from the amount we can ride without Refueling 
+                                  //Console.WriteLine("Ride finished succesfuly!");
+                }
             }
         }
 
