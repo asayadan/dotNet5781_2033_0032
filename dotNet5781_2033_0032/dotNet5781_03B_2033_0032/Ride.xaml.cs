@@ -51,8 +51,12 @@ namespace dotNet5781_03B_2033_0032
             }
             else if (e.Key!=Key.Back&& e.Key != Key.Delete && ((int)e.Key < (int)Key.D0 || (int)e.Key > (int)Key.D9))
             {
-                tb_km.Text = tb_km.Text.Remove(tb_km.Text.Length - 1);
-                tb_km.CaretIndex = tb_km.Text.Length ;
+                if ((int)e.Key < (int)Key.Left || (int)e.Key > (int)Key.Down)
+                {
+                    int help = tb_km.CaretIndex;
+                    tb_km.Text = tb_km.Text.Remove(help - 1, 1);
+                    tb_km.CaretIndex = help - 1;
+                }
             }
         }
 
