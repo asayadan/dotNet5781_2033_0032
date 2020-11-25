@@ -61,6 +61,12 @@ namespace dotNet5781_03B_2033_0032
 
 
         #region properties
+        public DateTime _registreationDate//returns the license plate number
+        {
+            get { return registreationDate; }
+            set { registreationDate = value; }
+        }
+
         public int licensePlate//returns the license plate number
         {get { return licensePlateNumber; }}
 
@@ -114,22 +120,31 @@ namespace dotNet5781_03B_2033_0032
 
 
         //we print the license plate number on the right format
+        public string t_licensePlateNumber
+        { 
+            get 
+            {
+                string help = "";
+                if (registreationDate.Year >= 2018)//the number has 8 digits
+                {
+                   help+=(((licensePlateNumber / 100000)/100).ToString()+( ((licensePlateNumber / 100000) / 10)%10).ToString()+ ((licensePlateNumber / 100000) % 10).ToString() + "-");//first three numbers and hyphen
+                    help += ((((licensePlateNumber / 1000) % 100)/10).ToString() + (((licensePlateNumber / 1000) % 100) % 10).ToString() + "-");// the two middle numbers numbers and hyphen
+                    help += ((licensePlateNumber % 1000).ToString());//the last three numbers
+
+                }
+                else  //the number has 7 digits (the license plate number is valid)
+                {
+                    help += ((licensePlateNumber / 100000).ToString() + "-");//first two numbers and hyphen
+                    help += (((licensePlateNumber / 100) % 1000).ToString() + "-");// the three middle numbers numbers and hyphen
+                    help += ((licensePlateNumber % 100).ToString());//the last two numbers
+
+                }
+                return help;
+            } 
+        }
         public void Print_licensePlateNumber()
         {
-            if (registreationDate.Year>=2018)//the number has 8 digits
-            {
-                Console.Write((licensePlateNumber/100000).ToString()+"-");//first three numbers and hyphen
-                Console.Write(((licensePlateNumber / 1000)%100).ToString() + "-");// the two middle numbers numbers and hyphen
-                Console.Write((licensePlateNumber % 1000).ToString());//the last three numbers
-
-            }
-            else  //the number has 7 digits (the license plate number is valid)
-            {
-                Console.Write((licensePlateNumber / 100000).ToString() + "-");//first two numbers and hyphen
-                Console.Write(((licensePlateNumber / 100) % 1000).ToString() + "-");// the three middle numbers numbers and hyphen
-                Console.Write((licensePlateNumber % 100).ToString());//the last two numbers
-
-            }
+            Console.WriteLine(t_licensePlateNumber);
         }
         #endregion
 

@@ -19,9 +19,23 @@ namespace dotNet5781_03B_2033_0032
     /// </summary>
     public partial class Window1 : Window
     {
-        public Window1()
+        MainWindow win;
+        int index;
+        Bus thisBus;
+        public Window1(MainWindow _win, int _index)
         {
             InitializeComponent();
+            win = _win;
+            index = _index;
+             thisBus = MainWindow.buses[index];
+            textsGrid.DataContext = thisBus;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            thisBus = MainWindow.buses[index];
+            textsGrid.DataContext = thisBus;
+        }
+        
     }
 }

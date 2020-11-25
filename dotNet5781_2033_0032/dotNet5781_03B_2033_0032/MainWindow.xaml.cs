@@ -58,7 +58,7 @@ namespace dotNet5781_03B_2033_0032
         {
             GridData.RowDefinitions.Add(new RowDefinition());
             TextBox text = new TextBox();
-            text.Text = buses[index].licensePlate.ToString();
+            text.Text = buses[index].t_licensePlateNumber;
             text.FontSize = 15;
             text.TextAlignment = TextAlignment.Center;
             text.MouseDoubleClick += Drive_Text_DoubleClick;
@@ -126,8 +126,8 @@ namespace dotNet5781_03B_2033_0032
         }
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
         {
-
-
+            Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender));
+            BusData.Show();
         }
     }
 }
