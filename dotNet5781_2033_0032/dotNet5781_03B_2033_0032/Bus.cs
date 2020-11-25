@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-enum Status
+public enum Status
 {
     ready, working, refueling, fixing
 };
@@ -21,7 +21,8 @@ namespace dotNet5781_03B_2033_0032
         private float mileage;
         private float maileageInLastTreatment;
         private DateTime timeOfLastTreatment;
-        Status status;
+        public DateTime whenWillBeReady;
+        private Status status;
         public static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
 
@@ -66,6 +67,11 @@ namespace dotNet5781_03B_2033_0032
         public DateTime LastTreatment//returns the license plate number
         { get { return timeOfLastTreatment; } 
           set { timeOfLastTreatment = value; }
+        }
+        public Status curStatus//returns the license plate number
+        {
+            get { return status; }
+            set { status = value; }
         }
         public float _mileage//returns the number of km the bus drove untile now
         { get { return mileage; }}

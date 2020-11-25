@@ -34,6 +34,8 @@
                 <ColumnDefinition x:Name="Use" Width="199*" />
                 <ColumnDefinition x:Name="Fuel" Width="198*" />
                 <ColumnDefinition x:Name="Fix" Width="198*" />
+                <ColumnDefinition x:Name="TimeUntilReady" Width="198*" />
+
             </Grid.ColumnDefinitions>
         </Grid>
 

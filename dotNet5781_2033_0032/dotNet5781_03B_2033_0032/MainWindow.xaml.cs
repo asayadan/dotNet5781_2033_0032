@@ -29,6 +29,29 @@ namespace dotNet5781_03B_2033_0032
 
             for (int i = 0; i < buses.Count; i++)
                 addBus(i);
+
+            System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
+            timer1.Interval = 1;
+            timer1.Tick += new System.EventHandler(timer1_Tick);
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            var empty = new TextBlock();
+            empty.Text = "";
+            for (int i = 0; i < buses.Count; i++) {
+                if (DateTime.Now > buses[i].whenWillBeReady)
+                {
+                    buses[i].curStatus = Status.ready;
+                    
+                    
+                    
+                }
+
+
+            }
+            
         }
 
         public void addBus(int index)

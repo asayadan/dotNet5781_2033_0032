@@ -40,5 +40,21 @@ namespace dotNet5781_03B_2033_0032
                 (sender as TextBox).Text  = string.Empty;
         }
 
+        private void mouseLeave(object sender, MouseEventArgs e)
+        {
+            if ((sender as TextBox).Text == "")
+                (sender as TextBox).Text = (sender as TextBox).Tag.ToString();
+        }
+
+
+
+
+        private void keyDown(object sender, KeyEventArgs e)
+        {
+            if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
+            {
+                (sender as TextBox).Text = "";
+            }
+        }
     }
 }
