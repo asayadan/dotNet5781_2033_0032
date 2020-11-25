@@ -21,7 +21,7 @@ namespace dotNet5781_03B_2033_0032
         private float mileage;
         private float maileageInLastTreatment;
         private DateTime timeOfLastTreatment;
-        public DateTime whenWillBeReady;
+        public double whenWillBeReady;
         private Status status;
         public static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
@@ -42,7 +42,8 @@ namespace dotNet5781_03B_2033_0032
                 mileage = 0;
                 maileageInLastTreatment = 0;
                 fuel = FULL_GAS_TANK;//we assume that every bus starts with full gas tank
-            
+                status = Status.ready;
+                whenWillBeReady = 0;
         }
 
         public Bus(int _licensePlateNumber, DateTime _date, DateTime _lastTreatment, float _mileage, float _maileageInLastTreatment, float _fuel)
@@ -53,6 +54,8 @@ namespace dotNet5781_03B_2033_0032
             mileage = _mileage;
             maileageInLastTreatment = _maileageInLastTreatment;
             fuel = _fuel;
+            status = Status.ready;
+            whenWillBeReady = 0;
 
         }
         #endregion
@@ -83,9 +86,9 @@ namespace dotNet5781_03B_2033_0032
         //add ride  getting the number of km to ride
         public void rideKM(int value)
         {
-            if (mileageSinceTreatment > 20000 || _fuel < value)//checking if the bus can do this ride
+            if (mileageSinceTreatment > 20000 || _fuel < value || DateTime.Now > timeOfLastTreatment.AddYears(1))//checking if the bus can do this ride
                 //Console.WriteLine("This bus can't be used!");
-                throw new ArgumentException("you need to refule of to treat the bus");
+                throw new ArgumentException("You need to refuel of to treat the bus!");
             else
             {
                 mileage += value;//adding the number of km who were being traveled to the mileage

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Timers;
+
 
 namespace dotNet5781_03B_2033_0032
 {
@@ -21,37 +23,79 @@ namespace dotNet5781_03B_2033_0032
     public partial class MainWindow : Window
     {
         public static List<Bus> buses;
+        DateTime a;
 
         public MainWindow()
         {
-            InitializeComponent();
-            initilize(ref buses);
+            try
+            {
+                InitializeComponent();
+                initilize(ref buses);
 
-            for (int i = 0; i < buses.Count; i++)
-                addBus(i);
+                for (int i = 0; i < buses.Count; i++)
+                    addBus(i);
 
-            System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
-            timer1.Interval = 1;
-            timer1.Tick += new System.EventHandler(timer1_Tick);
-            timer1.Start();
+                var timer1 = new Timer(1000);
+                timer1.Elapsed += new ElapsedEventHandler(timer1_Tick);
+                a = DateTime.Now;
+                timer1.Start();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+
+        public void timer1_Tick(Object sender, ElapsedEventArgs myEventArgs)
         {
-            var empty = new TextBlock();
-            empty.Text = "";
-            for (int i = 0; i < buses.Count; i++) {
-                if (DateTime.Now > buses[i].whenWillBeReady)
+           
+            this.Dispatcher.Invoke(() =>
+            {
+                for (int i = 0; i < buses.Count; i++)
                 {
-                    buses[i].curStatus = Status.ready;
+                    buses[i].whenWillBeReady-=600;
+
+                    var row = GridData.Children.Cast<UIElement>().
+                        Where(k => Grid.GetRow(k) == i).ToArray();
+
                     
                     
-                    
+
+                    if (buses[i].whenWillBeReady < 0)
+                    {
+                        buses[i].curStatus = Status.ready;
+                        (row[5] as TextBlock).Text = "";
+                        foreach (var button in row.Where(k => k is Button))
+                            (button as Button).IsEnabled = true;
+
+                        (row[1] as TextBlock).Background = new SolidColorBrush(Colors.White);
+                    }
+
+                    else
+                    {
+                        foreach (var button in row.Where(k => k is Button))
+                            (button as Button).IsEnabled = false;
+
+                        var seconds = buses[i].whenWillBeReady % 60;
+                        var minutes = buses[i].whenWillBeReady / 60 % 60;
+                        var hours = buses[i].whenWillBeReady / 3600 % 60;
+
+                        (row[5] as TextBlock).Text = 
+                            ((((int)hours / 10 == 0) ? "0" : "") + (int)hours).ToString() + ':' + 
+                            ((((int)minutes / 10 == 0) ? "0" : "") + (int)minutes).ToString() + ':' + 
+                            ((((int)seconds / 10 == 0) ? "0" : "") + ((int)seconds).ToString());
+
+                        (row[1] as TextBlock).Background = new SolidColorBrush(Colors.Red);
+                    }
+
+
                 }
+            });
+        
 
-
-            }
-            
         }
 
         public void addBus(int index)
@@ -62,17 +106,18 @@ namespace dotNet5781_03B_2033_0032
             text.FontSize = 15;
             text.TextAlignment = TextAlignment.Center;
             var number = new TextBlock();
-            number.Text = (index+1).ToString();
+            number.Text = (index + 1).ToString();
             var useButton = new Button();
-            useButton.Content = "Use";
-            useButton.Click += Drive_Button_Click;
+            useButton.Content = "Use"; useButton.Click += Drive_Button_Click;
             var fuelButton = new Button();
-            fuelButton.Content = "Refuel";
+            fuelButton.Content = "Refuel"; fuelButton.Click += refuelButton_Click;
             var fixButton = new Button();
-            fixButton.Content = "Fix";
-            Grid.SetRow(number, index);  Grid.SetRow(text, index); Grid.SetRow(useButton, index); Grid.SetRow(fuelButton, index); Grid.SetRow(fixButton, index);
-            Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4);
-            GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton);
+            fixButton.Content = "Fix"; fixButton.Click += fixButton_Click;
+            var timer = new TextBlock();
+            timer.Text = "";
+            Grid.SetRow(number, index); Grid.SetRow(text, index); Grid.SetRow(useButton, index); Grid.SetRow(fuelButton, index); Grid.SetRow(fixButton, index); Grid.SetRow(timer, index);
+            Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4); Grid.SetColumn(timer, 5);
+            GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton); GridData.Children.Add(timer);
 
         }
 
@@ -119,9 +164,25 @@ namespace dotNet5781_03B_2033_0032
 
         private void Drive_Button_Click(object sender, RoutedEventArgs e)
         {
-            Ride AddRide = new Ride();
+            Ride AddRide = new Ride(Grid.GetRow((sender as Button)));
             AddRide.Show();
             // buses[Grid.GetRow((Button)sender)].rideKM( AddRide);
+        }
+
+        private void fixButton_Click(object sender, RoutedEventArgs e)
+        {
+            int i = Grid.GetRow((sender as Button));
+            buses[i].curStatus = Status.fixing;
+            buses[i].treatment(DateTime.Now);
+            buses[i].whenWillBeReady = 24 * 60 * 60;
+        }
+
+        private void refuelButton_Click(object sender, RoutedEventArgs e)
+        {
+            int i = Grid.GetRow((sender as Button));
+            buses[i].curStatus = Status.refueling;
+            buses[i].refuel();
+            buses[i].whenWillBeReady = 2 * 60 * 60;
         }
     }
 }

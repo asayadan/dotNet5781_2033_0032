@@ -19,8 +19,10 @@ namespace dotNet5781_03B_2033_0032
     /// </summary>
     public partial class Ride : Window
     {
-        public Ride()
+        int index;
+        public Ride(int _index)
         {
+            index = _index;
             InitializeComponent();
         }
 
@@ -46,8 +48,25 @@ namespace dotNet5781_03B_2033_0032
         {
             if (e.Key == Key.Enter)
             {
-                MessageBox.Show("new ride");
-                this.Close();
+                try
+                {
+                    int dist;
+                    Random rnd = new Random(DateTime.Now.Millisecond);
+                    int.TryParse((sender as TextBox).Text, out dist);
+                    MainWindow.buses[index].rideKM(dist);
+
+                    MessageBox.Show("new ride");
+
+                    MainWindow.buses[index].curStatus = Status.working;
+                    MainWindow.buses[index].whenWillBeReady = dist / rnd.Next(20, 50) * 60 * 60;
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    Close();
+                }
+                
             }
             else if (e.Key!=Key.Back&& e.Key != Key.Delete && ((int)e.Key < (int)Key.D0 || (int)e.Key > (int)Key.D9))
             {
