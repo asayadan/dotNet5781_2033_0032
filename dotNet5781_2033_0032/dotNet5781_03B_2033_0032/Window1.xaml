@@ -14,24 +14,46 @@
     </Window.Background>
     <Grid x:Name="mainGrid">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid Name="labelsGrid" Grid.Column="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="14*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="buttons" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Name="bt_finished" Content="fix" HorizontalAlignment="Stretch" Grid.Column="0" VerticalAlignment="Stretch"/>
+            <Button Content="refuel" HorizontalAlignment="Stretch"   Grid.Column="1" VerticalAlignment="Stretch"/>
+            <Button x:Name="bt_reload" Content="reload" HorizontalAlignment="Stretch"   Grid.Column="2" VerticalAlignment="Stretch" Click="Button_Click"/>
+
+        </Grid>
+
+        <Grid x:Name="horizontal">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Name="labelsGrid" Grid.Column="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label  Content="bus number" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="35" FontFamily="SimSun-ExtB" />
-            <Label Content="Date (YYYY-MM-DD)" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
-            <Label Content="Label2" Grid.Row="2" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
-            <Label Content="Label3" Grid.Row="3" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="35" FontFamily="SimSun-ExtB"/>
+            <Label  Content="bus number:" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="20" FontFamily="SimSun-ExtB" />
+            <Label Content="registreation date:" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
+            <Label Content="mileage:" Grid.Row="3" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
+            <Label Content="mileage since last tratment:" Grid.Row="4" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="14" FontFamily="SimSun-ExtB"/>
+            <Label Content="time of last tratment:" Grid.Row="5" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="15" FontFamily="SimSun-ExtB"/>
+            <Label Content="status:" Grid.Row="2" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
+            <Label Content="fuel left:" Grid.Row="6" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
         </Grid>
         <Grid Name="textsGrid" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
 
@@ -39,11 +61,21 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button Name="bt_finished" Content="done" HorizontalAlignment="Left" Margin="0,0.333,-0.333,-0.333" Grid.Row="4" VerticalAlignment="Top" Width="197" Height="30"/>
+            <TextBlock x:Name="tbl_number" HorizontalAlignment="Stretch"  Grid.Row="0" Text="{Binding Path=t_licensePlateNumber, Mode=OneWay}" VerticalAlignment="Stretch"/>
+            <TextBlock x:Name="tbl_registration" HorizontalAlignment="Stretch" Grid.Row="1"  Text="{Binding Path=_registreationDate, Mode=OneWay}" VerticalAlignment="Stretch"/>
+            <TextBlock x:Name="tbl_status" HorizontalAlignment="Stretch" Grid.Row="2" Text="{Binding Path=curStatus}" VerticalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="3"  Text="{Binding Path=_mileage}" VerticalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="4" Text="{Binding Path=mileageSinceTreatment }" VerticalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="5" Text="{Binding Path=LastTreatment }" VerticalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="6" Text="{Binding Path=_fuel}" VerticalAlignment="Stretch"/>
+            </Grid>
         </Grid>
+
+
     </Grid>
 </Window>
