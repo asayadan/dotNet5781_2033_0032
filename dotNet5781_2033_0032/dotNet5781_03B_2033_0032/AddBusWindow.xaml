@@ -8,9 +8,9 @@
         Title="Add a new Bus" Height="300" Width="200">
     <Grid>
 
-        <TextBox x:Name="license" HorizontalAlignment="Left" Height="23" Margin="31,30,0,0" TextWrapping="Wrap" Text="License Plate Number" VerticalAlignment="Top" Width="125" Tag="License Plate Number"  TextAlignment="Center" MouseEnter="mouseEnter"/>
-        <TextBox x:Name="date" HorizontalAlignment="Left" Height="23" Margin="31,88,0,0" TextWrapping="Wrap" Text="Date (YYYY-MM-DD)" VerticalAlignment="Top" Width="125" Tag="Date (YYYY-MM-DD)" TextAlignment="Center" MouseEnter="mouseEnter"/>
-        <Button Content="Done" Margin="60,213,58.333,36.667" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click"/>
+        <TextBox x:Name="license" HorizontalAlignment="Left" Height="23" Margin="31,30,0,0" TextWrapping="Wrap" Text="License Plate Number" VerticalAlignment="Top" Width="125" Tag="License Plate Number"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
+        <TextBox x:Name="date" HorizontalAlignment="Left" Height="23" Margin="31,88,0,0" TextWrapping="Wrap" Text="Date (YYYY-MM-DD)" VerticalAlignment="Top" Width="125" Tag="Date (YYYY-MM-DD)" TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
+        <Button Content="Done" Margin="60,213,58.333,25.667" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="32"/>
 
     </Grid>
 </Window>
