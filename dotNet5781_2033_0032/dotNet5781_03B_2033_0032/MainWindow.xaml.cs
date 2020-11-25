@@ -39,7 +39,7 @@ namespace dotNet5781_03B_2033_0032
             text.FontSize = 15;
             text.TextAlignment = TextAlignment.Center;
             var number = new TextBlock();
-            number.Text = index.ToString();
+            number.Text = (index+1).ToString();
             var useButton = new Button();
             useButton.Content = "Use";
             useButton.Click += Drive_Button_Click;
@@ -49,7 +49,7 @@ namespace dotNet5781_03B_2033_0032
             fixButton.Content = "Fix";
             Grid.SetRow(number, index);  Grid.SetRow(text, index); Grid.SetRow(useButton, index); Grid.SetRow(fuelButton, index); Grid.SetRow(fixButton, index);
             Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4);
-            GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton);
+            GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton);
 
         }
 
