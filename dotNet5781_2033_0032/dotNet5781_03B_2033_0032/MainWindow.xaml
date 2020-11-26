@@ -25,6 +25,7 @@
                     </RadialGradientBrush>
                 </Button.Background>
             </Button>
+            <TextBlock Grid.Column="2" HorizontalAlignment="Stretch"  Text="{Binding }" VerticalAlignment="Stretch" FontSize="30"/>
         </Grid>
 
         <Grid x:Name="GridData" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch">

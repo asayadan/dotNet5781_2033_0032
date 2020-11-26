@@ -25,9 +25,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Name="bt_finished" Content="fix" HorizontalAlignment="Stretch" Grid.Column="0" VerticalAlignment="Stretch"/>
-            <Button Content="refuel" HorizontalAlignment="Stretch"   Grid.Column="1" VerticalAlignment="Stretch"/>
-            <Button x:Name="bt_reload" Content="reload" HorizontalAlignment="Stretch"   Grid.Column="2" VerticalAlignment="Stretch" Click="Button_Click"/>
+            <Button Name="bt_finished" Content="fix" HorizontalAlignment="Stretch" Grid.Column="0" VerticalAlignment="Stretch" Click="bt_finished_Click"/>
+            <Button x:Name="bt_refule" Content="refuel" HorizontalAlignment="Stretch"   Grid.Column="1" VerticalAlignment="Stretch" Click="bt_refule_Click"/>
+            <Button x:Name="bt_refresh" Content="reload" HorizontalAlignment="Stretch"   Grid.Column="2" VerticalAlignment="Stretch" Click="Button_Click"/>
 
         </Grid>
 
@@ -68,11 +68,11 @@
             </Grid.RowDefinitions>
             <TextBlock x:Name="tbl_number" HorizontalAlignment="Stretch"  Grid.Row="0" Text="{Binding Path=t_licensePlateNumber, Mode=OneWay}" VerticalAlignment="Stretch"/>
             <TextBlock x:Name="tbl_registration" HorizontalAlignment="Stretch" Grid.Row="1"  Text="{Binding Path=_registreationDate, Mode=OneWay}" VerticalAlignment="Stretch"/>
-            <TextBlock x:Name="tbl_status" HorizontalAlignment="Stretch" Grid.Row="2" Text="{Binding Path=curStatus}" VerticalAlignment="Stretch"/>
-            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="3"  Text="{Binding Path=_mileage}" VerticalAlignment="Stretch"/>
-            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="4" Text="{Binding Path=mileageSinceTreatment }" VerticalAlignment="Stretch"/>
-            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="5" Text="{Binding Path=LastTreatment }" VerticalAlignment="Stretch"/>
-            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="6" Text="{Binding Path=_fuel}" VerticalAlignment="Stretch"/>
+            <TextBlock x:Name="tbl_status" HorizontalAlignment="Stretch" Grid.Row="2" Text="{Binding Path=curStatus,UpdateSourceTrigger=Explicit}" VerticalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="3"  Text="{Binding Path=_mileage,UpdateSourceTrigger=Explicit}" VerticalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="4" Text="{Binding Path=mileageSinceTreatment ,UpdateSourceTrigger=Explicit}" VerticalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="5" Text="{Binding Path=LastTreatment ,UpdateSourceTrigger=Explicit}" VerticalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Stretch"  Grid.Row="6" Text="{Binding Path=_fuel, UpdateSourceTrigger=Explicit}" VerticalAlignment="Stretch"/>
             </Grid>
         </Grid>
 

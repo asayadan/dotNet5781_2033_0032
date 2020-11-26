@@ -33,9 +33,42 @@ namespace dotNet5781_03B_2033_0032
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            thisBus = new Bus(66666666, new DateTime(2019, 1, 1));
+            textsGrid.DataContext = thisBus;
             thisBus = MainWindow.buses[index];
             textsGrid.DataContext = thisBus;
         }
-        
+
+        private void bt_refule_Click(object sender, RoutedEventArgs e)
+        {
+            if (thisBus.curStatus == Status.ready)
+            {
+                thisBus.curStatus = Status.refueling;
+                thisBus.refuel();
+                thisBus.whenWillBeReady = 2 * 60 * 60;
+                thisBus.start = 2 * 60 * 60;
+            }
+            else
+            {
+                MessageBox.Show("you can't fix the bus because he is " + thisBus.curStatus.ToString());
+            }
+
+        }
+
+        private void bt_finished_Click(object sender, RoutedEventArgs e)
+        {
+            if (thisBus.curStatus == Status.ready)
+            {
+                thisBus.curStatus = Status.fixing;
+                thisBus.treatment(win.get_time.AddDays(1));
+                thisBus.whenWillBeReady = 24 * 60 * 60;
+                thisBus.start = 24 * 60 * 60;
+            }
+            else
+            {
+                MessageBox.Show("you can't fix the bus because he is " + thisBus.curStatus.ToString());
+            }
+        }
     }
 }

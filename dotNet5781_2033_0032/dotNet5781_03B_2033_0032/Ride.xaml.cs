@@ -58,7 +58,9 @@ namespace dotNet5781_03B_2033_0032
                     MessageBox.Show("new ride");
 
                     MainWindow.buses[index].curStatus = Status.working;
-                    MainWindow.buses[index].whenWillBeReady = dist / rnd.Next(20, 50) * 60 * 60;
+                    double help = dist / rnd.Next(20, 50) * 60 * 60;
+                    MainWindow.buses[index].whenWillBeReady = help;
+                    MainWindow.buses[index].start =help;
                     Close();
                 }
                 catch (Exception ex)

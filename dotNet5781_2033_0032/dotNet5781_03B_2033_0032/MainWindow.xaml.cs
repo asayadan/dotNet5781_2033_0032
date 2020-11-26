@@ -23,7 +23,7 @@ namespace dotNet5781_03B_2033_0032
     public partial class MainWindow : Window
     {
         public static List<Bus> buses;
-        DateTime a;
+        private DateTime a;
 
         public MainWindow()
         {
@@ -32,12 +32,14 @@ namespace dotNet5781_03B_2033_0032
                 InitializeComponent();
                 initilize(ref buses);
 
+                
                 for (int i = 0; i < buses.Count; i++)
                     addBus(i);
 
                 var timer1 = new Timer(1000);
                 timer1.Elapsed += new ElapsedEventHandler(timer1_Tick);
                 a = DateTime.Now;
+                UpGrid.DataContext = a;
                 timer1.Start();
             }
 
@@ -54,30 +56,60 @@ namespace dotNet5781_03B_2033_0032
            
             this.Dispatcher.Invoke(() =>
             {
+                a=a.AddMinutes(10);
+                UpGrid.DataContext = a;
+
+
                 for (int i = 0; i < buses.Count; i++)
                 {
                     buses[i].whenWillBeReady-=600;
 
                     var row = GridData.Children.Cast<UIElement>().
-                        Where(k => Grid.GetRow(k) == i).ToArray();
-
-                    
-                    
+                        Where(k => Grid.GetRow(k) == i).ToList();
 
                     if (buses[i].whenWillBeReady < 0)
                     {
                         buses[i].curStatus = Status.ready;
                         (row[5] as TextBlock).Text = "";
+                        foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
+                            (bar as ProgressBar).Visibility= Visibility.Collapsed;
                         foreach (var button in row.Where(k => k is Button))
-                            (button as Button).IsEnabled = true;
+                            (button as Button).Visibility = Visibility.Visible;
 
-                        (row[1] as TextBlock).Background = new SolidColorBrush(Colors.White);
+                        (row[1] as TextBox).Background = new SolidColorBrush(Colors.White);
                     }
 
                     else
                     {
+                        SolidColorBrush mycolor;
+                        if (buses[i].curStatus == Status.fixing)
+                            mycolor = new SolidColorBrush(Colors.Red);
+                        else if ((buses[i].curStatus == Status.refueling))
+                            mycolor = new SolidColorBrush(Colors.Yellow);
+                        else if ((buses[i].curStatus == Status.working))
+                            mycolor = new SolidColorBrush(Colors.Green);
+                        else
+                            mycolor = new SolidColorBrush(Colors.Blue);
                         foreach (var button in row.Where(k => k is Button))
-                            (button as Button).IsEnabled = false;
+                            (button as Button).Visibility = Visibility.Collapsed;
+                        bool if_bar = false;
+                        ProgressBar bar = new ProgressBar();
+                        foreach (ProgressBar bar_help in row.Where(k => k is ProgressBar))
+                        {
+                            bar = (bar_help as ProgressBar);
+                            bar.Visibility = Visibility.Visible;
+                            if_bar = true;
+                        }
+                        if (!if_bar)
+                        {
+                            Grid.SetRow(bar, i);
+                            Grid.SetColumnSpan(bar, 3);
+                            Grid.SetColumn(bar, 2);
+                            GridData.Children.Add(bar);
+                        }
+                        bar.Value = ((buses[i].start-buses[i].whenWillBeReady) * 100 / buses[i].start);
+                        bar.Background = new SolidColorBrush(Colors.White);
+                        bar.Foreground = mycolor;
 
                         var seconds = buses[i].whenWillBeReady % 60;
                         var minutes = buses[i].whenWillBeReady / 60 % 60;
@@ -87,8 +119,8 @@ namespace dotNet5781_03B_2033_0032
                             ((((int)hours / 10 == 0) ? "0" : "") + (int)hours).ToString() + ':' + 
                             ((((int)minutes / 10 == 0) ? "0" : "") + (int)minutes).ToString() + ':' + 
                             ((((int)seconds / 10 == 0) ? "0" : "") + ((int)seconds).ToString());
-
-                        (row[1] as TextBlock).Background = new SolidColorBrush(Colors.Red);
+                      
+                            (row[1] as TextBox).Background = mycolor;
                     }
 
 
@@ -100,11 +132,15 @@ namespace dotNet5781_03B_2033_0032
 
         public void addBus(int index)
         {
-            GridData.RowDefinitions.Add(new RowDefinition());
-            var text = new TextBlock();
-            text.Text = buses[index].licensePlate.ToString();
+            RowDefinition newRow = new RowDefinition();
+            //newRow.MinHeight = 30;
+            GridData.RowDefinitions.Add(newRow);
+            
+            TextBox text = new TextBox();
+            text.Text = buses[index].t_licensePlateNumber;
             text.FontSize = 15;
             text.TextAlignment = TextAlignment.Center;
+            text.MouseDoubleClick += Drive_Text_DoubleClick;
             var number = new TextBlock();
             number.Text = (index + 1).ToString();
             var useButton = new Button();
@@ -115,6 +151,7 @@ namespace dotNet5781_03B_2033_0032
             fixButton.Content = "Fix"; fixButton.Click += fixButton_Click;
             var timer = new TextBlock();
             timer.Text = "";
+            timer.FontSize = 20;
             Grid.SetRow(number, index); Grid.SetRow(text, index); Grid.SetRow(useButton, index); Grid.SetRow(fuelButton, index); Grid.SetRow(fixButton, index); Grid.SetRow(timer, index);
             Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4); Grid.SetColumn(timer, 5);
             GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton); GridData.Children.Add(timer);
@@ -166,15 +203,16 @@ namespace dotNet5781_03B_2033_0032
         {
             Ride AddRide = new Ride(Grid.GetRow((sender as Button)));
             AddRide.Show();
-            // buses[Grid.GetRow((Button)sender)].rideKM( AddRide);
         }
 
         private void fixButton_Click(object sender, RoutedEventArgs e)
         {
+            DateTime help = a;
             int i = Grid.GetRow((sender as Button));
             buses[i].curStatus = Status.fixing;
-            buses[i].treatment(DateTime.Now);
+            buses[i].treatment(help.AddDays(1));
             buses[i].whenWillBeReady = 24 * 60 * 60;
+            buses[i].start = 24 * 60 * 60;
         }
 
         private void refuelButton_Click(object sender, RoutedEventArgs e)
@@ -183,6 +221,14 @@ namespace dotNet5781_03B_2033_0032
             buses[i].curStatus = Status.refueling;
             buses[i].refuel();
             buses[i].whenWillBeReady = 2 * 60 * 60;
+            buses[i].start = 2 * 60 * 60;
         }
+        private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
+        {
+            Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender));
+            BusData.Show();
+        }
+        public DateTime get_time
+        { get { return a; } }
     }
 }
