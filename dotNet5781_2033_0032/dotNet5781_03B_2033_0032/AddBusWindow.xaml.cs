@@ -38,8 +38,9 @@ namespace dotNet5781_03B_2033_0032
                     if (dp_date.SelectedDate != null && license.Text != null)
                     {
                         MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate));
-                        Close();
                         win.addBus(MainWindow.buses.Count - 1);
+                        Close();
+                        
                     }
                     else
                         MessageBox.Show("you need to fill all the variabls");
