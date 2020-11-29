@@ -35,14 +35,20 @@ namespace dotNet5781_03B_2033_0032
                 {
 
 
-                    if (dp_date.SelectedDate != null && license.Text != null)
+                    if (dp_date.SelectedDate != null && license.Text != null && license.Text != "License Plate Number")
                     {
-                        MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate));
-                        Close();
-                        win.addBus(MainWindow.buses.Count - 1);
+                        if (checkValidation(int.Parse(license.Text), (DateTime)dp_date.SelectedDate))
+                        {
+                            MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate));
+                            Close();
+                            win.addBus(MainWindow.buses.Count - 1);
+                        }
+
+                        else throw new ArgumentException("Please enter a valid license plate number.");
+
                     }
                     else
-                        MessageBox.Show("you need to fill all the variabls");
+                        throw new ArgumentException("you need to fill all the variabls");
                 }
                 else if (dp_date.SelectedDate != null && license.Text != null && date_treatment.SelectedDate != null && tb_mileage.Text != null && tb_mileage_since_last_tratment.Text != null && tb_fuel.Text != null)
                 {
@@ -50,9 +56,9 @@ namespace dotNet5781_03B_2033_0032
                     Close();
                     win.addBus(MainWindow.buses.Count - 1);
                 }
-                else { MessageBox.Show("unvalid arguments"); }
+                else throw new ArgumentException("invalid arguments"); 
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
 
                 MessageBox.Show(ex.Message);
@@ -63,8 +69,8 @@ namespace dotNet5781_03B_2033_0032
 
         private void mouseEnter(object sender, EventArgs e)
         {
-           if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
-                (sender as TextBox).Text  = string.Empty;
+            if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
+                (sender as TextBox).Text = string.Empty;
         }
 
         private void mouseLeave(object sender, MouseEventArgs e)
@@ -93,6 +99,19 @@ namespace dotNet5781_03B_2033_0032
             else
             {
                 this.Height = 150;
+            }
+
+
+        }
+
+        public static bool checkValidation(int _licensePlateNumber, DateTime _date)
+        {
+            if (((_date.Year >= 2018) && (_licensePlateNumber > 9999999)) && (_licensePlateNumber <= 99999999) ||//the bus registered after 2018 and has 8 digits
+                ((_date.Year < 2018) && (_licensePlateNumber <= 9999999)) && (_licensePlateNumber > 999999))//the bus registered before 2018 and has 7 digits
+                return true;//the license plate number is valid
+            else
+            {
+                return false;
             }
         }
     }

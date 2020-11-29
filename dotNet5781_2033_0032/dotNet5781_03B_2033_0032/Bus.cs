@@ -21,7 +21,7 @@ namespace dotNet5781_03B_2033_0032
         private float mileage;
         private float maileageInLastTreatment;
         private DateTime timeOfLastTreatment;
-        public double whenWillBeReady;
+        public int whenWillBeReady;
         public double start;
         private Status status;
         public static int FULL_GAS_TANK = 1200;//const the size of full gas tank
@@ -163,13 +163,11 @@ namespace dotNet5781_03B_2033_0032
             else if (_status == Status.working)
             {
                 if (dist > 0)
-                {
                     start = dist/ rnd.Next(20, 50) * 60 * 60;
-                }
                 else throw new ArgumentException("you can't drive a negative number of kilometers");
             }
             curStatus = _status;
-            whenWillBeReady = start;
+            whenWillBeReady = (int)start;
         }
         #endregion
 

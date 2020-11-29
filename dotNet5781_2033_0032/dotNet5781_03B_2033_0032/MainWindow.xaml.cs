@@ -182,7 +182,7 @@ namespace dotNet5781_03B_2033_0032
 
             buses.Add(new Bus(1111111, new DateTime(2011, 1, 1), new DateTime(2018, 1, 1), 30000, 29000, 1000)); // Need a treatment (a year has passed)
             buses.Add(new Bus(2222222, new DateTime(2012, 2, 2), new DateTime(2020, 2, 2), 19500, 0, 1000)); // Need a treatment (20K km has passed)
-            buses.Add(new Bus(3333333, new DateTime(2013, 3, 3), new DateTime(2020, 3, 3), 1000, 900, 20)); // Need a refuel (almost ran out of fuel)
+            buses.Add(new Bus(33333333, DateTime.Now, DateTime.Now, 1000, 900, 20)); // Need a refuel (almost ran out of fuel)
 
         }
 
@@ -222,9 +222,9 @@ namespace dotNet5781_03B_2033_0032
             var hours = buses[i].whenWillBeReady / 3600 % 60;
 
             return
-                ((((int)hours / 10 == 0) ? "0" : "") + (int)hours).ToString() + ':' +
-                ((((int)minutes / 10 == 0) ? "0" : "") + (int)minutes).ToString() + ':' +
-                ((((int)seconds / 10 == 0) ? "0" : "") + ((int)seconds).ToString());
+                ((hours / 10 == 0) ? "0" : "") + hours.ToString() + ':' +
+                ((minutes / 10 == 0) ? "0" : "") + minutes.ToString() + ':' +
+                ((seconds / 10 == 0) ? "0" : "") + seconds.ToString();
         }
     }
 }
