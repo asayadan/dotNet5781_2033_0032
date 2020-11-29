@@ -49,14 +49,18 @@ namespace dotNet5781_03B_2033_0032
 
         public Bus(int _licensePlateNumber, DateTime _date, DateTime _lastTreatment, float _mileage, float _maileageInLastTreatment, float _fuel)
         {
-            licensePlateNumber = _licensePlateNumber;
-            registreationDate = _date;
-            timeOfLastTreatment = _lastTreatment;
-            mileage = _mileage;
-            maileageInLastTreatment = _maileageInLastTreatment;
-            fuel = _fuel;
-            status = Status.ready;
-            whenWillBeReady = 0;
+            if (_date<=_lastTreatment&&_mileage>=0&&_mileage>=_maileageInLastTreatment&&_fuel<=FULL_GAS_TANK&&_fuel>=0)
+            {
+                licensePlateNumber = _licensePlateNumber;
+                registreationDate = _date;
+                timeOfLastTreatment = _lastTreatment;
+                mileage = _mileage;
+                maileageInLastTreatment = _maileageInLastTreatment;
+                fuel = _fuel;
+                status = Status.ready;
+                whenWillBeReady = 0;
+            }
+            else throw new ArgumentException("invalid arguments");
 
         }
         #endregion
@@ -147,6 +151,25 @@ namespace dotNet5781_03B_2033_0032
         public void Print_licensePlateNumber()
         {
             Console.WriteLine(t_licensePlateNumber);
+        }
+
+        public void Event(Status _status, float dist = 0)
+        {
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            if (_status == Status.fixing)
+                start = 60 * 60 * 24;
+            else if (_status == Status.refueling)
+                start = 60 * 60 * 2;
+            else if (_status == Status.working)
+            {
+                if (dist > 0)
+                {
+                    start = dist/ rnd.Next(20, 50) * 60 * 60;
+                }
+                else throw new ArgumentException("you can't drive a negative number of kilometers");
+            }
+            curStatus = _status;
+            whenWillBeReady = start;
         }
         #endregion
 

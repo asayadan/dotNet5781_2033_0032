@@ -51,16 +51,10 @@ namespace dotNet5781_03B_2033_0032
                 try
                 {
                     int dist;
-                    Random rnd = new Random(DateTime.Now.Millisecond);
                     int.TryParse((sender as TextBox).Text, out dist);
                     MainWindow.buses[index].rideKM(dist);
-
+                    MainWindow.buses[index].Event(Status.working, dist );
                     MessageBox.Show("new ride");
-
-                    MainWindow.buses[index].curStatus = Status.working;
-                    double help = dist / rnd.Next(20, 50) * 60 * 60;
-                    MainWindow.buses[index].whenWillBeReady = help;
-                    MainWindow.buses[index].start =help;
                     Close();
                 }
                 catch (Exception ex)

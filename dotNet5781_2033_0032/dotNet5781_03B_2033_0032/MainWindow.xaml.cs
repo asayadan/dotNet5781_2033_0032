@@ -69,16 +69,21 @@ namespace dotNet5781_03B_2033_0032
 
                     if (buses[i].whenWillBeReady < 0)
                     {
-                        buses[i].curStatus = Status.ready;
-                        (row[5] as TextBlock).Text = "";
-                        foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
-                            (bar as ProgressBar).Visibility= Visibility.Collapsed;
-                        foreach (var button in row.Where(k => k is Button))
-                            (button as Button).Visibility = Visibility.Visible;
-
-                        (row[1] as TextBox).Background = new SolidColorBrush(Colors.White);
+                        if (buses[i].curStatus != Status.ready)
+                        {
+                            if ((buses[i].curStatus == Status.refueling))
+                                buses[i].refuel();
+                            else if ((buses[i].curStatus == Status.fixing))
+                                buses[i].treatment(a);
+                            (row[2] as TextBox).Background = new SolidColorBrush(Colors.White);
+                            buses[i].curStatus = Status.ready;
+                            (row[6] as TextBlock).Text = "";
+                            foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
+                                (bar as ProgressBar).Visibility = Visibility.Collapsed;
+                            foreach (var button in row.Where(k => k is Button))
+                                (button as Button).Visibility = Visibility.Visible;
+                        }
                     }
-
                     else
                     {
                         SolidColorBrush mycolor;
@@ -90,37 +95,20 @@ namespace dotNet5781_03B_2033_0032
                             mycolor = new SolidColorBrush(Colors.Green);
                         else
                             mycolor = new SolidColorBrush(Colors.Blue);
+
+
                         foreach (var button in row.Where(k => k is Button))
                             (button as Button).Visibility = Visibility.Collapsed;
-                        bool if_bar = false;
-                        ProgressBar bar = new ProgressBar();
+
                         foreach (ProgressBar bar_help in row.Where(k => k is ProgressBar))
                         {
-                            bar = (bar_help as ProgressBar);
-                            bar.Visibility = Visibility.Visible;
-                            if_bar = true;
+                            bar_help.Visibility = Visibility.Visible;
+                            bar_help.Value = ((buses[i].start - buses[i].whenWillBeReady) * 100 / buses[i].start);
+                            bar_help.Background = new SolidColorBrush(Colors.White);
+                            bar_help.Foreground = mycolor;
                         }
-                        if (!if_bar)
-                        {
-                            Grid.SetRow(bar, i);
-                            Grid.SetColumnSpan(bar, 3);
-                            Grid.SetColumn(bar, 2);
-                            GridData.Children.Add(bar);
-                        }
-                        bar.Value = ((buses[i].start-buses[i].whenWillBeReady) * 100 / buses[i].start);
-                        bar.Background = new SolidColorBrush(Colors.White);
-                        bar.Foreground = mycolor;
-
-                        var seconds = buses[i].whenWillBeReady % 60;
-                        var minutes = buses[i].whenWillBeReady / 60 % 60;
-                        var hours = buses[i].whenWillBeReady / 3600 % 60;
-
-                        (row[5] as TextBlock).Text = 
-                            ((((int)hours / 10 == 0) ? "0" : "") + (int)hours).ToString() + ':' + 
-                            ((((int)minutes / 10 == 0) ? "0" : "") + (int)minutes).ToString() + ':' + 
-                            ((((int)seconds / 10 == 0) ? "0" : "") + ((int)seconds).ToString());
-                      
-                            (row[1] as TextBox).Background = mycolor;
+                         (row[2] as TextBox).Background = mycolor;
+                        (row[6] as TextBlock).Text = timeLeft(i);
                     }
 
 
@@ -152,6 +140,12 @@ namespace dotNet5781_03B_2033_0032
             var timer = new TextBlock();
             timer.Text = "";
             timer.FontSize = 20;
+            ProgressBar bar = new ProgressBar();
+            bar.Visibility = Visibility.Collapsed;
+            Grid.SetRow(bar, index);
+            Grid.SetColumnSpan(bar, 3);
+            Grid.SetColumn(bar, 2);
+            GridData.Children.Add(bar);
             Grid.SetRow(number, index); Grid.SetRow(text, index); Grid.SetRow(useButton, index); Grid.SetRow(fuelButton, index); Grid.SetRow(fixButton, index); Grid.SetRow(timer, index);
             Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4); Grid.SetColumn(timer, 5);
             GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton); GridData.Children.Add(timer);
@@ -207,21 +201,12 @@ namespace dotNet5781_03B_2033_0032
 
         private void fixButton_Click(object sender, RoutedEventArgs e)
         {
-            DateTime help = a;
-            int i = Grid.GetRow((sender as Button));
-            buses[i].curStatus = Status.fixing;
-            buses[i].treatment(help.AddDays(1));
-            buses[i].whenWillBeReady = 24 * 60 * 60;
-            buses[i].start = 24 * 60 * 60;
+            buses[Grid.GetRow((sender as Button))].Event(Status.fixing);
         }
 
         private void refuelButton_Click(object sender, RoutedEventArgs e)
         {
-            int i = Grid.GetRow((sender as Button));
-            buses[i].curStatus = Status.refueling;
-            buses[i].refuel();
-            buses[i].whenWillBeReady = 2 * 60 * 60;
-            buses[i].start = 2 * 60 * 60;
+            buses[Grid.GetRow((sender as Button))].Event(Status.refueling);
         }
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
         {
@@ -230,5 +215,16 @@ namespace dotNet5781_03B_2033_0032
         }
         public DateTime get_time
         { get { return a; } }
+        public string timeLeft(int i)
+        {
+            var seconds = buses[i].whenWillBeReady % 60;
+            var minutes = buses[i].whenWillBeReady / 60 % 60;
+            var hours = buses[i].whenWillBeReady / 3600 % 60;
+
+            return
+                ((((int)hours / 10 == 0) ? "0" : "") + (int)hours).ToString() + ':' +
+                ((((int)minutes / 10 == 0) ? "0" : "") + (int)minutes).ToString() + ':' +
+                ((((int)seconds / 10 == 0) ? "0" : "") + ((int)seconds).ToString());
+        }
     }
 }

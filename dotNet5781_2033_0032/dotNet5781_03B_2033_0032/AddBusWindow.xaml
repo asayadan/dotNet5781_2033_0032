@@ -5,12 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_2033_0032"
         mc:Ignorable="d"
-        Title="Add a new Bus" Height="300" Width="200">
+        Title="Add a new Bus" Height="150" Width="200">
     <Grid>
-
-        <TextBox x:Name="license" HorizontalAlignment="Left" Height="23" Margin="31,30,0,0" TextWrapping="Wrap" Text="License Plate Number" VerticalAlignment="Top" Width="125" Tag="License Plate Number"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
-        <TextBox x:Name="date" HorizontalAlignment="Left" Height="23" Margin="31,88,0,0" TextWrapping="Wrap" Text="Date (YYYY-MM-DD)" VerticalAlignment="Top" Width="125" Tag="Date (YYYY-MM-DD)" TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
-        <Button Content="Done" Margin="60,213,58.333,25.667" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="32"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*" MaxHeight="40"/>
+            <RowDefinition Height="*" MaxHeight="40"/>
+            <RowDefinition Height="*" MaxHeight="40"/>
+            <RowDefinition Height="*" MaxHeight="40"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="license" Grid.Row="0" HorizontalAlignment="Stretch" Text="License Plate Number" VerticalAlignment="Stretch"  Tag="License Plate Number"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
+        <Button Content="Done" Grid.Row="7" Width="75" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Button_Click" Height="32"/>
+        <DatePicker Name="dp_date" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" />
+        <CheckBox x:Name="cb_data" Content="enter more data" Grid.Row="7" HorizontalAlignment="Right"  VerticalAlignment="Center" Click="cb_data_Click"/>
+        <TextBox x:Name="tb_mileage" HorizontalAlignment="Stretch" Grid.Row="3" Text="mileage" VerticalAlignment="Stretch" Tag="mileage"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
+        <TextBox x:Name="tb_mileage_since_last_tratment" HorizontalAlignment="Stretch" Grid.Row="4"  Text="mileage since last treatment" VerticalAlignment="Stretch" Tag="mileage since last treatment"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
+        <DatePicker Name="date_treatment" HorizontalAlignment="Stretch" Grid.Row="2" Text="date in last tratment" VerticalAlignment="Center"/>
+        <TextBox x:Name="tb_fuel" HorizontalAlignment="Stretch" Text="fuel" Grid.Row="5" VerticalAlignment="Stretch"  Tag="fuel" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
 
     </Grid>
 </Window>

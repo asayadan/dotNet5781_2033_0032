@@ -29,9 +29,36 @@ namespace dotNet5781_03B_2033_0032
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.buses.Add(new Bus(int.Parse(license.Text), DateTime.Parse(date.Text)));
-            Hide();
-            win.addBus(MainWindow.buses.Count - 1);
+            try
+            {
+                if (cb_data.IsChecked == false)
+                {
+
+
+                    if (dp_date.SelectedDate != null && license.Text != null)
+                    {
+                        MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate));
+                        Close();
+                        win.addBus(MainWindow.buses.Count - 1);
+                    }
+                    else
+                        MessageBox.Show("you need to fill all the variabls");
+                }
+                else if (dp_date.SelectedDate != null && license.Text != null && date_treatment.SelectedDate != null && tb_mileage.Text != null && tb_mileage_since_last_tratment.Text != null && tb_fuel.Text != null)
+                {
+                    MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate, (DateTime)date_treatment.SelectedDate, int.Parse(tb_mileage.Text), int.Parse(tb_mileage_since_last_tratment.Text), int.Parse(tb_fuel.Text)));
+                    Close();
+                    win.addBus(MainWindow.buses.Count - 1);
+                }
+                else { MessageBox.Show("unvalid arguments"); }
+            }
+            catch (ArgumentException ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+
+
         }
 
         private void mouseEnter(object sender, EventArgs e)
@@ -54,6 +81,18 @@ namespace dotNet5781_03B_2033_0032
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
             {
                 (sender as TextBox).Text = "";
+            }
+        }
+
+        private void cb_data_Click(object sender, RoutedEventArgs e)
+        {
+            if ((bool)(sender as CheckBox).IsChecked)
+            {
+                this.Height = 310;
+            }
+            else
+            {
+                this.Height = 150;
             }
         }
     }

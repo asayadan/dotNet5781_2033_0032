@@ -44,10 +44,7 @@ namespace dotNet5781_03B_2033_0032
         {
             if (thisBus.curStatus == Status.ready)
             {
-                thisBus.curStatus = Status.refueling;
-                thisBus.refuel();
-                thisBus.whenWillBeReady = 2 * 60 * 60;
-                thisBus.start = 2 * 60 * 60;
+                thisBus.Event(Status.refueling);
             }
             else
             {
@@ -60,10 +57,7 @@ namespace dotNet5781_03B_2033_0032
         {
             if (thisBus.curStatus == Status.ready)
             {
-                thisBus.curStatus = Status.fixing;
-                thisBus.treatment(win.get_time.AddDays(1));
-                thisBus.whenWillBeReady = 24 * 60 * 60;
-                thisBus.start = 24 * 60 * 60;
+                thisBus.Event(Status.fixing);
             }
             else
             {
