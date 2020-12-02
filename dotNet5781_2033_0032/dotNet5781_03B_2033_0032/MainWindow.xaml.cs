@@ -96,7 +96,6 @@ namespace dotNet5781_03B_2033_0032
                         else
                             mycolor = new SolidColorBrush(Colors.Blue);
 
-
                         foreach (var button in row.Where(k => k is Button))
                             (button as Button).Visibility = Visibility.Collapsed;
 

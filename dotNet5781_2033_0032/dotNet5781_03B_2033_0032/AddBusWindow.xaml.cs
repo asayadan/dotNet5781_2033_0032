@@ -114,5 +114,13 @@ namespace dotNet5781_03B_2033_0032
                 return false;
             }
         }
+
+        private void dp_date_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            if ((sender as DatePicker).SelectedDate!=null)
+            {
+                date_treatment.DisplayDateStart = (sender as DatePicker).SelectedDate;
+            }
+        }
     }
 }

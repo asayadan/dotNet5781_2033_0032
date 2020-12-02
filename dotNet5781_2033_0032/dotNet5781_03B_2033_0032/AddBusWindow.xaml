@@ -18,11 +18,11 @@
         </Grid.RowDefinitions>
         <TextBox x:Name="license" Grid.Row="0" HorizontalAlignment="Stretch" Text="License Plate Number" VerticalAlignment="Stretch"  Tag="License Plate Number"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
         <Button Content="Done" Grid.Row="7" Width="75" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Button_Click" Height="32"/>
-        <DatePicker Name="dp_date" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" />
+        <DatePicker Name="dp_date" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" DisplayDate="1/1/2017" CalendarClosed="dp_date_CalendarClosed" />
         <CheckBox x:Name="cb_data" Content="enter more data" Grid.Row="7" HorizontalAlignment="Right"  VerticalAlignment="Center" Click="cb_data_Click"/>
         <TextBox x:Name="tb_mileage" HorizontalAlignment="Stretch" Grid.Row="3" Text="mileage" VerticalAlignment="Stretch" Tag="mileage"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
         <TextBox x:Name="tb_mileage_since_last_tratment" HorizontalAlignment="Stretch" Grid.Row="4"  Text="mileage since last treatment" VerticalAlignment="Stretch" Tag="mileage since last treatment"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
-        <DatePicker Name="date_treatment" HorizontalAlignment="Stretch" Grid.Row="2" Text="date in last tratment" VerticalAlignment="Center"/>
+        <DatePicker Name="date_treatment" Text="date of last treatment" HorizontalAlignment="Stretch" Grid.Row="2"  VerticalAlignment="Center"/>
         <TextBox x:Name="tb_fuel" HorizontalAlignment="Stretch" Text="fuel" Grid.Row="5" VerticalAlignment="Stretch"  Tag="fuel" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
 
     </Grid>
