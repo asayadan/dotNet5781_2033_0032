@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:dotNet5781_03B_2033_0032"
         mc:Ignorable="d"
         Title="Add a new Bus" Height="150" Width="200">
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
@@ -21,7 +21,7 @@
         <DatePicker Name="dp_date" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" DisplayDate="1/1/2017" CalendarClosed="dp_date_CalendarClosed" />
         <CheckBox x:Name="cb_data" Content="enter more data" Grid.Row="7" HorizontalAlignment="Right"  VerticalAlignment="Center" Click="cb_data_Click"/>
         <TextBox x:Name="tb_mileage" HorizontalAlignment="Stretch" Grid.Row="3" Text="mileage" VerticalAlignment="Stretch" Tag="mileage"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
-        <TextBox x:Name="tb_mileage_since_last_tratment" HorizontalAlignment="Stretch" Grid.Row="4"  Text="mileage since last treatment" VerticalAlignment="Stretch" Tag="mileage since last treatment"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
+        <TextBox x:Name="tb_mileage_in_last_tratment" HorizontalAlignment="Stretch" Grid.Row="4"  Text="mileage since last treatment" VerticalAlignment="Stretch" Tag="mileage since last treatment"  TextAlignment="Center" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
         <DatePicker Name="date_treatment" Text="date of last treatment" HorizontalAlignment="Stretch" Grid.Row="2"  VerticalAlignment="Center"/>
         <TextBox x:Name="tb_fuel" HorizontalAlignment="Stretch" Text="fuel" Grid.Row="5" VerticalAlignment="Stretch"  Tag="fuel" MouseEnter="mouseEnter" MouseLeave="mouseLeave" KeyDown="keyDown"/>
 
