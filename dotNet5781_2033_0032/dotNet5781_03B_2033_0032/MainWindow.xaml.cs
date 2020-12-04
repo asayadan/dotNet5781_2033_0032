@@ -53,10 +53,10 @@ namespace dotNet5781_03B_2033_0032
 
         public void timer1_Tick(Object sender, ElapsedEventArgs myEventArgs)
         {
-           
+
             this.Dispatcher.Invoke(() =>
             {
-                a=a.AddMinutes(10);
+                a = a.AddMinutes(10);
                 UpGrid.DataContext = a;
 
 
@@ -88,16 +88,25 @@ namespace dotNet5781_03B_2033_0032
                             else if ((buses[i].curStatus == Status.fixing))
                                 buses[i].treatment(a);
                             buses[i].curStatus = Status.ready;
-                            (row[6] as TextBlock).Text = "";
+                            (row[6] as TextBlock).Visibility = Visibility.Collapsed;
                             foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
                                 (bar as ProgressBar).Visibility = Visibility.Collapsed;
                             foreach (var button in row.Where(k => k is Button))
                                 (button as Button).Visibility = Visibility.Visible;
+                            
                         }
                     }
                     else
                     {
-
+                        SolidColorBrush mycolor;
+                        if (buses[i].curStatus == Status.fixing)
+                            mycolor = new SolidColorBrush(Colors.Red);
+                        else if ((buses[i].curStatus == Status.refueling))
+                            mycolor = new SolidColorBrush(Colors.Yellow);
+                        else if ((buses[i].curStatus == Status.working))
+                            mycolor = new SolidColorBrush(Colors.Green);
+                        else
+                            mycolor = new SolidColorBrush(Colors.Blue);
 
                         foreach (var button in row.Where(k => k is Button))
                             (button as Button).Visibility = Visibility.Collapsed;
@@ -109,22 +118,18 @@ namespace dotNet5781_03B_2033_0032
                             bar_help.Foreground = mycolor;
                         }
                          (row[2] as TextBox).Background = mycolor;
-                        (row[6] as TextBlock).Text = timeLeft(i);
+                        (row[6] as TextBlock).Visibility = Visibility.Visible; (row[6] as TextBlock).Text = timeLeft(i); 
                     }
 
 
                 }
             });
-        
+
 
         }
 
         public void addBus(int index)
         {
-            RowDefinition newRow = new RowDefinition();
-            //newRow.MinHeight = 30;
-            GridData.RowDefinitions.Add(newRow);
-            
             TextBox text = new TextBox();
             text.Text = buses[index].t_licensePlateNumber;
             text.FontSize = 15;
@@ -140,8 +145,9 @@ namespace dotNet5781_03B_2033_0032
             var fixButton = new Button();
             fixButton.Content = "Fix"; fixButton.Click += fixButton_Click;
             var timer = new TextBlock();
-            timer.Text = "";
-            timer.FontSize = 20;
+            timer.Text = ""; timer.FontSize = 20; timer.TextAlignment = TextAlignment.Center; timer.Visibility = Visibility.Collapsed;
+            var removeButton = new Button();
+            removeButton.Content = "Remove"; removeButton.Click += removeButton_Click; removeButton.Background = new SolidColorBrush(Colors.Red);
             ProgressBar bar = new ProgressBar();
             bar.Visibility = Visibility.Collapsed;
             bar.Background = new SolidColorBrush(Colors.Transparent);
@@ -149,9 +155,13 @@ namespace dotNet5781_03B_2033_0032
             Grid.SetColumnSpan(bar, 3);
             Grid.SetColumn(bar, 2);
             GridData.Children.Add(bar);
-            Grid.SetRow(number, index); Grid.SetRow(text, index); Grid.SetRow(useButton, index); Grid.SetRow(fuelButton, index); Grid.SetRow(fixButton, index); Grid.SetRow(timer, index);
-            Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4); Grid.SetColumn(timer, 5);
-            GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton); GridData.Children.Add(timer);
+            Grid.SetRow(number, index); Grid.SetRow(text, index); Grid.SetRow(useButton, index); Grid.SetRow(fuelButton, index); Grid.SetRow(fixButton, index); Grid.SetRow(timer, index); Grid.SetRow(removeButton, index);
+            Grid.SetColumn(number, 0); Grid.SetColumn(text, 1); Grid.SetColumn(useButton, 2); Grid.SetColumn(fuelButton, 3); Grid.SetColumn(fixButton, 4); Grid.SetColumn(timer, 5); Grid.SetColumn(removeButton, 5);
+            GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton); GridData.Children.Add(timer); GridData.Children.Add(removeButton);
+
+            RowDefinition newRow = new RowDefinition();
+            //newRow.MinHeight = 30;
+            GridData.RowDefinitions.Add(newRow);
 
         }
 
@@ -210,6 +220,31 @@ namespace dotNet5781_03B_2033_0032
         private void refuelButton_Click(object sender, RoutedEventArgs e)
         {
             buses[Grid.GetRow((sender as Button))].Event(Status.refueling);
+        }
+        private void removeButton_Click(object sender, RoutedEventArgs e)
+        {
+            int index = Grid.GetRow(sender as Button);
+            buses.RemoveAt(index);
+
+
+            foreach (UIElement element in GridData.Children)
+            {
+                if (Grid.GetRow(element) == index)
+                    element.Visibility = Visibility.Collapsed;
+
+                if (Grid.GetRow(element) > index)
+                {
+                    if (Grid.GetColumn(element) == 0)
+                        (element as TextBlock).Text = (Grid.GetRow(element)).ToString();
+                    Grid.SetRow(element, Grid.GetRow(element) - 1);
+                   
+                }
+
+
+
+            }
+
+
         }
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
         {

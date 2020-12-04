@@ -39,9 +39,13 @@ namespace dotNet5781_03B_2033_0032
                     {
                         if (checkValidation(int.Parse(license.Text), (DateTime)dp_date.SelectedDate))
                         {
-                            MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate));
-                            Close();
-                            win.addBus(MainWindow.buses.Count - 1);
+                            if (!MainWindow.buses.Exists(x => x.licensePlate == int.Parse(license.Text)))
+                            {
+                                MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate));
+                                Close();
+                                win.addBus(MainWindow.buses.Count - 1);
+                            }
+                            else throw new ArgumentException("License plate number already exists.");
                         }
 
                         else throw new ArgumentException("Please enter a valid license plate number.");
