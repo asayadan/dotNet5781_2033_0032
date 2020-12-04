@@ -217,12 +217,10 @@ namespace dotNet5781_03B_2033_0032
             int index = Grid.GetRow(sender as Button);
             buses.RemoveAt(index);
 
-
+            GridData.RowDefinitions.RemoveAt(index); 
             foreach (UIElement element in GridData.Children)
             {
-                if (Grid.GetRow(element) == index)
-                    element.Visibility = Visibility.Collapsed;
-
+                
                 if (Grid.GetRow(element) > index)
                 {
                     if (Grid.GetColumn(element) == 0)
@@ -232,7 +230,7 @@ namespace dotNet5781_03B_2033_0032
                 }
 
             }
-
+            GridData.Children.RemoveRange(index * 8, 8);
 
         }
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
