@@ -12,7 +12,7 @@ public enum Status
 
 namespace dotNet5781_03B_2033_0032
 {
-    public class Bus
+    public class Bus  
     {
         #region variables
         private int licensePlateNumber;
@@ -21,8 +21,8 @@ namespace dotNet5781_03B_2033_0032
         private float mileage;
         private float maileageInLastTreatment;
         private DateTime timeOfLastTreatment;
-        public int whenWillBeReady;
-        public double start;
+        private int whenWillBeReady;
+        private double start;
         private Status status;
         public static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
@@ -49,7 +49,7 @@ namespace dotNet5781_03B_2033_0032
 
         public Bus(int _licensePlateNumber, DateTime _date, DateTime _lastTreatment, float _mileage, float _maileageInLastTreatment, float _fuel)
         {
-            if (_date<=_lastTreatment&&_mileage>=0&&_mileage>=_maileageInLastTreatment&&_fuel<=FULL_GAS_TANK&&_fuel>=0)
+            if (_date <= _lastTreatment && _mileage >= 0 && _mileage >= _maileageInLastTreatment && _fuel <= FULL_GAS_TANK && _fuel >= 0)
             {
                 licensePlateNumber = _licensePlateNumber;
                 registreationDate = _date;
@@ -73,6 +73,13 @@ namespace dotNet5781_03B_2033_0032
             set { registreationDate = value; }
         }
 
+        public int WhenWillBeReady
+            {get{ return whenWillBeReady; }
+            set { whenWillBeReady = value; }
+        }
+
+        public double Start
+        { get { return start; } }
         public int licensePlate//returns the license plate number
         { get { return licensePlateNumber; } }
 
@@ -135,14 +142,14 @@ namespace dotNet5781_03B_2033_0032
                 {
                     help += (((licensePlateNumber / 100000) / 100).ToString() + (((licensePlateNumber / 100000) / 10) % 10).ToString() + ((licensePlateNumber / 100000) % 10).ToString() + "-");//first three numbers and hyphen
                     help += ((((licensePlateNumber / 1000) % 100) / 10).ToString() + (((licensePlateNumber / 1000) % 100) % 10).ToString() + "-");// the two middle numbers numbers and hyphen
-                    help += ((licensePlateNumber % 1000).ToString());//the last three numbers
+                    help += (((licensePlateNumber % 1000) / 100).ToString() + (((licensePlateNumber % 1000) / 10) % 10).ToString() + ((licensePlateNumber % 1000) % 10).ToString() );//the last three numbers
 
                 }
                 else  //the number has 7 digits (the license plate number is valid)
                 {
-                    help += ((licensePlateNumber / 100000).ToString() + "-");//first two numbers and hyphen
+                    help += (((licensePlateNumber / 100000) / 10).ToString() + ((licensePlateNumber / 100000) % 10).ToString() + "-");//first two numbers and hyphen
                     help += (((licensePlateNumber / 100) % 1000).ToString() + "-");// the three middle numbers numbers and hyphen
-                    help += ((licensePlateNumber % 100).ToString());//the last two numbers
+                    help += (((licensePlateNumber % 100)/10).ToString()+ ((licensePlateNumber % 100) % 10).ToString());//the last two numbers
 
                 }
                 return help;

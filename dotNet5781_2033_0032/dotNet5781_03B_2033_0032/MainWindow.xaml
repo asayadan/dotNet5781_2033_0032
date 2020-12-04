@@ -11,7 +11,7 @@
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
-        <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Background="#FF7E0000">
+        <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Background="#FFD30808">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="199*"/>
                 <ColumnDefinition Width="198*"/>
@@ -26,6 +26,13 @@
                 </Button.Background>
             </Button>
             <TextBlock Grid.Column="2" HorizontalAlignment="Stretch"  Text="{Binding }" VerticalAlignment="Stretch" FontSize="25"/>
+            <ComboBox Name="cb_sort" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" SelectionChanged="cb_sort_SelectionChanged">
+                <ComboBoxItem Content="fuel left"/>
+                <ComboBoxItem Content="registreation date"/>
+                <ComboBoxItem Content="mileage"/>
+                <ComboBoxItem Content="time since last treatment"/>
+            </ComboBox>
+            <TextBlock Grid.Column="1" Text="Sorted by:" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center"/>
         </Grid>
 
         <Grid x:Name="GridData" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch">
