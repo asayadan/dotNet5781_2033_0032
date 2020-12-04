@@ -31,36 +31,33 @@ namespace dotNet5781_03B_2033_0032
         {
             try
             {
-                if (cb_data.IsChecked == false)
+                if (allFields())
                 {
-
-
-                    if (dp_date.SelectedDate != null && license.Text != null && license.Text != "License Plate Number")
+                    if (checkValidation(int.Parse(license.Text), (DateTime)dp_date.SelectedDate))
                     {
-                        if (checkValidation(int.Parse(license.Text), (DateTime)dp_date.SelectedDate))
+                        if (!MainWindow.buses.Exists(x => x.licensePlate == int.Parse(license.Text)))
                         {
-                            if (!MainWindow.buses.Exists(x => x.licensePlate == int.Parse(license.Text)))
+                            if (cb_data.IsChecked == false)
                             {
                                 MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate));
                                 Close();
                                 win.addBus(MainWindow.buses.Count - 1);
                             }
-                            else throw new ArgumentException("License plate number already exists.");
+
+
+                            else
+                            {
+                                MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate, (DateTime)date_treatment.SelectedDate, int.Parse(tb_mileage.Text), int.Parse(tb_mileage_in_last_tratment.Text), int.Parse(tb_fuel.Text)));
+                                Close();
+                                win.addBus(MainWindow.buses.Count - 1);
+                            }
                         }
-
-                        else throw new ArgumentException("Please enter a valid license plate number.");
-
+                        else throw new ArgumentException("License plate number already exists.");
                     }
-                    else
-                        throw new ArgumentException("you need to fill all the variabls");
+                    else throw new ArgumentException("Please enter a valid license plate number.");
                 }
-                else if (dp_date.SelectedDate != null && license.Text != null && date_treatment.SelectedDate != null && tb_mileage.Text != null && tb_mileage_since_last_tratment.Text != null && tb_fuel.Text != null)
-                {
-                    MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate, (DateTime)date_treatment.SelectedDate, int.Parse(tb_mileage.Text), int.Parse(tb_mileage_since_last_tratment.Text), int.Parse(tb_fuel.Text)));
-                    Close();
-                    win.addBus(MainWindow.buses.Count - 1);
-                }
-                else throw new ArgumentException("invalid arguments"); 
+                else throw new ArgumentException("Please fill all the fields.");
+
             }
             catch (Exception ex)
             {
@@ -96,7 +93,7 @@ namespace dotNet5781_03B_2033_0032
 
         private void cb_data_Click(object sender, RoutedEventArgs e)
         {
-            if ((bool)(sender as CheckBox).IsChecked)
+            if ((bool)cb_data.IsChecked)
             {
                 this.Height = 310;
             }
@@ -105,6 +102,16 @@ namespace dotNet5781_03B_2033_0032
                 this.Height = 150;
             }
 
+
+        }
+
+        bool allFields()
+        {
+            var count = MainGrid.Children.Cast<UIElement>().Where(x => (x is TextBox) ? (x as TextBox).Text != (x as TextBox).Tag.ToString()
+                        : !(x is Button) && !(x is CheckBox) && (x as DatePicker).SelectedDate != null).Count();
+            if ((bool)cb_data.IsChecked)
+                return (count == 6);
+            else return count == 2;
 
         }
 
@@ -121,7 +128,7 @@ namespace dotNet5781_03B_2033_0032
 
         private void dp_date_CalendarClosed(object sender, RoutedEventArgs e)
         {
-            if ((sender as DatePicker).SelectedDate!=null)
+            if ((sender as DatePicker).SelectedDate != null)
             {
                 date_treatment.DisplayDateStart = (sender as DatePicker).SelectedDate;
             }
