@@ -118,5 +118,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Flickr_-_Israel_Defense_Forces_-_188th_Brigade_Training_Day,_March_2008-cropped.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ride.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="apps.16903.69718987761116351.7499bad4-77e3-40ba-85f6-18af92c5637c.d9b0857f-1374-448e-a82f-2ec5d8af933b.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -53,7 +53,7 @@
             <Label Content="mileage since last tratment:" Grid.Row="4" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="14" FontFamily="SimSun-ExtB"/>
             <Label Content="time of last tratment:" Grid.Row="5" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="15" FontFamily="SimSun-ExtB"/>
             <Label Content="status:" Grid.Row="2" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
-            <Label Content="fuel left:" Grid.Row="6" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
+            <Label Content="KM of fuel left:" Grid.Row="6" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  FontSize="20" FontFamily="SimSun-ExtB"/>
         </Grid>
         <Grid Name="textsGrid" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
 

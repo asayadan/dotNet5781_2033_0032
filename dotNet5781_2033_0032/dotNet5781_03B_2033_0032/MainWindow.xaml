@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_2033_0032"
         mc:Ignorable="d"
-        Title="Really Cool Buses Program" Height="640" Width="800" Cursor="Arrow">
+        Title="Really Cool Buses Program" Height="640" Width="800" Cursor="Arrow" Icon="apps.16903.69718987761116351.7499bad4-77e3-40ba-85f6-18af92c5637c.d9b0857f-1374-448e-a82f-2ec5d8af933b.jpg">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
-        <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Background="#FFD30808">
+        <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Background="#FFFF7F7F">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="199*"/>
                 <ColumnDefinition Width="198*"/>

@@ -81,8 +81,6 @@ namespace dotNet5781_03B_2033_0032
                     (row[2] as TextBox).Background = mycolor;
                     if (buses[i].WhenWillBeReady < 0)
                     {
-                        if (buses[i].curStatus != Status.ready)
-                        {
                             if ((buses[i].curStatus == Status.refueling))
                                 buses[i].refuel();
                             else if ((buses[i].curStatus == Status.fixing))
@@ -93,8 +91,6 @@ namespace dotNet5781_03B_2033_0032
                                 (bar as ProgressBar).Visibility = Visibility.Collapsed;
                             foreach (var button in row.Where(k => k is Button))
                                 (button as Button).Visibility = Visibility.Visible;
-                            
-                        }
                     }
                     else
                     {

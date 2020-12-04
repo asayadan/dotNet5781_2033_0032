@@ -5,16 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_2033_0032"
         mc:Ignorable="d"
-        Title="add Ride" Height="100" Width="500" Cursor="Pen" WindowStyle="None">
+        Title="add Ride" Height="300" Width="500" Cursor="Pen" WindowStyle="None">
     <Grid>
-        <TextBox x:Name="tb_km" HorizontalAlignment="Stretch"  Text="Enter the number of kilometers to ride" VerticalAlignment="Stretch"  MouseEnter="tb_km_MouseEnter" MouseLeave="tb_km_MouseLeave" KeyUp="tb_km_KeyUp" KeyDown="tb_km_KeyDown" FontSize="28" Tag="Enter the number of kilometers to ride" >
-            <TextBox.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="#FF0443F3" Offset="1"/>
-                </LinearGradientBrush>
-            </TextBox.Background>
-        </TextBox>
+        <Grid.Background>
+            <ImageBrush TileMode="FlipY" ImageSource="ride.jpg"/>
+        </Grid.Background>
+        <TextBox x:Name="tb_km" HorizontalAlignment="Stretch"  Text="Enter the number of kilometers to ride" VerticalAlignment="Center"  MouseEnter="tb_km_MouseEnter" MouseLeave="tb_km_MouseLeave" KeyUp="tb_km_KeyUp" KeyDown="tb_km_KeyDown" FontSize="28" Tag="Enter the number of kilometers to ride" Height="55" Margin="0,105,0.333,133.333" Background="{x:Null}" Foreground="White" />
 
     </Grid>
 </Window>
