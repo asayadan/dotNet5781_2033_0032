@@ -32,7 +32,7 @@ namespace dotNet5781_03B_2033_0032
                 InitializeComponent();
                 initilize(ref buses);
 
-                
+
                 for (int i = 0; i < buses.Count; i++)
                     addBus(i);
 
@@ -62,12 +62,24 @@ namespace dotNet5781_03B_2033_0032
 
                 for (int i = 0; i < buses.Count; i++)
                 {
-                    buses[i].whenWillBeReady-=600;
+                    buses[i].WhenWillBeReady-=600;
 
                     var row = GridData.Children.Cast<UIElement>().
                         Where(k => Grid.GetRow(k) == i).ToList();
 
-                    if (buses[i].whenWillBeReady < 0)
+
+                    SolidColorBrush mycolor;
+                    if (buses[i].curStatus == Status.fixing)
+                        mycolor = new SolidColorBrush(Colors.Red);
+                    else if ((buses[i].curStatus == Status.refueling))
+                        mycolor = new SolidColorBrush(Colors.Yellow);
+                    else if ((buses[i].curStatus == Status.working))
+                        mycolor = new SolidColorBrush(Colors.Green);
+                    else
+                        mycolor = new SolidColorBrush(Colors.Transparent);
+
+                    (row[2] as TextBox).Background = mycolor;
+                    if (buses[i].WhenWillBeReady < 0)
                     {
                         if (buses[i].curStatus != Status.ready)
                         {
@@ -75,7 +87,6 @@ namespace dotNet5781_03B_2033_0032
                                 buses[i].refuel();
                             else if ((buses[i].curStatus == Status.fixing))
                                 buses[i].treatment(a);
-                            (row[2] as TextBox).Background = new SolidColorBrush(Colors.White);
                             buses[i].curStatus = Status.ready;
                             (row[6] as TextBlock).Text = "";
                             foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
@@ -86,15 +97,7 @@ namespace dotNet5781_03B_2033_0032
                     }
                     else
                     {
-                        SolidColorBrush mycolor;
-                        if (buses[i].curStatus == Status.fixing)
-                            mycolor = new SolidColorBrush(Colors.Red);
-                        else if ((buses[i].curStatus == Status.refueling))
-                            mycolor = new SolidColorBrush(Colors.Yellow);
-                        else if ((buses[i].curStatus == Status.working))
-                            mycolor = new SolidColorBrush(Colors.Green);
-                        else
-                            mycolor = new SolidColorBrush(Colors.Blue);
+
 
                         foreach (var button in row.Where(k => k is Button))
                             (button as Button).Visibility = Visibility.Collapsed;
@@ -102,8 +105,7 @@ namespace dotNet5781_03B_2033_0032
                         foreach (ProgressBar bar_help in row.Where(k => k is ProgressBar))
                         {
                             bar_help.Visibility = Visibility.Visible;
-                            bar_help.Value = ((buses[i].start - buses[i].whenWillBeReady) * 100 / buses[i].start);
-                            bar_help.Background = new SolidColorBrush(Colors.White);
+                            bar_help.Value = ((buses[i].Start - buses[i].WhenWillBeReady) * 100 / buses[i].Start);
                             bar_help.Foreground = mycolor;
                         }
                          (row[2] as TextBox).Background = mycolor;
@@ -130,6 +132,7 @@ namespace dotNet5781_03B_2033_0032
             text.MouseDoubleClick += Drive_Text_DoubleClick;
             var number = new TextBlock();
             number.Text = (index + 1).ToString();
+            number.Background = new SolidColorBrush(Colors.Transparent);
             var useButton = new Button();
             useButton.Content = "Use"; useButton.Click += Drive_Button_Click;
             var fuelButton = new Button();
@@ -141,6 +144,7 @@ namespace dotNet5781_03B_2033_0032
             timer.FontSize = 20;
             ProgressBar bar = new ProgressBar();
             bar.Visibility = Visibility.Collapsed;
+            bar.Background = new SolidColorBrush(Colors.Transparent);
             Grid.SetRow(bar, index);
             Grid.SetColumnSpan(bar, 3);
             Grid.SetColumn(bar, 2);
@@ -216,14 +220,36 @@ namespace dotNet5781_03B_2033_0032
         { get { return a; } }
         public string timeLeft(int i)
         {
-            var seconds = buses[i].whenWillBeReady % 60;
-            var minutes = buses[i].whenWillBeReady / 60 % 60;
-            var hours = buses[i].whenWillBeReady / 3600 % 60;
+            var seconds = buses[i].WhenWillBeReady % 60;
+            var minutes = buses[i].WhenWillBeReady / 60 % 60;
+            var hours = buses[i].WhenWillBeReady / 3600 % 60;
 
             return
                 ((hours / 10 == 0) ? "0" : "") + hours.ToString() + ':' +
                 ((minutes / 10 == 0) ? "0" : "") + minutes.ToString() + ':' +
                 ((seconds / 10 == 0) ? "0" : "") + seconds.ToString();
+        }
+
+
+        private void cb_sort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ComboBox).SelectedItem == (sender as ComboBox).Items[0])
+                buses.Sort(new comparefuel());
+            if ((sender as ComboBox).SelectedItem == (sender as ComboBox).Items[1])
+                buses.Sort(new compareDate());
+            if ((sender as ComboBox).SelectedItem == (sender as ComboBox).Items[2])
+                buses.Sort(new CompareMileage());
+            if ((sender as ComboBox).SelectedItem == (sender as ComboBox).Items[3])
+                buses.Sort(new CompareTimeTreatment());
+
+
+
+            for (int i = 0; i < buses.Count; i++)
+            {
+                var row = GridData.Children.Cast<UIElement>().
+                Where(k => Grid.GetRow(k) == i).ToList();
+                (row[2] as TextBox).Text = buses[i].t_licensePlateNumber;
+            }
         }
     }
 }
