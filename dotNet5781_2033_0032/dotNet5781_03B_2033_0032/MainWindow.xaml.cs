@@ -98,15 +98,6 @@ namespace dotNet5781_03B_2033_0032
                     }
                     else
                     {
-                        SolidColorBrush mycolor;
-                        if (buses[i].curStatus == Status.fixing)
-                            mycolor = new SolidColorBrush(Colors.Red);
-                        else if ((buses[i].curStatus == Status.refueling))
-                            mycolor = new SolidColorBrush(Colors.Yellow);
-                        else if ((buses[i].curStatus == Status.working))
-                            mycolor = new SolidColorBrush(Colors.Green);
-                        else
-                            mycolor = new SolidColorBrush(Colors.Blue);
 
                         foreach (var button in row.Where(k => k is Button))
                             (button as Button).Visibility = Visibility.Collapsed;
@@ -239,8 +230,6 @@ namespace dotNet5781_03B_2033_0032
                     Grid.SetRow(element, Grid.GetRow(element) - 1);
                    
                 }
-
-
 
             }
 
