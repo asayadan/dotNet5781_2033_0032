@@ -47,7 +47,7 @@ namespace dotNet5781_03B_2033_0032
                             {
                                 MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate, (DateTime)date_treatment.SelectedDate, int.Parse(tb_mileage.Text), int.Parse(tb_mileage_in_last_tratment.Text), int.Parse(tb_fuel.Text)));
                                 Close();
-                                win.addBus(MainWindow.buses.Count - 1);
+                                win.addNew(MainWindow.buses.Count - 1);
                             }
                         }
                         else throw new ArgumentException("License plate number already exists.");

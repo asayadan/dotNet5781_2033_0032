@@ -27,7 +27,9 @@ namespace dotNet5781_03B_2033_0032
         private int page;
         private static int NUM_ROWS=17; 
 
-
+        /// <summary>
+        /// initealizes the window
+        /// </summary>
         public MainWindow()
         {
             try
@@ -55,32 +57,36 @@ namespace dotNet5781_03B_2033_0032
 
         }
 
-
+        /// <summary>
+        /// go over every bus and takes care of the processes taking place
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="myEventArgs"></param>
         public void timer1_Tick(Object sender, ElapsedEventArgs myEventArgs)
         {
 
             this.Dispatcher.Invoke(() =>
             {
-                a = a.AddMinutes(10);
+                a = a.AddMinutes(10);//the time advances in 20 minutes
                 UpGrid.DataContext = a;
 
 
-                for (int i = 0; i < buses.Count; i++)
+                for (int i = 0; i < buses.Count; i++)//for every bus
                 {
                     buses[i].WhenWillBeReady-=600;
 
 
-                        if (buses[i].curStatus != Status.ready&& buses[i].WhenWillBeReady <= 0)
+                        if (buses[i].curStatus != Status.ready&& buses[i].WhenWillBeReady <= 0)//the bus finished the current process
                         {
-                        if ((buses[i].curStatus == Status.refueling))
-                            buses[i].refuel();
-                        else if ((buses[i].curStatus == Status.fixing))
-                        {
-                            buses[i].treatment(a);
-                            buses[i].Event(Status.refueling);
+                            if ((buses[i].curStatus == Status.refueling))
+                                buses[i].refuel();
+                            else if ((buses[i].curStatus == Status.fixing))
+                            {
+                                buses[i].treatment(a);
+                                buses[i].Event(Status.refueling);
 
-                        }
-                        enter(i);
+                            }
+                            enter(i);//taking the bus to the right place in the list
                         }
                     Graphics(i);
 
@@ -90,6 +96,10 @@ namespace dotNet5781_03B_2033_0032
 
         }
 
+        /// <summary>
+        /// adds a new bus to the grid
+        /// </summary>
+        /// <param name="index"></param>
         public void addBus(int index)
         {
             TextBox text = new TextBox();
@@ -127,7 +137,10 @@ namespace dotNet5781_03B_2033_0032
             GridData.RowDefinitions.Add(newRow);
 
         }
-
+        /// <summary>
+        /// adds a new bus to the grid and enters him to the right place
+        /// </summary>
+        /// <param name="index"></param>
         public void addNew(int index)
         {
             addBus(index);
