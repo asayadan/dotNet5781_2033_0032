@@ -207,6 +207,7 @@ namespace dotNet5781_03B_2033_0032
             buses.RemoveAt(index+page * NUM_ROWS);
 
             GridData.RowDefinitions.RemoveAt(index); 
+
             foreach (UIElement element in GridData.Children)
             {
                 
