@@ -476,7 +476,10 @@ namespace dotNet5781_03B_2033_0032
         {                                                                      // of buses in each page.
             
                 NUM_ROWS = (int)Math.Round(((this.Height - 105) / 30)-0.7);
-
+            if ((page + 1) * NUM_ROWS >= buses.Count)
+                bn_down.IsEnabled = false;
+            else
+                bn_down.IsEnabled = true;
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
