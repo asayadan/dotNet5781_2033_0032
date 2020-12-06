@@ -31,8 +31,8 @@ namespace dotNet5781_03B_2033_0032
             textsGrid.DataContext = thisBus;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        private void Button_Click(object sender, RoutedEventArgs e) // Reloading the data screen
+        {                                                           // so the information will be updated.
             try
             {
                 index = win.FindIndex(thisBus);
@@ -48,7 +48,7 @@ namespace dotNet5781_03B_2033_0032
             }
         }
 
-        private void bt_refule_Click(object sender, RoutedEventArgs e)
+        private void bt_refule_Click(object sender, RoutedEventArgs e) // pressed on the refuel button
         {
             try
             {
@@ -71,7 +71,7 @@ namespace dotNet5781_03B_2033_0032
 
         }
 
-        private void bt_finished_Click(object sender, RoutedEventArgs e)
+        private void bt_finished_Click(object sender, RoutedEventArgs e) // Pressed the fix button
         {
             try
             {
