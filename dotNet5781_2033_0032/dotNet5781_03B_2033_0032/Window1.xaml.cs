@@ -33,36 +33,65 @@ namespace dotNet5781_03B_2033_0032
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            thisBus = new Bus(66666666, new DateTime(2019, 1, 1));
-            textsGrid.DataContext = thisBus;
-            thisBus = MainWindow.buses[index];
-            textsGrid.DataContext = thisBus;
+            try
+            {
+                index = win.FindIndex(thisBus);
+                thisBus = new Bus(66666666, new DateTime(2019, 1, 1));
+                textsGrid.DataContext = thisBus;
+                thisBus = MainWindow.buses[index];
+                textsGrid.DataContext = thisBus;
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
+                this.Close();
+            }
         }
 
         private void bt_refule_Click(object sender, RoutedEventArgs e)
         {
-            if (thisBus.curStatus == Status.ready)
+            try
             {
-                thisBus.Event(Status.refueling);
+                index = win.FindIndex(thisBus);
+                if (thisBus.curStatus == Status.ready)
+                {
+                    thisBus.Event(Status.refueling);
+                }
+                else
+                {
+                    MessageBox.Show("you can't fix the bus because he is " + thisBus.curStatus.ToString());
+                }
+
             }
-            else
+            catch (ArgumentException ex)
             {
-                MessageBox.Show("you can't fix the bus because he is " + thisBus.curStatus.ToString());
+                MessageBox.Show(ex.Message);
+                this.Close();
             }
 
         }
 
         private void bt_finished_Click(object sender, RoutedEventArgs e)
         {
-            if (thisBus.curStatus == Status.ready)
+            try
             {
-                thisBus.Event(Status.fixing);
+                index=win.FindIndex(thisBus);
+                if (thisBus.curStatus == Status.ready)
+                {
+                    thisBus.Event(Status.fixing);
+                }
+                else
+                {
+                    MessageBox.Show("you can't fix the bus because he is " + thisBus.curStatus.ToString());
+                }
             }
-            else
+            catch (ArgumentException ex)
             {
-                MessageBox.Show("you can't fix the bus because he is " + thisBus.curStatus.ToString());
+                MessageBox.Show(ex.Message);
+                this.Close();
             }
+
         }
+
     }
 }

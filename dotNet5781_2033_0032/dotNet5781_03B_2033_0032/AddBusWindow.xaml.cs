@@ -43,8 +43,6 @@ namespace dotNet5781_03B_2033_0032
                                 Close();
                                 win.addBus(MainWindow.buses.Count - 1);
                             }
-
-
                             else
                             {
                                 MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate, (DateTime)date_treatment.SelectedDate, int.Parse(tb_mileage.Text), int.Parse(tb_mileage_in_last_tratment.Text), int.Parse(tb_fuel.Text)));

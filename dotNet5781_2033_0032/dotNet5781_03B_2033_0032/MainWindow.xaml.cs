@@ -24,6 +24,9 @@ namespace dotNet5781_03B_2033_0032
     {
         public static List<Bus> buses;
         private DateTime a;
+        private int page;
+        private static int NUM_ROWS=17; 
+
 
         public MainWindow()
         {
@@ -64,50 +67,17 @@ namespace dotNet5781_03B_2033_0032
                 {
                     buses[i].WhenWillBeReady-=600;
 
-                    var row = GridData.Children.Cast<UIElement>().
-                        Where(k => Grid.GetRow(k) == i).ToList();
 
-
-                    SolidColorBrush mycolor;
-                    if (buses[i].curStatus == Status.fixing)
-                        mycolor = new SolidColorBrush(Colors.Red);
-                    else if ((buses[i].curStatus == Status.refueling))
-                        mycolor = new SolidColorBrush(Colors.Yellow);
-                    else if ((buses[i].curStatus == Status.working))
-                        mycolor = new SolidColorBrush(Colors.Green);
-                    else
-                        mycolor = new SolidColorBrush(Colors.Transparent);
-
-                    (row[2] as TextBox).Background = mycolor;
-                    if (buses[i].WhenWillBeReady < 0)
-                    {
+                        if (buses[i].curStatus != Status.ready&& buses[i].WhenWillBeReady < 0)
+                        {
                             if ((buses[i].curStatus == Status.refueling))
                                 buses[i].refuel();
                             else if ((buses[i].curStatus == Status.fixing))
                                 buses[i].treatment(a);
-                            buses[i].curStatus = Status.ready;
-                            (row[6] as TextBlock).Visibility = Visibility.Collapsed;
-                            foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
-                                (bar as ProgressBar).Visibility = Visibility.Collapsed;
-                            foreach (var button in row.Where(k => k is Button))
-                                (button as Button).Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-
-                        foreach (var button in row.Where(k => k is Button))
-                            (button as Button).Visibility = Visibility.Collapsed;
-
-                        foreach (ProgressBar bar_help in row.Where(k => k is ProgressBar))
-                        {
-                            bar_help.Visibility = Visibility.Visible;
-                            bar_help.Value = ((buses[i].Start - buses[i].WhenWillBeReady) * 100 / buses[i].Start);
-                            bar_help.Foreground = mycolor;
+                            enter(i);
+                            
                         }
-                         (row[2] as TextBox).Background = mycolor;
-                        (row[6] as TextBlock).Visibility = Visibility.Visible; (row[6] as TextBlock).Text = timeLeft(i); 
-                    }
-
+                    Graphics(i);
 
                 }
             });
@@ -147,7 +117,7 @@ namespace dotNet5781_03B_2033_0032
             GridData.Children.Add(number); GridData.Children.Add(text); GridData.Children.Add(useButton); GridData.Children.Add(fuelButton); GridData.Children.Add(fixButton); GridData.Children.Add(timer); GridData.Children.Add(removeButton);
 
             RowDefinition newRow = new RowDefinition();
-            //newRow.MinHeight = 30;
+            newRow.MaxHeight = 30;
             GridData.RowDefinitions.Add(newRow);
 
         }
@@ -159,7 +129,7 @@ namespace dotNet5781_03B_2033_0032
             Random rnd = new Random(DateTime.Now.Millisecond);
             int plateNumber, range, mileage, mileageInLastTreat, fuel;
             DateTime date;
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 20; i++)
             {
                 DateTime start = new DateTime(2016, 1, 1);
                 range = (DateTime.Today - start).Days;
@@ -248,25 +218,110 @@ namespace dotNet5781_03B_2033_0032
                 ((seconds / 10 == 0) ? "0" : "") + seconds.ToString();
         }
 
-
         private void cb_sort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((sender as ComboBox).SelectedItem == (sender as ComboBox).Items[0])
-                buses.Sort(new comparefuel());
-            if ((sender as ComboBox).SelectedItem == (sender as ComboBox).Items[1])
-                buses.Sort(new compareDate());
-            if ((sender as ComboBox).SelectedItem == (sender as ComboBox).Items[2])
-                buses.Sort(new CompareMileage());
-            if ((sender as ComboBox).SelectedItem == (sender as ComboBox).Items[3])
-                buses.Sort(new CompareTimeTreatment());
 
 
+            buses.Sort(Conperer_This());
 
             for (int i = 0; i < buses.Count; i++)
             {
-                var row = GridData.Children.Cast<UIElement>().
-                Where(k => Grid.GetRow(k) == i).ToList();
-                (row[2] as TextBox).Text = buses[i].t_licensePlateNumber;
+                Graphics(i);
+            }
+        }
+        private void enter(int indx)
+        {
+            IComparer<Bus> myComperer = Conperer_This();
+            while ( indx > 0 &&myComperer.Compare(buses[indx],buses[indx-1])<0)
+            {
+                swap(indx,indx - 1);
+                indx -= 1;
+            }
+            while ( indx < buses.Count - 1&&myComperer.Compare(buses[indx], buses[indx + 1]) > 0 )
+            {
+                swap(indx, indx +1);
+                indx += 1;
+            }
+        }
+        private IComparer<Bus> Conperer_This()
+        {
+            if (cb_sort.SelectedItem == cb_sort.Items[0])
+                return new comparefuel();
+            if (cb_sort.SelectedItem == cb_sort.Items[1])
+                return new compareDate();
+            if (cb_sort.SelectedItem == cb_sort.Items[2])
+                return new CompareMileage();
+            if (cb_sort.SelectedItem == cb_sort.Items[3])
+                return new CompareTimeTreatment();
+            else throw new ArgumentOutOfRangeException("how did you do that");
+        }
+
+        private void swap(int index1, int index2)
+        {
+            Bus help = buses[index1];
+            buses[index1]= buses[index2] ;
+            buses[index2]=help;
+
+            Graphics(index1);
+            Graphics(index2);
+
+        }
+        public int FindIndex(Bus thisBus)
+        {
+            int index = MainWindow.buses.FindIndex(x => (x.licensePlate == thisBus.licensePlate && x._registreationDate == thisBus._registreationDate));
+            if (index == -1)
+                throw new ArgumentException("the bus has been deleated");
+            return index;
+
+        }
+        public void Graphics(int i)
+        {
+
+            var row = GridData.Children.Cast<UIElement>().
+                    Where(k => Grid.GetRow(k) == i).ToList();
+
+
+            SolidColorBrush mycolor;
+            if (buses[i].curStatus == Status.fixing)
+                mycolor = new SolidColorBrush(Colors.Red);
+            else if ((buses[i].curStatus == Status.refueling))
+                mycolor = new SolidColorBrush(Colors.Yellow);
+            else if ((buses[i].curStatus == Status.working))
+                mycolor = new SolidColorBrush(Colors.Green);
+            else
+                mycolor = new SolidColorBrush(Colors.Transparent);
+
+
+
+            (row[2] as TextBox).Background = mycolor;
+            (row[2] as TextBox).Text = buses[i].t_licensePlateNumber;
+
+            if (buses[i].WhenWillBeReady < 0)
+            {
+
+                buses[i].curStatus = Status.ready;
+                (row[6] as TextBlock).Visibility = Visibility.Collapsed;
+                foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
+                    (bar as ProgressBar).Visibility = Visibility.Collapsed;
+                foreach (var button in row.Where(k => k is Button))
+                    (button as Button).Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+
+                foreach (var button in row.Where(k => k is Button))
+                    (button as Button).Visibility = Visibility.Collapsed;
+
+                foreach (ProgressBar bar_help in row.Where(k => k is ProgressBar))
+                {
+                    bar_help.Visibility = Visibility.Visible;
+                    bar_help.Value = ((buses[i].Start - buses[i].WhenWillBeReady) * 100 / buses[i].Start);
+                    bar_help.Foreground = mycolor;
+                }
+                 (row[2] as TextBox).Background = mycolor;
+                (row[6] as TextBlock).Visibility = Visibility.Visible;
+                (row[6] as TextBlock).Text = timeLeft(i);
             }
         }
     }
