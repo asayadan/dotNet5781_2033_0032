@@ -27,8 +27,8 @@ namespace dotNet5781_03B_2033_0032
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        private void Button_Click(object sender, RoutedEventArgs e) // "Done" button has been clicked,
+        {                                                           // check if valid then insert.
             try
             {
                 if (allFields())
@@ -66,14 +66,14 @@ namespace dotNet5781_03B_2033_0032
 
         }
 
-        private void mouseEnter(object sender, EventArgs e)
-        {
+        private void mouseEnter(object sender, EventArgs e) // If the mouse enters the textbox, remove the
+        {                                                   // preview text to make it easier for the user
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
                 (sender as TextBox).Text = string.Empty;
         }
 
-        private void mouseLeave(object sender, MouseEventArgs e)
-        {
+        private void mouseLeave(object sender, MouseEventArgs e) // If the mouse leaves the textbox, return the
+        {                                                        // preview text to make it more clear what to enter here.
             if ((sender as TextBox).Text == "")
                 (sender as TextBox).Text = (sender as TextBox).Tag.ToString();
         }
@@ -81,8 +81,8 @@ namespace dotNet5781_03B_2033_0032
 
 
 
-        private void keyDown(object sender, KeyEventArgs e)
-        {
+        private void keyDown(object sender, KeyEventArgs e) // If we started writing something, remove the preview text
+        {                                                   // to make it easier for the user to write
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
             {
                 (sender as TextBox).Text = "";
@@ -103,7 +103,7 @@ namespace dotNet5781_03B_2033_0032
 
         }
 
-        bool allFields()
+        bool allFields() // Check if all fiels were inserted.
         {
             var count = MainGrid.Children.Cast<UIElement>().Where(x => (x is TextBox) ? (x as TextBox).Text != (x as TextBox).Tag.ToString()
                         : !(x is Button) && !(x is CheckBox) && (x as DatePicker).SelectedDate != null).Count();

@@ -30,13 +30,13 @@ namespace dotNet5781_03B_2033_0032
             thisBus = MainWindow.buses[index];
         }
 
-        private void tb_km_MouseEnter(object sender, MouseEventArgs e)
+        private void tb_km_MouseEnter(object sender, MouseEventArgs e) // As at AddBusWindow
         {
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
                 (sender as TextBox).Text = string.Empty;
         }
 
-        private void tb_km_MouseLeave(object sender, MouseEventArgs e)
+        private void tb_km_MouseLeave(object sender, MouseEventArgs e) // As at AddBusWindow
         {
             if ((sender as TextBox).Text == "")
                 (sender as TextBox).Text = (sender as TextBox).Tag.ToString();
@@ -44,7 +44,7 @@ namespace dotNet5781_03B_2033_0032
 
 
 
-        private void tb_km_KeyUp(object sender, KeyEventArgs e)
+        private void tb_km_KeyUp(object sender, KeyEventArgs e) // Check if enter was pressed to close the window.
         {
             if (e.Key == Key.Enter)
             {
@@ -76,7 +76,7 @@ namespace dotNet5781_03B_2033_0032
             }
         }
 
-        private void tb_km_KeyDown(object sender, KeyEventArgs e)
+        private void tb_km_KeyDown(object sender, KeyEventArgs e) // As at AddBusWindow
         {
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
                 (sender as TextBox).Text = string.Empty;

@@ -34,26 +34,26 @@ namespace dotNet5781_03B_2033_0032
         {
             try
             {
-                InitializeComponent();
-                initilize(ref buses);
+                InitializeComponent(); 
+                initilize(ref buses); // Create a random list of buses
 
                 NUM_ROWS = (int)((this.Height - 105)/30);
 
 
                 for (int i = 0; i < buses.Count; i++)
-                    addBus(i);
+                    addBus(i);                          
                 cb_sort.SelectedIndex = 0;
 
                 var timer1 = new Timer(1000);
-                timer1.Elapsed += new ElapsedEventHandler(timer1_Tick);
-                a = DateTime.Now;
+                timer1.Elapsed += new ElapsedEventHandler(timer1_Tick); // Add a timer of 1 sec that everytime
+                a = DateTime.Now;                                       // it ticks then it updates the window.
                 UpGrid.DataContext = a;
                 timer1.Start();
             }
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message); // Catch all the exceptions
             }
 
         }
@@ -74,13 +74,13 @@ namespace dotNet5781_03B_2033_0032
 
                 for (int i = 0; i < buses.Count; i++)//for every bus
                 {
-                    buses[i].WhenWillBeReady-=600;
+                    buses[i].WhenWillBeReady-=600;  // 10 simulation minutes every second
 
 
                         if (buses[i].curStatus != Status.ready&& buses[i].WhenWillBeReady <= 0)//the bus finished the current process
                         {
                             if ((buses[i].curStatus == Status.refueling))
-                                buses[i].refuel();
+                                buses[i].refuel(); 
                             else if ((buses[i].curStatus == Status.fixing))
                             {
                                 buses[i].treatment(a);
@@ -101,9 +101,9 @@ namespace dotNet5781_03B_2033_0032
         /// adds a new bus to the grid
         /// </summary>
         /// <param name="index"></param>
-        public void addBus(int index)
-        {
-            TextBox text = new TextBox();
+        public void addBus(int index) // Creates a new instance of a bus in the window.
+        {                             // Each instance has the buttons needed, and the text boxes for the
+            TextBox text = new TextBox(); // timers, license plate numbers and progress bars.
             text.Text = buses[index].t_licensePlateNumber;
             text.FontSize = 15;
             text.TextAlignment = TextAlignment.Center;
@@ -147,7 +147,7 @@ namespace dotNet5781_03B_2033_0032
             addBus(index);
             enter(index);
         }
-        static void initilize(ref List<Bus> buses)
+        static void initilize(ref List<Bus> buses) // Creates some buses for initilize
         {
             buses = new List<Bus>();
             Random rnd = new Random(DateTime.Now.Millisecond);
@@ -181,7 +181,7 @@ namespace dotNet5781_03B_2033_0032
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e) // Add Bus clicked
         {
             AddBusWindow addBus = new AddBusWindow(this);
             addBus.Show();
@@ -214,14 +214,14 @@ namespace dotNet5781_03B_2033_0032
                 
                 if (Grid.GetRow(element) > index)
                 {
-                    if (Grid.GetColumn(element) == 0)
-                        (element as TextBlock).Text = (Grid.GetRow(element)).ToString();
+                    if (Grid.GetColumn(element) == 0) // Update the existing elements that are after the deleted line
+                        (element as TextBlock).Text = (Grid.GetRow(element)).ToString(); 
                     Grid.SetRow(element, Grid.GetRow(element) - 1);
                    
                 }
 
             }
-            GridData.Children.RemoveRange(index * 8, 8);
+            GridData.Children.RemoveRange(index * 8, 8); // Remove the line of elements
             for (int i = page * NUM_ROWS; i < (page + 1) * NUM_ROWS; i++)
             {   
                 if (!(NUM_ROWS > buses.Count))
@@ -240,11 +240,11 @@ namespace dotNet5781_03B_2033_0032
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
         {
             Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender)+page*NUM_ROWS);
-            BusData.Show();
+            BusData.Show(); // Double click to show bus information.
         }
         public DateTime get_time
         { get { return a; } }
-        public string timeLeft(int i)
+        public string timeLeft(int i) // Calculates the time left for the bus to be ready (whenWillBeReady are the real time seconds)
         {
             var seconds = buses[i].WhenWillBeReady % 60;
             var minutes = buses[i].WhenWillBeReady / 60 % 60;
@@ -259,15 +259,15 @@ namespace dotNet5781_03B_2033_0032
         private void cb_sort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-
-            buses.Sort(Conperer_This());
+            // A sort parameter has been changed.
+            buses.Sort(Conperer_This()); 
 
             for (int i = 0; i < buses.Count; i++)
             {
                 Graphics(i);
             }
         }
-        private void enter(int indx)
+        private void enter(int indx) // Insertion sort
         {
             IComparer<Bus> myComperer = Conperer_This();
             while ( indx > 0 &&myComperer.Compare(buses[indx],buses[indx-1])<0)
@@ -281,7 +281,7 @@ namespace dotNet5781_03B_2033_0032
                 indx += 1;
             }
         }
-        private IComparer<Bus> Conperer_This()
+        private IComparer<Bus> Conperer_This() // Return compare method.
         {
             if (cb_sort.SelectedItem == cb_sort.Items[0])
                 return new comparefuel();
@@ -308,7 +308,7 @@ namespace dotNet5781_03B_2033_0032
         {
             int index = MainWindow.buses.FindIndex(x => (x.licensePlate == thisBus.licensePlate && x._registreationDate == thisBus._registreationDate));
             if (index == -1)
-                throw new ArgumentException("the bus has been deleated");
+                throw new ArgumentException("The bus has been deleted");
             return index;
 
         }
@@ -417,8 +417,8 @@ namespace dotNet5781_03B_2033_0032
             }
         }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e) // To check if we need to change the amount
+        {                                                                      // of buses in each page.
             
                 NUM_ROWS = (int)Math.Round(((this.Height - 105) / 30)-0.7);
 
