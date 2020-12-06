@@ -265,7 +265,7 @@ namespace dotNet5781_03B_2033_0032
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
         {
             Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender)+page*NUM_ROWS);
-            BusData.Show(); // Double click to show bus information.
+            BusData.Show(); // Double click to show bus information .
         }
         /// <summary>
         /// returns the time in the simulation
