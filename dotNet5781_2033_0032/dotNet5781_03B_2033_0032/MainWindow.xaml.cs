@@ -187,21 +187,41 @@ namespace dotNet5781_03B_2033_0032
             addBus.Show();
         }
 
+        /// <summary>
+        /// opens the Ride window to add a new ride
+        /// </summary>
+        /// <param name="sender">the button of the bus</param>
+        /// <param name="e"></param>
         private void Drive_Button_Click(object sender, RoutedEventArgs e)
         {
             Ride AddRide = new Ride(this,Grid.GetRow((sender as Button)) +page * NUM_ROWS);
             AddRide.Show();
         }
 
+
+        /// <summary>
+        /// starts to fix the bus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fixButton_Click(object sender, RoutedEventArgs e)
         {
             buses[Grid.GetRow((sender as Button))+ page * NUM_ROWS].Event(Status.fixing);
         }
-
+        /// <summary>
+        /// starts to fix the bus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void refuelButton_Click(object sender, RoutedEventArgs e)
         {
             buses[Grid.GetRow((sender as Button))+page * NUM_ROWS].Event(Status.refueling);
         }
+        /// <summary>
+        /// removes the bus
+        /// </summary>
+        /// <param name="sender">the button of the bus who would be deleated(the button we clicked)</param>
+        /// <param name="e"></param>
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
             int index = Grid.GetRow(sender as Button);
@@ -237,11 +257,19 @@ namespace dotNet5781_03B_2033_0032
             }
 
         }
+        /// <summary>
+        /// opens the details window for the bus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
         {
             Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender)+page*NUM_ROWS);
             BusData.Show(); // Double click to show bus information.
         }
+        /// <summary>
+        /// returns the time in the simulation
+        /// </summary>
         public DateTime get_time
         { get { return a; } }
         public string timeLeft(int i) // Calculates the time left for the bus to be ready (whenWillBeReady are the real time seconds)
@@ -256,6 +284,11 @@ namespace dotNet5781_03B_2033_0032
                 ((seconds / 10 == 0) ? "0" : "") + seconds.ToString();
         }
 
+        /// <summary>
+        /// sorts the buses according to the selected comparer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cb_sort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -293,7 +326,11 @@ namespace dotNet5781_03B_2033_0032
                 return new CompareTimeTreatment();
             else throw new ArgumentOutOfRangeException("how did you do that");
         }
-
+        /// <summary>
+        /// swaps two buses
+        /// </summary>
+        /// <param name="index1"></param>
+        /// <param name="index2"></param>
         private void swap(int index1, int index2)
         {
             Bus help = buses[index1];
@@ -304,6 +341,11 @@ namespace dotNet5781_03B_2033_0032
             Graphics(index2);
 
         }
+        /// <summary>
+        /// findex of the bus -1 if he isn't in buses
+        /// </summary>
+        /// <param name="thisBus"></param>
+        /// <returns></returns>
         public int FindIndex(Bus thisBus)
         {
             int index = MainWindow.buses.FindIndex(x => (x.licensePlate == thisBus.licensePlate && x._registreationDate == thisBus._registreationDate));
@@ -312,6 +354,10 @@ namespace dotNet5781_03B_2033_0032
             return index;
 
         }
+        /// <summary>
+        /// handles the graphics of the window gets an index and determins what should be on the grig because of th ebus in this index in buses
+        /// </summary>
+        /// <param name="i"></param>
         public void Graphics(int i)
         {
             if (i / NUM_ROWS == page)
@@ -384,6 +430,11 @@ namespace dotNet5781_03B_2033_0032
                 }
             }
         }
+        /// <summary>
+        /// go down one page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void bn_down_Click(object sender, RoutedEventArgs e)
         {
@@ -399,7 +450,11 @@ namespace dotNet5781_03B_2033_0032
                 Graphics(i);
             }
         }
-
+        /// <summary>
+        /// we go wp one page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bn_up_Click(object sender, RoutedEventArgs e)
         {
 
@@ -416,7 +471,7 @@ namespace dotNet5781_03B_2033_0032
                         Graphics(i);
             }
         }
-
+        
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) // To check if we need to change the amount
         {                                                                      // of buses in each page.
             
