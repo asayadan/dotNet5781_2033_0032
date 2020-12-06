@@ -184,6 +184,7 @@ namespace dotNet5781_03B_2033_0032
             buses.RemoveAt(index);
 
             GridData.RowDefinitions.RemoveAt(index); 
+
             foreach (UIElement element in GridData.Children)
             {
                 
