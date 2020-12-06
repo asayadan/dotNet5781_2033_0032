@@ -25,7 +25,7 @@ namespace dotNet5781_03B_2033_0032
         public static List<Bus> buses;
         private DateTime a;
         private int page;
-        private static int NUM_ROWS=17; 
+        private  int NUM_ROWS; 
 
         /// <summary>
         /// initealizes the window
@@ -37,8 +37,9 @@ namespace dotNet5781_03B_2033_0032
                 InitializeComponent();
                 initilize(ref buses);
 
+                NUM_ROWS = (int)((this.Height - 105)/30);
 
-                
+
                 for (int i = 0; i < buses.Count; i++)
                     addBus(i);
                 cb_sort.SelectedIndex = 0;
@@ -411,8 +412,21 @@ namespace dotNet5781_03B_2033_0032
             bn_down.IsEnabled = true;
             for (int i = page * NUM_ROWS; i < (page + 1) * NUM_ROWS; i++)
             {
-                Graphics(i);
+                    if (!(NUM_ROWS > buses.Count))
+                        Graphics(i);
             }
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            
+                NUM_ROWS = (int)Math.Round(((this.Height - 105) / 30)-0.7);
+
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            NUM_ROWS = 19;
         }
     }
 }

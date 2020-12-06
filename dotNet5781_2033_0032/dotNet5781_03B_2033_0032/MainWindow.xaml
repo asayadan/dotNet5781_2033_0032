@@ -5,15 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_2033_0032"
         mc:Ignorable="d"
-        Title="Really Cool Buses Program" Height="640" Width="800" Cursor="Arrow" Icon="apps.16903.69718987761116351.7499bad4-77e3-40ba-85f6-18af92c5637c.d9b0857f-1374-448e-a82f-2ec5d8af933b.jpg">
+        Title="Really Cool Buses Program" Height="640" Width="800" Cursor="Arrow" Icon="apps.16903.69718987761116351.7499bad4-77e3-40ba-85f6-18af92c5637c.d9b0857f-1374-448e-a82f-2ec5d8af933b.jpg" SizeChanged="Window_SizeChanged" StateChanged="Window_StateChanged" >
     <Grid Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="590*"/>
+            <ColumnDefinition Width="203*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="15*"/>
-            <RowDefinition Height="400*"/>
-            <RowDefinition Height="15*"/>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Background="#FFFF7F7F">
+        <Grid Name ="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Background="#FFFF7F7F" Grid.ColumnSpan="2" Margin="0,0,0.333,0.333">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="199*"/>
                 <ColumnDefinition Width="198*"/>
@@ -37,7 +41,7 @@
             <TextBlock Grid.Column="1" Text="Sorted by:" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center"/>
         </Grid>
 
-        <Grid x:Name="GridData" HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch">
+        <Grid x:Name="GridData" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,19.667,0.333,19.667" Grid.RowSpan="3">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF08E04E" Offset="0"/>
@@ -54,8 +58,8 @@
 
             </Grid.ColumnDefinitions>
         </Grid>
-        <Button x:Name="bn_up" Content="go up" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" IsEnabled="False" Click="bn_up_Click" />
-        <Button x:Name="bn_down" Content="go down" HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Stretch" Click="bn_down_Click" />
+        <Button x:Name="bn_up" Content="go up" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Click="bn_up_Click" Grid.ColumnSpan="2" Margin="0,65,0.333,0.333" Grid.RowSpan="2" />
+        <Button x:Name="bn_down" Content="go down" HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Stretch" Click="bn_down_Click" Grid.ColumnSpan="2" Margin="0,0.333,0.333,-0.333" />
 
 
     </Grid>
