@@ -19,11 +19,15 @@ namespace dotNet5781_03B_2033_0032
     /// </summary>
     public partial class Ride : Window
     {
+        MainWindow win;
         int index;
-        public Ride(int _index)
+        Bus thisBus;
+        public Ride(MainWindow _win, int _index)
         {
-            index = _index;
             InitializeComponent();
+            win = _win;
+            index = _index;
+            thisBus = MainWindow.buses[index];
         }
 
         private void tb_km_MouseEnter(object sender, MouseEventArgs e)
@@ -46,6 +50,7 @@ namespace dotNet5781_03B_2033_0032
             {
                 try
                 {
+                    index = win.FindIndex(thisBus);
                     int dist;
                     int.TryParse((sender as TextBox).Text, out dist);
                     MainWindow.buses[index].rideKM(dist);

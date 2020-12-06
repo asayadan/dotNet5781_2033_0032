@@ -41,7 +41,7 @@ namespace dotNet5781_03B_2033_0032
                             {
                                 MainWindow.buses.Add(new Bus(int.Parse(license.Text), (DateTime)dp_date.SelectedDate));
                                 Close();
-                                win.addBus(MainWindow.buses.Count - 1);
+                                win.addNew(MainWindow.buses.Count - 1);
                             }
                             else
                             {

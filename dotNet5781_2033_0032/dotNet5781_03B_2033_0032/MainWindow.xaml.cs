@@ -36,8 +36,10 @@ namespace dotNet5781_03B_2033_0032
                 initilize(ref buses);
 
 
+                
                 for (int i = 0; i < buses.Count; i++)
                     addBus(i);
+                cb_sort.SelectedIndex = 0;
 
                 var timer1 = new Timer(1000);
                 timer1.Elapsed += new ElapsedEventHandler(timer1_Tick);
@@ -68,14 +70,17 @@ namespace dotNet5781_03B_2033_0032
                     buses[i].WhenWillBeReady-=600;
 
 
-                        if (buses[i].curStatus != Status.ready&& buses[i].WhenWillBeReady < 0)
+                        if (buses[i].curStatus != Status.ready&& buses[i].WhenWillBeReady <= 0)
                         {
-                            if ((buses[i].curStatus == Status.refueling))
-                                buses[i].refuel();
-                            else if ((buses[i].curStatus == Status.fixing))
-                                buses[i].treatment(a);
-                            enter(i);
-                            
+                        if ((buses[i].curStatus == Status.refueling))
+                            buses[i].refuel();
+                        else if ((buses[i].curStatus == Status.fixing))
+                        {
+                            buses[i].treatment(a);
+                            buses[i].Event(Status.refueling);
+
+                        }
+                        enter(i);
                         }
                     Graphics(i);
 
@@ -118,11 +123,16 @@ namespace dotNet5781_03B_2033_0032
 
             RowDefinition newRow = new RowDefinition();
             newRow.MaxHeight = 30;
+            newRow.MinHeight = 30;
             GridData.RowDefinitions.Add(newRow);
 
         }
 
-
+        public void addNew(int index)
+        {
+            addBus(index);
+            enter(index);
+        }
         static void initilize(ref List<Bus> buses)
         {
             buses = new List<Bus>();
@@ -165,23 +175,23 @@ namespace dotNet5781_03B_2033_0032
 
         private void Drive_Button_Click(object sender, RoutedEventArgs e)
         {
-            Ride AddRide = new Ride(Grid.GetRow((sender as Button)));
+            Ride AddRide = new Ride(this,Grid.GetRow((sender as Button)) +page * NUM_ROWS);
             AddRide.Show();
         }
 
         private void fixButton_Click(object sender, RoutedEventArgs e)
         {
-            buses[Grid.GetRow((sender as Button))].Event(Status.fixing);
+            buses[Grid.GetRow((sender as Button))+ page * NUM_ROWS].Event(Status.fixing);
         }
 
         private void refuelButton_Click(object sender, RoutedEventArgs e)
         {
-            buses[Grid.GetRow((sender as Button))].Event(Status.refueling);
+            buses[Grid.GetRow((sender as Button))+page * NUM_ROWS].Event(Status.refueling);
         }
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
             int index = Grid.GetRow(sender as Button);
-            buses.RemoveAt(index);
+            buses.RemoveAt(index+page * NUM_ROWS);
 
             GridData.RowDefinitions.RemoveAt(index); 
 
@@ -198,11 +208,24 @@ namespace dotNet5781_03B_2033_0032
 
             }
             GridData.Children.RemoveRange(index * 8, 8);
+            for (int i = page * NUM_ROWS; i < (page + 1) * NUM_ROWS; i++)
+            {   
+                if (!(NUM_ROWS > buses.Count))
+                    Graphics(i);
+            }
+            if ((page + 1) * NUM_ROWS >= buses.Count)
+            {
+                bn_down.IsEnabled = false;
+            }
+            else
+            {
+                bn_down.IsEnabled = true;
+            }
 
         }
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
         {
-            Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender));
+            Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender)+page*NUM_ROWS);
             BusData.Show();
         }
         public DateTime get_time
@@ -277,52 +300,105 @@ namespace dotNet5781_03B_2033_0032
         }
         public void Graphics(int i)
         {
-
-            var row = GridData.Children.Cast<UIElement>().
-                    Where(k => Grid.GetRow(k) == i).ToList();
-
-
-            SolidColorBrush mycolor;
-            if (buses[i].curStatus == Status.fixing)
-                mycolor = new SolidColorBrush(Colors.Red);
-            else if ((buses[i].curStatus == Status.refueling))
-                mycolor = new SolidColorBrush(Colors.Yellow);
-            else if ((buses[i].curStatus == Status.working))
-                mycolor = new SolidColorBrush(Colors.Green);
-            else
-                mycolor = new SolidColorBrush(Colors.Transparent);
-
-
-
-            (row[2] as TextBox).Background = mycolor;
-            (row[2] as TextBox).Text = buses[i].t_licensePlateNumber;
-
-            if (buses[i].WhenWillBeReady < 0)
+            if (i / NUM_ROWS == page)
             {
 
-                buses[i].curStatus = Status.ready;
-                (row[6] as TextBlock).Visibility = Visibility.Collapsed;
-                foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
-                    (bar as ProgressBar).Visibility = Visibility.Collapsed;
-                foreach (var button in row.Where(k => k is Button))
-                    (button as Button).Visibility = Visibility.Visible;
 
-            }
-            else
-            {
-
-                foreach (var button in row.Where(k => k is Button))
-                    (button as Button).Visibility = Visibility.Collapsed;
-
-                foreach (ProgressBar bar_help in row.Where(k => k is ProgressBar))
+                var row = GridData.Children.Cast<UIElement>().
+                        Where(k => Grid.GetRow(k) == i%NUM_ROWS).ToList();
+                if (i >= buses.Count)
                 {
-                    bar_help.Visibility = Visibility.Visible;
-                    bar_help.Value = ((buses[i].Start - buses[i].WhenWillBeReady) * 100 / buses[i].Start);
-                    bar_help.Foreground = mycolor;
+                    (row[2] as TextBox).Background = new SolidColorBrush(Colors.Transparent);
+                    (row[2] as TextBox).Text = "";
+                    (row[1] as TextBlock).Text = "";
+                    (row[6] as TextBlock).Visibility = Visibility.Collapsed;
+                    foreach (var button in row.Where(k => k is Button))
+                        (button as Button).Visibility = Visibility.Collapsed;
+
+                    foreach (ProgressBar bar_help in row.Where(k => k is ProgressBar))
+                    {
+                        bar_help.Visibility = Visibility.Collapsed;
+                    }
                 }
-                 (row[2] as TextBox).Background = mycolor;
-                (row[6] as TextBlock).Visibility = Visibility.Visible;
-                (row[6] as TextBlock).Text = timeLeft(i);
+                else
+                {
+
+                    SolidColorBrush mycolor;
+                    if (buses[i].curStatus == Status.fixing)
+                        mycolor = new SolidColorBrush(Colors.Red);
+                    else if ((buses[i].curStatus == Status.refueling))
+                        mycolor = new SolidColorBrush(Colors.Yellow);
+                    else if ((buses[i].curStatus == Status.working))
+                        mycolor = new SolidColorBrush(Colors.Green);
+                    else
+                        mycolor = new SolidColorBrush(Colors.Transparent);
+
+
+
+                    (row[2] as TextBox).Background = mycolor;
+                    (row[2] as TextBox).Text = buses[i].t_licensePlateNumber;
+                    (row[1] as TextBlock).Text = (i + 1).ToString();
+
+                    if (buses[i].WhenWillBeReady <= 0)
+                    {
+
+                        buses[i].curStatus = Status.ready;
+                        (row[6] as TextBlock).Visibility = Visibility.Collapsed;
+                        foreach (ProgressBar bar in row.Where(k => k is ProgressBar))
+                            (bar as ProgressBar).Visibility = Visibility.Collapsed;
+                        foreach (var button in row.Where(k => k is Button))
+                            (button as Button).Visibility = Visibility.Visible;
+
+                    }
+                    else
+                    {
+
+                        foreach (var button in row.Where(k => k is Button))
+                            (button as Button).Visibility = Visibility.Collapsed;
+
+                        foreach (ProgressBar bar_help in row.Where(k => k is ProgressBar))
+                        {
+                            bar_help.Visibility = Visibility.Visible;
+                            double help = ((buses[i].Start - buses[i].WhenWillBeReady) * 100 / buses[i].Start);
+                            bar_help.Value = help;
+                            bar_help.Foreground = mycolor;
+                        }
+                         (row[2] as TextBox).Background = mycolor;
+                        (row[6] as TextBlock).Visibility = Visibility.Visible;
+                        (row[6] as TextBlock).Text = timeLeft(i);
+                    }
+                }
+            }
+        }
+
+        private void bn_down_Click(object sender, RoutedEventArgs e)
+        {
+            if ((page + 1) * NUM_ROWS < buses.Count)
+                page += 1;
+            if ((page + 1) * NUM_ROWS >= buses.Count)
+                bn_down.IsEnabled = false;
+            else
+                bn_down.IsEnabled = true;
+            bn_up.IsEnabled = true;
+            for (int i = page*NUM_ROWS;i< (page + 1) * NUM_ROWS; i++)
+            {
+                Graphics(i);
+            }
+        }
+
+        private void bn_up_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (page > 0)
+                page -= 1;
+            if (page > 0)
+                bn_up.IsEnabled = true;
+            else
+                bn_up.IsEnabled = false;
+            bn_down.IsEnabled = true;
+            for (int i = page * NUM_ROWS; i < (page + 1) * NUM_ROWS; i++)
+            {
+                Graphics(i);
             }
         }
     }
