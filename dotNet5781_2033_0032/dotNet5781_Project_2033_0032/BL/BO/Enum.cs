@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace BO
 {
     public enum Status {ready, working, refueling, fixing};
-    public enum Area { General, North, South, Center, Jerusalem };
+    public enum Areas { General, North, South, Center, Jerusalem };
 
 }
