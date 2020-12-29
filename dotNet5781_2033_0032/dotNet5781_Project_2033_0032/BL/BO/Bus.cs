@@ -18,6 +18,7 @@ namespace BO
         public int whenWillBeReady { get; set; }
         public double start { get; set; }
         public Status status { get; set; }
+
          static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
 
