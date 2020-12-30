@@ -11,9 +11,9 @@ namespace BLAPI
 
         #region Bus
         BO.Bus GetBus(int licenseNum);
-        void AddBus(int licenseNum, DateTime fromTime);
+        void CreateBus(int licenseNum, DateTime fromTime);
         void DeleteBus(int licenseNum);
-        void UpdateBusDetails(BO.Bus bus);
+        void UpdateBus(BO.Bus bus);
         IEnumerable<BO.Bus> GetAllBuses();
         IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate);
         void FuelBus(int id);
@@ -41,6 +41,7 @@ namespace BLAPI
 
         #region User
         BO.User GetUser(string userName, string password);
+        void CreateUser(string username,string password, string passwordValidation);
         #endregion
 
     }
