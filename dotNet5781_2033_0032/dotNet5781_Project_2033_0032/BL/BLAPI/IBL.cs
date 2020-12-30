@@ -34,8 +34,8 @@ namespace BLAPI
 
         #region Line
         BO.Line GetLine(int id);
-        void AddLine(int code, BO.Areas area, int firstStation, int lastStation);
-        void RemoveLine(int code);
+        void AddLine(int id, BO.Areas area, int firstStation, int lastStation);
+        void RemoveLine(int id);
 
         #endregion
 
