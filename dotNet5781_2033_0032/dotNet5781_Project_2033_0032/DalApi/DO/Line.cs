@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-    class Line
+    public class Line
     {
-        public int BusNumber { get; set; }
-        public AdjacentStations FirstStation { get; set; }
-        public AdjacentStations LastStation { get; set; }
+        public int Code { get; set; }
+        public int FirstStation { get; set; }
+        public int LastStation { get; set; }
         public Areas Area { get; set; }
         public int Id { get; set; }
     }
