@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    class Bus
+    public class Bus
     {
         #region variables
-        public int licensePlateNumber { get; set; }
-        public DateTime registreationDate { get; set; }
-        public float fuel { get; set; }
-        public float mileage { get; set; }
-        public float maileageInLastTreatment { get; set; }
-        public DateTime timeOfLastTreatment { get; set; }
-        public int whenWillBeReady { get; set; }
-        public double start { get; set; }
-        public Status status { get; set; }
+        public int LicenseNum { get; set; }
+        public DateTime FromDate { get; set; }
+        public float FuelRemaining { get; set; }
+        public float TotalTrip { get; set; }
+        public Status Status { get; set; }
 
-         static int FULL_GAS_TANK = 1200;//const the size of full gas tank
+        static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
     }
 }
