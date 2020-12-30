@@ -12,6 +12,7 @@ namespace DS
         public static List<Station> ListStations;
         public static List<LineStation> ListLineStations;
         public static List<AdjacentStations> ListAdjacentStations;
+        public static List<Bus> ListBuses;
         public static List<Line> ListLines;
         public static List<Trip> ListTrips;
         public static List<BusOnTrip> ListBusesOnTrips;
@@ -162,8 +163,8 @@ namespace DS
                     Id = 1,
                     Code = 111,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = rnd.Next(1, 17),
-                    LastStation = rnd.Next(1, 17)
+                    FirstStation = 1,
+                    LastStation = 6
 
                 },
 
@@ -172,8 +173,8 @@ namespace DS
                     Id = 2,
                     Code = 222,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = rnd.Next(1, 17),
-                    LastStation = rnd.Next(1, 17)
+                    FirstStation = 7,
+                    LastStation = 12
 
                 },
 
@@ -182,8 +183,8 @@ namespace DS
                     Id = 3,
                     Code = 333,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = rnd.Next(1, 17),
-                    LastStation = rnd.Next(1, 17)
+                    FirstStation = 5,
+                    LastStation = 10
 
                 },
 
@@ -192,8 +193,8 @@ namespace DS
                     Id = 4,
                     Code = 444,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = rnd.Next(1, 17),
-                    LastStation = rnd.Next(1, 17)
+                    FirstStation = 15,
+                    LastStation = 3
 
                 },
 
@@ -202,25 +203,53 @@ namespace DS
                     Id = 5,
                     Code = 555,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = rnd.Next(1, 17),
-                    LastStation = rnd.Next(1, 17)
+                    FirstStation = 11,
+                    LastStation = 16
 
                 },
             };
-            ListLineStations = new List<LineStation>
+            ListLineStations = new List<LineStation>();
+            for (int i = 0; i < ListLines.Count; i++)
             {
-                for (int i = 0; i < ListStations.Count; i++)
+                for (int j = 0; j < 4; j++)
                 {
+                    ListLineStations.Add(
                     new LineStation
                     {
-                        LineId = 16 / i,
-                        
+                        LineId = ListLines[i].Code,
+                        LineStationIndex = j,
+                        Station = ListStations[(i * 4 + j + 1) % ListStations.Count].Code,
+                        NextStation = (j == 4 - 1) ? 0 : ListStations[(i * 4 + j + 2) % ListStations.Count].Code
                     }
+                    );
                 }
                 
             }
+            ListAdjacentStations = new List<AdjacentStations>();
+            for (int i = 0; i < ListLineStations.Count - 1; i++)
+            {
+                if (ListLineStations[i].NextStation == ListLineStations[i + 1].Station)
+                {
+                    var dist = DistanceBetween(GetStation(ListLineStations[i].NextStation),
+                                                                            GetStation(ListLineStations[i + 1].NextStation));
+                    ListAdjacentStations.Add(
+                        new AdjacentStations
+                        {
+                            DistFromLastStation = dist,
+                            Station1 = ListLineStations[i].Station,
+                            Station2 = ListLineStations[i + 1].Station,
+                            TimeSinceLastStation = DateTime.Now.AddMinutes(dist * 1000 / rnd.Next(30, 50)) - DateTime.Now
+                        });
+                }
+            }
+            
         }
 
-        //static double distanceBetween
+        
+        static double DistanceBetween(Station station1, Station station2)
+        {
+            return Math.Sqrt(Math.Pow((station1.Latitude - station2.Latitude), 2) +
+                Math.Pow((station1.Longitude - station2.Longitude), 2));
+        }
     }
 }
