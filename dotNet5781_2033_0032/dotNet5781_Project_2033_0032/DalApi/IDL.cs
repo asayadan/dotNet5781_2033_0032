@@ -20,7 +20,8 @@ namespace DLAPI
 
         #region Stations
 
-
+        DO.Station GetStation(int id);
+        DO.LineStation GetLineStation(int id);
         #endregion
 
         #region Line
