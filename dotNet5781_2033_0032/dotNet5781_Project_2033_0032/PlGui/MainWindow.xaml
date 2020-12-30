@@ -19,6 +19,10 @@
             <Setter Property="FontSize" Value="19"/>
             <Setter Property="FontFamily" Value="Cooper Black"/>
         </Style>
+        <Style x:Key="link" TargetType="Button">
+            <Setter Property="Background" Value="White" />
+
+        </Style>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -26,10 +30,10 @@
             <GradientStop Color="#FF0BFA1E"/>
         </LinearGradientBrush>
     </Window.Background>
-    <Grid>
+    <Grid x:Name="mainGrid" Cursor="None">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="9*"/>
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -42,6 +46,14 @@
         <TextBox x:Name="bn_management" Text="enter your username" Grid.Column="1" Grid.Row="1" Style="{StaticResource myButtonStyle}" />
         <TextBox x:Name="bn_user" Text="enter your password" Grid.Column="1" Grid.Row="2" Style="{StaticResource myButtonStyle}"/>
         <Label x:Name="lbl__log" Content="Log in" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="50" FontStyle="Italic" FontFamily="Brush Script MT"/>
+        <Button x:Name="bn_singUp"  Content="Sign Up" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Top"  >
+            <Button.Background>
+                <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+            </Button.Background>
+            <Button.Foreground>
+                <SolidColorBrush Color="#FF003AF8"/>
+            </Button.Foreground>
+        </Button>
 
     </Grid>
 </Window>
