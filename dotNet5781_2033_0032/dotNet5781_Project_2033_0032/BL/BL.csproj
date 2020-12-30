@@ -60,7 +60,7 @@
     <Compile Include="BO\Line.cs" />
     <Compile Include="BO\LineStation.cs" />
     <Compile Include="BO\AdjacentStations.cs" />
-    <Compile Include="BO\BusStation.cs" />
+    <Compile Include="BO\Station.cs" />
     <Compile Include="BO\LineTrip.cs" />
     <Compile Include="BO\BusOnTrip.cs" />
     <Compile Include="BO\Trip.cs" />

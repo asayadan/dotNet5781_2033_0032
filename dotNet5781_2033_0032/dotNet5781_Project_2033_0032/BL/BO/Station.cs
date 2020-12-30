@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public class BusStation
+    public class Station
     {
         public int BusStationKey { get; set; }
         public float Latitude { get; set; }
