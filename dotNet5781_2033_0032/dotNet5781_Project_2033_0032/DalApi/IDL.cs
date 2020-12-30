@@ -30,7 +30,7 @@ namespace DLAPI
         #endregion
 
         #region User
-        DO.User GetUser(string username, string password);
+        bool GetUserPrivileges(string username, string password);
         void CreateUser(DO.User user);
 
         #endregion

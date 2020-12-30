@@ -40,7 +40,7 @@ namespace BLAPI
         #endregion
 
         #region User
-        BO.User GetUser(string userName, string password);
+        bool GetUserPrivileges(string userName, string password);
         void CreateUser(string username,string password, string passwordValidation);
         #endregion
 
