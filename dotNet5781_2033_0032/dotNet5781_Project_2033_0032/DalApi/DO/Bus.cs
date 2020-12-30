@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-    class Bus
+    public class Bus
     {
         #region variables
         public int LicenseNum { get; set; }
