@@ -26,16 +26,16 @@ namespace BLAPI
         IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
         IEnumerable<BO.Line> GetAllLines();
         void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-        void removeStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-        IEnumerable<BO.Line> linesInStation(int stationId);
+        void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        IEnumerable<BO.Line> LinesInStation(int stationId);
         void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
 
         #endregion
 
         #region Line
         BO.Line GetLine(int id);
-        void addLine(int code, BO.Areas area, int firstStation, int lastStation);
-        void removeLine(int code);
+        void AddLine(int code, BO.Areas area, int firstStation, int lastStation);
+        void RemoveLine(int code);
 
         #endregion
 
