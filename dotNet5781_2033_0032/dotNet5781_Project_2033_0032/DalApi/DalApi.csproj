@@ -54,6 +54,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DO\AdjacentStations.cs" />
+    <Compile Include="DO\Bus.cs" />
+    <Compile Include="DO\BusOnTrip.cs" />
+    <Compile Include="DO\BusStation.cs" />
+    <Compile Include="DO\Enum.cs" />
+    <Compile Include="DO\Line.cs" />
+    <Compile Include="DO\LineStation.cs" />
+    <Compile Include="DO\LineTrip.cs" />
+    <Compile Include="DO\Trip.cs" />
+    <Compile Include="DO\User.cs" />
+    <Compile Include="IDL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -76,5 +87,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

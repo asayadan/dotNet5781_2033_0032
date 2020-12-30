@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="500">
     <Window.Resources>
-        <Style x:Key="myButtonStyle"
+        <Style x:Key="textBoxStyle"
            TargetType="TextBox">
             <Setter Property="Foreground"
               Value="Green" />
@@ -20,7 +20,8 @@
             <Setter Property="FontFamily" Value="Cooper Black"/>
         </Style>
         <Style x:Key="link" TargetType="Button">
-            <Setter Property="Background" Value="White" />
+            <Setter Property="Background" Value="#00000000" />
+            <Setter Property="Foreground" Value="Blue"/>
 
         </Style>
     </Window.Resources>
@@ -43,17 +44,10 @@
             <RowDefinition Height="3*"/>
 
         </Grid.RowDefinitions>
-        <TextBox x:Name="bn_management" Text="enter your username" Grid.Column="1" Grid.Row="1" Style="{StaticResource myButtonStyle}" />
-        <TextBox x:Name="bn_user" Text="enter your password" Grid.Column="1" Grid.Row="2" Style="{StaticResource myButtonStyle}"/>
+        <TextBox x:Name="bn_management" Text="enter your username" Grid.Column="1" Grid.Row="1" Style="{StaticResource textBoxStyle}" />
+        <TextBox x:Name="bn_user" Text="enter your password" Grid.Column="1" Grid.Row="2" Style="{StaticResource textBoxStyle}"/>
         <Label x:Name="lbl__log" Content="Log in" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="50" FontStyle="Italic" FontFamily="Brush Script MT"/>
-        <Button x:Name="bn_singUp"  Content="Sign Up" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Top"  >
-            <Button.Background>
-                <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-            </Button.Background>
-            <Button.Foreground>
-                <SolidColorBrush Color="#FF003AF8"/>
-            </Button.Foreground>
-        </Button>
+        <Button x:Name="bn_singUp"  Content="Sign Up" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Top" Style="{StaticResource link}" />
 
     </Grid>
 </Window>

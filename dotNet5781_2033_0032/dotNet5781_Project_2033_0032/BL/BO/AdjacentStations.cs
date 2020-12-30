@@ -23,13 +23,7 @@ namespace BO
         public double DistFromLastStation { get; set; }
         public TimeSpan TimeSinceLastStation { get; set; }
 
-        //public string time_str()
-        //{
-        //    string hour = ((int)(timeSinceLastStation / 60)).ToString();
-        //    string minute = ((int)(timeSinceLastStation % 60)/10).ToString()+ ((int)(timeSinceLastStation % 60) % 10).ToString();
-        //    string second = ((int)((timeSinceLastStation % 1) * 60)/10).ToString()+ ((int)((timeSinceLastStation % 1) * 60)%10).ToString();
-        //    return hour+":"+minute+":"+second;
-        //}
+
         //public override string ToString()
         //{
         //    return base.ToString()+"    "+ time_str();
