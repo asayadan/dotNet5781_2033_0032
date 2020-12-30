@@ -7,7 +7,7 @@ using DO;
 
 namespace DS
 {
-    public static class DS
+    public static class DataSource
     {
         public static List<Station> ListStations;
         public static List<LineStation> ListLineStations;
@@ -18,7 +18,7 @@ namespace DS
         public static List<BusOnTrip> ListBusesOnTrips;
         public static List<User> ListUsers;
 
-        static DS()
+        static DataSource()
         {
             InitAllLists();
         }

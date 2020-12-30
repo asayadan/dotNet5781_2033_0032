@@ -4,12 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DLAPI
+using DLAPI;
+//using DO;
+using DS; 
+
+namespace DL
 {
-    public interface IDL
+    sealed class DLObject : IDL
     {
+        #region singelton
+        static readonly DLObject instance = new DLObject();
+        static DLObject() { }
+        DLObject() { } 
+        public static DLObject Instance { get => instance; }
+        #endregion
+
         #region Bus
-        IEnumerable<DO.Bus> GetAllBuses();
+        IEnumerable<DO.Bus> GetAllBuses()
+        {
+            return from bus in DataSource
+
+
+        }
         IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate);
         DO.Bus GetBus(int licenseNum);
         void CreateBus(int licenseNum, DateTime fromTime);
@@ -34,6 +50,10 @@ namespace DLAPI
         void CreateUser(DO.User user);
 
         #endregion
+
+
+
+
 
 
 
