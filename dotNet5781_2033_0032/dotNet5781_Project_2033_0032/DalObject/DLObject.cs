@@ -20,39 +20,72 @@ namespace DL
         #endregion
 
         #region Bus
-        IEnumerable<DO.Bus> GetAllBuses()
+        public IEnumerable<DO.Bus> GetAllBuses()
         {
-           // return from bus in DataSource.ListBuses select bus;
-
-
+            return from bus in DataSource.ListBuses 
+                   select bus.Clone();
         }
-        IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate);
-        DO.Bus GetBus(int licenseNum);
-        void CreateBus(int licenseNum, DateTime fromTime);
-        void DeleteBus(int licenseNum);
-        void UpdateBus(DO.Bus bus);
+        public IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate)
+        {
+            return from bus in DataSource.ListBuses
+                   where predicate(bus) select bus.Clone();
+        }
+        public DO.Bus GetBus(int licenseNum)
+        {
+            DO.Bus helpBus = DataSource.ListBuses.Find(x => x.LicenseNum == licenseNum);
+            if (helpBus != null)
+            {
+                return helpBus.Clone();
+            }
+            else throw new DO.InvalidBusLicenseNumberException(licenseNum);
+        }
+        public void CreateBus(int licenseNum, DateTime fromTime)
+        { }
+        public void DeleteBus(int licenseNum)
+        { }
+        public void UpdateBus(DO.Bus bus)
+        { }
 
         #endregion
 
         #region Stations
 
+        public DO.Station GetStation(int id) 
+        { }
+        public IEnumerable<DO.Line> GetAllLines()
+        { }
+        public IEnumerable<DO.Line> LinesInStation(int stationId)
+        { }
+        public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        { }
+
+        #endregion
+        #region LIine Station
+        public DO.LineStation GetLineStation(int id);
+        public IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
+        public void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        public void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
 
         #endregion
 
         #region Line
-        DO.Line GetLine(int id);
-        void AddLine(DO.Line line);
-        void RemoveLine(int id);
+        public DO.Line GetLine(int id);
+        public void AddLine(DO.Line line);
+        public void RemoveLine(int id);
         #endregion
 
         #region User
-        bool GetUserPrivileges(string username, string password)
+        public bool GetUserPrivileges(string username, string password)
         {
-            
-             throw new DO.BadUsernameOrPasswordException("the password and username doesn't match");
+            DO.User helpUser = DataSource.ListUsers.Find(x => x.UserName == username && x.Password == password);
+            if (helpUser==null)
+                throw new DO.BadUsernameOrPasswordException(username,password,"the password and username doesn't match");
+            return helpUser.Admin;
         }
-        void CreateUser(DO.User user)
-        { }
+        public void CreateUser(DO.User user)
+        {
+        
+        }
 
         #endregion
 
