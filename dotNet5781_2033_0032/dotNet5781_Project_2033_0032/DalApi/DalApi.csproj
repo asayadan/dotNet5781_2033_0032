@@ -57,6 +57,7 @@
     <Compile Include="DO\AdjacentStations.cs" />
     <Compile Include="DO\Bus.cs" />
     <Compile Include="DO\BusOnTrip.cs" />
+    <Compile Include="DO\Exception.cs" />
     <Compile Include="DO\Station.cs" />
     <Compile Include="DO\Enum.cs" />
     <Compile Include="DO\Line.cs" />

@@ -46,8 +46,13 @@ namespace DL
         #endregion
 
         #region User
-        DO.User GetUser(string username, string password);
-        void CreateUser(DO.User user);
+        bool GetUserPrivileges(string username, string password)
+        {
+            
+             throw new DO.BadUsernameOrPasswordException("the password and username doesn't match");
+        }
+        void CreateUser(DO.User user)
+        { }
 
         #endregion
 
