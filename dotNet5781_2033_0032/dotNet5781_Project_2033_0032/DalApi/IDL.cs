@@ -21,7 +21,17 @@ namespace DLAPI
         #region Stations
 
         DO.Station GetStation(int id);
+        IEnumerable<DO.Line> GetAllLines();
+        IEnumerable<DO.Line> LinesInStation(int stationId);
+        void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+
+        #endregion
+        #region LIine Station
         DO.LineStation GetLineStation(int id);
+        IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
+        void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+
         #endregion
 
         #region Line
