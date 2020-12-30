@@ -26,4 +26,14 @@ namespace DO
         public InvalidBusLicenseNumberException(int licenseNum,string message, Exception inner) : base(message, inner) { LicenseNum = licenseNum; }
         public override string ToString() => base.ToString()+"bad bus license number:"+LicenseNum.ToString();
     }
+
+    [Serializable]
+    public class InvalidStatioIDException : Exception
+    {
+        public int ID;
+        public InvalidStatioIDException(int id) : base() { ID = id; }
+        public InvalidStatioIDException(int id, string message) : base(message) { ID = id; }
+        public InvalidStatioIDException(int id, string message, Exception inner) : base(message, inner) { ID = id; }
+        public override string ToString() => base.ToString() + "bad station ID:" + ID.ToString();
+    }
 }

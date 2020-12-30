@@ -12,7 +12,7 @@ namespace DLAPI
         IEnumerable<DO.Bus> GetAllBuses();
         IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate);
         DO.Bus GetBus(int licenseNum);
-        void CreateBus(int licenseNum, DateTime fromTime);
+        void AddBus(DO.Bus NewBus);
         void DeleteBus(int licenseNum);
         void UpdateBus(DO.Bus bus);
 
@@ -21,12 +21,8 @@ namespace DLAPI
         #region Stations
 
         DO.Station GetStation(int id);
-        IEnumerable<DO.Line> GetAllLines();
         IEnumerable<DO.Line> LinesInStation(int stationId);
-        void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-
-        #endregion
-        #region LIine Station
+        void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
         DO.LineStation GetLineStation(int id);
         IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
         void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
@@ -35,6 +31,8 @@ namespace DLAPI
         #endregion
 
         #region Line
+
+        IEnumerable<DO.Line> GetAllLines();
         DO.Line GetLine(int id);
         void AddLine(DO.Line line);
         void RemoveLine(int id);

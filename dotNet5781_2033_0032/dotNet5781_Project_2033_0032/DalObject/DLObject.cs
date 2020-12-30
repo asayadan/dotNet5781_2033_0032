@@ -37,31 +37,65 @@ namespace DL
             {
                 return helpBus.Clone();
             }
-            else throw new DO.InvalidBusLicenseNumberException(licenseNum);
+            else throw new DO.InvalidBusLicenseNumberException(licenseNum, "this license plaet number doesn't exists");
         }
-        public void CreateBus(int licenseNum, DateTime fromTime)
-        { }
+        public void AddBus(DO.Bus NewBus)
+        {
+            if (DataSource.ListBuses.FirstOrDefault(p => p.LicenseNum == NewBus.LicenseNum) != null)
+                throw new DO.InvalidBusLicenseNumberException(NewBus.LicenseNum, "this license plaet number alredy exists");
+            DataSource.ListBuses.Add(NewBus.Clone());
+        }
         public void DeleteBus(int licenseNum)
-        { }
+        {
+            DO.Bus helpBus = DataSource.ListBuses.FirstOrDefault(p => p.LicenseNum == licenseNum);
+            if (helpBus == null)
+                throw new DO.InvalidBusLicenseNumberException(licenseNum, "this license plaet number doesn't exists");
+            else DataSource.ListBuses.Remove(helpBus);
+        }
         public void UpdateBus(DO.Bus bus)
-        { }
+        {
+            DO.Bus helpBus = DataSource.ListBuses.FirstOrDefault(p => p.LicenseNum == bus.LicenseNum);
+            if (helpBus == null)
+                throw new DO.InvalidBusLicenseNumberException(bus.LicenseNum, "this license plaet number doesn't exists");
+            else
+            {
+                DataSource.ListBuses.Remove(helpBus);
+                DataSource.ListBuses.Add(bus.Clone());
+            }
+        }
 
         #endregion
 
         #region Stations
 
         public DO.Station GetStation(int id) 
-        { }
-        public IEnumerable<DO.Line> GetAllLines()
-        { }
-        public IEnumerable<DO.Line> LinesInStation(int stationId)
-        { }
-        public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
-        { }
+        {
+            DO.Station helpStation = DataSource.ListStations.Find(x => x.Code == id);
+            if (helpStation != null)
+            {
+                return helpStation.Clone();
+            }
+            else throw new DO.InvalidStatioIDException(id,"bad station id");
+        }
 
-        #endregion
-        #region LIine Station
+        public void UpdateAdjacentStations(DO.AdjacentStations adjacentStations)
+        {
+            DO.AdjacentStations helpAdj = DataSource.ListAdjacentStations.Find(p => p.Station1 == adjacentStations.Station1&& p.Station2 == adjacentStations.Station2);
+            if (helpAdj == null)
+                throw new DO.InvalidStatioIDException(, "this license plate number doesn't exists");
+            else
+            {
+                DataSource.ListAdjacentStations.Remove(helpAdj);
+                DataSource.ListAdjacentStations.Add(helpAdj.Clone());
+            }
+        }
         public DO.LineStation GetLineStation(int id);
+        public IEnumerable<DO.Line> LinesInStation(int stationId)
+        {
+            return from lineStations in DataSource.ListLineStations
+                   where lineStations.Id == stationId
+                   select GetLine(lineStations.LineId);
+        }
         public IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
         public void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
         public void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
@@ -69,6 +103,8 @@ namespace DL
         #endregion
 
         #region Line
+        public IEnumerable<DO.Line> GetAllLines()
+        { }
         public DO.Line GetLine(int id);
         public void AddLine(DO.Line line);
         public void RemoveLine(int id);
