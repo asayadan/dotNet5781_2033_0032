@@ -17,6 +17,5 @@ namespace BO
 
         static int FULL_GAS_TANK = 1200;//const the size of full gas tank
         #endregion
-
     }
 }
