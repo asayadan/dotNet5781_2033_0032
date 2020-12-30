@@ -9,14 +9,17 @@ namespace DS
 {
     public static class DataSource
     {
-        public static List<Station> ListStations;
+        public static List<Station> ListStations; 
         public static List<LineStation> ListLineStations;
         public static List<AdjacentStations> ListAdjacentStations;
         public static List<Bus> ListBuses;
         public static List<Line> ListLines;
         public static List<Trip> ListTrips;
+        public static List<LineTrip> ListLineTrips;
+
         public static List<BusOnTrip> ListBusesOnTrips;
         public static List<User> ListUsers;
+        
 
         static DataSource()
         {
@@ -120,7 +123,7 @@ namespace DS
                 {
                     Code = 12,
                     Name = "Shahal/Heler",
-                    Latitude = (double)rnd.Next(3100000, 33300000) / 1000000, 
+                    Latitude = (double)rnd.Next(3100000, 33300000) / 1000000,
                     Longitude = (double)rnd.Next(3430000, 35500000) / 1000000
                 },
 
@@ -156,6 +159,7 @@ namespace DS
                     Longitude = (double)rnd.Next(3430000, 35500000) / 1000000
                 }
             };
+
             ListLines = new List<Line>
             {
                 new Line
@@ -208,7 +212,9 @@ namespace DS
 
                 },
             };
+
             ListLineStations = new List<LineStation>();
+
             for (int i = 0; i < ListLines.Count; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -223,9 +229,11 @@ namespace DS
                     }
                     );
                 }
-                
+
             }
+
             ListAdjacentStations = new List<AdjacentStations>();
+
             for (int i = 0; i < ListLineStations.Count - 1; i++)
             {
                 if (ListLineStations[i].NextStation == ListLineStations[i + 1].Station)
@@ -242,10 +250,71 @@ namespace DS
                         });
                 }
             }
-            
+
+            ListBuses = new List<Bus>();
+            int plateNumber, range, mileage, mileageInLastTreat, fuel;
+            DateTime date;
+            for (int i = 0; i < 10; i++)
+            {
+                DateTime start = new DateTime(2016, 1, 1);
+                range = (DateTime.Today - start).Days;
+                date = start.AddDays(rnd.Next(range));
+
+                if (date.Year < 2018)
+                    plateNumber = rnd.Next(1000000, 9999999);
+                else plateNumber = rnd.Next(10000000, 99999999);
+
+                //start = date;
+                //range = (DateTime.Today - date).Days;
+                //lastTreatment = start.AddDays(rnd.Next(range));
+
+                mileage = rnd.Next(5000);
+                mileageInLastTreat = rnd.Next(mileage);
+                fuel = rnd.Next(1200);
+
+                ListBuses.Add(new Bus
+                {
+                    LicenseNum = plateNumber,
+                    FromDate = date,
+                    LastTreatment = date,
+                    FuelRemaining = fuel,
+                    Status = Status.Ready,
+                    TotalTrip = mileageInLastTreat
+                });
+            }
+
+            ListUsers = new List<User>()
+            {
+                new User
+                {
+                    Admin = true,
+                    Password = "Admin",
+                    UserName = "Admin"
+                },
+
+                new User
+                {
+                    Admin = false,
+                    Password = "Noam",
+                    UserName = "qwerty"
+                },
+
+                new User
+                {
+                    Admin = false,
+                    Password = "Achiya",
+                    UserName = "12345678"
+                },
+            };
+
+            //ListTrips = new List<Trip>(); Shlav 2
+            //ListLineTrips = new List<LineTrip>(); shlav 2
+            // ListBusesOnTrips = new List<BusOnTrip>(); Shlav 2
+
+
         }
 
-        
+
         static double DistanceBetween(Station station1, Station station2)
         {
             return Math.Sqrt(Math.Pow((station1.Latitude - station2.Latitude), 2) +
