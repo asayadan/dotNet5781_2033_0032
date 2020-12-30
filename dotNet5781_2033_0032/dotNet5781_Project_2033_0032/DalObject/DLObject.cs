@@ -15,14 +15,14 @@ namespace DL
         #region singelton
         static readonly DLObject instance = new DLObject();
         static DLObject() { }
-        DLObject() { } 
+        DLObject() { }
         public static DLObject Instance { get => instance; }
         #endregion
 
         #region Bus
         public IEnumerable<DO.Bus> GetAllBuses()
         {
-            return from bus in DataSource.ListBuses 
+            return from bus in DataSource.ListBuses
                    select bus.Clone();
         }
         public IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate)
@@ -68,28 +68,34 @@ namespace DL
 
         #region Stations
 
-        public DO.Station GetStation(int id) 
+        public DO.Station GetStation(int id)
         {
             DO.Station helpStation = DataSource.ListStations.Find(x => x.Code == id);
             if (helpStation != null)
             {
                 return helpStation.Clone();
             }
-            else throw new DO.InvalidStatioIDException(id,"bad station id");
+            else throw new DO.InvalidStationIDException(id, "bad station id");
         }
 
         public void UpdateAdjacentStations(DO.AdjacentStations adjacentStations)
         {
-            DO.AdjacentStations helpAdj = DataSource.ListAdjacentStations.Find(p => p.Station1 == adjacentStations.Station1&& p.Station2 == adjacentStations.Station2);
+            DO.AdjacentStations helpAdj = DataSource.ListAdjacentStations.Find(p => p.Station1 == adjacentStations.Station1 && p.Station2 == adjacentStations.Station2);
             if (helpAdj == null)
-                throw new DO.InvalidStatioIDException(, "this license plate number doesn't exists");
+                throw new DO.InvalidStationLineIDException(adjacentStations.Station1,adjacentStations.Station2,"we doen't have this two adjacent station");
             else
             {
                 DataSource.ListAdjacentStations.Remove(helpAdj);
                 DataSource.ListAdjacentStations.Add(helpAdj.Clone());
             }
         }
-        public DO.LineStation GetLineStation(int id);
+        public DO.LineStation GetLineStation(int id)
+        {
+            DO.LineStation helpLineStation = DataSource.ListLineStations.Find(p => p.Id==id);
+            if (helpLineStation == null)
+                throw new DO.InvalidStationIDException(id, "we doen't have this line station");
+            return helpLineStation.Clone();
+        }
         public IEnumerable<DO.Line> LinesInStation(int stationId)
         {
             return from lineStations in DataSource.ListLineStations

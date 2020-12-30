@@ -28,12 +28,22 @@ namespace DO
     }
 
     [Serializable]
-    public class InvalidStatioIDException : Exception
+    public class InvalidStationIDException : Exception
     {
         public int ID;
-        public InvalidStatioIDException(int id) : base() { ID = id; }
-        public InvalidStatioIDException(int id, string message) : base(message) { ID = id; }
-        public InvalidStatioIDException(int id, string message, Exception inner) : base(message, inner) { ID = id; }
+        public InvalidStationIDException(int id) : base() { ID = id; }
+        public InvalidStationIDException(int id, string message) : base(message) { ID = id; }
+        public InvalidStationIDException(int id, string message, Exception inner) : base(message, inner) { ID = id; }
         public override string ToString() => base.ToString() + "bad station ID:" + ID.ToString();
+    }
+
+    public class InvalidStationLineIDException : Exception
+    {
+        public int ID1;
+        public int ID2;
+        public InvalidStationLineIDException(int id1,int id2) : base() { ID1 = id1; ID2 = id2; }
+        public InvalidStationLineIDException(int id1, int id2, string message) : base(message) { ID1 = id1; ID2 = id2; }
+        public InvalidStationLineIDException(int id1, int id2, string message, Exception inner) : base(message, inner) { ID1 = id1; ID2 = id2; }
+        public override string ToString() => base.ToString() + "bad station ID:" + ID1.ToString()+" or "+ID2.ToString();
     }
 }
