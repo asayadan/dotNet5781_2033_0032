@@ -102,7 +102,11 @@ namespace DL
                    where lineStations.Id == stationId
                    select GetLine(lineStations.LineId);
         }
-        public IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
+        public IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId)
+        {
+
+
+        }
         public void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
         public void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
 
