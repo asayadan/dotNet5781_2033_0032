@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using DS;
 using DLAPI;
-//using DO;
-using DS; 
 
 namespace DL
 {
     sealed class DLObject : IDL
     {
         #region singelton
-        static readonly DLObject instance = new DLObject();
         static DLObject() { }
         DLObject() { }
-        public static DLObject Instance { get => instance; }
+        public static DLObject Instance { get; } = new DLObject();
         #endregion
 
         #region Bus
@@ -134,12 +131,5 @@ namespace DL
         }
 
         #endregion
-
-
-
-
-
-
-
     }
 }
