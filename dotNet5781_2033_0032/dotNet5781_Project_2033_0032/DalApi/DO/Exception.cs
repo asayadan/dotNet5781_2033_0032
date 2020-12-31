@@ -10,8 +10,8 @@ namespace DO
     [Serializable]
     public class BadUsernameOrPasswordException:Exception
     {
-        string Username;
-        string Password;
+        public string Username;
+        public string Password;
         public BadUsernameOrPasswordException(string username, string password) : base() { Username = username; Password = password; }
         public BadUsernameOrPasswordException(string username, string password,string message) : base(message) { Username = username; Password = password; }
         public BadUsernameOrPasswordException(string username, string password,string message, Exception inner) : base(message, inner) { Username = username; Password = password; }

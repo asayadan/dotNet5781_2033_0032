@@ -58,6 +58,7 @@
     <Compile Include="BLImp.cs" />
     <Compile Include="BO\Bus.cs" />
     <Compile Include="BO\Enum.cs" />
+    <Compile Include="BO\Exception.cs" />
     <Compile Include="BO\Line.cs" />
     <Compile Include="BO\LineStation.cs" />
     <Compile Include="BO\AdjacentStations.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="BO\BusOnTrip.cs" />
     <Compile Include="BO\Trip.cs" />
     <Compile Include="BO\User.cs" />
+    <Compile Include="DeepCopyUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
