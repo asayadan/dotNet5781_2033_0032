@@ -11,7 +11,7 @@ namespace BLAPI
 
         #region Bus
         BO.Bus GetBus(int licenseNum);
-        void CreateBus(int licenseNum, DateTime fromTime);
+        void AddBus(int licenseNum, DateTime fromTime);
         void DeleteBus(int licenseNum);
         void UpdateBus(BO.Bus bus);
         IEnumerable<BO.Bus> GetAllBuses();

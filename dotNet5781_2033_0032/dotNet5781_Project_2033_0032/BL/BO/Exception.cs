@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DO
+namespace BO
 {
+
     [Serializable]
-    public class BadUsernameOrPasswordException:Exception
+    public class BadUsernameOrPasswordException : Exception
     {
-        public string Username;
-        public string Password;
+        string Username;
+        string Password;
         public BadUsernameOrPasswordException(string username, string password) : base() { Username = username; Password = password; }
-        public BadUsernameOrPasswordException(string username, string password,string message) : base(message) { Username = username; Password = password; }
-        public BadUsernameOrPasswordException(string username, string password,string message, Exception inner) : base(message, inner) { Username = username; Password = password; }
+        public BadUsernameOrPasswordException(string username, string password, string message) : base(message) { Username = username; Password = password; }
+        public BadUsernameOrPasswordException(string username, string password, string message, Exception inner) : base(message, inner) { Username = username; Password = password; }
     }
 
     [Serializable]
@@ -22,9 +22,9 @@ namespace DO
     {
         public int LicenseNum;
         public InvalidBusLicenseNumberException(int licenseNum) : base() { LicenseNum = licenseNum; }
-        public InvalidBusLicenseNumberException(int licenseNum,string message) : base(message) { LicenseNum = licenseNum; }
-        public InvalidBusLicenseNumberException(int licenseNum,string message, Exception inner) : base(message, inner) { LicenseNum = licenseNum; }
-        public override string ToString() => base.ToString()+"bad bus license number:"+LicenseNum.ToString();
+        public InvalidBusLicenseNumberException(int licenseNum, string message) : base(message) { LicenseNum = licenseNum; }
+        public InvalidBusLicenseNumberException(int licenseNum, string message, Exception inner) : base(message, inner) { LicenseNum = licenseNum; }
+        public override string ToString() => base.ToString() + "bad bus license number:" + LicenseNum.ToString();
     }
 
     [Serializable]
@@ -41,9 +41,10 @@ namespace DO
     {
         public int ID1;
         public int ID2;
-        public InvalidStationLineIDException(int id1,int id2) : base() { ID1 = id1; ID2 = id2; }
+        public InvalidStationLineIDException(int id1, int id2) : base() { ID1 = id1; ID2 = id2; }
         public InvalidStationLineIDException(int id1, int id2, string message) : base(message) { ID1 = id1; ID2 = id2; }
         public InvalidStationLineIDException(int id1, int id2, string message, Exception inner) : base(message, inner) { ID1 = id1; ID2 = id2; }
-        public override string ToString() => base.ToString() + "bad station ID:" + ID1.ToString()+" or "+ID2.ToString();
+        public override string ToString() => base.ToString() + "bad station ID:" + ID1.ToString() + " or " + ID2.ToString();
     }
+}
 }
