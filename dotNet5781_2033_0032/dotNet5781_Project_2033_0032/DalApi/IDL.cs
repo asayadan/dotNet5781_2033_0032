@@ -25,8 +25,8 @@ namespace DLAPI
         void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
         DO.LineStation GetLineStation(int id);
         IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
-        void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-        void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        void AddStationToLine(DO.LineStation lineStation);
+        void RemoveStationFromLine(int stationId, int lineId);
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace DLAPI
 
         #region User
         bool GetUserPrivileges(string username, string password);
-        void CreateUser(DO.User user);
+        void AddUser(DO.User user);
 
         #endregion
 

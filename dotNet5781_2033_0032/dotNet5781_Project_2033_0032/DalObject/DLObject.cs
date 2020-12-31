@@ -74,12 +74,11 @@ namespace DL
             }
             else throw new DO.InvalidStationIDException(id, "bad station id");
         }
-
         public void UpdateAdjacentStations(DO.AdjacentStations adjacentStations)
         {
             DO.AdjacentStations helpAdj = DataSource.ListAdjacentStations.Find(p => p.Station1 == adjacentStations.Station1 && p.Station2 == adjacentStations.Station2);
             if (helpAdj == null)
-                throw new DO.InvalidStationLineIDException(adjacentStations.Station1,adjacentStations.Station2,"we doen't have this two adjacent station");
+                throw new DO.InvalidAdjacentLineIDException(adjacentStations.Station1,adjacentStations.Station2,"we doen't have this two adjacent station");
             else
             {
                 DataSource.ListAdjacentStations.Remove(helpAdj);
@@ -101,20 +100,52 @@ namespace DL
         }
         public IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId)
         {
-
-
+            return from lineStation in DataSource.ListLineStations
+                   where lineStation.LineId== lineId
+                   orderby lineStation.LineStationIndex ascending
+                   select lineStation.Clone();
         }
-        public void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-        public void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        public void AddLineStationToLine(DO.LineStation lineStation)
+        {
+            if (DataSource.ListLineStations.FirstOrDefault(p => p.Id == lineStation.Id && p.LineId == lineStation.LineId) != null)
+                throw new DO.InvalidLinesStationException(lineStation.Id, lineStation.LineId, "the data base alredy has this line station");
+            DataSource.ListLineStations.Add(lineStation.Clone());
+        }
+        public void RemoveStationFromLine(int stationId,int lineId)
+        {
+            int helpIndex= DataSource.ListLineStations.FindIndex(p => p.Id == stationId&&p.LineId== lineId);
+            DO.LineStation helpLineStation = DataSource.ListLineStations[helpIndex];
+            if (helpLineStation == null)
+                throw new DO.InvalidLinesStationException(stationId, lineId, "this license line station  number doesn't exists");
+            else DataSource.ListLineStations.Remove(helpLineStation);
+        }
 
         #endregion
 
         #region Line
         public IEnumerable<DO.Line> GetAllLines()
-        { }
-        public DO.Line GetLine(int id);
-        public void AddLine(DO.Line line);
-        public void RemoveLine(int id);
+        {
+            return from line in DataSource.ListLines
+                   select line.Clone();
+        }
+        public DO.Line GetLine(int id)
+        {
+
+            DO.Line helpLine = DataSource.ListLines.Find(x => x.Id == id);
+            if (helpLine != null)
+            {
+                return helpLine.Clone();
+            }
+            else throw new DO.InvalidLineIDException(id, "this line id doesn't exists");
+        }
+        public void AddLine(DO.Line line)
+        {
+
+        }
+        public void RemoveLine(int id)
+        { 
+            
+        }
         #endregion
 
         #region User
@@ -125,7 +156,7 @@ namespace DL
                 throw new DO.BadUsernameOrPasswordException(username,password,"the password and username doesn't match");
             return helpUser.Admin;
         }
-        public void CreateUser(DO.User user)
+        public void AddUser(DO.User user)
         {
         
         }
