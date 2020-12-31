@@ -224,7 +224,7 @@ namespace DS
                     {
                         LineId = ListLines[i].Code,
                         LineStationIndex = j,
-                        Station = ListStations[(i * 4 + j + 1) % ListStations.Count].Code,
+                        Id = ListStations[(i * 4 + j + 1) % ListStations.Count].Code,
                         NextStation = (j == 4 - 1) ? 0 : ListStations[(i * 4 + j + 2) % ListStations.Count].Code
                     }
                     );
@@ -236,7 +236,7 @@ namespace DS
 
             for (int i = 0; i < ListLineStations.Count - 1; i++)
             {
-                if (ListLineStations[i].NextStation == ListLineStations[i + 1].Station)
+                if (ListLineStations[i].NextStation == ListLineStations[i + 1].Id)
                 {
                     var dist = DistanceBetween(GetStation(ListLineStations[i].NextStation),
                                                                             GetStation(ListLineStations[i + 1].NextStation));
@@ -244,8 +244,8 @@ namespace DS
                         new AdjacentStations
                         {
                             DistFromLastStation = dist,
-                            Station1 = ListLineStations[i].Station,
-                            Station2 = ListLineStations[i + 1].Station,
+                            Station1 = ListLineStations[i].Id,
+                            Station2 = ListLineStations[i + 1].Id,
                             TimeSinceLastStation = DateTime.Now.AddMinutes(dist * 1000 / rnd.Next(30, 50)) - DateTime.Now
                         });
                 }
