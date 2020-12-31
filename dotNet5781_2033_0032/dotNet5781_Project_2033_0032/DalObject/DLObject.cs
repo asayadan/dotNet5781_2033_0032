@@ -105,13 +105,13 @@ namespace DL
                    orderby lineStation.LineStationIndex ascending
                    select lineStation.Clone();
         }
-        public void AddLineStationToLine(DO.LineStation lineStation)
+        public void AddLineStation(DO.LineStation lineStation)
         {
             if (DataSource.ListLineStations.FirstOrDefault(p => p.Id == lineStation.Id && p.LineId == lineStation.LineId) != null)
                 throw new DO.InvalidLinesStationException(lineStation.Id, lineStation.LineId, "the data base alredy has this line station");
             DataSource.ListLineStations.Add(lineStation.Clone());
         }
-        public void RemoveStationFromLine(int stationId,int lineId)
+        public void RemoveLineStation(int stationId,int lineId)
         {
             int helpIndex= DataSource.ListLineStations.FindIndex(p => p.Id == stationId&&p.LineId== lineId);
             DO.LineStation helpLineStation = DataSource.ListLineStations[helpIndex];
@@ -140,11 +140,17 @@ namespace DL
         }
         public void AddLine(DO.Line line)
         {
-
+            if (DataSource.ListLines.FirstOrDefault(p => p.Id == line.Id) != null)
+                throw new DO.InvalidLineIDException(line.Id, "the data base alredy has this line line");
+            DataSource.ListLines.Add(line.Clone());
         }
         public void RemoveLine(int id)
-        { 
-            
+        {
+            int helpIndex = DataSource.ListLines.FindIndex(p => p.Id ==id);
+            DO.Line helpLine= DataSource.ListLines[helpIndex];
+            if (helpLine == null)
+                throw new DO.InvalidLineIDException(id, "this  line   number doesn't exist in our database");
+            else DataSource.ListLines.Remove(helpLine);
         }
         #endregion
 
@@ -158,7 +164,9 @@ namespace DL
         }
         public void AddUser(DO.User user)
         {
-        
+            if (DataSource.ListUsers.FirstOrDefault(p => p.UserName == user.UserName) != null)
+                throw new DO.BadUsernameOrPasswordException(user.UserName, user.Password, "the data base alredy has this line line");
+            DataSource.ListUsers.Add(user.Clone());
         }
 
         #endregion
