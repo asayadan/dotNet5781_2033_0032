@@ -14,6 +14,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNet5781_03B_2033_0032", "dotNet5781_03B_2033_0032\dotNet5781_03B_2033_0032.csproj", "{B631B7A0-3598-435B-9305-722A72AD17B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project", "Project", "{3E82F158-AA56-4F90-B345-3D1CB402B674}"
+	ProjectSection(SolutionItems) = preProject
+		dotNet5781_Project_2033_0032\bin\config.xml = dotNet5781_Project_2033_0032\bin\config.xml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlGui", "dotNet5781_Project_2033_0032\PlGui\PlGui.csproj", "{1A717E3C-518A-49CB-B852-FB8D58C71DF5}"
 EndProject
