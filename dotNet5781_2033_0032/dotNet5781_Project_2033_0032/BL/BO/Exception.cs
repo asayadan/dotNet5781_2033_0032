@@ -44,16 +44,6 @@ namespace BO
         public InvalidAdjacentLineIDException(int id1, int id2, string message, Exception inner) : base(message, inner) { ID1 = id1; ID2 = id2; }
         public override string ToString() => base.ToString() + "bad station ID:" + ID1.ToString() + " or " + ID2.ToString();
     }
-    [Serializable]
-    public class InvalidAdjacentLineIDException : Exception
-    {
-        public int ID1;
-        public int ID2;
-        public InvalidAdjacentLineIDException(int id1, int id2) : base() { ID1 = id1; ID2 = id2; }
-        public InvalidAdjacentLineIDException(int id1, int id2, string message) : base(message) { ID1 = id1; ID2 = id2; }
-        public InvalidAdjacentLineIDException(int id1, int id2, string message, Exception inner) : base(message, inner) { ID1 = id1; ID2 = id2; }
-        public override string ToString() => base.ToString() + "bad station ID:" + ID1.ToString() + " or " + ID2.ToString();
-    }
 
     [Serializable]
     public class InvalidLinesStationException : Exception

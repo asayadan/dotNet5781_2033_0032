@@ -296,15 +296,15 @@ namespace DS
                 new User
                 {
                     Admin = false,
-                    Password = "Noam",
-                    UserName = "qwerty"
+                    UserName = "Noam",
+                    Password = "qwerty"
                 },
 
                 new User
                 {
                     Admin = false,
-                    Password = "Achiya",
-                    UserName = "12345678"
+                    UserName = "Achiya",
+                    Password = "12345678"
                 },
             };
 

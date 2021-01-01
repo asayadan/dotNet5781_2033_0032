@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using BLAPI;
+
 namespace PlGui
 {
     /// <summary>
@@ -19,10 +22,13 @@ namespace PlGui
     /// </summary>
     public partial class MenagmentWindow : Window
     {
-        string username 
-        public MenagmentWindow(string user)
+
+        IBL bl;
+        string username; 
+        public MenagmentWindow( IBL _bl ,string user)
         {
             username = user;
+            bl = _bl;
             InitializeComponent();
         }
     }

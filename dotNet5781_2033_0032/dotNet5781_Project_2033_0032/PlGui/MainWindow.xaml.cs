@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Windows.Threading;
 using BLAPI;
 namespace PlGui
 {
@@ -23,7 +23,7 @@ namespace PlGui
     public partial class MainWindow : Window
     {
         IBL bl = BLFactory.GetBL("1");
-        BackgroundWorker getUser=new BackgroundWorker();
+        BackgroundWorker getUser = new BackgroundWorker();
         public MainWindow()
         {
             InitializeComponent();
@@ -31,29 +31,33 @@ namespace PlGui
 
 
 
-        void OpenWindow(object userName, object password)
+        void OpenWindow(object sender, EventArgs e)
         {
-            try
-            {
-                if (bl.GetUserPrivileges((userName as TextBox).Text, (password as TextBox).Text))
-                {
-                    MenagmentWindow menWin = new MenagmentWindow((userName as TextBox).Text);
-                    menWin.Show();
-                    this.Close();
 
-                }
-                else
-                {
-                    MessageBox.Show("section under construction");
-                }
-            }
-            catch (BO.BadUsernameOrPasswordException)
+            this.Dispatcher.Invoke((Action)(() =>
             {
-                tb_warnings.Text = "userName or password incorrect";
-            }
+                try
+                {
+                    if (bl.GetUserPrivileges(tb_username.Text, tb_password.Text))
+                    {
+                        MenagmentWindow menWin = new MenagmentWindow(bl, tb_username.Text);
+                        menWin.Show();
+                        this.Close();
 
-        
+                    }
+                    else
+                    {
+                        MessageBox.Show("section under construction");
+                    }
+                }
+                catch (BO.BadUsernameOrPasswordException ex)
+                {
+                    tb_warnings.Text = "userName or password incorrect";
+                }
+            }));
         }
+    
+
 
         public  void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
         {                                                   // preview text to make it easier for the user
