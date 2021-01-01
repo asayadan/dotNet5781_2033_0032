@@ -47,4 +47,4 @@ namespace BO
         public override string ToString() => base.ToString() + "bad station ID:" + ID1.ToString() + " or " + ID2.ToString();
     }
 }
-}
+
