@@ -127,13 +127,34 @@ namespace BL
             return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Line>>(dl.GetAllLines(),
                 typeof(IEnumerable<BO.Line>)) as IEnumerable<BO.Line>;
         }
-        public void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
         {
-
+            try
+            {
+                var curStation = (dl.GetLineStationsInLine(lineId)).ToArray()[index];
+                dl.AddLineStation(new DO.LineStation
+                {
+                    LineId = lineId,
+                    Id = stationId,
+                    NextStation = curStation.Id,
+                    LineStationIndex = index,
+                    PrevStation = curStation.NextStation
+                });
+            }
+            catch (DO.InvalidLinesStationException ex) {
+                throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
+            }
         }
-        public void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        public void RemoveStationFromLine(int lineId, int stationId, double distanceFromLastStation, TimeSpan timeSinceLastStation)
         {
-
+            try
+            {
+                dl.RemoveLineStation(stationId, lineId);
+            }
+            catch (DO.InvalidLinesStationException ex)
+            {
+                throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
+            }
         }
         public IEnumerable<BO.Line> LinesInStation(int stationId)
         {
@@ -153,7 +174,7 @@ namespace BL
                 });
             }
 
-            catch (DO.InvalidAdjacentLineIDException ex)
+            catch (DO.InvalidAdjacentStationIDException ex)
             {
                 throw new InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
             }

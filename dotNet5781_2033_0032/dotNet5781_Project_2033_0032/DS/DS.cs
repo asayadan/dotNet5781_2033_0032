@@ -238,8 +238,9 @@ namespace DS
             {
                 if (ListLineStations[i].NextStation == ListLineStations[i + 1].Id)
                 {
-                    var dist = DistanceBetween(GetStation(ListLineStations[i].NextStation),
-                                                                            GetStation(ListLineStations[i + 1].NextStation));
+                    var station1 = ListStations.Find(x => x.Code == ListLineStations[i].Id);
+                    var station2 = ListStations.Find(x => x.Code == ListLineStations[i+1].Id);
+                    var dist = DistanceBetween(station1, station2);
                     ListAdjacentStations.Add(
                         new AdjacentStations
                         {
