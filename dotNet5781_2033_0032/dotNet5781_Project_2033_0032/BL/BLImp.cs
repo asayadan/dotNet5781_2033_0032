@@ -14,7 +14,7 @@ namespace BL
 
 
         #region Bus
-        BO.Bus GetBus(int licenseNum)
+        public BO.Bus GetBus(int licenseNum)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace BL
                 throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
             }
         }
-        void AddBus(int licenseNum, DateTime fromTime)
+        public void AddBus(int licenseNum, DateTime fromTime)
         {
             if (((fromTime.Year >= 2018) && (licenseNum > 9999999)) && (licenseNum <= 99999999) ||//the BO.Bus registered after 2018 and has 8 digits
                 ((fromTime.Year < 2018) && (licenseNum <= 9999999)) && (licenseNum > 999999))//the BO.Bus registered before 2018 and has 7 digits
@@ -42,7 +42,7 @@ namespace BL
                 throw new InvalidBusLicenseNumberException(licenseNum, "The license plate number isn't valid to that date.");
             }
         }
-        void DeleteBus(int licenseNum)
+        public void DeleteBus(int licenseNum)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace BL
             }
 
         }
-        void UpdateBus(BO.Bus bus)
+        public void UpdateBus(BO.Bus bus)
         {
             try
             {
@@ -65,25 +65,25 @@ namespace BL
                 throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
             }
         }
-        IEnumerable<BO.Bus> GetAllBuses()
+        public IEnumerable<BO.Bus> GetAllBuses()
         {
             return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Bus>>(dl.GetAllBuses(),
                 typeof(IEnumerable<BO.Bus>)) as IEnumerable<BO.Bus>;
         }
-        IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate)
+        public IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate)
         {
             return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Bus>>
                 (dl.GetBusBy(DeepCopyUtilities.CopyPropertiesToNew
-                <Predicate<BO.Bus>>(predicate,typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>),
+                <Predicate<BO.Bus>>(predicate, typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>),
                 typeof(IEnumerable<BO.Bus>)) as IEnumerable<BO.Bus>;
         }
-        void FuelBus(int id)
+        public void FuelBus(int id)
         {
             var a = dl.GetBus(id);
             a.FuelRemaining = DO.Bus.FullGasTank;
             dl.UpdateBus(a);
         }
-        void FixBus(int id)
+        public void FixBus(int id)
         {
             var a = dl.GetBus(id);
             a.LastTreatment = DateTime.Now;
@@ -92,26 +92,122 @@ namespace BL
         #endregion
 
         #region Stations
-        BO.Station GetStation(int id);
-        BO.LineStation GetLineStation(int id);
-        IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
-        IEnumerable<BO.Line> GetAllLines();
-        void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-        void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-        IEnumerable<BO.Line> LinesInStation(int stationId);
-        void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        public BO.Station GetStation(int id)
+        {
+            try
+            {
+                return DeepCopyUtilities.CopyPropertiesToNew<DO.Station>(dl.GetStation(id),
+                typeof(DO.Station)) as BO.Station;
+            }
+            catch (DO.InvalidStationIDException ex)
+            {
+                throw new InvalidStationIDException(ex.ID, ex.Message);
+            }
+        }
+        public BO.LineStation GetLineStation(int id)
+        {
+            try
+            {
+                return DeepCopyUtilities.CopyPropertiesToNew<DO.LineStation>(dl.GetLineStation(id),
+                    typeof(DO.LineStation)) as BO.LineStation;
+            }
+            catch (DO.InvalidStationIDException ex)
+            {
+                throw new InvalidStationIDException(ex.ID, ex.Message);
+            }
+        }
+        public IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId)
+        {
+            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.LineStation>>(dl.GetLineStationsInLine(lineId),
+                typeof(IEnumerable<BO.LineStation>)) as IEnumerable<BO.LineStation>;
 
+        }
+        public IEnumerable<BO.Line> GetAllLines()
+        {
+            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Line>>(dl.GetAllLines(),
+                typeof(IEnumerable<BO.Line>)) as IEnumerable<BO.Line>;
+        }
+        public void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        {
+
+        }
+        public void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        {
+
+        }
+        public IEnumerable<BO.Line> LinesInStation(int stationId)
+        {
+            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Line>>(dl.LinesInStation(stationId),
+                typeof(IEnumerable<BO.Line>)) as IEnumerable<BO.Line>;
+        }
+        public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        {
+            try
+            {
+                dl.UpdateAdjacentStations(new DO.AdjacentStations
+                {
+                    DistFromLastStation = distanceSinceLastStation,
+                    Station1 = station1,
+                    Station2 = station2,
+                    TimeSinceLastStation = timeSinceLastStation
+                });
+            }
+
+            catch (DO.InvalidAdjacentLineIDException ex)
+            {
+                throw new InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
+            }
+        }
         #endregion
 
         #region Line
-        BO.Line GetLine(int id);
-        void AddLine(int id, BO.Areas area, int firstStation, int lastStation);
-        void RemoveLine(int id);
+        public BO.Line GetLine(int id)
+        {
+            try
+            {
+                return DeepCopyUtilities.CopyPropertiesToNew<DO.Line>(dl.GetLine(id),
+                    typeof(DO.Line)) as BO.Line;
+            }
+            catch (DO.InvalidLineIDException ex)
+            {
+                throw new BO.InvalidLineIDException(ex.ID, ex.Message);
+            }
+        }
+        public void AddLine(int id, BO.Areas area, int firstStation, int lastStation)
+        {
+            try
+            {
+                dl.AddLine(new DO.Line
+                {
+                    Area = (DO.Areas)area,
+                    Code = id,
+                    FirstStation = firstStation,
+                    LastStation = lastStation,
+                    Id = Counters.lines++
+                });
+            }
+            catch (DO.InvalidLineIDException ex)
+            {
+                throw new BO.InvalidLineIDException(ex.ID, ex.Message);
+            }
+
+        }
+        public void RemoveLine(int id)
+        {
+            try
+            {
+                dl.RemoveLine(id);
+            }
+            catch (DO.InvalidLineIDException ex)
+            {
+                throw new BO.InvalidLineIDException(ex.ID, ex.Message);
+            }
+        }
 
         #endregion
 
         #region User
-        bool GetUserPrivileges(string userName, string password)
+        public bool GetUserPrivileges(string userName, string password)
         {
             try
             {
@@ -122,13 +218,13 @@ namespace BL
                 throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message);
             }
         }
-        void CreateUser(string userName, string password, string passwordValidation)
+        public void AddUser(string userName, string password, string passwordValidation)
         {
             if (password != passwordValidation)
                 throw new BadUsernameOrPasswordException(userName, password, "Passwords aren't equal.");
             try
             {
-                dl.CreateUser(new DO.User { Admin = false, Password = password, UserName = userName });
+                dl.AddUser(new DO.User { Admin = false, Password = password, UserName = userName });
             }
             catch (DO.BadUsernameOrPasswordException ex)
             {

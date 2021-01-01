@@ -41,7 +41,7 @@ namespace BLAPI
 
         #region User
         bool GetUserPrivileges(string userName, string password);
-        void CreateUser(string username,string password, string passwordValidation);
+        void AddUser(string username,string password, string passwordValidation);
         #endregion
 
     }
