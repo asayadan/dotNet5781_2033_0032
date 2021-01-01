@@ -54,6 +54,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLAPI\BLFactory.cs" />
     <Compile Include="BLAPI\IBL.cs" />
     <Compile Include="BLImp.cs" />
     <Compile Include="BO\Bus.cs" />

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using BLAPI;
 namespace PlGui
 {
     /// <summary>
@@ -20,9 +21,29 @@ namespace PlGui
     /// </summary>
     public partial class MainWindow : Window
     {
+        IBL bl = BLFactory.GetBL("1");
         public MainWindow()
         {
             InitializeComponent();
+
+        }
+
+        void OpenWindow(object userName, object password)
+        {
+            try
+            {
+                if (bl.GetUserPrivileges((userName as TextBox).Text, (password as TextBox).Text))
+                {
+
+                }
+            }
+            catch (BO.BadUsernameOrPasswordException)
+            {
+
+                ;
+            }
+
+        
         }
 
         public  void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
