@@ -74,11 +74,28 @@ namespace DL
             }
             else throw new DO.InvalidStationIDException(id, "bad station id");
         }
+        public void AddAdjacentStations(DO.AdjacentStations adjacentStation)
+        {
+            if (DataSource.ListAdjacentStations.FirstOrDefault(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2) != null)
+                throw new DO.InvalidAdjacentStationIDException(adjacentStation.Station1, adjacentStation.Station2, "the data base alredy has this adjacent station data structure");
+            DataSource.ListAdjacentStations.Add(adjacentStation.Clone());
+        }
+        public void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStation, int linneId)
+        {
+            int helpIndex= DataSource.ListAdjacentStations.FindIndex(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2);
+            if (helpIndex == -1)
+                throw new DO.InvalidAdjacentStationIDException(adjacentStation.Station1, adjacentStation.Station2, "this license line station  number doesn't exists");
+            if (1 == DataSource.ListLineStations.FindAll(p => p.LineStationIndex!=0&& p.PrevStation == adjacentStation.Station1 && p.Id == adjacentStation.Station2).Count)
+            {
+                DataSource.ListAdjacentStations.Remove(DataSource.ListAdjacentStations[helpIndex]);
+            }
+                
+        }
         public void UpdateAdjacentStations(DO.AdjacentStations adjacentStations)
         {
             DO.AdjacentStations helpAdj = DataSource.ListAdjacentStations.Find(p => p.Station1 == adjacentStations.Station1 && p.Station2 == adjacentStations.Station2);
             if (helpAdj == null)
-                throw new DO.InvalidAdjacentLineIDException(adjacentStations.Station1,adjacentStations.Station2,"we doen't have this two adjacent station");
+                throw new DO.InvalidAdjacentStationIDException(adjacentStations.Station1,adjacentStations.Station2,"we doen't have this two adjacent station");
             else
             {
                 DataSource.ListAdjacentStations.Remove(helpAdj);
@@ -115,7 +132,7 @@ namespace DL
         {
             int helpIndex= DataSource.ListLineStations.FindIndex(p => p.Id == stationId&&p.LineId== lineId);
             DO.LineStation helpLineStation = DataSource.ListLineStations[helpIndex];
-            if (helpLineStation == null)
+            if (helpIndex == -1)
                 throw new DO.InvalidLinesStationException(stationId, lineId, "this license line station  number doesn't exists");
             else DataSource.ListLineStations.Remove(helpLineStation);
         }
