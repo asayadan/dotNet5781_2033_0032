@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +23,13 @@ namespace PlGui
     public partial class MainWindow : Window
     {
         IBL bl = BLFactory.GetBL("1");
+        BackgroundWorker getUser=new BackgroundWorker();
         public MainWindow()
         {
             InitializeComponent();
-
         }
+
+
 
         void OpenWindow(object userName, object password)
         {
@@ -34,13 +37,19 @@ namespace PlGui
             {
                 if (bl.GetUserPrivileges((userName as TextBox).Text, (password as TextBox).Text))
                 {
+                    MenagmentWindow menWin = new MenagmentWindow((userName as TextBox).Text);
+                    menWin.Show();
+                    this.Close();
 
+                }
+                else
+                {
+                    MessageBox.Show("section under construction");
                 }
             }
             catch (BO.BadUsernameOrPasswordException)
             {
-
-                ;
+                tb_warnings.Text = "userName or password incorrect";
             }
 
         
@@ -62,6 +71,12 @@ namespace PlGui
             {
                 (sender as TextBox).Text = "";
             }
+        }
+
+        private void btn_logIn_Click(object sender, RoutedEventArgs e)
+        {
+            getUser.DoWork += OpenWindow;
+            getUser.RunWorkerAsync();
         }
     }
 }

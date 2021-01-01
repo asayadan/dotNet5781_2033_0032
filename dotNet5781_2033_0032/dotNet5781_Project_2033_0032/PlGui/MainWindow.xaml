@@ -27,6 +27,11 @@
             <Setter Property="Foreground" Value="Blue"/>
             <Setter Property="FontSize" Value="25"/>
         </Style>
+        <Style x:Key="WarningMessageStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontFamily" Value="Cambria Math"/>
+        </Style>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -52,7 +57,8 @@
         <Label x:Name="lbl__log" Content="Log in" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="50" FontStyle="Italic" FontFamily="Brush Script MT"/>
         <Button x:Name="bn_singUp"  Content="Sign Up" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Bottom" Style="{StaticResource link}" />
         <TextBlock x:Name="tbl_message" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" />
-        <Button x:Name="btn_logIn" Content="log in" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" FontStyle="Italic" FontFamily="Brush Script MT"/>
+        <Button x:Name="btn_logIn" Content="log in" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" FontStyle="Italic" FontFamily="Brush Script MT" Click="btn_logIn_Click" />
+        <TextBlock x:Name="tb_warnings" Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Style="{StaticResource WarningMessageStyle}"/>
 
 
     </Grid>

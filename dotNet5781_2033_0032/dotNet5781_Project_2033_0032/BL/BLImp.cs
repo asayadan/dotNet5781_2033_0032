@@ -153,9 +153,9 @@ namespace BL
                 });
             }
 
-            catch (DO.InvalidAdjacentLineIDException ex)
+            catch (DO.InvalidAdjacentStationIDException ex)
             {
-                throw new InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
+                throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
             }
         }
         #endregion

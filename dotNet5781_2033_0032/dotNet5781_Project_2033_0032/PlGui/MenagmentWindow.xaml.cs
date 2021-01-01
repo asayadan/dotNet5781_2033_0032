@@ -15,12 +15,14 @@ using System.Windows.Shapes;
 namespace PlGui
 {
     /// <summary>
-    /// Interaction logic for management.xaml
+    /// Interaction logic for MenagmentWindow.xaml
     /// </summary>
-    public partial class management : Window
+    public partial class MenagmentWindow : Window
     {
-        public management()
+        string username 
+        public MenagmentWindow(string user)
         {
+            username = user;
             InitializeComponent();
         }
     }
