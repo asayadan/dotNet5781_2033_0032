@@ -65,16 +65,16 @@ namespace BL
                 throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
             }
         }
-        IEnumerable<BO.Bus> GetAllBuses()
+        public IEnumerable<BO.Bus> GetAllBuses()
         {
             return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Bus>>(dl.GetAllBuses(),
                 typeof(IEnumerable<BO.Bus>)) as IEnumerable<BO.Bus>;
         }
-        IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate)
+        public IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate)
         {
             return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Bus>>
                 (dl.GetBusBy(DeepCopyUtilities.CopyPropertiesToNew
-                <Predicate<BO.Bus>>(predicate,typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>),
+                <Predicate<BO.Bus>>(predicate, typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>),
                 typeof(IEnumerable<BO.Bus>)) as IEnumerable<BO.Bus>;
         }
         public void FuelBus(int id)
@@ -92,26 +92,122 @@ namespace BL
         #endregion
 
         #region Stations
-        public BO.Station GetStation(int id);
-        public BO.LineStation GetLineStation(int id);
-        public IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
-        public IEnumerable<BO.Line> GetAllLines();
-        public void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-        public void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-        IEnumerable<BO.Line> LinesInStation(int stationId);
-        public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        public BO.Station GetStation(int id)
+        {
+            try
+            {
+                return DeepCopyUtilities.CopyPropertiesToNew<DO.Station>(dl.GetStation(id),
+                typeof(DO.Station)) as BO.Station;
+            }
+            catch (DO.InvalidStationIDException ex)
+            {
+                throw new InvalidStationIDException(ex.ID, ex.Message);
+            }
+        }
+        public BO.LineStation GetLineStation(int id)
+        {
+            try
+            {
+                return DeepCopyUtilities.CopyPropertiesToNew<DO.LineStation>(dl.GetLineStation(id),
+                    typeof(DO.LineStation)) as BO.LineStation;
+            }
+            catch (DO.InvalidStationIDException ex)
+            {
+                throw new InvalidStationIDException(ex.ID, ex.Message);
+            }
+        }
+        public IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId)
+        {
+            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.LineStation>>(dl.GetLineStationsInLine(lineId),
+                typeof(IEnumerable<BO.LineStation>)) as IEnumerable<BO.LineStation>;
 
+        }
+        public IEnumerable<BO.Line> GetAllLines()
+        {
+            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Line>>(dl.GetAllLines(),
+                typeof(IEnumerable<BO.Line>)) as IEnumerable<BO.Line>;
+        }
+        public void AddStationToLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        {
+
+        }
+        public void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        {
+
+        }
+        public IEnumerable<BO.Line> LinesInStation(int stationId)
+        {
+            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Line>>(dl.LinesInStation(stationId),
+                typeof(IEnumerable<BO.Line>)) as IEnumerable<BO.Line>;
+        }
+        public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        {
+            try
+            {
+                dl.UpdateAdjacentStations(new DO.AdjacentStations
+                {
+                    DistFromLastStation = distanceSinceLastStation,
+                    Station1 = station1,
+                    Station2 = station2,
+                    TimeSinceLastStation = timeSinceLastStation
+                });
+            }
+
+            catch (DO.InvalidAdjacentLineIDException ex)
+            {
+                throw new InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
+            }
+        }
         #endregion
 
         #region Line
-        public BO.Line GetLine(int id);
-        public void AddLine(int id, BO.Areas area, int firstStation, int lastStation);
-        public void RemoveLine(int id);
+        public BO.Line GetLine(int id)
+        {
+            try
+            {
+                return DeepCopyUtilities.CopyPropertiesToNew<DO.Line>(dl.GetLine(id),
+                    typeof(DO.Line)) as BO.Line;
+            }
+            catch (DO.InvalidLineIDException ex)
+            {
+                throw new BO.InvalidLineIDException(ex.ID, ex.Message);
+            }
+        }
+        public void AddLine(int id, BO.Areas area, int firstStation, int lastStation)
+        {
+            try
+            {
+                dl.AddLine(new DO.Line
+                {
+                    Area = (DO.Areas)area,
+                    Code = id,
+                    FirstStation = firstStation,
+                    LastStation = lastStation,
+                    Id = Counters.lines++
+                });
+            }
+            catch (DO.InvalidLineIDException ex)
+            {
+                throw new BO.InvalidLineIDException(ex.ID, ex.Message);
+            }
+
+        }
+        public void RemoveLine(int id)
+        {
+            try
+            {
+                dl.RemoveLine(id);
+            }
+            catch (DO.InvalidLineIDException ex)
+            {
+                throw new BO.InvalidLineIDException(ex.ID, ex.Message);
+            }
+        }
 
         #endregion
 
         #region User
-        public  bool GetUserPrivileges(string userName, string password)
+        public bool GetUserPrivileges(string userName, string password)
         {
             try
             {
@@ -119,10 +215,10 @@ namespace BL
             }
             catch (DO.BadUsernameOrPasswordException ex)
             {
-                throw new BadUsernameOrPasswordException(ex.Username, ex.Password,"error in the database", ex);
+                throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message);
             }
         }
-        public void CreateUser(string userName, string password, string passwordValidation)
+        public void AddUser(string userName, string password, string passwordValidation)
         {
             if (password != passwordValidation)
                 throw new BadUsernameOrPasswordException(userName, password, "Passwords aren't equal.");
@@ -132,7 +228,7 @@ namespace BL
             }
             catch (DO.BadUsernameOrPasswordException ex)
             {
-                throw new BadUsernameOrPasswordException(ex.Username, ex.Password,"error in the database", ex);
+                throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message);
             }
         }
         #endregion

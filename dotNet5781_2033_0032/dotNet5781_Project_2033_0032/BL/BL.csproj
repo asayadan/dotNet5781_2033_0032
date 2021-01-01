@@ -58,6 +58,7 @@
     <Compile Include="BLAPI\IBL.cs" />
     <Compile Include="BLImp.cs" />
     <Compile Include="BO\Bus.cs" />
+    <Compile Include="BO\Counters.cs" />
     <Compile Include="BO\Enum.cs" />
     <Compile Include="BO\Exception.cs" />
     <Compile Include="BO\Line.cs" />
