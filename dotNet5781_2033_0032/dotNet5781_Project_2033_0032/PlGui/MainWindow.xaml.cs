@@ -30,6 +30,9 @@ namespace PlGui
             InitializeComponent();
 
             getUser.DoWork += OpenWindow;
+            MenagmentWindow menWin = new MenagmentWindow(bl, tb_username.Text);
+            menWin.Show();
+            this.Close();
         }
 
 

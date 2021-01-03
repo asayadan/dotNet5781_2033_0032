@@ -10,7 +10,7 @@
         <TabControl  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
             <TabItem Name="tab_lines" Header="line veiw">
                 <Grid x:Name="LineGrid" >
-                <ComboBox x:Name="cb_lines"  HorizontalAlignment="Left" VerticalAlignment="Top"  SelectedItem="{Binding  ,Mode=OneWay}" />
+                <ComboBox x:Name="cb_lines"  HorizontalAlignment="Left" VerticalAlignment="Top"  SelectedItem="{Binding Code}" />
 
                 </Grid>
             </TabItem>
