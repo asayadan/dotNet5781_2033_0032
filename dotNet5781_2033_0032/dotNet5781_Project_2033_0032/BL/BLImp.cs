@@ -72,10 +72,14 @@ namespace BL
         }
         public IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate)
         {
-            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Bus>>
-                (dl.GetBusBy(DeepCopyUtilities.CopyPropertiesToNew
-                <Predicate<BO.Bus>>(predicate, typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>),
-                typeof(IEnumerable<BO.Bus>)) as IEnumerable<BO.Bus>;
+
+            foreach (var bus in dl.GetBusBy(DeepCopyUtilities.CopyPropertiesToNew
+                <Predicate<BO.Bus>>(predicate, typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>))
+            {
+                yield return DeepCopyUtilities.CopyPropertiesToNew<DO.Bus>
+                    (bus, typeof(BO.Bus)) as BO.Bus;
+            }
+            
         }
         public void FuelBus(int id)
         {
@@ -118,14 +122,19 @@ namespace BL
         }
         public IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId)
         {
-            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.LineStation>>(dl.GetLineStationsInLine(lineId),
-                typeof(IEnumerable<BO.LineStation>)) as IEnumerable<BO.LineStation>;
-
+            foreach (var station in dl.GetLineStationsInLine(lineId))
+            {
+                yield return DeepCopyUtilities.CopyPropertiesToNew<DO.LineStation>
+                    (station, typeof(BO.LineStation)) as BO.LineStation;
+            }
         }
         public IEnumerable<BO.Line> GetAllLines()
         {
-            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Line>>(dl.GetAllLines(),
-                typeof(IEnumerable<BO.Line>)) as IEnumerable<BO.Line>;
+            foreach (var line in dl.GetAllLines())
+            {
+                yield return DeepCopyUtilities.CopyPropertiesToNew<DO.Line>
+                    (line, typeof(BO.Line)) as BO.Line;
+            }
         }
         public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation,double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
@@ -195,8 +204,11 @@ namespace BL
         }
         public IEnumerable<BO.Line> LinesInStation(int stationId)
         {
-            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Line>>(dl.LinesInStation(stationId),
-                typeof(IEnumerable<BO.Line>)) as IEnumerable<BO.Line>;
+            foreach (var line in dl.LinesInStation(stationId))
+            {
+                yield return DeepCopyUtilities.CopyPropertiesToNew<DO.Line>
+                    (line, typeof(BO.Line)) as BO.Line;
+            }
         }
         public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
         {
