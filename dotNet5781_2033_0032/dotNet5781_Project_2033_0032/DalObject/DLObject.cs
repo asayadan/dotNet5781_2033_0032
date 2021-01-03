@@ -143,12 +143,8 @@ namespace DL
         #region Line
         public IEnumerable<DO.Line> GetAllLines()
         {
-            foreach (var line in DataSource.ListLines)
-            {
-                yield return line.Clone();
-            }
-
-            yield break;
+            return from  line in DataSource.ListLines
+                select line.Clone();
         }
         public DO.Line GetLine(int id)
         {

@@ -39,7 +39,7 @@ namespace PlGui
             username = user;
             bl = _bl;
             InitializeComponent();
-            lineCollection = (ObservableCollection<BO.Line>)bl.GetAllLines();
+            lineCollection = new ObservableCollection<BO.Line>(bl.GetAllLines());
             cb_lines.ItemsSource = lineCollection;
 
         }
