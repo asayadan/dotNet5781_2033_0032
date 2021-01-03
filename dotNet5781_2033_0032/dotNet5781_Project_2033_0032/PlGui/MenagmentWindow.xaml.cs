@@ -41,6 +41,9 @@ namespace PlGui
             InitializeComponent();
             lineCollection = new ObservableCollection<BO.Line>(bl.GetAllLines());
             cb_lines.ItemsSource = lineCollection;
+            cb_lines.DisplayMemberPath = "Code";//show only specific Property of object
+            cb_lines.SelectedValuePath = "Id";//selection return only specific Property of object
+            cb_lines.SelectedIndex = 0; //index of the object to be selected
 
         }
     }
