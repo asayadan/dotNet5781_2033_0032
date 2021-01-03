@@ -23,43 +23,49 @@ namespace PlGui
     public partial class MainWindow : Window
     {
         IBL bl = BLFactory.GetBL("1");
-        BackgroundWorker getUser = new BackgroundWorker();
+        BackgroundWorker getUser=new BackgroundWorker();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            getUser.DoWork += OpenWindow;
         }
 
 
 
-        void OpenWindow(object sender, EventArgs e)
+        void OpenWindow(object sender, DoWorkEventArgs e)
         {
-
-            this.Dispatcher.Invoke((Action)(() =>
+            PlGui.User user = (PlGui.User)e.Argument;
+            try
             {
-                try
+                if (bl.GetUserPrivileges(user.username, user.password))
                 {
-                    if (bl.GetUserPrivileges(tb_username.Text, tb_password.Text))
+                    this.Dispatcher.Invoke((Action)(() =>
                     {
                         MenagmentWindow menWin = new MenagmentWindow(bl, tb_username.Text);
                         menWin.Show();
                         this.Close();
-
-                    }
-                    else
+                    }));
+                }
+                else
+                {
+                    this.Dispatcher.Invoke((Action)(() =>
                     {
                         MessageBox.Show("section under construction");
-                    }
+                        tb_warnings.Text = "";
+                    }));
                 }
-                catch (BO.BadUsernameOrPasswordException ex)
+            }
+            catch (BO.BadUsernameOrPasswordException ex)
+            {
+                this.Dispatcher.Invoke((Action)(() =>
                 {
                     tb_warnings.Text = "userName or password incorrect";
-                }
-            }));
+                }));
+            }
         }
-    
-
-
-        public  void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
+    public  void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
         {                                                   // preview text to make it easier for the user
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
                 (sender as TextBox).Text = string.Empty;
@@ -79,8 +85,7 @@ namespace PlGui
 
         private void btn_logIn_Click(object sender, RoutedEventArgs e)
         {
-            getUser.DoWork += OpenWindow;
-            getUser.RunWorkerAsync();
+            getUser.RunWorkerAsync(new PlGui.User {username = tb_username.Text, password = tb_password.Text });
         }
     }
 }

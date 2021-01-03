@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DS;
@@ -142,8 +143,12 @@ namespace DL
         #region Line
         public IEnumerable<DO.Line> GetAllLines()
         {
-            return from line in DataSource.ListLines
-                   select line.Clone();
+            foreach (var line in DataSource.ListLines)
+            {
+                yield return line.Clone();
+            }
+
+            yield break;
         }
         public DO.Line GetLine(int id)
         {

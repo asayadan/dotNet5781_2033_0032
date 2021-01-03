@@ -25,7 +25,7 @@ namespace BLAPI
         BO.LineStation GetLineStation(int id);
         IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
         IEnumerable<BO.Line> GetAllLines();
-        void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio);
         void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
         IEnumerable<BO.Line> LinesInStation(int stationId);
         void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation);

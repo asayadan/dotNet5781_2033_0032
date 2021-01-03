@@ -6,14 +6,11 @@
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
         Title="MenagmentWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="19*"/>
-        </Grid.RowDefinitions>
-        <TabControl Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
-            <TabItem Header="line veiw">
-                <Grid>
+
+        <TabControl  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
+            <TabItem Name="tab_lines" Header="line veiw">
+                <Grid x:Name="LineGrid" >
+                <ComboBox x:Name="cb_lines"  HorizontalAlignment="Left" VerticalAlignment="Top"  SelectedItem="{Binding code}" />
 
                 </Grid>
             </TabItem>
@@ -27,5 +24,4 @@
             </TabItem>
         </TabControl>
 
-    </Grid>
 </Window>

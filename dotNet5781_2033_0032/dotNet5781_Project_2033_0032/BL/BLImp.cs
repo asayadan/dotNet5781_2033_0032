@@ -127,11 +127,18 @@ namespace BL
             return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Line>>(dl.GetAllLines(),
                 typeof(IEnumerable<BO.Line>)) as IEnumerable<BO.Line>;
         }
-        public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation,double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
             try
             {
-                var curStation = (dl.GetLineStationsInLine(lineId)).ToArray()[index];
+                var helpList = dl.GetLineStationsInLine(lineId);
+                foreach (var station in helpList)
+                {
+                    if (station.LineStationIndex >= index)
+                    {
+                    }
+                }
+                var curStation = (helpList.ToArray())[index];
                 dl.AddLineStation(new DO.LineStation
                 {
                     LineId = lineId,
@@ -140,8 +147,37 @@ namespace BL
                     LineStationIndex = index,
                     PrevStation = curStation.NextStation
                 });
+                if (index > 0)
+                {
+                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    {
+                        DistFromLastStation = distanceSinceLastStation,
+                        Station1 = curStation.Id,
+                        Station2 = stationId,
+                        TimeSinceLastStation = timeSinceLastStation
+                    });
+
+                }
+                if (index < helpList.Count() - 1)
+                {
+                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    {
+                        DistFromLastStation = distanceUntilNextStation,
+                        Station1 = stationId,
+                        Station2 = curStation.NextStation,
+                        TimeSinceLastStation = timeUntilNextStatio
+                    });
+
+                }
+
+
             }
-            catch (DO.InvalidLinesStationException ex) {
+            catch (DO.InvalidAdjacentStationIDException ex)
+            {
+                throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
+            }
+            catch (DO.InvalidLinesStationException ex)
+            {
                 throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
             }
         }
@@ -150,6 +186,7 @@ namespace BL
             try
             {
                 dl.RemoveLineStation(stationId, lineId);
+                //dl.RemoveAddAdjacentStations();
             }
             catch (DO.InvalidLinesStationException ex)
             {
