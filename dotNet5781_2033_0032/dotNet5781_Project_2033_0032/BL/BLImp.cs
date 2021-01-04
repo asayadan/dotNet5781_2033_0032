@@ -18,7 +18,7 @@ namespace BL
         {
             try
             {
-                return DeepCopyUtilities.CopyPropertiesToNew<DO.Bus>(dl.GetBus(licenseNum), typeof(BO.Bus)) as BO.Bus;
+                return dl.GetBus(licenseNum).CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
             }
             catch (DO.InvalidBusLicenseNumberException ex)
             {
@@ -58,7 +58,7 @@ namespace BL
         {
             try
             {
-                dl.UpdateBus(DeepCopyUtilities.CopyPropertiesToNew<BO.Bus>(bus, typeof(DO.Bus)) as DO.Bus);
+                dl.UpdateBus(bus.CopyPropertiesToNew(typeof(DO.Bus)) as DO.Bus);
             }
             catch (DO.InvalidBusLicenseNumberException ex)
             {
@@ -67,19 +67,20 @@ namespace BL
         }
         public IEnumerable<BO.Bus> GetAllBuses()
         {
-            return DeepCopyUtilities.CopyPropertiesToNew<IEnumerable<DO.Bus>>(dl.GetAllBuses(),
-                typeof(IEnumerable<BO.Bus>)) as IEnumerable<BO.Bus>;
+            foreach (var bus in dl.GetAllBuses())
+            {
+                yield return bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
+            }
         }
         public IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate)
         {
 
-            foreach (var bus in dl.GetBusBy(DeepCopyUtilities.CopyPropertiesToNew
-                <Predicate<BO.Bus>>(predicate, typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>))
+            foreach (var bus in dl.GetBusBy(predicate.CopyPropertiesToNew
+                (typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>))
             {
-                yield return DeepCopyUtilities.CopyPropertiesToNew<DO.Bus>
-                    (bus, typeof(BO.Bus)) as BO.Bus;
+                yield return bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
             }
-            
+
         }
         public void FuelBus(int id)
         {
@@ -100,8 +101,7 @@ namespace BL
         {
             try
             {
-                return DeepCopyUtilities.CopyPropertiesToNew<DO.Station>(dl.GetStation(id),
-                typeof(DO.Station)) as BO.Station;
+                return dl.GetStation(id).CopyPropertiesToNew(typeof(DO.Station)) as BO.Station;
             }
             catch (DO.InvalidStationIDException ex)
             {
@@ -112,75 +112,106 @@ namespace BL
         {
             try
             {
-                return DeepCopyUtilities.CopyPropertiesToNew<DO.LineStation>(dl.GetLineStation(id),
-                    typeof(DO.LineStation)) as BO.LineStation;
+                return dl.GetLineStation(id).CopyPropertiesToNew(typeof(DO.LineStation)) as BO.LineStation;
             }
             catch (DO.InvalidStationIDException ex)
             {
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
+        public void UpdateLineStation(int id, BO.LineStation station)
+        {
+            try
+            {
+                dl.UpdateLineStation(id, station.CopyPropertiesToNew(typeof(DO.LineStation)) as DO.LineStation);
+            }
+            catch (DO.InvalidLinesStationException ex)
+            {
+                throw new InvalidStationIDException(ex.ID, ex.Message);
+            }
+        }
+
         public IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId)
         {
             foreach (var station in dl.GetLineStationsInLine(lineId))
             {
-                yield return DeepCopyUtilities.CopyPropertiesToNew<DO.LineStation>
-                    (station, typeof(BO.LineStation)) as BO.LineStation;
+                yield return station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
             }
         }
         public IEnumerable<BO.Line> GetAllLines()
         {
             foreach (var line in dl.GetAllLines())
             {
-                yield return DeepCopyUtilities.CopyPropertiesToNew<DO.Line>
-                    (line, typeof(BO.Line)) as BO.Line;
+                yield return line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
             }
         }
-        public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation,double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
+        public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
             try
             {
-                var helpList = dl.GetLineStationsInLine(lineId);
-                foreach (var station in helpList)
+                var curLine = GetLine(lineId);
+                var stations = GetLineStationsInLine(lineId);
+                if (index == 0)
+                    curLine.FirstStation = stationId;
+
+                if (index == stations.Count() - 1)
+                    curLine.LastStation = stationId;
+
+                foreach (var station in stations)
                 {
-                    if (station.LineStationIndex >= index)
+                    if (station.LineStationIndex > index)
                     {
+                        station.LineStationIndex++;
+                        UpdateLineStation(station.Station, station);
                     }
                 }
-                var curStation = (helpList.ToArray())[index];
+
+                var nextStation = stations.Where(x => x.LineStationIndex == index + 1).First();
+                var prevStation = stations.Where(x => x.LineStationIndex == index - 1).First();
+                nextStation.PrevStation = stationId;
+                prevStation.NextStation = stationId;
+                UpdateLineStation(nextStation.Station, nextStation);
+                UpdateLineStation(prevStation.Station, prevStation);
+
+
                 dl.AddLineStation(new DO.LineStation
                 {
+                    LineStationIndex = index,
                     LineId = lineId,
                     Id = stationId,
-                    NextStation = curStation.Id,
-                    LineStationIndex = index,
-                    PrevStation = curStation.NextStation
+                    NextStation = nextStation.Station,
+                    PrevStation = prevStation.Station
                 });
-                if (index > 0)
+
+                try
                 {
                     dl.AddAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceSinceLastStation,
-                        Station1 = curStation.Id,
+                        Station1 = prevStation.Station,
                         Station2 = stationId,
                         TimeSinceLastStation = timeSinceLastStation
                     });
 
-                }
-                if (index < helpList.Count() - 1)
-                {
+
                     dl.AddAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceUntilNextStation,
                         Station1 = stationId,
-                        Station2 = curStation.NextStation,
+                        Station2 = nextStation.Station,
                         TimeSinceLastStation = timeUntilNextStatio
                     });
-
                 }
+                
+                catch (DO.InvalidAdjacentStationIDException) { }
 
-
+                if (GetAllLines().Where(x => GetLineStationsInLine(x.Id).
+                    Where(y => y.Station == prevStation.Station && y.NextStation == nextStation.Station).Count() > 0).Count() == 0)
+                    dl.RemoveAddAdjacentStations(dl.GetAdjacentStations(prevStation.Station, nextStation.Station), lineId);
             }
+
+            
+
             catch (DO.InvalidAdjacentStationIDException ex)
             {
                 throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
@@ -194,8 +225,41 @@ namespace BL
         {
             try
             {
-                dl.RemoveLineStation(stationId, lineId);
-                //dl.RemoveAddAdjacentStations();
+                var curLine = GetLine(lineId);
+                var stations = GetLineStationsInLine(lineId);
+                var station = stations.Where(x => x.LineId == lineId).First();
+                if (station.LineStationIndex == 0)
+                    curLine.FirstStation = station.NextStation;
+
+                if (station.LineStationIndex == stations.Count() - 1)
+                    curLine.LastStation = station.PrevStation;
+
+                foreach (var st in stations)
+                {
+                    if (st.LineStationIndex > station.LineStationIndex)
+                    {
+                        st.LineStationIndex--;
+                        UpdateLineStation(st.Station, st);
+                    }
+                }
+
+                var nextStation = stations.Where(x => x.LineStationIndex == station.Station + 1).First();
+                var prevStation = stations.Where(x => x.LineStationIndex == station.Station - 1).First();
+                nextStation.PrevStation = station.NextStation;
+                prevStation.NextStation = station.PrevStation;
+                UpdateLineStation(nextStation.Station, nextStation);
+                UpdateLineStation(prevStation.Station, prevStation);
+
+                
+                dl.RemoveLineStation(station.Station, station.LineId);
+
+
+               
+
+            }
+            catch (DO.InvalidAdjacentStationIDException ex)
+            {
+                throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
             }
             catch (DO.InvalidLinesStationException ex)
             {
@@ -206,8 +270,7 @@ namespace BL
         {
             foreach (var line in dl.LinesInStation(stationId))
             {
-                yield return DeepCopyUtilities.CopyPropertiesToNew<DO.Line>
-                    (line, typeof(BO.Line)) as BO.Line;
+                yield return line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
             }
         }
         public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
@@ -235,8 +298,7 @@ namespace BL
         {
             try
             {
-                return DeepCopyUtilities.CopyPropertiesToNew<DO.Line>(dl.GetLine(id),
-                    typeof(DO.Line)) as BO.Line;
+                return dl.GetLine(id).CopyPropertiesToNew(typeof(DO.Line)) as BO.Line;
             }
             catch (DO.InvalidLineIDException ex)
             {

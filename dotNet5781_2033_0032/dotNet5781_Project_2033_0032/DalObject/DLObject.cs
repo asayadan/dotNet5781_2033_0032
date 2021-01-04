@@ -123,6 +123,22 @@ namespace DL
                    orderby lineStation.LineStationIndex ascending
                    select lineStation.Clone();
         }
+
+        public DO.AdjacentStations GetAdjacentStations(int station1, int station2)
+        {
+            var st = DataSource.ListAdjacentStations.Find(x => x.Station1 == station1 && x.Station2 == station2);
+            if (st != null)
+                return st;
+            throw new DO.InvalidAdjacentStationIDException(station1, station2, "One or more of the stations not found");
+        }
+
+        public void UpdateLineStation(int id, DO.LineStation station)
+        {
+            var a = DataSource.ListLineStations.FindIndex(x => x.Id == id);
+            if (a != -1)
+                DataSource.ListLineStations[a] = station.Clone();
+            else throw new DO.InvalidLinesStationException(station.Id, station.LineId, "Station doesn't exist.");
+        }
         public void AddLineStation(DO.LineStation lineStation)
         {
             if (DataSource.ListLineStations.FirstOrDefault(p => p.Id == lineStation.Id && p.LineId == lineStation.LineId) != null)

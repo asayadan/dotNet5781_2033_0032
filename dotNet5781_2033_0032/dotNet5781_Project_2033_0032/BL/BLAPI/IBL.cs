@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace BLAPI
         BO.LineStation GetLineStation(int id);
         IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
         IEnumerable<BO.Line> GetAllLines();
+        void UpdateLineStation(int id, LineStation station);
         void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio);
         void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
         IEnumerable<BO.Line> LinesInStation(int stationId);

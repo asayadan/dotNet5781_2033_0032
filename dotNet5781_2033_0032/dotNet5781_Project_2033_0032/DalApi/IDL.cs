@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,8 @@ namespace DLAPI
         void AddAdjacentStations(DO.AdjacentStations adjacentStations);
         void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStations,int linneId);
         void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
+        void UpdateLineStation(int id, LineStation lineStation);
+        DO.AdjacentStations GetAdjacentStations(int station1, int station2);
         DO.LineStation GetLineStation(int id);
         IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
         void AddLineStation(DO.LineStation lineStation);
@@ -43,6 +46,8 @@ namespace DLAPI
         #region User
         bool GetUserPrivileges(string username, string password);
         void AddUser(DO.User user);
+        
+
 
         #endregion
 
