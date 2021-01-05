@@ -23,16 +23,16 @@ namespace PlGui
     public partial class MainWindow : Window
     {
         IBL bl = BLFactory.GetBL("1");
-        BackgroundWorker getUser=new BackgroundWorker();
+        BackgroundWorker getUser = new BackgroundWorker();
 
         public MainWindow()
         {
             InitializeComponent();
 
             getUser.DoWork += OpenWindow;
-            MenagmentWindow menWin = new MenagmentWindow(bl, tb_username.Text);
-            menWin.Show();
-            this.Close();
+            //MenagmentWindow menWin = new MenagmentWindow(bl, tb_username.Text);
+            //menWin.Show();
+            //this.Close();
         }
 
 
@@ -64,11 +64,11 @@ namespace PlGui
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {
-                    tb_warnings.Text = "userName or password incorrect";
+                    tb_warnings.Text = "Username or password incorrect";
                 }));
             }
         }
-    public  void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
+        public void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
         {                                                   // preview text to make it easier for the user
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
                 (sender as TextBox).Text = string.Empty;
@@ -80,15 +80,17 @@ namespace PlGui
         }
         public void KeyDown_new(object sender, KeyEventArgs e) // If we started writing something, remove the preview text
         {                                                   // to make it easier for the user to write
+            if (e.Key == Key.Enter)
+                btn_logIn_Click(sender, e);
+            
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
-            {
                 (sender as TextBox).Text = "";
-            }
         }
+                
 
         private void btn_logIn_Click(object sender, RoutedEventArgs e)
         {
-            getUser.RunWorkerAsync(new PlGui.User {username = tb_username.Text, password = tb_password.Text });
+            getUser.RunWorkerAsync(new PlGui.User { username = tb_username.Text, password = tb_password.Text });
         }
     }
 }

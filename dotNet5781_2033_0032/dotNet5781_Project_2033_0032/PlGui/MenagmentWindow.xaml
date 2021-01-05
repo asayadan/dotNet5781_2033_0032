@@ -7,21 +7,86 @@
         mc:Ignorable="d"
         Title="MenagmentWindow" Height="450" Width="800">
 
-        <TabControl  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
-            <TabItem Name="tab_lines" Header="line veiw">
-                <Grid x:Name="LineGrid" >
-                <ComboBox x:Name="cb_lines"  HorizontalAlignment="Left" VerticalAlignment="Top"  SelectedItem="{Binding Code}" />
-
+    <TabControl  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
+        <TabItem Name="tab_lines" Header="line veiw">
+            <Grid Margin="0,0,0.2,-0.8" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="208*"/>
+                    <RowDefinition Height="31*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="317*"/>
+                    <ColumnDefinition Width="332*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Select Student:" Grid.Row="0" HorizontalAlignment="Left" Margin="39,15,0,0" VerticalAlignment="Top" Height="25" Width="90"/>
+                <ComboBox x:Name="cb_lines" HorizontalAlignment="Left" Text="" VerticalAlignment="Top"
+                  Grid.Row="0" Height="25" Margin="141,15,0,0" Width="123"
+                  ItemsSource="{Binding}" 
+                  HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+                <Grid x:Name="gridOneStudent"  HorizontalAlignment="Left" Margin="39,76,0,0" VerticalAlignment="Top" Height="80" Width="225">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Code:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                    <TextBox x:Name="codeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                    <Label Content="Area:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="areaComboBox" Grid.Column="1" SelectedItem="{Binding Area}" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
                 </Grid>
-            </TabItem>
-            <TabItem Header="stations veiw">
-                <Grid>
+                <DataGrid x:Name="studentCourseDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="20.667,80,30.333,17" RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+                    <DataGrid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="-0.691"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-1.424"/>
+                        </TransformGroup>
+                    </DataGrid.RenderTransform>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code}" Header="Code" Width="*"/>
+                        <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="*"/>
+                        <DataGridTextColumn x:Name="longitudeColumn" Binding="{Binding Longitude}" Header="Longitude" Width="*"/>
+                        <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding Latitude}" Header="Latitude" Width="*"/>
 
-                </Grid>
-            </TabItem>
-            <TabItem Header="busses veiw">
-                <Grid></Grid>
-            </TabItem>
-        </TabControl>
+
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="btUpdateGradeInCourse" Content="Update Garde" ToolTip="Update grade for selected course, for selected student"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="btUnRegisterCourse" Content="UnRegister" ToolTip="UnRegister selected student from selected course"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Content="List of Courses for selected Student:" HorizontalAlignment="Left" Margin="20.667,49,0,0" VerticalAlignment="Top" Height="23" Width="209" Grid.Column="1"/>
+
+                <Button x:Name="btDeleteStudent" Content="Delete Current Student" HorizontalAlignment="Left" Margin="148,10,0,0" VerticalAlignment="Top" Width="219" Height="28" Background="#FFC56853" Grid.Column="1" Grid.Row="1"/>
+                <Button x:Name="btAddStudent" Content="Add New Student" HorizontalAlignment="Left" Margin="57,7,0,0" VerticalAlignment="Top" Width="141" Height="34" Background="#FF6DB469" Grid.Row="1"/>
+
+                <Button x:Name="btUpdateStudent" Content="Aplly Changes on Student Details" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Width="234" Height="28" Background="#FFD1DA16" Grid.Row="1" Grid.ColumnSpan="2"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="stations veiw">
+            <Grid>
+
+            </Grid>
+        </TabItem>
+        <TabItem Header="busses veiw">
+            <Grid></Grid>
+        </TabItem>
+    </TabControl>
 
 </Window>

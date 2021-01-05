@@ -27,7 +27,7 @@ namespace PlGui
 
         IBL bl;
         string username;
-        BackgroundWorker busWorker=new BackgroundWorker();
+        BackgroundWorker busWorker = new BackgroundWorker();
 
         ObservableCollection<BO.Bus> busCollection;
 
@@ -39,15 +39,16 @@ namespace PlGui
             username = user;
             bl = _bl;
             InitializeComponent();
-            lineCollection = new ObservableCollection<BO.Line>();
+            SetAllLines();
             cb_lines.ItemsSource = lineCollection;
             cb_lines.DisplayMemberPath = "Code";//show only specific Property of object
             cb_lines.SelectedValuePath = "Id";//selection return only specific Property of object
             cb_lines.SelectedIndex = 0; //index of the object to be selected
-            SetAllLines();
-
+            areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
 
         }
+
+
         void SetAllLines()
         {
             lineCollection = new ObservableCollection<BO.Line>(bl.GetAllLines());
@@ -55,6 +56,23 @@ namespace PlGui
 
         private void cb_lines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            lineWorker.DoWork += bl.;
+            //lineWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
+            gridOneStudent.DataContext = curStu;
+
+            if (curStu != null)
+            {
+                //list of courses of selected student
+                RefreshAllRegisteredCoursesGrid();
+                //list of all courses (that selected student is not registered to it)
+                RefreshAllNotRegisteredCoursesGrid();
+            }
         }
+
+        private void Worker(object sender, DoWorkEventArgs e)
+        {
+            
+        }
+
     }
 }
