@@ -56,8 +56,9 @@ namespace PlGui
 
         private void cb_lines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lineWorker.DoWork += bl.;
+           // lineWorker.DoWork += bl.;
             //lineWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
+            
             gridOneStudent.DataContext = curStu;
 
             if (curStu != null)
