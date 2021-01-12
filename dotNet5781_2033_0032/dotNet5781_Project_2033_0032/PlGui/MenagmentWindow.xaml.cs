@@ -26,11 +26,20 @@ namespace PlGui
         ObservableCollection<BO.Line> lineCollection;
 
         BO.Line curLine;
+        BO.Bus curBus;
         public MenagmentWindow(IBL _bl, string user)
         {
             username = user;
             bl = _bl;
             InitializeComponent();
+            SetBusTab();
+            SetLinesTab();
+            
+        }
+
+
+        void SetLinesTab()
+        {
             cb_lines.DisplayMemberPath = "Code";//show only specific Property of object
             cb_lines.SelectedValuePath = "Id";//selection return only specific Property of object
             cb_lines.SelectedIndex = 0; //index of the object to be selected
@@ -38,10 +47,22 @@ namespace PlGui
             SetAllLines();
         }
 
-
         void SetAllLines()
         {
             cb_lines.DataContext = bl.GetAllLines();
+        }
+
+        void SetBusTab()
+        {
+            cbBuses.DisplayMemberPath = "LicenseNum";//show only specific Property of object
+            cb_lines.SelectedIndex = 0; //index of the object to be selected
+            statusComboBox.ItemsSource = Enum.GetValues(typeof(BO.Status));
+            SetAllBuses();
+        }
+
+        void SetAllBuses()
+        {
+            cbBuses.DataContext = bl.GetAllBuses();
         }
 
         void setAllStations()
@@ -83,7 +104,8 @@ namespace PlGui
 
         private void cbBuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            curBus = cbBuses.SelectedItem as BO.Bus;
+            gridBus.DataContext = curBus;
         }
     }
 }
