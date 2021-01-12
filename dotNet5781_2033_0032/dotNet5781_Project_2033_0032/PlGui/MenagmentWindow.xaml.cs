@@ -37,7 +37,7 @@ namespace PlGui
             
         }
 
-
+        #region setters
         void SetLinesTab()
         {
             cb_lines.DisplayMemberPath = "Code";//show only specific Property of object
@@ -75,7 +75,14 @@ namespace PlGui
             }
             StationsInLineDataGrid.DataContext = c;
         }
+        #endregion
+        #region backgroundWorker
+        private void Worker(object sender, DoWorkEventArgs e)
+        {
 
+        }
+        #endregion
+        #region Line functions
         private void cb_lines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //lineWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
@@ -87,12 +94,6 @@ namespace PlGui
                 setAllStations();
             }
         }
-
-        private void Worker(object sender, DoWorkEventArgs e)
-        {
-
-        }
-
         private void btRemoveStation_Click(object sender, RoutedEventArgs e)
         {
 
@@ -101,11 +102,12 @@ namespace PlGui
             //RefreshAllRegisteredCoursesGrid();
             // RefreshAllNotRegisteredCoursesGrid();
         }
-
         private void cbBuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             curBus = cbBuses.SelectedItem as BO.Bus;
             gridBus.DataContext = curBus;
         }
+        #endregion
+
     }
 }

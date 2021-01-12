@@ -9,20 +9,22 @@
 
     <TabControl  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
         <TabItem Name="tab_lines" Header="line veiw">
-            <Grid Margin="0,0,0.2,-0.8" >
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="208*"/>
+                    <RowDefinition Height="31*"/>
+                    <RowDefinition Height="177*"/>
                     <RowDefinition Height="31*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="290*"/>
                     <ColumnDefinition Width="497*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Select Line:" Grid.Row="0" HorizontalAlignment="Left" Margin="39,15,0,0" VerticalAlignment="Top" Height="25" Width="90"/>
-                <ComboBox x:Name="cb_lines" HorizontalAlignment="Left" Text="" VerticalAlignment="Top" SelectionChanged="cb_lines_SelectionChanged"
-                  ItemsSource="{Binding}" Grid.Row="0" Height="25" Margin="141,15,0,0" Width="123"
-                  HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
-                <Grid x:Name="gridLine"  HorizontalAlignment="Left" Margin="39,76,0,0" VerticalAlignment="Top" Height="80" Width="225">
+                <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                    <Label Content="Select Line:"  />
+                    <ComboBox x:Name="cb_lines"  Width="125"  Text="" SelectionChanged="cb_lines_SelectionChanged"
+                  ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+                </WrapPanel>
+                <Grid x:Name="gridLine" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="200">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -37,7 +39,7 @@
                     <Label Content="Area:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
                     <ComboBox x:Name="areaComboBox" Grid.Column="1" SelectedItem="{Binding Area}" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
                 </Grid>
-                <DataGrid x:Name="StationsInLineDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="20,80,30.667,17" RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+                <DataGrid x:Name="StationsInLineDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
                     <DataGrid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -56,7 +58,7 @@
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btUpdateGradeInCourse" Content="Update Garde" ToolTip="Update grade for selected course, for selected student"/>
+                                    <Button x:Name="btUpdateGradeInCourse" Content="Update Garde"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -70,12 +72,18 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Label Content="List of Courses for selected Student:" HorizontalAlignment="Left" Margin="20,49,0,0" VerticalAlignment="Top" Height="23" Width="209" Grid.Column="1"/>
+                <Label Content="List of Stations for selected Line:" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"   Grid.Column="1"/>
+                <Grid x:Name="buttonGrid" Grid.Row="3"  Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="bt_DeleteLine" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Grid.Row="1" Background="#FFC56853"/>
+                    <Button x:Name="bt_AddLine" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"  Grid.Column="2" Background="#FF6DB469"/>
+                    <Button x:Name="bt_UpdateLine" Content="Aplly Changes on Line Details" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1"  Grid.Row="1" Background="#FFD1DA16"/>
+                </Grid>
 
-                <Button x:Name="btDeleteStudent" Content="Delete Current Student" HorizontalAlignment="Left" Margin="252,10,0,0" VerticalAlignment="Top" Width="219" Height="28" Background="#FFC56853" Grid.Column="1" Grid.Row="1"/>
-                <Button x:Name="btAddStudent" Content="Add New Student" HorizontalAlignment="Left" Margin="57,7,0,0" VerticalAlignment="Top" Width="141" Height="34" Background="#FF6DB469" Grid.Row="1"/>
-
-                <Button x:Name="btUpdateStudent" Content="Aplly Changes on Student Details" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Width="234" Height="28" Background="#FFD1DA16" Grid.Row="1" Grid.ColumnSpan="2"/>
             </Grid>
         </TabItem>
         <TabItem Header="stations veiw">
