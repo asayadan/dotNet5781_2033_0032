@@ -1,9 +1,6 @@
 ﻿using BO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLAPI
 {
@@ -43,7 +40,7 @@ namespace BLAPI
 
         #region User
         bool GetUserPrivileges(string userName, string password);
-        void AddUser(string username,string password, string passwordValidation);
+        void AddUser(string username, string password, string passwordValidation);
         #endregion
 
     }

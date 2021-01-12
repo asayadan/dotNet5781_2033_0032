@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dotNet5781_00_2033_0032
 {
@@ -15,7 +11,7 @@ namespace dotNet5781_00_2033_0032
             Console.ReadKey();
 
         }
-         static partial void Welcome0032();
+        static partial void Welcome0032();
         private static void Welcome2033()
         {
             Console.Write("Enter your name: ");

@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace dotNet5781_02_2033_0032
@@ -29,7 +20,7 @@ namespace dotNet5781_02_2033_0032
         #endregion
 
         #region ctors
-        public BusLine(int num ,int _area=0)
+        public BusLine(int num, int _area = 0)
         {
             stations = new List<BusStationLine>();
             busLine = num;
@@ -39,7 +30,7 @@ namespace dotNet5781_02_2033_0032
                 area = (Area)_area;
             }
             else throw new ArgumentOutOfRangeException("the regions numbers can be onely 0,1,2,3 or 4");
-            
+
         }
 
         public BusLine()
@@ -55,14 +46,16 @@ namespace dotNet5781_02_2033_0032
         { get { return busLine; } }
         public bool _direction
         {
-          get{ return direction; }
-          set { direction = value; }
+            get { return direction; }
+            set { direction = value; }
         }
         public int _numStations
         { get { return stations.Count; } }
         public string _area
-        { get { return checkArea(area); }
-          set { } }
+        {
+            get { return checkArea(area); }
+            set { }
+        }
         public static string checkArea(Area area)
         {
             switch (area)
@@ -94,7 +87,7 @@ namespace dotNet5781_02_2033_0032
         }
         public override string ToString()
         {
-            string a = "Bus line: " + busLine+ checkDist(direction)+ " Area: " + checkArea(area) + "\n";
+            string a = "Bus line: " + busLine + checkDist(direction) + " Area: " + checkArea(area) + "\n";
             var arr = stations.ToArray();
 
             a += "Route stations:\n";
@@ -111,7 +104,7 @@ namespace dotNet5781_02_2033_0032
         {
             if (!stations.Exists(x => x.GetBusStationKey == _station.GetBusStationKey))
             {
-                if (index<=stations.Count)
+                if (index <= stations.Count)
                 {
 
                     stations.Insert(index, _station);
@@ -126,7 +119,7 @@ namespace dotNet5781_02_2033_0032
                             stations[1].TimeSinceLastStation = time;
                         }
                     }
-                     if (index == stations.Count - 1)
+                    if (index == stations.Count - 1)
                     {
                         lastStation = _station;
                     }
@@ -138,26 +131,26 @@ namespace dotNet5781_02_2033_0032
                 }
                 else throw new IndexOutOfRangeException("your index is out of range");
             }
-            else throw new ArgumentException ("this station is already in our line");
+            else throw new ArgumentException("this station is already in our line");
 
         }
-        public void removeStation(BusStationLine _station,float _distance, float _time)
+        public void removeStation(BusStationLine _station, float _distance, float _time)
         {
             int indx = stations.FindIndex(x => x.GetBusStationKey == _station.GetBusStationKey);
             if (indx >= 0)
             {
                 _station = stations[indx];
                 stations.Remove(_station);
-                if (indx!=stations.Count)
+                if (indx != stations.Count)
                 {
                     stations[indx].DistFromLastStation = _distance;
                     stations[indx].TimeSinceLastStation = _time;
-                    if (indx==0)
+                    if (indx == 0)
                     {
                         firstStation = stations[0];
                     }
                 }
-                else if(indx!=0)
+                else if (indx != 0)
                 {
                     lastStation = stations[indx - 1];
                 }
@@ -215,7 +208,7 @@ namespace dotNet5781_02_2033_0032
         }
 
         public float totalTime()
-        { return time(firstStation,lastStation); }
+        { return time(firstStation, lastStation); }
 
         public float totalDistance()
         { return distance(firstStation, lastStation); }
@@ -242,13 +235,13 @@ namespace dotNet5781_02_2033_0032
 
         public static bool operator ==(BusLine bus1, BusLine bus2) // does two given buses equal
         {
-            bool help= (bus1._lineNumber == bus2._lineNumber && bus1._direction == bus2._direction);
+            bool help = (bus1._lineNumber == bus2._lineNumber && bus1._direction == bus2._direction);
             //bool help2 = (bus1.area == bus2.area) || bus1.area == 0 || bus2.area == 0;
             return help /*&& help2*/;
         }
         public static bool operator !=(BusLine bus1, BusLine bus2) // they wanted us to implement it so...
         {
-            return !(bus1 == bus2) ;
+            return !(bus1 == bus2);
         }
 
         public static bool operator ==(BusLine bus1, int _lineNumber) // 

@@ -1,11 +1,8 @@
-﻿using System;
+﻿using DLAPI;
+using DS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using DS;
-using DLAPI;
 
 namespace DL
 {
@@ -26,7 +23,8 @@ namespace DL
         public IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate)
         {
             return from bus in DataSource.ListBuses
-                   where predicate(bus) select bus.Clone();
+                   where predicate(bus)
+                   select bus.Clone();
         }
         public DO.Bus GetBus(int licenseNum)
         {
@@ -83,20 +81,20 @@ namespace DL
         }
         public void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStation, int linneId)
         {
-            int helpIndex= DataSource.ListAdjacentStations.FindIndex(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2);
+            int helpIndex = DataSource.ListAdjacentStations.FindIndex(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2);
             if (helpIndex == -1)
                 throw new DO.InvalidAdjacentStationIDException(adjacentStation.Station1, adjacentStation.Station2, "this license line station  number doesn't exists");
-            if (1 == DataSource.ListLineStations.FindAll(p => p.LineStationIndex!=0&& p.PrevStation == adjacentStation.Station1 && p.Id == adjacentStation.Station2).Count)
+            if (1 == DataSource.ListLineStations.FindAll(p => p.LineStationIndex != 0 && p.PrevStation == adjacentStation.Station1 && p.StationId == adjacentStation.Station2).Count)
             {
                 DataSource.ListAdjacentStations.Remove(DataSource.ListAdjacentStations[helpIndex]);
             }
-                
+
         }
         public void UpdateAdjacentStations(DO.AdjacentStations adjacentStations)
         {
             DO.AdjacentStations helpAdj = DataSource.ListAdjacentStations.Find(p => p.Station1 == adjacentStations.Station1 && p.Station2 == adjacentStations.Station2);
             if (helpAdj == null)
-                throw new DO.InvalidAdjacentStationIDException(adjacentStations.Station1,adjacentStations.Station2,"we doen't have this two adjacent station");
+                throw new DO.InvalidAdjacentStationIDException(adjacentStations.Station1, adjacentStations.Station2, "we doen't have this two adjacent station");
             else
             {
                 DataSource.ListAdjacentStations.Remove(helpAdj);
@@ -105,7 +103,7 @@ namespace DL
         }
         public DO.LineStation GetLineStation(int id)
         {
-            DO.LineStation helpLineStation = DataSource.ListLineStations.Find(p => p.Id==id);
+            DO.LineStation helpLineStation = DataSource.ListLineStations.Find(p => p.StationId == id);
             if (helpLineStation == null)
                 throw new DO.InvalidStationIDException(id, "we doen't have this line station");
             return helpLineStation.Clone();
@@ -113,13 +111,13 @@ namespace DL
         public IEnumerable<DO.Line> LinesInStation(int stationId)
         {
             return from lineStations in DataSource.ListLineStations
-                   where lineStations.Id == stationId
+                   where lineStations.StationId == stationId
                    select GetLine(lineStations.LineId);
         }
         public IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId)
         {
             return from lineStation in DataSource.ListLineStations
-                   where lineStation.LineId== lineId
+                   where lineStation.LineId == lineId
                    orderby lineStation.LineStationIndex ascending
                    select lineStation.Clone();
         }
@@ -134,20 +132,20 @@ namespace DL
 
         public void UpdateLineStation(int id, DO.LineStation station)
         {
-            var a = DataSource.ListLineStations.FindIndex(x => x.Id == id);
+            var a = DataSource.ListLineStations.FindIndex(x => x.StationId == id);
             if (a != -1)
                 DataSource.ListLineStations[a] = station.Clone();
-            else throw new DO.InvalidLinesStationException(station.Id, station.LineId, "Station doesn't exist.");
+            else throw new DO.InvalidLinesStationException(station.StationId, station.LineId, "Station doesn't exist.");
         }
         public void AddLineStation(DO.LineStation lineStation)
         {
-            if (DataSource.ListLineStations.FirstOrDefault(p => p.Id == lineStation.Id && p.LineId == lineStation.LineId) != null)
-                throw new DO.InvalidLinesStationException(lineStation.Id, lineStation.LineId, "the data base alredy has this line station");
+            if (DataSource.ListLineStations.FirstOrDefault(p => p.StationId == lineStation.StationId && p.LineId == lineStation.LineId) != null)
+                throw new DO.InvalidLinesStationException(lineStation.StationId, lineStation.LineId, "the data base alredy has this line station");
             DataSource.ListLineStations.Add(lineStation.Clone());
         }
-        public void RemoveLineStation(int stationId,int lineId)
+        public void RemoveLineStation(int stationId, int lineId)
         {
-            int helpIndex= DataSource.ListLineStations.FindIndex(p => p.Id == stationId&&p.LineId== lineId);
+            int helpIndex = DataSource.ListLineStations.FindIndex(p => p.StationId == stationId && p.LineId == lineId);
             DO.LineStation helpLineStation = DataSource.ListLineStations[helpIndex];
             if (helpIndex == -1)
                 throw new DO.InvalidLinesStationException(stationId, lineId, "this license line station  number doesn't exists");
@@ -159,8 +157,8 @@ namespace DL
         #region Line
         public IEnumerable<DO.Line> GetAllLines()
         {
-            return from  line in DataSource.ListLines
-                select line.Clone();
+            return from line in DataSource.ListLines
+                   select line.Clone();
         }
         public DO.Line GetLine(int id)
         {
@@ -180,8 +178,8 @@ namespace DL
         }
         public void RemoveLine(int id)
         {
-            int helpIndex = DataSource.ListLines.FindIndex(p => p.Id ==id);
-            DO.Line helpLine= DataSource.ListLines[helpIndex];
+            int helpIndex = DataSource.ListLines.FindIndex(p => p.Id == id);
+            DO.Line helpLine = DataSource.ListLines[helpIndex];
             if (helpLine == null)
                 throw new DO.InvalidLineIDException(id, "this  line   number doesn't exist in our database");
             else DataSource.ListLines.Remove(helpLine);
@@ -192,8 +190,8 @@ namespace DL
         public bool GetUserPrivileges(string username, string password)
         {
             DO.User helpUser = DataSource.ListUsers.Find(x => x.UserName == username && x.Password == password);
-            if (helpUser==null)
-                throw new DO.BadUsernameOrPasswordException(username,password,"the password and username doesn't match");
+            if (helpUser == null)
+                throw new DO.BadUsernameOrPasswordException(username, password, "the password and username doesn't match");
             return helpUser.Admin;
         }
         public void AddUser(DO.User user)

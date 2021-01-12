@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace dotNet5781_03B_2033_0032
 {
@@ -27,7 +16,7 @@ namespace dotNet5781_03B_2033_0032
             InitializeComponent();
             win = _win;
             index = _index;
-             thisBus = MainWindow.buses[index];
+            thisBus = MainWindow.buses[index];
             textsGrid.DataContext = thisBus;
         }
 
@@ -75,7 +64,7 @@ namespace dotNet5781_03B_2033_0032
         {
             try
             {
-                index=win.FindIndex(thisBus);
+                index = win.FindIndex(thisBus);
                 if (thisBus.curStatus == Status.ready)
                 {
                     thisBus.Event(Status.fixing);

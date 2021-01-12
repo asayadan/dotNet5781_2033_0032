@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 public enum Status
 {
@@ -12,7 +7,7 @@ public enum Status
 
 namespace dotNet5781_03B_2033_0032
 {
-    public class Bus  
+    public class Bus
     {
         #region variables
         private int licensePlateNumber;
@@ -74,7 +69,8 @@ namespace dotNet5781_03B_2033_0032
         }
 
         public int WhenWillBeReady
-            {get{ return whenWillBeReady; }
+        {
+            get { return whenWillBeReady; }
             set { whenWillBeReady = value; }
         }
 
@@ -142,14 +138,14 @@ namespace dotNet5781_03B_2033_0032
                 {
                     help += (((licensePlateNumber / 100000) / 100).ToString() + (((licensePlateNumber / 100000) / 10) % 10).ToString() + ((licensePlateNumber / 100000) % 10).ToString() + "-");//first three numbers and hyphen
                     help += ((((licensePlateNumber / 1000) % 100) / 10).ToString() + (((licensePlateNumber / 1000) % 100) % 10).ToString() + "-");// the two middle numbers numbers and hyphen
-                    help += (((licensePlateNumber % 1000) / 100).ToString() + (((licensePlateNumber % 1000) / 10) % 10).ToString() + ((licensePlateNumber % 1000) % 10).ToString() );//the last three numbers
+                    help += (((licensePlateNumber % 1000) / 100).ToString() + (((licensePlateNumber % 1000) / 10) % 10).ToString() + ((licensePlateNumber % 1000) % 10).ToString());//the last three numbers
 
                 }
                 else  //the number has 7 digits (the license plate number is valid)
                 {
                     help += (((licensePlateNumber / 100000) / 10).ToString() + ((licensePlateNumber / 100000) % 10).ToString() + "-");//first two numbers and hyphen
                     help += (((licensePlateNumber / 100) % 1000).ToString() + "-");// the three middle numbers numbers and hyphen
-                    help += (((licensePlateNumber % 100)/10).ToString()+ ((licensePlateNumber % 100) % 10).ToString());//the last two numbers
+                    help += (((licensePlateNumber % 100) / 10).ToString() + ((licensePlateNumber % 100) % 10).ToString());//the last two numbers
 
                 }
                 return help;
@@ -170,7 +166,7 @@ namespace dotNet5781_03B_2033_0032
             else if (_status == Status.working)
             {
                 if (dist > 0)
-                    start = dist/ rnd.Next(20, 50) * 60 * 60;
+                    start = dist / rnd.Next(20, 50) * 60 * 60;
                 else throw new ArgumentException("you can't drive a negative number of kilometers");
             }
             curStatus = _status;

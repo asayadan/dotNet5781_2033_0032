@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BLAPI;
-using System.Threading;
+﻿using BLAPI;
 using BO;
 using DLAPI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BL
 {
@@ -101,7 +100,7 @@ namespace BL
         {
             try
             {
-                return dl.GetStation(id).CopyPropertiesToNew(typeof(DO.Station)) as BO.Station;
+                return dl.GetStation(id).CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
             }
             catch (DO.InvalidStationIDException ex)
             {
@@ -162,7 +161,7 @@ namespace BL
                     if (station.LineStationIndex > index)
                     {
                         station.LineStationIndex++;
-                        UpdateLineStation(station.Station, station);
+                        UpdateLineStation(station.StationId, station);
                     }
                 }
 
@@ -170,17 +169,17 @@ namespace BL
                 var prevStation = stations.Where(x => x.LineStationIndex == index - 1).First();
                 nextStation.PrevStation = stationId;
                 prevStation.NextStation = stationId;
-                UpdateLineStation(nextStation.Station, nextStation);
-                UpdateLineStation(prevStation.Station, prevStation);
+                UpdateLineStation(nextStation.StationId, nextStation);
+                UpdateLineStation(prevStation.StationId, prevStation);
 
 
                 dl.AddLineStation(new DO.LineStation
                 {
                     LineStationIndex = index,
                     LineId = lineId,
-                    Id = stationId,
-                    NextStation = nextStation.Station,
-                    PrevStation = prevStation.Station
+                    StationId = stationId,
+                    NextStation = nextStation.StationId,
+                    PrevStation = prevStation.StationId
                 });
 
                 try
@@ -188,7 +187,7 @@ namespace BL
                     dl.AddAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceSinceLastStation,
-                        Station1 = prevStation.Station,
+                        Station1 = prevStation.StationId,
                         Station2 = stationId,
                         TimeSinceLastStation = timeSinceLastStation
                     });
@@ -198,19 +197,19 @@ namespace BL
                     {
                         DistFromLastStation = distanceUntilNextStation,
                         Station1 = stationId,
-                        Station2 = nextStation.Station,
+                        Station2 = nextStation.StationId,
                         TimeSinceLastStation = timeUntilNextStatio
                     });
                 }
-                
+
                 catch (DO.InvalidAdjacentStationIDException) { }
 
                 if (GetAllLines().Where(x => GetLineStationsInLine(x.Id).
-                    Where(y => y.Station == prevStation.Station && y.NextStation == nextStation.Station).Count() > 0).Count() == 0)
-                    dl.RemoveAddAdjacentStations(dl.GetAdjacentStations(prevStation.Station, nextStation.Station), lineId);
+                    Where(y => y.StationId == prevStation.StationId && y.NextStation == nextStation.StationId).Count() > 0).Count() == 0)
+                    dl.RemoveAddAdjacentStations(dl.GetAdjacentStations(prevStation.StationId, nextStation.StationId), lineId);
             }
 
-            
+
 
             catch (DO.InvalidAdjacentStationIDException ex)
             {
@@ -239,22 +238,22 @@ namespace BL
                     if (st.LineStationIndex > station.LineStationIndex)
                     {
                         st.LineStationIndex--;
-                        UpdateLineStation(st.Station, st);
+                        UpdateLineStation(st.StationId, st);
                     }
                 }
 
-                var nextStation = stations.Where(x => x.LineStationIndex == station.Station + 1).First();
-                var prevStation = stations.Where(x => x.LineStationIndex == station.Station - 1).First();
+                var nextStation = stations.Where(x => x.LineStationIndex == station.StationId + 1).First();
+                var prevStation = stations.Where(x => x.LineStationIndex == station.StationId - 1).First();
                 nextStation.PrevStation = station.NextStation;
                 prevStation.NextStation = station.PrevStation;
-                UpdateLineStation(nextStation.Station, nextStation);
-                UpdateLineStation(prevStation.Station, prevStation);
-
-                
-                dl.RemoveLineStation(station.Station, station.LineId);
+                UpdateLineStation(nextStation.StationId, nextStation);
+                UpdateLineStation(prevStation.StationId, prevStation);
 
 
-               
+                dl.RemoveLineStation(station.StationId, station.LineId);
+
+
+
 
             }
             catch (DO.InvalidAdjacentStationIDException ex)

@@ -1,15 +1,12 @@
-﻿using System;
+﻿using DO;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DO;
 
 namespace DS
 {
     public static class DataSource
     {
-        public static List<Station> ListStations; 
+        public static List<Station> ListStations;
         public static List<LineStation> ListLineStations;
         public static List<AdjacentStations> ListAdjacentStations;
         public static List<Bus> ListBuses;
@@ -19,7 +16,7 @@ namespace DS
 
         public static List<BusOnTrip> ListBusesOnTrips;
         public static List<User> ListUsers;
-        
+
 
         static DataSource()
         {
@@ -222,9 +219,9 @@ namespace DS
                     ListLineStations.Add(
                     new LineStation
                     {
-                        LineId = ListLines[i].Code,
+                        LineId = ListLines[i].Id,
                         LineStationIndex = j,
-                        Id = ListStations[(i * 4 + j + 1) % ListStations.Count].Code,
+                        StationId = ListStations[(i * 4 + j + 1) % ListStations.Count].Code,
                         NextStation = (j == 4 - 1) ? 0 : ListStations[(i * 4 + j + 2) % ListStations.Count].Code
                     }
                     );
@@ -236,17 +233,17 @@ namespace DS
 
             for (int i = 0; i < ListLineStations.Count - 1; i++)
             {
-                if (ListLineStations[i].NextStation == ListLineStations[i + 1].Id)
+                if (ListLineStations[i].NextStation == ListLineStations[i + 1].StationId)
                 {
-                    var station1 = ListStations.Find(x => x.Code == ListLineStations[i].Id);
-                    var station2 = ListStations.Find(x => x.Code == ListLineStations[i+1].Id);
+                    var station1 = ListStations.Find(x => x.Code == ListLineStations[i].StationId);
+                    var station2 = ListStations.Find(x => x.Code == ListLineStations[i + 1].StationId);
                     var dist = DistanceBetween(station1, station2);
                     ListAdjacentStations.Add(
                         new AdjacentStations
                         {
                             DistFromLastStation = dist,
-                            Station1 = ListLineStations[i].Id,
-                            Station2 = ListLineStations[i + 1].Id,
+                            Station1 = ListLineStations[i].StationId,
+                            Station2 = ListLineStations[i + 1].StationId,
                             TimeSinceLastStation = DateTime.Now.AddMinutes(dist * 1000 / rnd.Next(30, 50)) - DateTime.Now
                         });
                 }

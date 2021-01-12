@@ -1,20 +1,10 @@
-﻿using System;
+﻿using BLAPI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-using BLAPI;
 
 namespace PlGui
 {
@@ -34,45 +24,66 @@ namespace PlGui
         BackgroundWorker lineWorker = new BackgroundWorker();
 
         ObservableCollection<BO.Line> lineCollection;
-        public MenagmentWindow( IBL _bl ,string user)
+
+        BO.Line curLine;
+        public MenagmentWindow(IBL _bl, string user)
         {
             username = user;
             bl = _bl;
             InitializeComponent();
-            SetAllLines();
-            cb_lines.ItemsSource = lineCollection;
             cb_lines.DisplayMemberPath = "Code";//show only specific Property of object
             cb_lines.SelectedValuePath = "Id";//selection return only specific Property of object
             cb_lines.SelectedIndex = 0; //index of the object to be selected
             areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
-
+            SetAllLines();
         }
 
 
         void SetAllLines()
         {
-            lineCollection = new ObservableCollection<BO.Line>(bl.GetAllLines());
+            cb_lines.DataContext = bl.GetAllLines();
+        }
+
+        void setAllStations()
+        {
+            var a = bl.GetLineStationsInLine((int)cb_lines.SelectedValue);
+            var c = new List<BO.Station>();
+            foreach (var b in a)
+            {
+                c.Add(bl.GetStation(b.StationId));
+            }
+            StationsInLineDataGrid.DataContext = c;
         }
 
         private void cb_lines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lineWorker.DoWork += bl.;
             //lineWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
-            gridOneStudent.DataContext = curStu;
+            curLine = cb_lines.SelectedItem as BO.Line;
+            gridLine.DataContext = curLine;
 
-            if (curStu != null)
+            if (cb_lines.SelectedValue != null)
             {
-                //list of courses of selected student
-                RefreshAllRegisteredCoursesGrid();
-                //list of all courses (that selected student is not registered to it)
-                RefreshAllNotRegisteredCoursesGrid();
+                setAllStations();
             }
         }
 
         private void Worker(object sender, DoWorkEventArgs e)
         {
-            
+
         }
 
+        private void btRemoveStation_Click(object sender, RoutedEventArgs e)
+        {
+
+            var st = ((sender as Button).DataContext as BO.Station);
+            //bl.RemoveStationFromLine(curLine.Id, st.Code);
+            //RefreshAllRegisteredCoursesGrid();
+            // RefreshAllNotRegisteredCoursesGrid();
+        }
+
+        private void cbBuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -57,17 +57,17 @@ namespace DLAPI
             XElement dlConfig = XElement.Load(@"config.xml");
             DLName = dlConfig.Element("dal").Value;
             DLPackages = (from pkg in dlConfig.Element("dal-packages").Elements()
-                           let tmp1 = pkg.Attribute("namespace")
-                           let nameSpace = tmp1 == null ? "Dal" : tmp1.Value
-                           let tmp2 = pkg.Attribute("class")
-                           let className = tmp2 == null ? pkg.Value : tmp2.Value
-                           select new DLPackage()
-                           {
-                               Name = "" + pkg.Name,
-                               PkgName = pkg.Value,
-                               NameSpace = nameSpace,
-                               ClassName = className
-                           })
+                          let tmp1 = pkg.Attribute("namespace")
+                          let nameSpace = tmp1 == null ? "Dal" : tmp1.Value
+                          let tmp2 = pkg.Attribute("class")
+                          let className = tmp2 == null ? pkg.Value : tmp2.Value
+                          select new DLPackage()
+                          {
+                              Name = "" + pkg.Name,
+                              PkgName = pkg.Value,
+                              NameSpace = nameSpace,
+                              ClassName = className
+                          })
                            .ToDictionary(p => "" + p.Name, p => p);
         }
     }

@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dotNet5781_02_2033_0032
 {
@@ -86,7 +79,7 @@ namespace dotNet5781_02_2033_0032
         }
 
 
-        public IEnumerator GetEnumerator() 
+        public IEnumerator GetEnumerator()
         {
             return lines.GetEnumerator();
         }

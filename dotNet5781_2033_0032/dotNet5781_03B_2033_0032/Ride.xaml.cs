@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace dotNet5781_03B_2033_0032
 {
@@ -54,7 +45,7 @@ namespace dotNet5781_03B_2033_0032
                     int dist;
                     int.TryParse((sender as TextBox).Text, out dist);
                     MainWindow.buses[index].rideKM(dist);
-                    MainWindow.buses[index].Event(Status.working, dist );
+                    MainWindow.buses[index].Event(Status.working, dist);
                     MessageBox.Show("new ride");
                     Close();
                 }
@@ -63,9 +54,9 @@ namespace dotNet5781_03B_2033_0032
                     MessageBox.Show(ex.Message);
                     Close();
                 }
-                
+
             }
-            else if (e.Key!=Key.Back&& e.Key != Key.Delete && ((int)e.Key < (int)Key.D0 || (int)e.Key > (int)Key.D9))
+            else if (e.Key != Key.Back && e.Key != Key.Delete && ((int)e.Key < (int)Key.D0 || (int)e.Key > (int)Key.D9))
             {
                 if ((int)e.Key < (int)Key.Left || (int)e.Key > (int)Key.Down)
                 {

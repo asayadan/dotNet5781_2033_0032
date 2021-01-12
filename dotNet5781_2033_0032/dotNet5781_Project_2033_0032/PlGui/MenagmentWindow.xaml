@@ -15,15 +15,14 @@
                     <RowDefinition Height="31*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="317*"/>
-                    <ColumnDefinition Width="332*"/>
+                    <ColumnDefinition Width="290*"/>
+                    <ColumnDefinition Width="497*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Select Student:" Grid.Row="0" HorizontalAlignment="Left" Margin="39,15,0,0" VerticalAlignment="Top" Height="25" Width="90"/>
-                <ComboBox x:Name="cb_lines" HorizontalAlignment="Left" Text="" VerticalAlignment="Top"
-                  Grid.Row="0" Height="25" Margin="141,15,0,0" Width="123"
-                  ItemsSource="{Binding}" 
+                <Label Content="Select Line:" Grid.Row="0" HorizontalAlignment="Left" Margin="39,15,0,0" VerticalAlignment="Top" Height="25" Width="90"/>
+                <ComboBox x:Name="cb_lines" HorizontalAlignment="Left" Text="" VerticalAlignment="Top" SelectionChanged="cb_lines_SelectionChanged"
+                  ItemsSource="{Binding}" Grid.Row="0" Height="25" Margin="141,15,0,0" Width="123"
                   HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
-                <Grid x:Name="gridOneStudent"  HorizontalAlignment="Left" Margin="39,76,0,0" VerticalAlignment="Top" Height="80" Width="225">
+                <Grid x:Name="gridLine"  HorizontalAlignment="Left" Margin="39,76,0,0" VerticalAlignment="Top" Height="80" Width="225">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -38,7 +37,7 @@
                     <Label Content="Area:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
                     <ComboBox x:Name="areaComboBox" Grid.Column="1" SelectedItem="{Binding Area}" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
                 </Grid>
-                <DataGrid x:Name="studentCourseDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="20.667,80,30.333,17" RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+                <DataGrid x:Name="StationsInLineDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="20,80,30.667,17" RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
                     <DataGrid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -65,15 +64,15 @@
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btUnRegisterCourse" Content="UnRegister" ToolTip="UnRegister selected student from selected course"/>
+                                    <Button x:Name="btRemoveStation" Content="Remove" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStation_Click"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Label Content="List of Courses for selected Student:" HorizontalAlignment="Left" Margin="20.667,49,0,0" VerticalAlignment="Top" Height="23" Width="209" Grid.Column="1"/>
+                <Label Content="List of Courses for selected Student:" HorizontalAlignment="Left" Margin="20,49,0,0" VerticalAlignment="Top" Height="23" Width="209" Grid.Column="1"/>
 
-                <Button x:Name="btDeleteStudent" Content="Delete Current Student" HorizontalAlignment="Left" Margin="148,10,0,0" VerticalAlignment="Top" Width="219" Height="28" Background="#FFC56853" Grid.Column="1" Grid.Row="1"/>
+                <Button x:Name="btDeleteStudent" Content="Delete Current Student" HorizontalAlignment="Left" Margin="252,10,0,0" VerticalAlignment="Top" Width="219" Height="28" Background="#FFC56853" Grid.Column="1" Grid.Row="1"/>
                 <Button x:Name="btAddStudent" Content="Add New Student" HorizontalAlignment="Left" Margin="57,7,0,0" VerticalAlignment="Top" Width="141" Height="34" Background="#FF6DB469" Grid.Row="1"/>
 
                 <Button x:Name="btUpdateStudent" Content="Aplly Changes on Student Details" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Width="234" Height="28" Background="#FFD1DA16" Grid.Row="1" Grid.ColumnSpan="2"/>
@@ -85,7 +84,38 @@
             </Grid>
         </TabItem>
         <TabItem Header="busses veiw">
-            <Grid></Grid>
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Select Bus:" Grid.Row="0" HorizontalAlignment="Left" Margin="39,15,0,0" VerticalAlignment="Top" Height="25" Width="90"/>
+                    <ComboBox x:Name="cbBuses" HorizontalAlignment="Left" Text="" VerticalAlignment="Top" SelectionChanged="cbBuses_SelectionChanged"
+                        ItemsSource="{Binding}" Grid.Row="0" Height="25" Margin="141,15,0,0" Width="123"
+                        HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+                    <Grid x:Name="gridBus"  HorizontalAlignment="Left" Margin="39,76,0,0" VerticalAlignment="Top" Height="80" Width="225">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="92.333"/>
+                            <ColumnDefinition Width="33.667"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="License Plate Number:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3,3.333,0,3.333" Grid.Row="1" VerticalAlignment="Center"/>
+                        <TextBox x:Name="licenseNumTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="2.667,4.333,0,5.333" Grid.Row="1" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
+                        <Label Content="From Date:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.667,0,3" Grid.Row="2" VerticalAlignment="Center"/>
+                        <DatePicker x:Name="fromDateDatePicker" Grid.Column="1" SelectedDate="{Binding FromDate}" HorizontalAlignment="Left" Height="Auto"  Margin="2.667,3.667,0,4" Grid.Row="2" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
+
+                    </Grid>
+
+                </Grid>
+            </Grid>
         </TabItem>
     </TabControl>
 

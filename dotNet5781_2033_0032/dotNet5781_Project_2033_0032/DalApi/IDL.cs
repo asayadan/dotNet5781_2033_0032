@@ -1,9 +1,6 @@
 ﻿using DO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DLAPI
 {
@@ -24,7 +21,7 @@ namespace DLAPI
         DO.Station GetStation(int id);
         IEnumerable<DO.Line> LinesInStation(int stationId);
         void AddAdjacentStations(DO.AdjacentStations adjacentStations);
-        void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStations,int linneId);
+        void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStations, int linneId);
         void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
         void UpdateLineStation(int id, LineStation lineStation);
         DO.AdjacentStations GetAdjacentStations(int station1, int station2);
@@ -46,7 +43,7 @@ namespace DLAPI
         #region User
         bool GetUserPrivileges(string username, string password);
         void AddUser(DO.User user);
-        
+
 
 
         #endregion

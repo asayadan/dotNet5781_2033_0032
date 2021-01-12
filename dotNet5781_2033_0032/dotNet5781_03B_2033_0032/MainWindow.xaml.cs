@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Timers;
 
 
 namespace dotNet5781_03B_2033_0032
@@ -25,7 +17,7 @@ namespace dotNet5781_03B_2033_0032
         public static List<Bus> buses;
         private DateTime a;
         private int page;
-        private  int NUM_ROWS; 
+        private int NUM_ROWS;
 
         /// <summary>
         /// initealizes the window
@@ -34,14 +26,14 @@ namespace dotNet5781_03B_2033_0032
         {
             try
             {
-                InitializeComponent(); 
+                InitializeComponent();
                 initilize(ref buses); // Create a random list of buses
 
-                NUM_ROWS = (int)((this.Height - 105)/30);
+                NUM_ROWS = (int)((this.Height - 105) / 30);
 
 
                 for (int i = 0; i < buses.Count; i++)
-                    addBus(i);                          
+                    addBus(i);
                 cb_sort.SelectedIndex = 0;
 
                 var timer1 = new Timer(1000);
@@ -74,21 +66,21 @@ namespace dotNet5781_03B_2033_0032
 
                 for (int i = 0; i < buses.Count; i++)//for every bus
                 {
-                    buses[i].WhenWillBeReady-=600;  // 10 simulation minutes every second
+                    buses[i].WhenWillBeReady -= 600;  // 10 simulation minutes every second
 
 
-                        if (buses[i].curStatus != Status.ready&& buses[i].WhenWillBeReady <= 0)//the bus finished the current process
+                    if (buses[i].curStatus != Status.ready && buses[i].WhenWillBeReady <= 0)//the bus finished the current process
+                    {
+                        if ((buses[i].curStatus == Status.refueling))
+                            buses[i].refuel();
+                        else if ((buses[i].curStatus == Status.fixing))
                         {
-                            if ((buses[i].curStatus == Status.refueling))
-                                buses[i].refuel(); 
-                            else if ((buses[i].curStatus == Status.fixing))
-                            {
-                                buses[i].treatment(a);
-                                buses[i].Event(Status.refueling);
+                            buses[i].treatment(a);
+                            buses[i].Event(Status.refueling);
 
-                            }
-                            enter(i);//taking the bus to the right place in the list
                         }
+                        enter(i);//taking the bus to the right place in the list
+                    }
                     Graphics(i);
 
                 }
@@ -194,7 +186,7 @@ namespace dotNet5781_03B_2033_0032
         /// <param name="e"></param>
         private void Drive_Button_Click(object sender, RoutedEventArgs e)
         {
-            Ride AddRide = new Ride(this,Grid.GetRow((sender as Button)) +page * NUM_ROWS);
+            Ride AddRide = new Ride(this, Grid.GetRow((sender as Button)) + page * NUM_ROWS);
             AddRide.Show();
         }
 
@@ -206,7 +198,7 @@ namespace dotNet5781_03B_2033_0032
         /// <param name="e"></param>
         private void fixButton_Click(object sender, RoutedEventArgs e)
         {
-            buses[Grid.GetRow((sender as Button))+ page * NUM_ROWS].Event(Status.fixing);
+            buses[Grid.GetRow((sender as Button)) + page * NUM_ROWS].Event(Status.fixing);
         }
         /// <summary>
         /// starts to fix the bus
@@ -215,7 +207,7 @@ namespace dotNet5781_03B_2033_0032
         /// <param name="e"></param>
         private void refuelButton_Click(object sender, RoutedEventArgs e)
         {
-            buses[Grid.GetRow((sender as Button))+page * NUM_ROWS].Event(Status.refueling);
+            buses[Grid.GetRow((sender as Button)) + page * NUM_ROWS].Event(Status.refueling);
         }
         /// <summary>
         /// removes the bus
@@ -225,25 +217,25 @@ namespace dotNet5781_03B_2033_0032
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
             int index = Grid.GetRow(sender as Button);
-            buses.RemoveAt(index+page * NUM_ROWS);
+            buses.RemoveAt(index + page * NUM_ROWS);
 
-            GridData.RowDefinitions.RemoveAt(index); 
+            GridData.RowDefinitions.RemoveAt(index);
 
             foreach (UIElement element in GridData.Children)
             {
-                
+
                 if (Grid.GetRow(element) > index)
                 {
                     if (Grid.GetColumn(element) == 0) // Update the existing elements that are after the deleted line
-                        (element as TextBlock).Text = (Grid.GetRow(element)).ToString(); 
+                        (element as TextBlock).Text = (Grid.GetRow(element)).ToString();
                     Grid.SetRow(element, Grid.GetRow(element) - 1);
-                   
+
                 }
 
             }
             GridData.Children.RemoveRange(index * 8, 8); // Remove the line of elements
             for (int i = page * NUM_ROWS; i < (page + 1) * NUM_ROWS; i++)
-            {   
+            {
                 if (!(NUM_ROWS > buses.Count))
                     Graphics(i);
             }
@@ -264,7 +256,7 @@ namespace dotNet5781_03B_2033_0032
         /// <param name="e"></param>
         private void Drive_Text_DoubleClick(object sender, RoutedEventArgs e)
         {
-            Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender)+page*NUM_ROWS);
+            Window1 BusData = new Window1(this, Grid.GetRow((TextBox)sender) + page * NUM_ROWS);
             BusData.Show(); // Double click to show bus information .
         }
         /// <summary>
@@ -293,7 +285,7 @@ namespace dotNet5781_03B_2033_0032
         {
 
             // A sort parameter has been changed.
-            buses.Sort(Conperer_This()); 
+            buses.Sort(Conperer_This());
 
             for (int i = 0; i < buses.Count; i++)
             {
@@ -303,14 +295,14 @@ namespace dotNet5781_03B_2033_0032
         private void enter(int indx) // Insertion sort
         {
             IComparer<Bus> myComperer = Conperer_This();
-            while ( indx > 0 &&myComperer.Compare(buses[indx],buses[indx-1])<0)
+            while (indx > 0 && myComperer.Compare(buses[indx], buses[indx - 1]) < 0)
             {
-                swap(indx,indx - 1);
+                swap(indx, indx - 1);
                 indx -= 1;
             }
-            while ( indx < buses.Count - 1&&myComperer.Compare(buses[indx], buses[indx + 1]) > 0 )
+            while (indx < buses.Count - 1 && myComperer.Compare(buses[indx], buses[indx + 1]) > 0)
             {
-                swap(indx, indx +1);
+                swap(indx, indx + 1);
                 indx += 1;
             }
         }
@@ -334,8 +326,8 @@ namespace dotNet5781_03B_2033_0032
         private void swap(int index1, int index2)
         {
             Bus help = buses[index1];
-            buses[index1]= buses[index2] ;
-            buses[index2]=help;
+            buses[index1] = buses[index2];
+            buses[index2] = help;
 
             Graphics(index1);
             Graphics(index2);
@@ -365,7 +357,7 @@ namespace dotNet5781_03B_2033_0032
 
 
                 var row = GridData.Children.Cast<UIElement>().
-                        Where(k => Grid.GetRow(k) == i%NUM_ROWS).ToList();
+                        Where(k => Grid.GetRow(k) == i % NUM_ROWS).ToList();
                 if (i >= buses.Count)
                 {
                     (row[2] as TextBox).Background = new SolidColorBrush(Colors.Transparent);
@@ -445,7 +437,7 @@ namespace dotNet5781_03B_2033_0032
             else
                 bn_down.IsEnabled = true;
             bn_up.IsEnabled = true;
-            for (int i = page*NUM_ROWS;i< (page + 1) * NUM_ROWS; i++)
+            for (int i = page * NUM_ROWS; i < (page + 1) * NUM_ROWS; i++)
             {
                 Graphics(i);
             }
@@ -467,15 +459,15 @@ namespace dotNet5781_03B_2033_0032
             bn_down.IsEnabled = true;
             for (int i = page * NUM_ROWS; i < (page + 1) * NUM_ROWS; i++)
             {
-                    if (!(NUM_ROWS > buses.Count))
-                        Graphics(i);
+                if (!(NUM_ROWS > buses.Count))
+                    Graphics(i);
             }
         }
-        
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) // To check if we need to change the amount
         {                                                                      // of buses in each page.
-            
-                NUM_ROWS = (int)Math.Round(((this.Height - 105) / 30)-0.7);
+
+            NUM_ROWS = (int)Math.Round(((this.Height - 105) / 30) - 0.7);
             if ((page + 1) * NUM_ROWS >= buses.Count)
                 bn_down.IsEnabled = false;
             else

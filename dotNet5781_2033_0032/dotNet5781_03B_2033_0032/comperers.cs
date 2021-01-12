@@ -1,30 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
+﻿using System.Collections.Generic;
 
 namespace dotNet5781_03B_2033_0032
 {
 
-        public class comparefuel : IComparer<Bus>
+    public class comparefuel : IComparer<Bus>
+    {
+        // Call CaseInsensitiveComparer.Compare with the parameters reversed.
+        int IComparer<Bus>.Compare(Bus x, Bus y)
         {
-            // Call CaseInsensitiveComparer.Compare with the parameters reversed.
-            int IComparer<Bus>.Compare(Bus x, Bus y)
-            {
-                return x._fuel.CompareTo(y._fuel);
-            }
+            return x._fuel.CompareTo(y._fuel);
         }
+    }
 
-        public class compareDate : IComparer<Bus>
+    public class compareDate : IComparer<Bus>
+    {
+        // Call CaseInsensitiveComparer.Compare with the parameters reversed.
+        int IComparer<Bus>.Compare(Bus x, Bus y)
         {
-            // Call CaseInsensitiveComparer.Compare with the parameters reversed.
-            int IComparer<Bus>.Compare(Bus x, Bus y)
-            {
-                return (int)x._registreationDate.CompareTo(y._registreationDate);
-            }
+            return (int)x._registreationDate.CompareTo(y._registreationDate);
         }
+    }
 
     public class CompareMileage : IComparer<Bus>
     {

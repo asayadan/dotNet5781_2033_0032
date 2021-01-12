@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //Ex0 Final commit 
 
@@ -26,12 +23,12 @@ namespace dotNet5781_01_2033_0032
             int i;
             bool flag = true;
             while (flag)
-	        {
+            {
                 Console.WriteLine("\nChoose an option:\n0. Add a bus.\n1. Choose a bus for a ride.\n2. Fuel or Treat a bus.\n3. Print mileage of every bus. \n4. Exit.");
                 int.TryParse(Console.ReadLine(), out i);
 
                 switch (i)
-	            {
+                {
                     case (int)states.addBus://adding new bus
 
                         DateTime date = new DateTime();
@@ -82,17 +79,17 @@ namespace dotNet5781_01_2033_0032
 
                         if (myBus != null)
                             switch (option)
-	                        {
+                            {
                                 case 1:
                                     myBus.refuel();
                                     break;
                                 case 2:
                                     myBus.treatment(DateTime.Now);
                                     break;
-		                        default:
+                                default:
                                     Console.WriteLine("Option not found.");
                                     break;
-	                        }
+                            }
                         else
                             Console.WriteLine("Bus not found.");//this bus is not in the system
                         break;
@@ -100,7 +97,8 @@ namespace dotNet5781_01_2033_0032
                     case (int)states.printMileage:
 
 
-                        foreach (Bus aBus in buses) {//for each bus
+                        foreach (Bus aBus in buses)
+                        {//for each bus
                             aBus.Print_licensePlateNumber();//we print the license palte number
                             Console.WriteLine(" | {0}", aBus._mileage);//we print the mileage
                         }
@@ -110,21 +108,23 @@ namespace dotNet5781_01_2033_0032
                     case (int)states.exit:
                         flag = false;
                         break;
-		            default:
+                    default:
                         Console.WriteLine("Option not found.");
                         break;
-	            }
-	        }
+                }
+            }
 
 
         }
 
         //checks if the license plate number is valid
-        public static bool checkValidation(int _licensePlateNumber, DateTime _date) {
-            if (((_date.Year >= 2018) && (_licensePlateNumber > 9999999))&& (_licensePlateNumber <= 99999999) ||//the bus registered after 2018 and has 8 digits
-                ((_date.Year < 2018) && (_licensePlateNumber <= 9999999))&& (_licensePlateNumber > 999999))//the bus registered before 2018 and has 7 digits
+        public static bool checkValidation(int _licensePlateNumber, DateTime _date)
+        {
+            if (((_date.Year >= 2018) && (_licensePlateNumber > 9999999)) && (_licensePlateNumber <= 99999999) ||//the bus registered after 2018 and has 8 digits
+                ((_date.Year < 2018) && (_licensePlateNumber <= 9999999)) && (_licensePlateNumber > 999999))//the bus registered before 2018 and has 7 digits
                 return true;//the license plate number is valid
-            else {
+            else
+            {
                 return false;
             }
         }
