@@ -54,22 +54,33 @@ namespace PlGui
         {
 
             var help = bl.GetAllLines();
-            foreach (var item in help)
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                foreach (var item in help)
             {
                 lineCollection.Add(item);
-            }
+                }
+            });
         }
         void setAllStations(object sender, DoWorkEventArgs e)
         {
             try
             {
-                var a = bl.GetLineStationsInLine((int)e.Argument);
 
-                stationsInLineCollection.Clear();
-                foreach (var b in a)
+                var helpList = new List<BO.Station>();
+                foreach (var b in bl.GetLineStationsInLine((int)e.Argument))
                 {
-                    stationsInLineCollection.Add(bl.GetStation(b.StationId));
+                    helpList.Add(bl.GetStation(b.StationId));
                 }
+                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                {
+                    stationsInLineCollection.Clear();
+                    foreach (var station in helpList)
+                    {
+                        stationsInLineCollection.Add(station);
+                    }
+
+                });
             }
             catch (BO.InvalidStationIDException)
             {
@@ -95,11 +106,11 @@ namespace PlGui
         {
             //lineWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
             curLine = cb_lines.SelectedItem as BO.Line;
+            gridLine.DataContext = curLine;
             if (cb_lines.SelectedValue != null)
             {
                 stationsInLineWorker.DoWork += setAllStations;
                 stationsInLineWorker.RunWorkerAsync((int)cb_lines.SelectedValue);
-                //stationsInLineWorker.DoWork -= setAllStations;
             }
         }
         private void btRemoveStation_Click(object sender, RoutedEventArgs e)
