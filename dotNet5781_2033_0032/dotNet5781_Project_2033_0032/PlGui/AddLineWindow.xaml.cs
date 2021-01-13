@@ -37,30 +37,52 @@ namespace PlGui
         {
 
             int a = 0, c = 0, d = 0;
+            bool valid = true;
             BO.Areas b = BO.Areas.Center;
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
-                a = int.Parse(CodeTextBox.Text);
-                b = (BO.Areas)areaComboBox.SelectedItem;
-                c = (int)firstStationComboBox.SelectedValue;
-                d = (int)lastStationComboBox.SelectedValue;
+                try {
+                    a = int.Parse(CodeTextBox.Text);
+                    b = (BO.Areas)areaComboBox.SelectedItem;
+                    c = (int)firstStationComboBox.SelectedValue;
+                    d = (int)lastStationComboBox.SelectedValue;
+                }
+
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Invalid code!");
+                    valid = false;
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Invalid code!");
+                    valid = false;
+                }
+
+                
+
             });
 
             try
             {
-                bl.AddLine(a, b, c, d);
-                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                if (valid)
                 {
-                    Close();
-                });
+                    bl.AddLine(a, b, c, d);
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    {
+                        Close();
+                    });
+                }
             }
+
             catch (BO.InvalidLineIDException ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
-            
+
+
 
         }
         public AddLineWindow(IBL bL)

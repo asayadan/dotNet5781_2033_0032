@@ -21,7 +21,7 @@
                 </Grid.ColumnDefinitions>
                 <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
                     <Label Content="Select Line:"  />
-                    <ComboBox x:Name="cb_lines"  Width="125"  Text="" SelectionChanged="cb_lines_SelectionChanged"
+                    <ComboBox x:Name="cbLines"  Width="125"  Text="" SelectionChanged="cb_lines_SelectionChanged"
                    ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
                 </WrapPanel>
                 <Grid x:Name="gridLine" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="200">
@@ -39,7 +39,7 @@
                     <Label Content="Area:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
                     <ComboBox x:Name="areaComboBox" Grid.Column="1" SelectedItem="{Binding Area}" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
                 </Grid>
-                <DataGrid x:Name="StationsInLineDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
+                <DataGrid x:Name="StationsInLineDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
                     <DataGrid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -49,16 +49,15 @@
                         </TransformGroup>
                     </DataGrid.RenderTransform>
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code}" Header="Code" Width="*"/>
-                        <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="*"/>
-                        <DataGridTextColumn x:Name="longitudeColumn" Binding="{Binding Longitude}" Header="Longitude" Width="*"/>
-                        <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding Latitude}" Header="Latitude" Width="*"/>
-
+                        <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code}"  Header="Code" Width="Auto"/>
+                        <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="Auto"/>
+                        <DataGridTextColumn x:Name="longitudeColumn" Binding="{Binding Longitude}" Header="Longitude" Width="Auto"/>
+                        <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding Latitude}" Header="Latitude" Width="Auto"/>
 
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="bt_updateStatioin" Content="Update Station"/>
+                                    <Button x:Name="bt_updateStatioin" Width="Auto" Content="Update Station"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -66,8 +65,9 @@
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btRemoveStation" Content="Remove" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStation_Click"/>
+                                    <Button x:Name="btRemoveStation" Content="Remove" Width="Auto" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStation_Click"/>
                                 </DataTemplate>
+                                
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
@@ -80,7 +80,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="bt_DeleteLine" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Background="#FFC56853" />
+                    <Button x:Name="bt_DeleteLine" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Background="#FFC56853" Click="bt_DeleteLine_Click"/>
                     <Button x:Name="bt_AddLine" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="3" Background="#FF6DB469" Click="bt_AddLine_Click"/>
                     <Button x:Name="bt_UpdateLine" Content="Apply Changes on Line Details" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="CadetBlue" Click="bt_UpdateLine_Click"/>
                     <Button x:Name="bt_AddStation" Content="add station to line " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Background="#FFD1DA16"/>
