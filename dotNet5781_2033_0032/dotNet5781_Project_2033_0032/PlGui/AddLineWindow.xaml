@@ -6,12 +6,22 @@
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
         Title="AddLineWindow" Height="400" Width="300">
+    <Window.Resources>
+        <Style x:Key="WarningMessageStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Cambria Math"/>
+        </Style>
+    </Window.Resources>
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.7*"/>
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
@@ -28,6 +38,7 @@
         <ComboBox x:Name="firstStationComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="2" Grid.Column="1" />
         <Label Content="Last Station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="3" Grid.Column="0" Height="Auto"/>
         <ComboBox x:Name="lastStationComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="3" Grid.Column="1" />
-        <Button x:Name="finishButton" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="200" Grid.Row="4" Grid.ColumnSpan="2" Click="finishButton_Click" />
+        <Button x:Name="finishButton" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="200" Grid.Row="7" Grid.ColumnSpan="2" Click="finishButton_Click" />
+        <TextBlock x:Name="tbl_warnings" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="6"  Text="" VerticalAlignment="Center" Style="{StaticResource WarningMessageStyle}"/>
     </Grid>
 </Window>

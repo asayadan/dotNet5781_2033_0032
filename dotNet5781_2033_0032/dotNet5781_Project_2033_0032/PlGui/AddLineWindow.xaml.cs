@@ -36,7 +36,7 @@ namespace PlGui
         void AddLine(object sender, DoWorkEventArgs e)
         {
 
-            int a = 0, c = 0, d = 0;
+            int a = 0, firstStation = 0, lastStation = 0;
             bool valid = true;
             BO.Areas b = BO.Areas.Center;
 
@@ -45,30 +45,32 @@ namespace PlGui
                 try {
                     a = int.Parse(CodeTextBox.Text);
                     b = (BO.Areas)areaComboBox.SelectedItem;
-                    c = (int)firstStationComboBox.SelectedValue;
-                    d = (int)lastStationComboBox.SelectedValue;
+                    firstStation = (int)firstStationComboBox.SelectedValue;
+                    lastStation = (int)lastStationComboBox.SelectedValue;
+                    if (firstStation == lastStation)
+                    {
+                        tbl_warnings.Text = "the stations should be different";
+                        valid = false;
+                    }
                 }
-
                 catch (OverflowException)
                 {
-                    MessageBox.Show("Invalid code!");
+                    tbl_warnings.Text="Invalid code!";
                     valid = false;
                 }
                 catch (FormatException)
                 {
-                    MessageBox.Show("Invalid code!");
+                tbl_warnings.Text = "Invalid code!";
                     valid = false;
                 }
-
-                
-
             });
 
             try
             {
                 if (valid)
                 {
-                    bl.AddLine(a, b, c, d);
+                    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                   // bl.AddLine(a, b, firstStation, lastStation);
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
                         Close();
@@ -80,10 +82,6 @@ namespace PlGui
             {
                 MessageBox.Show(ex.Message);
             }
-
-
-
-
         }
         public AddLineWindow(IBL bL)
         {

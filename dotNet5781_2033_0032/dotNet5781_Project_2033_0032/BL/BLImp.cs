@@ -312,7 +312,7 @@ namespace BL
                 throw new BO.InvalidLineIDException(ex.ID, ex.Message);
             }
         }
-        public void AddLine(int code, BO.Areas area, int firstStation, int lastStation)
+        public void AddLine(int code, BO.Areas area, int firstStation, int lastStation, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
         {
             try
             {
@@ -349,7 +349,7 @@ namespace BL
             }
             catch (DO.InvalidLinesStationException ex)
             {
-                
+                throw new InvalidLinesStationException(firstStation,lastStation,"the stations are invalid");
             }
 
         }
