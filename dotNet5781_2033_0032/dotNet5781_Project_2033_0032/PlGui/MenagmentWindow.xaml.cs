@@ -141,6 +141,9 @@ namespace PlGui
             lineWorker.RunWorkerAsync();
         }
 
+        private void bt_UpdateLine_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

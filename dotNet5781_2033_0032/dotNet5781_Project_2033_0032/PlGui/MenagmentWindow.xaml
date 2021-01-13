@@ -82,8 +82,8 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="bt_DeleteLine" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Background="#FFC56853" />
                     <Button x:Name="bt_AddLine" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="3" Background="#FF6DB469" Click="bt_AddLine_Click"/>
-                    <Button x:Name="bt_UpdateLine" Content="Apply Changes on Line Details" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="CadetBlue"/>
-                    <Button x:Name="bt_AddStation" Content="Aplly Changes on Line Details" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Background="#FFD1DA16"/>
+                    <Button x:Name="bt_UpdateLine" Content="Apply Changes on Line Details" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="CadetBlue" Click="bt_UpdateLine_Click"/>
+                    <Button x:Name="bt_AddStation" Content="add station to line " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Background="#FFD1DA16"/>
                 </Grid>
 
             </Grid>
