@@ -290,6 +290,13 @@ namespace DS
                     UserName = "Admin"
                 },
 
+                 new User
+                {
+                    Admin = true,
+                    Password = "#MAGA",
+                    UserName = "Donald J Trump"
+                },
+
                 new User
                 {
                     Admin = false,

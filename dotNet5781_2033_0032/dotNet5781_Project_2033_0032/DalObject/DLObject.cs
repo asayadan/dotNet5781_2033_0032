@@ -73,6 +73,12 @@ namespace DL
             }
             else throw new DO.InvalidStationIDException(id, "bad station id");
         }
+        public IEnumerable<DO.Station> GetAllStations()
+        {
+            return from station in DataSource.ListStations
+                   select station.Clone();
+        }
+
         public void AddAdjacentStations(DO.AdjacentStations adjacentStation)
         {
             if (DataSource.ListAdjacentStations.FirstOrDefault(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2) != null)
@@ -173,7 +179,7 @@ namespace DL
         public void AddLine(DO.Line line)
         {
             if (DataSource.ListLines.FirstOrDefault(p => p.Id == line.Id) != null)
-                throw new DO.InvalidLineIDException(line.Id, "the data base alredy has this line line");
+                throw new DO.InvalidLineIDException(line.Id, "Line number already exists.");
             DataSource.ListLines.Add(line.Clone());
         }
         public void RemoveLine(int id)

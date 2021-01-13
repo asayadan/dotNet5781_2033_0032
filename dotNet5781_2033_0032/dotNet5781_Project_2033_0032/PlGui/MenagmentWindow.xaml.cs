@@ -56,6 +56,7 @@ namespace PlGui
             var help = bl.GetAllLines();
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
+                lineCollection.Clear();
                 foreach (var item in help)
             {
                 lineCollection.Add(item);
@@ -91,7 +92,7 @@ namespace PlGui
         void SetBusTab()
         {
             cbBuses.DisplayMemberPath = "LicenseNum";//show only specific Property of object
-            cb_lines.SelectedIndex = 0; //index of the object to be selected
+            cbBuses.SelectedIndex = 0; //index of the object to be selected
             statusComboBox.ItemsSource = Enum.GetValues(typeof(BO.Status));
             SetAllBuses();
         }
@@ -127,6 +128,19 @@ namespace PlGui
             gridBus.DataContext = curBus;
         }
         #endregion
+
+        private void bt_AddLine_Click(object sender, RoutedEventArgs e)
+        {
+            var lineWindow = new AddLineWindow(bl);
+            lineWindow.Closing += addClosed;
+            lineWindow.Show();
+        }
+
+        private void addClosed(object sender, CancelEventArgs e)
+        {
+            lineWorker.RunWorkerAsync();
+        }
+
 
     }
 }

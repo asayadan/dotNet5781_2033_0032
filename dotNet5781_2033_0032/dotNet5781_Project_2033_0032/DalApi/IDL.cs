@@ -17,8 +17,8 @@ namespace DLAPI
         #endregion
 
         #region Stations
-
         DO.Station GetStation(int id);
+        IEnumerable<DO.Station> GetAllStations();
         IEnumerable<DO.Line> LinesInStation(int stationId);
         void AddAdjacentStations(DO.AdjacentStations adjacentStations);
         void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStations, int linneId);

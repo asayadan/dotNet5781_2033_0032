@@ -107,6 +107,13 @@ namespace BL
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
+        public IEnumerable<BO.Station> GetAllStations()
+        {
+            foreach (var station in dl.GetAllStations())
+            {
+                yield return station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
+            }
+        }
         public BO.LineStation GetLineStation(int id)
         {
             try
@@ -304,17 +311,35 @@ namespace BL
                 throw new BO.InvalidLineIDException(ex.ID, ex.Message);
             }
         }
-        public void AddLine(int id, BO.Areas area, int firstStation, int lastStation)
+        public void AddLine(int code, BO.Areas area, int firstStation, int lastStation)
         {
             try
             {
                 dl.AddLine(new DO.Line
                 {
                     Area = (DO.Areas)area,
-                    Code = id,
+                    Code = code,
                     FirstStation = firstStation,
                     LastStation = lastStation,
                     Id = Counters.lines++
+                });
+
+                dl.AddLineStation(new DO.LineStation
+                {
+                    LineId = Counters.lines - 1,
+                    LineStationIndex = 0,
+                    NextStation = lastStation,
+                    PrevStation = 0,
+                    StationId = firstStation
+                });
+
+                dl.AddLineStation(new DO.LineStation
+                {
+                    LineId = Counters.lines - 1,
+                    LineStationIndex = 0,
+                    NextStation = 0,
+                    PrevStation = firstStation,
+                    StationId = lastStation
                 });
             }
             catch (DO.InvalidLineIDException ex)
