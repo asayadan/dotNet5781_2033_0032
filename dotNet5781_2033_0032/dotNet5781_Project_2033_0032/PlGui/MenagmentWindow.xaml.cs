@@ -186,6 +186,21 @@ namespace PlGui
         }
         #endregion
 
+        private void bt_AddLine_Click(object sender, RoutedEventArgs e)
+        {
+            var lineWindow = new AddLineWindow(bl);
+            lineWindow.Closing += addClosed;
+            lineWindow.Show();
+        }
 
+        private void addClosed(object sender, CancelEventArgs e)
+        {
+            lineWorker.RunWorkerAsync();
+        }
+
+        private void bt_UpdateLine_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
