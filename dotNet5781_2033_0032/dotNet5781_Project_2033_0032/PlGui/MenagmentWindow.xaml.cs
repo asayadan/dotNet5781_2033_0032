@@ -20,6 +20,7 @@ namespace PlGui
         string username;
         BackgroundWorker busWorker = new BackgroundWorker();
         ObservableCollection<BO.Bus> busCollection;
+        BackgroundWorker updatelinesWorker = new BackgroundWorker();
         BackgroundWorker lineWorker = new BackgroundWorker();
         ObservableCollection<BO.Line> lineCollection= new ObservableCollection<BO.Line>();
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
@@ -46,8 +47,9 @@ namespace PlGui
             StationsInLineDataGrid.DataContext = stationsInLineCollection;
             cb_lines.DataContext = lineCollection;
             areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
-            lineWorker.DoWork+=SetAllLines;
-            lineWorker.RunWorkerAsync();
+            updatelinesWorker.DoWork+=SetAllLines;
+            //lineWorker +=;
+            updatelinesWorker.RunWorkerAsync();
         }
 
         void SetAllLines(object sender, DoWorkEventArgs e)
@@ -105,12 +107,11 @@ namespace PlGui
         #region Line functions
         private void cb_lines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //lineWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
+            //updatelinesWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
             curLine = cb_lines.SelectedItem as BO.Line;
             gridLine.DataContext = curLine;
             if (cb_lines.SelectedValue != null)
             {
-                stationsInLineWorker.DoWork += setAllStations;
                 stationsInLineWorker.RunWorkerAsync((int)cb_lines.SelectedValue);
             }
         }
@@ -138,7 +139,7 @@ namespace PlGui
 
         private void addClosed(object sender, CancelEventArgs e)
         {
-            lineWorker.RunWorkerAsync();
+            updatelinesWorker.RunWorkerAsync();
         }
 
         private void bt_UpdateLine_Click(object sender, RoutedEventArgs e)
