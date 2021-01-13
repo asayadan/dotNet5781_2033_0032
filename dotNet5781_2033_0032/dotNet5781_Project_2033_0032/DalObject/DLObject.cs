@@ -190,6 +190,18 @@ namespace DL
                 throw new DO.InvalidLineIDException(id, "this  line   number doesn't exist in our database");
             else DataSource.ListLines.Remove(helpLine);
         }
+        public void UpdateLine(DO.Line line)
+        {
+            DO.Line helpLine = DataSource.ListLines.FirstOrDefault(p => p.Id == line.Id);
+            if (helpLine == null)
+                throw new DO.InvalidLineIDException(line.Id, "this line doesn't exists");
+            else
+            {
+                DataSource.ListLines.Remove(helpLine);
+                DataSource.ListLines.Add(line.Clone());
+            }
+        }
+
         #endregion
 
         #region User

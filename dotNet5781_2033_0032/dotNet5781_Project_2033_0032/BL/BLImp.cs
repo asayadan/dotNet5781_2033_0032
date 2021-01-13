@@ -144,13 +144,6 @@ namespace BL
                 yield return station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
             }
         }
-        public IEnumerable<BO.Line> GetAllLines()
-        {
-            foreach (var line in dl.GetAllLines())
-            {
-                yield return line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
-            }
-        }
         public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
             try
@@ -300,6 +293,14 @@ namespace BL
         #endregion
 
         #region Line
+        public IEnumerable<BO.Line> GetAllLines()
+        {
+            foreach (var line in dl.GetAllLines())
+            {
+                yield return line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
+            }
+        }
+
         public BO.Line GetLine(int id)
         {
             try
@@ -346,6 +347,10 @@ namespace BL
             {
                 throw new BO.InvalidLineIDException(ex.ID, ex.Message);
             }
+            catch (DO.InvalidLinesStationException ex)
+            {
+                
+            }
 
         }
         public void RemoveLine(int id)
@@ -358,6 +363,26 @@ namespace BL
             {
                 throw new BO.InvalidLineIDException(ex.ID, ex.Message);
             }
+        }
+        public void UpdateLine(int id, int code, BO.Areas area, int firstStation, int lastStation)
+        {
+            try
+            {
+                dl.UpdateLine(new DO.Line
+                {
+                    Area = (DO.Areas)area,
+                    Code = code,
+                    FirstStation = firstStation,
+                    LastStation = lastStation,
+                    Id = id
+                });
+
+            }
+            catch (DO.InvalidLineIDException ex)
+            {
+                throw new BO.InvalidLineIDException(ex.ID, ex.Message);
+            }
+
         }
 
         #endregion
