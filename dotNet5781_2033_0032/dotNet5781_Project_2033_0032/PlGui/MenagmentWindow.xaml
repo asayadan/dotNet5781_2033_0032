@@ -58,7 +58,7 @@
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btUpdateGradeInCourse" Content="Update Garde"/>
+                                    <Button x:Name="bt_updateStatioin" Content="Update Station"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
