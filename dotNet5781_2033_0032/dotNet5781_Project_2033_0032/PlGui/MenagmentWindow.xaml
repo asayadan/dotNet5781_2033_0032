@@ -49,12 +49,12 @@
                         </TransformGroup>
                     </DataGrid.RenderTransform>
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code}"  Header="Code" Width="Auto"/>
-                        <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="Auto"/>
-                        <DataGridTextColumn x:Name="longitudeColumn" Binding="{Binding Longitude}" Header="Longitude" Width="Auto"/>
-                        <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding Latitude}" Header="Latitude" Width="Auto"/>
+                        <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code}"  Header="Code" Width="*"/>
+                        <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="2*"/>
+                        <DataGridTextColumn x:Name="longitudeColumn" Binding="{Binding Longitude}" Header="Longitude" Width="*"/>
+                        <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding Latitude}" Header="Latitude" Width="*"/>
 
-                        <DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="2*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="bt_updateStatioin" Width="Auto" Content="Update Station"/>
@@ -62,7 +62,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="2*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="btRemoveStation" Content="Remove" Width="Auto" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStation_Click"/>
@@ -83,7 +83,7 @@
                     <Button x:Name="bt_DeleteLine" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Background="#FFC56853" Click="bt_DeleteLine_Click"/>
                     <Button x:Name="bt_AddLine" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="3" Background="#FF6DB469" Click="bt_AddLine_Click"/>
                     <Button x:Name="bt_UpdateLine" Content="Apply Changes on Line Details" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="CadetBlue" Click="bt_UpdateLine_Click"/>
-                    <Button x:Name="bt_AddStation" Content="add station to line " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Background="#FFD1DA16"/>
+                    <Button x:Name="bt_AddStation" Content="add station to line " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Click="bt_AddStation_Click" Background="#FFD1DA16"/>
                 </Grid>
 
             </Grid>

@@ -59,9 +59,6 @@ namespace PlGui
                     MessageBox.Show("Invalid code!");
                     valid = false;
                 }
-
-                
-
             });
 
             try

@@ -58,8 +58,15 @@
     <Compile Include="AddLineWindow.xaml.cs">
       <DependentUpon>AddLineWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddStationLine.xaml.cs">
+      <DependentUpon>AddStationLine.xaml</DependentUpon>
+    </Compile>
     <Compile Include="User.cs" />
     <Page Include="AddLineWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddStationLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

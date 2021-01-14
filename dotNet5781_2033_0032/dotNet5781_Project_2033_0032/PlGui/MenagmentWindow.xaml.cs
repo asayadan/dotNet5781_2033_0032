@@ -179,6 +179,12 @@ namespace PlGui
             //RefreshAllRegisteredCoursesGrid();
             // RefreshAllNotRegisteredCoursesGrid();
         }
+
+        private void bt_AddStation_Click(object sender, RoutedEventArgs e)
+        {
+            new AddStationLine().Show();
+        }
+
         private void cbBuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             curBus = cbBuses.SelectedItem as BO.Bus;
@@ -186,21 +192,13 @@ namespace PlGui
         }
         #endregion
 
-        private void bt_AddLine_Click(object sender, RoutedEventArgs e)
-        {
-            var lineWindow = new AddLineWindow(bl);
-            lineWindow.Closing += addClosed;
-            lineWindow.Show();
-        }
-
-        private void addClosed(object sender, CancelEventArgs e)
-        {
-            lineWorker.RunWorkerAsync();
-        }
+       
 
         private void bt_UpdateLine_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        
     }
 }
