@@ -24,11 +24,18 @@ namespace PlGui
         BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
 
+        BackgroundWorker linesInStationWorker = new BackgroundWorker();
+        BackgroundWorker AllStationWorker = new BackgroundWorker();
+
+
         ObservableCollection<BO.Line> lineCollection = new ObservableCollection<BO.Line>();
+        ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.Bus> busCollection;
         ObservableCollection<BO.Station> stationsInLineCollection = new ObservableCollection<BO.Station>();
+        ObservableCollection<BO.Line> linesInStationCollection = new ObservableCollection<BO.Line>();
 
         BO.Line curLine;
+        BO.Station curStation;
         BO.Bus curBus;
         #endregion
         public MenagmentWindow(IBL _bl, string user)
@@ -36,8 +43,9 @@ namespace PlGui
             username = user;
             bl = _bl;
             InitializeComponent();
-            SetBusTab();
             SetLinesTab();
+            SetStationTab();
+            SetBusTab();
         }
 
         #region setters
@@ -51,7 +59,7 @@ namespace PlGui
             cb_lines.DataContext = lineCollection;
             lbl_username.DataContext = username;
             areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
-            stationsInLineWorker.DoWork += SetAllStations;
+            stationsInLineWorker.DoWork += SetAllStationsInLine;
             updateLineWorker.DoWork += SetAllLines;
             deleteLineWorker.DoWork += removeLine;
             updateLineInDSWorker.DoWork += UpdateLine;
@@ -84,7 +92,7 @@ namespace PlGui
             return exist;
         }
 
-        void SetAllStations(object sender, DoWorkEventArgs e)
+        void SetAllStationsInLine(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -100,7 +108,64 @@ namespace PlGui
                     {
                         stationsInLineCollection.Add(station);
                     }
+                    cbStations.SelectedIndex = 0;
+                });
+            }
+            catch (BO.InvalidStationIDException)
+            {
 
+            }
+        }
+
+        void SetStationTab()
+        {
+            cbStations.DisplayMemberPath = "Name";//show only specific Property of object
+            cbStations.SelectedValuePath = "Code";//selection return only specific Property of object
+            gridStation.DataContext = curStation;
+            LinesInStationDataGrid.DataContext = linesInStationCollection;
+            cbStations.DataContext = stationCollection;
+            AllStationWorker.DoWork += SetAllStations;
+            linesInStationWorker.DoWork += SetAllLinesInStation;
+            linesInStationWorker.WorkerSupportsCancellation = true;
+            AllStationWorker.RunWorkerAsync();
+            //updateLineWorker.DoWork += SetAllLines;
+            //deleteLineWorker.DoWork += removeLine;
+            //updateLineInDSWorker.DoWork += UpdateLine;
+            //updateLineWorker.RunWorkerAsync();
+        }
+
+        private void SetAllStations(object sender, DoWorkEventArgs e)
+        {
+            var help = bl.GetAllStations();
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                stationCollection.Clear();
+                foreach (var item in help)
+                {
+                    //if (!LineListContains(item))
+                    stationCollection.Add(item);
+                }
+                cbStations.SelectedIndex = 0;
+            });
+        }
+
+        private void SetAllLinesInStation(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                var helpList = new List<BO.Line>();
+                foreach (var b in bl.LinesInStation((int)e.Argument))
+                {
+                    //helpList.Add(bl.Ge
+                    helpList.Add(b);
+                }
+                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                {
+                    linesInStationCollection.Clear();
+                    foreach (var line in helpList)
+                    {
+                        linesInStationCollection.Add(line);
+                    }
                 });
             }
             catch (BO.InvalidStationIDException)
@@ -230,6 +295,21 @@ namespace PlGui
             bl.UpdateLine(helpLine.Id, helpLine.Code, helpLine.Area, helpLine.FirstStation, helpLine.LastStation);
         }
 
-
+        #region stationTab
+        private void cbStations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            curStation = cbStations.SelectedItem as BO.Station;
+            gridStation.DataContext = curStation;
+            if (cbStations.SelectedValue != null)
+            {
+                linesInStationWorker.RunWorkerAsync((int)cbStations.SelectedValue);
+            }
+            else
+            {
+                gridStation.DataContext = new BO.Station();
+                linesInStationCollection.Clear();
+            }
+        }
+        #endregion
     }
 }

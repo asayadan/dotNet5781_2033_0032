@@ -67,7 +67,7 @@
                                 <DataTemplate>
                                     <Button x:Name="btRemoveStation" Content="Remove" Width="Auto" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStation_Click"/>
                                 </DataTemplate>
-                                
+
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
@@ -94,7 +94,81 @@
         </TabItem>
         <TabItem Header="stations veiw">
             <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="31*"/>
+                        <RowDefinition Height="177*"/>
+                        <RowDefinition Height="31*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="290*"/>
+                        <ColumnDefinition Width="497*"/>
+                    </Grid.ColumnDefinitions>
+                    <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                        <Label Content="Select Station:"  />
+                        <ComboBox x:Name="cbStations"  Width="125"  Text="" SelectionChanged="cbStations_SelectionChanged"
+                   ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+                    </WrapPanel>
+                    <Grid x:Name="gridStation" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="250">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Code:" Grid.Column="0"  HorizontalAlignment="Center" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="stationCodeTextBox" Grid.Column="1" HorizontalAlignment="Center" Height="24" Grid.Row="0" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="160" TextAlignment="Center"/>
+                        <Label Content="Name:" Grid.Column="0" HorizontalAlignment="Center" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                        <TextBox x:Name="stationNameTextBox" Grid.Column="1" HorizontalAlignment="Center" Height="23" Margin="3" Grid.Row="1" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="160" TextAlignment="Center"/>
+                    </Grid>
+                    <DataGrid x:Name="LinesInStationDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
+                        <DataGrid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform AngleX="-0.691"/>
+                                <RotateTransform/>
+                                <TranslateTransform X="-1.424"/>
+                            </TransformGroup>
+                        </DataGrid.RenderTransform>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="lineCodeColumn" Binding="{Binding Code}"  Header="Code" Width="*">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
 
+
+                            <DataGridTextColumn x:Name="lastStationColumn" Binding="{Binding LastStation}" Header="last Station" Width="2*">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Label Content="List of Lines for selected Station:" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"   Grid.Column="1"/>
+                    <Grid x:Name="stationButtonGrid" Grid.Row="3"  Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="bt_DeleteStation" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Background="#FFC56853" Click="bt_DeleteLine_Click"/>
+                        <Button x:Name="bt_AddNewStation" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="#FF6DB469" Click="bt_AddLine_Click"/>
+                        <Button x:Name="bt_UpdateStation" Content="Apply Changes on all the lines" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="3" Background="CadetBlue" Click="bt_UpdateLine_Click"/>
+                        <Button x:Name="bt_hjbnb" Content="add station to line " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Background="#FFD1DA16"/>
+                    </Grid>
+
+                </Grid>
             </Grid>
         </TabItem>
         <TabItem Header="busses veiw">
