@@ -41,7 +41,7 @@
         <Button x:Name="finishButton" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="200" Grid.Row="7" Grid.ColumnSpan="2" Click="finishButton_Click" />
         <TextBlock x:Name="tbl_warnings" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="6"  Text="" VerticalAlignment="Center" Style="{StaticResource WarningMessageStyle}"/>
         <TextBlock Text="Distance from &#x0a; previous station: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="4" Grid.Column="0" />
-        <TextBox x:Name="distanceTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
+        <TextBox x:Name="tb_distance" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
 
         <Label Content="Time between the stations: " HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="0" />
 
@@ -64,9 +64,9 @@
             <Label Content="Minutes" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="0" Grid.Column="2"/>
             <Label Content=":" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3"/>
             <Label Content="Seconds" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="4"/>
-            <ComboBox x:Name="hoursCheckBox"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" Grid.Column="0" />
-            <ComboBox x:Name="minutesCheckBox"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" />
-            <ComboBox x:Name="secondsCheckBox"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="4" />
+            <ComboBox x:Name="cb_hours"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" Grid.Column="0" />
+            <ComboBox x:Name="cb_minutes"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" />
+            <ComboBox x:Name="cb_seconds"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="4" />
         </Grid>
     </Grid>
 </Window>

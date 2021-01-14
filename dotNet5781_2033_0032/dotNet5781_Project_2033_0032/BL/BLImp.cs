@@ -166,7 +166,7 @@ namespace BL
                 }
                 
                 var nextStation = stations.Where(x => x.LineStationIndex == index + 1).First();
-
+                
                 var prevStation = stations.Where(x => x.LineStationIndex == index - 1).First();
                 nextStation.PrevStation = stationId; 
                 prevStation.NextStation = stationId;
@@ -295,12 +295,10 @@ namespace BL
         #region Line
         public IEnumerable<BO.Line> GetAllLines()
         {
-            foreach (var line in dl.GetAllLines())
-            {
-                yield return line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
-            }
+            return from line in dl.GetAllLines()
+                   select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
+            
         }
-
         public BO.Line GetLine(int id)
         {
             try
