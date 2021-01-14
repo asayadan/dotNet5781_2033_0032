@@ -5,11 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="Sign Up" Height="450" Width="800" Background="#FF8B8B8B">
+        Title="Sign Up" Height="250" Width="300" Background="#FF8B8B8B">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="165,125,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <PasswordBox HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-        <PasswordBox HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="varify your password" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+        <Label Content="enter your password" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+        <Label Content="enter your username" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+        <TextBox x:Name="tb_username" HorizontalAlignment="Left"  Text="" VerticalAlignment="Center" Grid.Column="1" Width="120"/>
+        <PasswordBox HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Width="120"/>
+        <PasswordBox HorizontalAlignment="Left"  VerticalAlignment="Center"  Grid.Row="1" Grid.Column="1" Width="120"/>
+        <Button x:Name="bn_signUp" Content="sign up" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top"/>
     </Grid>
 </Window>
