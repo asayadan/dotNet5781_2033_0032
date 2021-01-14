@@ -299,7 +299,6 @@ namespace BL
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
             
         }
-
         public BO.Line GetLine(int id)
         {
             try
