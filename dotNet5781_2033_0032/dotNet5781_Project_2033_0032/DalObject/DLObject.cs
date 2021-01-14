@@ -136,9 +136,9 @@ namespace DL
             throw new DO.InvalidAdjacentStationIDException(station1, station2, "One or more of the stations not found");
         }
 
-        public void UpdateLineStation(int id, DO.LineStation station)
+        public void UpdateLineStation(DO.LineStation station)
         {
-            var a = DataSource.ListLineStations.FindIndex(x => x.StationId == id);
+            var a = DataSource.ListLineStations.FindIndex(x => x.StationId == station.StationId && station.LineId == x.LineId);
             if (a != -1)
                 DataSource.ListLineStations[a] = station.Clone();
             else throw new DO.InvalidLinesStationException(station.StationId, station.LineId, "Station doesn't exist.");

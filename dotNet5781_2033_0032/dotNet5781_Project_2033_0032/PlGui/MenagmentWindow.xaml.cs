@@ -49,7 +49,7 @@ namespace PlGui
             cb_lines.DataContext = lineCollection;
             areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
             stationsInLineWorker.DoWork += SetAllStations;
-            updateLineWorker.DoWork+=SetAllLines;
+            updateLineWorker.DoWork += SetAllLines;
             deleteLineWorker.DoWork += removeLine;
             updateLineInDSWorker.DoWork += UpdateLine;
             updateLineWorker.RunWorkerAsync();
@@ -85,7 +85,6 @@ namespace PlGui
         {
             try
             {
-
                 var helpList = new List<BO.Station>();
                 foreach (var b in bl.GetLineStationsInLine((int)e.Argument))
                 {
@@ -112,7 +111,7 @@ namespace PlGui
             cbBuses.DisplayMemberPath = "LicenseNum";//show only specific Property of object
             cbBuses.SelectedIndex = 0; //index of the object to be selected
             statusComboBox.ItemsSource = Enum.GetValues(typeof(BO.Status));
-      //      SetAllBuses();
+            //      SetAllBuses();
         }
 
         //void SetAllBuses()
@@ -146,25 +145,43 @@ namespace PlGui
         private void addClosed(object sender, CancelEventArgs e)
         {
             updateLineWorker.RunWorkerAsync();
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                if (lineCollection.Count > 0)
+                {
+                    bt_AddStation.IsEnabled = true;
+                    bt_DeleteLine.IsEnabled = true;
+                    bt_UpdateLine.IsEnabled = true;
+                }
+            });
         }
         private void bt_DeleteLine_Click(object sender, RoutedEventArgs e)
         {
-            int toRemove = -1;
-                if (cb_lines.SelectedItem != null)
-                    toRemove = (int)cb_lines.SelectedValue;
-                else toRemove = -1;
+
+            object toRemove = cb_lines.SelectedValue;
             deleteLineWorker.RunWorkerAsync(toRemove);
         }
 
         private void removeLine(object sender, DoWorkEventArgs e)
         {
-            int toRemove = (int)e.Argument;
-            if (toRemove != -1)
+            if (e.Argument != null)
             {
+                int toRemove = (int)e.Argument;
                 bl.RemoveLine(toRemove);
                 SetAllLines(sender, e);
+
             }
 
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                if (lineCollection.Count == 0)
+                {
+                    bt_AddStation.IsEnabled = false;
+                    bt_DeleteLine.IsEnabled = false;
+                    bt_UpdateLine.IsEnabled = false;
+                }
+
+            });
 
         }
         private void btRemoveStation_Click(object sender, RoutedEventArgs e)
@@ -178,7 +195,14 @@ namespace PlGui
 
         private void bt_AddStation_Click(object sender, RoutedEventArgs e)
         {
-            new AddStationLine().Show();
+            var stationWin = new AddStationLine(bl, curLine);
+            stationWin.Closing += StationWin_Closing;
+            stationWin.Show();
+        }
+
+        private void StationWin_Closing(object sender, CancelEventArgs e)
+        {
+            stationsInLineWorker.RunWorkerAsync(curLine.Id);
         }
 
         private void cbBuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -203,6 +227,6 @@ namespace PlGui
             bl.UpdateLine(helpLine.Id, helpLine.Code, helpLine.Area, helpLine.FirstStation, helpLine.LastStation);
         }
 
-        
+
     }
 }

@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="AddStationLine" Height="300" Width="500">
+        Title="AddStationLine" Height="400" Width="500">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -21,10 +23,11 @@
         </Grid.ColumnDefinitions>
         <Label Content="Station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0" Height="Auto"/>
         <ComboBox x:Name="newStationComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="0" Grid.Column="1" />
-        <TextBlock Text="Distance from &#x0a; previous station: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto"/>
-        <TextBox x:Name="distanceTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="1" Grid.Column="1" />
-        <Label Content="index: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="0" Height="Auto"/>
-        <ComboBox x:Name="indexStationComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="2" Grid.Column="1" />
+        <Label Content="index: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto"/>
+        <ComboBox x:Name="indexStationComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="1" Grid.Column="1" />
+        <TextBlock Text="Distance from &#x0a; previous station: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="0" Height="Auto"/>
+        <TextBox x:Name="lastDistanceTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="2" Grid.Column="1" />
+        
         <Label Content="Time since last station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="3" Grid.Column="0" Height="Auto"/>
         <Grid Grid.Row="3" Grid.Column="1">
             <Grid.ColumnDefinitions>
@@ -45,14 +48,39 @@
             <Label Content="Minutes" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="2"/>
             <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3"/>
             <Label Content="Seconds" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="4"/>
-            <ComboBox x:Name="hoursCheckBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="0" />
-            <ComboBox x:Name="minutesCheckBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />
-            <ComboBox x:Name="secondsCheckBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="4" />
-
-
-
-
+            <ComboBox x:Name="lastHoursComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="0" />
+            <ComboBox x:Name="lastMinutesComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />
+            <ComboBox x:Name="lastSecondsComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="4" />
         </Grid>
-        <Button x:Name="finishButton" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="200" Grid.Row="4" Grid.ColumnSpan="2" />
+
+        <TextBlock Text="Distance to &#x0a; next station: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="4" Grid.Column="0" Height="Auto"/>
+        <TextBox x:Name="nextDistanceTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="4" Grid.Column="1" />
+        <Label Content="Time to next station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="5" Grid.Column="0" Height="Auto"/>
+        <Grid Grid.Row="5" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Hours" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0"/>
+            <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+            <Label Content="Minutes" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="2"/>
+            <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3"/>
+            <Label Content="Seconds" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="4"/>
+            <ComboBox x:Name="nextHoursComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="0" />
+            <ComboBox x:Name="nextMinutesComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />
+            <ComboBox x:Name="nextSecondsComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="4" />
+        </Grid>
+
+        <Button x:Name="finishButton" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="200" Grid.Row="6" Grid.ColumnSpan="2" Click="finishButton_Click"/>
+        
     </Grid>
 </Window>

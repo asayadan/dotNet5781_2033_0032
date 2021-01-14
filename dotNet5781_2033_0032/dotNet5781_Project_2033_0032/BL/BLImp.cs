@@ -125,11 +125,11 @@ namespace BL
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
-        public void UpdateLineStation(int id, BO.LineStation station)
+        public void UpdateLineStation(BO.LineStation station)
         {
             try
             {
-                dl.UpdateLineStation(id, station.CopyPropertiesToNew(typeof(DO.LineStation)) as DO.LineStation);
+                dl.UpdateLineStation(station.CopyPropertiesToNew(typeof(DO.LineStation)) as DO.LineStation);
             }
             catch (DO.InvalidLinesStationException ex)
             {
@@ -158,19 +158,20 @@ namespace BL
 
                 foreach (var station in stations)
                 {
-                    if (station.LineStationIndex > index)
+                    if (station.LineStationIndex >= index)
                     {
                         station.LineStationIndex++;
-                        UpdateLineStation(station.StationId, station);
+                        UpdateLineStation(station);
                     }
                 }
-
+                
                 var nextStation = stations.Where(x => x.LineStationIndex == index + 1).First();
+
                 var prevStation = stations.Where(x => x.LineStationIndex == index - 1).First();
-                nextStation.PrevStation = stationId;
+                nextStation.PrevStation = stationId; 
                 prevStation.NextStation = stationId;
-                UpdateLineStation(nextStation.StationId, nextStation);
-                UpdateLineStation(prevStation.StationId, prevStation);
+                UpdateLineStation(nextStation);
+                UpdateLineStation(prevStation);
 
 
                 dl.AddLineStation(new DO.LineStation
@@ -238,7 +239,7 @@ namespace BL
                     if (st.LineStationIndex > station.LineStationIndex)
                     {
                         st.LineStationIndex--;
-                        UpdateLineStation(st.StationId, st);
+                        UpdateLineStation(st);
                     }
                 }
 
@@ -246,8 +247,8 @@ namespace BL
                 var prevStation = stations.Where(x => x.LineStationIndex == station.StationId - 1).First();
                 nextStation.PrevStation = station.NextStation;
                 prevStation.NextStation = station.PrevStation;
-                UpdateLineStation(nextStation.StationId, nextStation);
-                UpdateLineStation(prevStation.StationId, prevStation);
+                UpdateLineStation(nextStation);
+                UpdateLineStation(prevStation);
 
 
                 dl.RemoveLineStation(station.StationId, station.LineId);
@@ -305,7 +306,7 @@ namespace BL
         {
             try
             {
-                return dl.GetLine(id).CopyPropertiesToNew(typeof(DO.Line)) as BO.Line;
+                return dl.GetLine(id).CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
             }
             catch (DO.InvalidLineIDException ex)
             {
