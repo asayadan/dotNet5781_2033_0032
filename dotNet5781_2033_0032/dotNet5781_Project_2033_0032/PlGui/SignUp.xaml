@@ -22,8 +22,9 @@
         <Label Content="enter your password" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
         <Label Content="enter your username" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
         <TextBox x:Name="tb_username" HorizontalAlignment="Left"  Text="" VerticalAlignment="Center" Grid.Column="1" Width="120"/>
-        <PasswordBox HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Width="120"/>
-        <PasswordBox HorizontalAlignment="Left"  VerticalAlignment="Center"  Grid.Row="1" Grid.Column="1" Width="120"/>
-        <Button x:Name="bn_signUp" Content="sign up" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="pb_password" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Width="120"/>
+        <PasswordBox x:Name="pb_passwordValidation" HorizontalAlignment="Left"  VerticalAlignment="Center"  Grid.Row="1" Grid.Column="1" Width="120"/>
+        <Button x:Name="bn_signUp" Content="sign up" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Click="bn_signUp_Click"/>
+        <TextBlock x:Name="tbl_warnings" HorizontalAlignment="Center"  VerticalAlignment="Center"  Grid.Row="3" FontSize="15" Grid.Column="0" Grid.ColumnSpan="2" Foreground="#FFF51313" />
     </Grid>
 </Window>
