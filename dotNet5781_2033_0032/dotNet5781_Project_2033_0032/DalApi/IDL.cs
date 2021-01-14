@@ -38,6 +38,7 @@ namespace DLAPI
         DO.Line GetLine(int id);
         void AddLine(DO.Line line);
         void RemoveLine(int id);
+        void UpdateLine(DO.Line line);
         #endregion
 
         #region User

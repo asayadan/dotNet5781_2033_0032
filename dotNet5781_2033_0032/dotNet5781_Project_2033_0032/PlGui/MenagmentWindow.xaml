@@ -21,7 +21,7 @@
                 </Grid.ColumnDefinitions>
                 <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
                     <Label Content="Select Line:"  />
-                    <ComboBox x:Name="cbLines"  Width="125"  Text="" SelectionChanged="cb_lines_SelectionChanged"
+                    <ComboBox x:Name="cb_lines"  Width="125"  Text="" SelectionChanged="cb_lines_SelectionChanged"
                    ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
                 </WrapPanel>
                 <Grid x:Name="gridLine" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="200">

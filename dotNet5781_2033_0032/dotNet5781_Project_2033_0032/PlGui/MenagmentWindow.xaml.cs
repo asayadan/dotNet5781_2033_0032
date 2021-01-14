@@ -20,7 +20,9 @@ namespace PlGui
         string username;
         BackgroundWorker busWorker = new BackgroundWorker();
         ObservableCollection<BO.Bus> busCollection;
-        BackgroundWorker lineWorker = new BackgroundWorker();
+        BackgroundWorker updateLineWorker = new BackgroundWorker();
+        BackgroundWorker deleteLineWorker = new BackgroundWorker();
+        BackgroundWorker updateLineInDSWorker = new BackgroundWorker();
         ObservableCollection<BO.Line> lineCollection = new ObservableCollection<BO.Line>();
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
         ObservableCollection<BO.Station> stationsInLineCollection = new ObservableCollection<BO.Station>();
@@ -39,15 +41,18 @@ namespace PlGui
         #region setters
         void SetLinesTab()
         {
-            cbLines.DisplayMemberPath = "Code";//show only specific Property of object
-            cbLines.SelectedValuePath = "Id";//selection return only specific Property of object
-            cbLines.SelectedIndex = 0; //index of the object to be selected
+            cb_lines.DisplayMemberPath = "Code";//show only specific Property of object
+            cb_lines.SelectedValuePath = "Id";//selection return only specific Property of object
+            cb_lines.SelectedIndex = 0; //index of the object to be selected
             gridLine.DataContext = curLine;
             StationsInLineDataGrid.DataContext = stationsInLineCollection;
-            cbLines.DataContext = lineCollection;
+            cb_lines.DataContext = lineCollection;
             areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
-            lineWorker.DoWork += SetAllLines;
-            lineWorker.RunWorkerAsync();
+            stationsInLineWorker.DoWork += SetAllStations;
+            updateLineWorker.DoWork+=SetAllLines;
+            deleteLineWorker.DoWork += removeLine;
+            updateLineInDSWorker.DoWork += UpdateLine;
+            updateLineWorker.RunWorkerAsync();
         }
 
         void SetAllLines(object sender, DoWorkEventArgs e)
@@ -61,7 +66,7 @@ namespace PlGui
                     //if (!LineListContains(item))
                     lineCollection.Add(item);
                 }
-                cbLines.SelectedIndex = 0;
+                cb_lines.SelectedIndex = 0;
             });
         }
 
@@ -107,25 +112,24 @@ namespace PlGui
             cbBuses.DisplayMemberPath = "LicenseNum";//show only specific Property of object
             cbBuses.SelectedIndex = 0; //index of the object to be selected
             statusComboBox.ItemsSource = Enum.GetValues(typeof(BO.Status));
-            SetAllBuses();
+      //      SetAllBuses();
         }
 
-        void SetAllBuses()
-        {
-            cbBuses.DataContext = bl.GetAllBuses();
-        }
+        //void SetAllBuses()
+        //{
+        //    cbBuses.DataContext = bl.GetAllBuses();
+        //}
         #endregion
 
         #region Line functions
         private void cb_lines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //lineWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
-            curLine = cbLines.SelectedItem as BO.Line;
+            //updatelinesWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
+            curLine = cb_lines.SelectedItem as BO.Line;
             gridLine.DataContext = curLine;
-            if (cbLines.SelectedValue != null)
+            if (cb_lines.SelectedValue != null)
             {
-                stationsInLineWorker.DoWork += SetAllStations;
-                stationsInLineWorker.RunWorkerAsync((int)cbLines.SelectedValue);
+                stationsInLineWorker.RunWorkerAsync((int)cb_lines.SelectedValue);
             }
             else
             {
@@ -141,28 +145,20 @@ namespace PlGui
         }
         private void addClosed(object sender, CancelEventArgs e)
         {
-            lineWorker = new BackgroundWorker();
-            lineWorker.DoWork += SetAllLines;
-            lineWorker.RunWorkerAsync();
+            updateLineWorker.RunWorkerAsync();
         }
         private void bt_DeleteLine_Click(object sender, RoutedEventArgs e)
         {
-            lineWorker = new BackgroundWorker();
-            lineWorker.DoWork += removeLine;
-            lineWorker.RunWorkerAsync();
+            int toRemove = -1;
+                if (cb_lines.SelectedItem != null)
+                    toRemove = (int)cb_lines.SelectedValue;
+                else toRemove = -1;
+            deleteLineWorker.RunWorkerAsync(toRemove);
         }
 
         private void removeLine(object sender, DoWorkEventArgs e)
         {
-            int toRemove = -1;
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
-            {
-                if (cbLines.SelectedItem != null)
-                    toRemove = (int)cbLines.SelectedValue;
-                else toRemove = -1;
-
-            });
-
+            int toRemove = (int)e.Argument;
             if (toRemove != -1)
             {
                 bl.RemoveLine(toRemove);
@@ -192,11 +188,19 @@ namespace PlGui
         }
         #endregion
 
-       
 
         private void bt_UpdateLine_Click(object sender, RoutedEventArgs e)
         {
-
+            if (cb_lines.SelectedItem != null)
+            {
+                var helpLine = cb_lines.SelectedItem as BO.Line;
+                updateLineInDSWorker.RunWorkerAsync(helpLine);
+            }
+        }
+        private void UpdateLine(object sender, DoWorkEventArgs e)
+        {
+            var helpLine = e.Argument as BO.Line;
+            bl.UpdateLine(helpLine.Id, helpLine.Code, helpLine.Area, helpLine.FirstStation, helpLine.LastStation);
         }
 
         
