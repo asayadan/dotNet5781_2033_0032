@@ -1,0 +1,15 @@
+﻿<Window x:Class="PlGui.SignUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        mc:Ignorable="d"
+        Title="Sign Up" Height="450" Width="800" Background="#FF8B8B8B">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="165,125,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+        <PasswordBox HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
