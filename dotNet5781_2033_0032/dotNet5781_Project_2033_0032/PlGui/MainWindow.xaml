@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="500">
+        Title="Log In window" Height="300" Width="500"  Background="#FF8A8A8A">
     <Window.Resources>
         <Style x:Key="textBoxStyle"
            TargetType="TextBox">
             <Setter Property="Foreground"
-              Value="Green" />
-            <Setter Property="Background" Value="#FF1CFCFC"/>
+              Value="Blue" />
+            <Setter Property="Background" Value="#FF25EB42"/>
             <Setter Property="VerticalAlignment"
               Value="Center" />
             <Setter Property="HorizontalAlignment"
@@ -33,12 +33,7 @@
             <Setter Property="FontFamily" Value="Cambria Math"/>
         </Style>
     </Window.Resources>
-    <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-            <GradientStop Color="White" Offset="1"/>
-            <GradientStop Color="#FF0BFA1E"/>
-        </LinearGradientBrush>
-    </Window.Background>
+
     <Grid x:Name="mainGrid" Cursor="None">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -52,8 +47,8 @@
             <RowDefinition Height="3*"/>
 
         </Grid.RowDefinitions>
-        <TextBox x:Name="tb_username" Text="enter your username" Tag="enter your username" Grid.Column="1" Grid.Row="1" Style="{StaticResource textBoxStyle}" />
-        <TextBox x:Name="tb_password" Text="enter your password" Tag="enter your password" Grid.Column="1" Grid.Row="2" Style="{StaticResource textBoxStyle}" />
+        <TextBox x:Name="tb_username" Text="username" Tag="username" Grid.Column="1" Grid.Row="1" Style="{StaticResource textBoxStyle}" />
+        <TextBox x:Name="tb_password" Text="password" Tag="password" Grid.Column="1" Grid.Row="2" Style="{StaticResource textBoxStyle}" />
         <Label x:Name="lbl__log" Content="Log in" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="50" FontStyle="Italic" FontFamily="Brush Script MT"/>
         <Button x:Name="bn_singUp"  Content="Sign Up" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Bottom" Style="{StaticResource link}" />
         <TextBlock x:Name="tbl_message" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" />

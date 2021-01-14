@@ -35,9 +35,12 @@ namespace PlGui
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-                        MenagmentWindow menWin = new MenagmentWindow(bl, tb_username.Text);
+                        MenagmentWindow menWin = new MenagmentWindow(bl, user.username);
+                        tb_username.Text = (string)tb_username.Tag;
+                        tb_password.Text = (string)tb_password.Tag;
+                        menWin.Closing += OpenWindowafterUsage;
                         menWin.Show();
-                        this.Close();
+                        this.Visibility = Visibility.Collapsed;
                     }));
                 }
                 else
@@ -57,7 +60,11 @@ namespace PlGui
                 }));
             }
         }
-        public void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
+        void OpenWindowafterUsage(object sender, CancelEventArgs e)
+        {
+            this.Visibility=Visibility.Visible;
+        }
+            public void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
         {                                                   // preview text to make it easier for the user
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
                 (sender as TextBox).Text = string.Empty;

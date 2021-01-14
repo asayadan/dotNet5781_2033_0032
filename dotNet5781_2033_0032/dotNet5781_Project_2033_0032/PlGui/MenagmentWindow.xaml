@@ -72,6 +72,10 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Label x:Name="lbl_name" Content="welcome: "/>
+                    <Label x:Name="lbl_username" Content="{Binding Mode=OneWay}"/>
+                </StackPanel>
                 <Label Content="List of Stations for selected Line:" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"   Grid.Column="1"/>
                 <Grid x:Name="buttonGrid" Grid.Row="3"  Grid.ColumnSpan="3">
                     <Grid.ColumnDefinitions>
@@ -81,8 +85,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="bt_DeleteLine" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Background="#FFC56853" Click="bt_DeleteLine_Click"/>
-                    <Button x:Name="bt_AddLine" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="3" Background="#FF6DB469" Click="bt_AddLine_Click"/>
-                    <Button x:Name="bt_UpdateLine" Content="Apply Changes on Line Details" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="CadetBlue" Click="bt_UpdateLine_Click"/>
+                    <Button x:Name="bt_AddLine" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="#FF6DB469" Click="bt_AddLine_Click"/>
+                    <Button x:Name="bt_UpdateLine" Content="Apply Changes on all the lines" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="3" Background="CadetBlue" Click="bt_UpdateLine_Click"/>
                     <Button x:Name="bt_AddStation" Content="add station to line " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Click="bt_AddStation_Click" Background="#FFD1DA16"/>
                 </Grid>
 

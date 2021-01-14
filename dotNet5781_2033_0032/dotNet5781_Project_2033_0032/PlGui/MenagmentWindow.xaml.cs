@@ -15,20 +15,22 @@ namespace PlGui
     /// 
     public partial class MenagmentWindow : Window
     {
-
+        #region variables
         IBL bl;
         string username;
         BackgroundWorker busWorker = new BackgroundWorker();
-        ObservableCollection<BO.Bus> busCollection;
-        BackgroundWorker updateLineWorker = new BackgroundWorker();
-        BackgroundWorker deleteLineWorker = new BackgroundWorker();
-        BackgroundWorker updateLineInDSWorker = new BackgroundWorker();
-        ObservableCollection<BO.Line> lineCollection = new ObservableCollection<BO.Line>();
+        BackgroundWorker updateLineWorker = new BackgroundWorker();//updates the list of the busseswe show
+        BackgroundWorker deleteLineWorker = new BackgroundWorker();//deletes lines from here and the memory
+        BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
+
+        ObservableCollection<BO.Line> lineCollection = new ObservableCollection<BO.Line>();
+        ObservableCollection<BO.Bus> busCollection;
         ObservableCollection<BO.Station> stationsInLineCollection = new ObservableCollection<BO.Station>();
 
         BO.Line curLine;
         BO.Bus curBus;
+        #endregion
         public MenagmentWindow(IBL _bl, string user)
         {
             username = user;
@@ -47,6 +49,7 @@ namespace PlGui
             gridLine.DataContext = curLine;
             StationsInLineDataGrid.DataContext = stationsInLineCollection;
             cb_lines.DataContext = lineCollection;
+            lbl_username.DataContext = username;
             areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
             stationsInLineWorker.DoWork += SetAllStations;
             updateLineWorker.DoWork+=SetAllLines;

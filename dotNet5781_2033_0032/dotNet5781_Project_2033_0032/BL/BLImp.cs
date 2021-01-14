@@ -109,10 +109,10 @@ namespace BL
         }
         public IEnumerable<BO.Station> GetAllStations()
         {
-            foreach (var station in dl.GetAllStations())
-            {
-                yield return station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
-            }
+            return from station in dl.GetAllStations() 
+                   orderby station.Code
+                   select station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
+
         }
         public BO.LineStation GetLineStation(int id)
         {
@@ -139,10 +139,10 @@ namespace BL
 
         public IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId)
         {
-            foreach (var station in dl.GetLineStationsInLine(lineId))
-            {
-                yield return station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
-            }
+            return from station in dl.GetLineStationsInLine(lineId)
+                   orderby station.LineStationIndex
+                   select station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
+            
         }
         public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
@@ -267,10 +267,9 @@ namespace BL
         }
         public IEnumerable<BO.Line> LinesInStation(int stationId)
         {
-            foreach (var line in dl.LinesInStation(stationId))
-            {
-                yield return line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
-            }
+            return from line in dl.LinesInStation(stationId)
+                  select  line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
+            
         }
         public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
         {
