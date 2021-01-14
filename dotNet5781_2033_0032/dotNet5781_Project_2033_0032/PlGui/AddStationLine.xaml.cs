@@ -35,7 +35,6 @@ namespace PlGui
             {
                 nextMinutesComboBox.Items.Add(i); lastMinutesComboBox.Items.Add(i);
                 nextSecondsComboBox.Items.Add(i); lastSecondsComboBox.Items.Add(i);
-
                 if (i < 24) { nextHoursComboBox.Items.Add(i); lastHoursComboBox.Items.Add(i); }
             }
 
@@ -72,7 +71,7 @@ namespace PlGui
                 lastMinutesComboBox.SelectedItem != null && lastMinutesComboBox.SelectedItem != null &&
                 lastSecondsComboBox.SelectedItem != null && nextSecondsComboBox.SelectedItem != null)
             {
-                worker.DoWork -= GetStations;
+                worker= new BackgroundWorker();
                 worker.DoWork += AddStation;
                 worker.RunWorkerAsync();
             }

@@ -23,6 +23,25 @@ namespace PlGui
     {
         IBL bl;
         BackgroundWorker worker = new BackgroundWorker();
+        public AddLineWindow(IBL bL)
+        {
+            bl = bL;
+            InitializeComponent();
+            firstStationComboBox.DisplayMemberPath = "Name";//show only specific Property of object
+            firstStationComboBox.SelectedValuePath = "Code";
+            lastStationComboBox.DisplayMemberPath = "Name";//show only specific Property of object
+            lastStationComboBox.SelectedValuePath = "Code";
+            areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
+            worker.DoWork += SetAllStations;
+            worker.RunWorkerAsync();
+            for (int i = 0; i < 60; i++)
+            {
+                cb_minutes.Items.Add(i); cb_seconds.Items.Add(i);
+                if (i < 24) { cb_hours.Items.Add(i); }
+            }
+
+
+        }
         void SetAllStations(object sender, DoWorkEventArgs e)
         {
             var help = bl.GetAllStations();
@@ -37,9 +56,10 @@ namespace PlGui
         {
 
             int a = 0, firstStation = 0, lastStation = 0;
+            double distance=0;
             bool valid = true;
             BO.Areas b = BO.Areas.Center;
-
+            TimeSpan timeSpan = TimeSpan.Zero;
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 try {
@@ -47,6 +67,10 @@ namespace PlGui
                     b = (BO.Areas)areaComboBox.SelectedItem;
                     firstStation = (int)firstStationComboBox.SelectedValue;
                     lastStation = (int)lastStationComboBox.SelectedValue;
+                    distance = double.Parse(tb_distance.Text);
+                    timeSpan = new TimeSpan((int)cb_hours.SelectedItem,
+                                        (int)cb_minutes.SelectedItem,
+                                        (int)cb_seconds.SelectedItem);
                     if (firstStation == lastStation)
                     {
                         tbl_warnings.Text = "the stations should be different";
@@ -70,7 +94,7 @@ namespace PlGui
                 if (valid)
                 {
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                   // bl.AddLine(a, b, firstStation, lastStation);
+                    bl.AddLine(a, b, firstStation, lastStation,distance,timeSpan);
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
                         Close();
@@ -83,18 +107,7 @@ namespace PlGui
                 MessageBox.Show(ex.Message);
             }
         }
-        public AddLineWindow(IBL bL)
-        {
-            bl = bL;
-            InitializeComponent();
-            firstStationComboBox.DisplayMemberPath = "Name";//show only specific Property of object
-            firstStationComboBox.SelectedValuePath = "Code";
-            lastStationComboBox.DisplayMemberPath = "Name";//show only specific Property of object
-            lastStationComboBox.SelectedValuePath = "Code";
-            areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
-            worker.DoWork += SetAllStations;
-            worker.RunWorkerAsync();
-        }
+       
 
         private void finishButton_Click(object sender, RoutedEventArgs e)
         {
