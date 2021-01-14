@@ -78,6 +78,7 @@ namespace PlGui
                     lineCollection.Add(item);
                 }
                 cb_lines.SelectedIndex = 0;
+                cbStations.SelectedIndex = 0;
             });
         }
 
