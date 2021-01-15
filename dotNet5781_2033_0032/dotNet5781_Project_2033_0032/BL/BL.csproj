@@ -67,6 +67,7 @@
     <Compile Include="BO\Station.cs" />
     <Compile Include="BO\LineTrip.cs" />
     <Compile Include="BO\BusOnTrip.cs" />
+    <Compile Include="BO\StationInLine.cs" />
     <Compile Include="BO\Trip.cs" />
     <Compile Include="BO\User.cs" />
     <Compile Include="DeepCopyUtilities.cs" />
