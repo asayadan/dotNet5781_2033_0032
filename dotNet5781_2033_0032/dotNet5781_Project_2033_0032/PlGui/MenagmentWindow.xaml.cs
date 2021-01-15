@@ -190,7 +190,8 @@ namespace PlGui
 
         private void removeStationFromLine(object sender, DoWorkEventArgs e)
         {
-            var st = e.Argument as BO.Station;
+            var st = e.Argument as BO.StationInLine;
+     
             var index = stationsInLineCollection.IndexOf(st);
             if (index == stationsInLineCollection.Count - 1 || index == 0)
             {
@@ -202,7 +203,7 @@ namespace PlGui
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
-                var stationWin = new RemoveStationLine(bl, curLine, st);
+                var stationWin = new RemoveStationLine(bl, curLine, bl.GetStation(st.Code));
                 stationWin.Closing += StationWin_Closing;
                 stationWin.Show();
             });
