@@ -8,14 +8,13 @@
         Title="AddStationLine" Height="400" Width="500">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition x:Name="sta" Height="*"/>
+            <RowDefinition x:Name="indx" Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition x:Name="dToNext" Height="*"/>
+            <RowDefinition x:Name="tToNext" Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

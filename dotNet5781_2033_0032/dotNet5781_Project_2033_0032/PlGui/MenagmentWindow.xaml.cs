@@ -24,7 +24,7 @@ namespace PlGui
         BackgroundWorker deleteLineWorker = new BackgroundWorker();//deletes lines from here and the memory
         BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
-        #endregion
+        BackgroundWorker removeStationFromLineWorker = new BackgroundWorker(); 
 
         #region bus workers
         BackgroundWorker busWorker = new BackgroundWorker();
@@ -76,8 +76,12 @@ namespace PlGui
             updateLineWorker.DoWork += SetAllLines;
             deleteLineWorker.DoWork += removeLine;
             updateLineInDSWorker.DoWork += UpdateLine;
+            removeStationFromLineWorker.DoWork += removeStationFromLine;
             updateLineWorker.RunWorkerAsync();
         }
+
+       
+
         void SetAllLines(object sender, DoWorkEventArgs e)
         {
             var help = bl.GetAllLines();
@@ -181,18 +185,20 @@ namespace PlGui
             });
 
         }
-        /// <summary>
-        /// removes thet liStation from the line
-        /// </summary>
-        /// <param name="sender">the row of the station we want to remove</param>
-        /// <param name="e"></param>
-        private void btRemoveStation_Click(object sender, RoutedEventArgs e)
+        private void btRemoveStationFromLine_Click(object sender, RoutedEventArgs e)
         {
 
             var st = ((sender as Button).DataContext as BO.Station);
-            //bl.RemoveStationFromLine(curLine.Id, st.Code);
-            //RefreshAllRegisteredCoursesGrid();
-            // RefreshAllNotRegisteredCoursesGrid();
+            var stationWin = new AddStationLine(bl, curLine);
+            stationWin.Closing += StationWin_Closing;
+            stationWin.Show();
+
+
+        }
+
+        private void removeStationFromLine(object sender, DoWorkEventArgs e)
+        {
+            
         }
         private void bt_AddStation_Click(object sender, RoutedEventArgs e)
         {

@@ -51,7 +51,7 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code}"  Header="Code" Width="*"/>
                         <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="2*"/>
-                        <DataGridTextColumn x:Name="distancecolumn" Binding="{Binding Longitude}" Header="Longitude" Width="*"/>
+                        <DataGridTextColumn x:Name="longitudeColumn"  Binding="{Binding Longitude}" Header="Longitude" Width="*"/>
                         <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding Latitude}" Header="Latitude" Width="*"/>
 
                         <DataGridTemplateColumn Width="2*">
@@ -65,7 +65,7 @@
                         <DataGridTemplateColumn Width="2*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btRemoveStation" Content="Remove" Width="Auto" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStation_Click"/>
+                                    <Button x:Name="btRemoveStation" Content="Remove" Width="Auto" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStationFromLine_Click"/>
                                 </DataTemplate>
 
                             </DataGridTemplateColumn.CellTemplate>
