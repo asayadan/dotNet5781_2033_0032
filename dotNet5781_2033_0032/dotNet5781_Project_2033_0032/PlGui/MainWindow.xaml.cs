@@ -52,7 +52,7 @@ namespace PlGui
                     }));
                 }
             }
-            catch (BO.BadUsernameOrPasswordException ex)
+            catch (BO.BadUsernameOrPasswordException)
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {

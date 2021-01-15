@@ -18,7 +18,7 @@ namespace PlGui
         #region variables
         IBL bl;
         string username;
-
+        #endregion
         #region line workers
         BackgroundWorker updateLineWorker = new BackgroundWorker();//updates the list of the busseswe show
         BackgroundWorker deleteLineWorker = new BackgroundWorker();//deletes lines from here and the memory
@@ -30,7 +30,6 @@ namespace PlGui
         #region bus workers
         BackgroundWorker busWorker = new BackgroundWorker();
         #endregion
-
         #region station workers
         BackgroundWorker linesInStationWorker = new BackgroundWorker();
         BackgroundWorker AllStationWorker = new BackgroundWorker();
@@ -49,7 +48,6 @@ namespace PlGui
         BO.Station curStation;
         BO.Bus curBus;
         #endregion
-        #endregion
         #region constractors
         public MenagmentWindow(IBL _bl, string user)
         {
@@ -61,7 +59,6 @@ namespace PlGui
             SetBusTab();
         }
         #endregion
-        #region line Tab
         #region setters
         void SetLinesTab()
         {
@@ -81,7 +78,7 @@ namespace PlGui
             updateLineWorker.RunWorkerAsync();
         }
 
-       
+
 
         void SetAllLines(object sender, DoWorkEventArgs e)
         {
@@ -188,19 +185,29 @@ namespace PlGui
         }
         private void btRemoveStationFromLine_Click(object sender, RoutedEventArgs e)
         {
-
-            var st = ((sender as Button).DataContext as BO.Station);
-            var stationWin = new AddStationLine(bl, curLine);
-            stationWin.Closing += StationWin_Closing;
-            stationWin.Show();
-
-
+            removeStationFromLineWorker.RunWorkerAsync((sender as Button).DataContext);
         }
 
         private void removeStationFromLine(object sender, DoWorkEventArgs e)
         {
-            
+            var st = e.Argument as BO.Station;
+            var index = stationsInLineCollection.IndexOf(st);
+            if (index == stationsInLineCollection.Count - 1 || index == 0)
+            {
+                bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
+                stationsInLineWorker.RunWorkerAsync(curLine.Id);
+                return;
+            }
+
+
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                var stationWin = new RemoveStationLine(bl, curLine, st);
+                stationWin.Closing += StationWin_Closing;
+                stationWin.Show();
+            });
         }
+
         private void bt_AddStation_Click(object sender, RoutedEventArgs e)
         {
             var stationWin = new AddStationLine(bl, curLine);
@@ -232,12 +239,10 @@ namespace PlGui
         private void UpdateLine(object sender, DoWorkEventArgs e)
         {
             var helpLine = e.Argument as BO.Line;
-            bl.UpdateLine(helpLine.Id, helpLine.Code, helpLine.Area, helpLine.FirstStation, helpLine.LastStation);
+            bl.UpdateLine(helpLine);
         }
 
         #endregion
-        #endregion
-        #region station Tab
         #region setters
 
         void SetStationTab()
@@ -261,8 +266,8 @@ namespace PlGui
                 stationCollection.Clear();
                 foreach (var item in help)
                 {
-                    //if (!LineListContains(item))
-                    stationCollection.Add(item);
+                        //if (!LineListContains(item))
+                        stationCollection.Add(item);
                 }
                 cbStations.SelectedIndex = 0;
             });
@@ -309,7 +314,6 @@ namespace PlGui
                 linesInStationCollection.Clear();
             }
         }
-        #endregion
         #endregion
         #region busses Tab
         void SetBusTab()
