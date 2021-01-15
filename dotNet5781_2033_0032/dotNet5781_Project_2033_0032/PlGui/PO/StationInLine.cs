@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BO
+namespace PlGui
+
 {
-    public class StationInLine
+    class StationInLine
     {
-        public double DistFromLastStation { get; set; }
+                public double DistFromLastStation { get; set; }
         public TimeSpan TimeSinceLastStation { get; set; }
         public int LineId { get; set; }
         public int StationId { get; set; }
