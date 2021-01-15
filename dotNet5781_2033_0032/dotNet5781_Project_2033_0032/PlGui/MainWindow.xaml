@@ -50,7 +50,7 @@
         <TextBox x:Name="tb_username" Text="username" Tag="username" Grid.Column="1" Grid.Row="1" Style="{StaticResource textBoxStyle}" />
         <TextBox x:Name="tb_password" Text="Password" Tag="Password" Grid.Column="1" Grid.Row="2" Style="{StaticResource textBoxStyle}" />
         <Label x:Name="lbl__log" Content="Log in" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="50" FontStyle="Italic" FontFamily="Brush Script MT"/>
-        <Button x:Name="bn_singUp"  Content="Sign Up" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Bottom" Style="{StaticResource link}" />
+        <Button x:Name="bn_singUp"  Content="Sign Up" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Bottom" Style="{StaticResource link}" Click="bn_singUp_Click"  />
         <TextBlock x:Name="tbl_message" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" />
         <Button x:Name="btn_logIn" Content="log in" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" FontStyle="Italic" FontFamily="Brush Script MT" Click="btn_logIn_Click" />
         <TextBlock x:Name="tb_warnings" Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Style="{StaticResource WarningMessageStyle}"/>

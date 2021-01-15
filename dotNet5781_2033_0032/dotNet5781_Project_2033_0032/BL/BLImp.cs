@@ -408,7 +408,7 @@ namespace BL
             }
             catch (DO.BadUsernameOrPasswordException ex)
             {
-                throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message);
+                throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message,ex);
             }
         }
         #endregion

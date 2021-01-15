@@ -57,7 +57,7 @@
                         <DataGridTemplateColumn Width="2*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="bt_updateStatioin" Width="Auto" Content="Update Station"/>
+                                    <Button x:Name="bt_updateStatioin" Width="Auto" Content="Update"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

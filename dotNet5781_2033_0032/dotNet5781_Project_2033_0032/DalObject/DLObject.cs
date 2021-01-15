@@ -118,7 +118,7 @@ namespace DL
         {
             return from lineStations in DataSource.ListLineStations
                    where lineStations.StationId == stationId
-                   select GetLine(lineStations.LineId);
+                   select DataSource.ListLines.Find(x => x.Id == lineStations.LineId).Clone();
         }
         public IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId)
         {

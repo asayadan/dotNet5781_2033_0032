@@ -64,7 +64,7 @@ namespace PlGui
         {
             this.Visibility=Visibility.Visible;
         }
-            public void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
+        public void MouseEnter_new(object sender, EventArgs e) // If the mouse enters the textbox, remove the
         {                                                   // preview text to make it easier for the user
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
                 (sender as TextBox).Text = string.Empty;
@@ -82,11 +82,17 @@ namespace PlGui
             if ((sender as TextBox).Text == (sender as TextBox).Tag.ToString())
                 (sender as TextBox).Text = "";
         }
-
-
         private void btn_logIn_Click(object sender, RoutedEventArgs e)
         {
             getUser.RunWorkerAsync(new PlGui.User { username = tb_username.Text, password = tb_password.Text });
+        }
+
+        private void bn_singUp_Click(object sender, RoutedEventArgs e)
+        {
+            SignUp signWin = new SignUp(bl);
+            signWin.Closing += OpenWindowafterUsage;
+            signWin.Show();
+            this.Visibility = Visibility.Collapsed;
         }
     }
 }
