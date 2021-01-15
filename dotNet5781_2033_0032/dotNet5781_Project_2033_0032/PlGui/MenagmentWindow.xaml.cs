@@ -23,6 +23,7 @@ namespace PlGui
         BackgroundWorker deleteLineWorker = new BackgroundWorker();//deletes lines from here and the memory
         BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
+        BackgroundWorker removeStationFromLineWorker = new BackgroundWorker(); 
 
         BackgroundWorker linesInStationWorker = new BackgroundWorker();
         BackgroundWorker AllStationWorker = new BackgroundWorker();
@@ -63,8 +64,11 @@ namespace PlGui
             updateLineWorker.DoWork += SetAllLines;
             deleteLineWorker.DoWork += removeLine;
             updateLineInDSWorker.DoWork += UpdateLine;
+            removeStationFromLineWorker.DoWork += removeStationFromLine;
             updateLineWorker.RunWorkerAsync();
         }
+
+       
 
         void SetAllLines(object sender, DoWorkEventArgs e)
         {
@@ -253,13 +257,20 @@ namespace PlGui
             });
 
         }
-        private void btRemoveStation_Click(object sender, RoutedEventArgs e)
+        private void btRemoveStationFromLine_Click(object sender, RoutedEventArgs e)
         {
 
             var st = ((sender as Button).DataContext as BO.Station);
-            //bl.RemoveStationFromLine(curLine.Id, st.Code);
-            //RefreshAllRegisteredCoursesGrid();
-            // RefreshAllNotRegisteredCoursesGrid();
+            var stationWin = new AddStationLine(bl, curLine);
+            stationWin.Closing += StationWin_Closing;
+            stationWin.Show();
+
+
+        }
+
+        private void removeStationFromLine(object sender, DoWorkEventArgs e)
+        {
+            
         }
 
         private void bt_AddStation_Click(object sender, RoutedEventArgs e)

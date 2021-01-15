@@ -355,9 +355,7 @@ namespace BL
             try
             {
                 foreach (var station in GetLineStationsInLine(id))
-                {
                     dl.RemoveLineStation(station.StationId, id);
-                }
                 dl.RemoveLine(id);
             }
             catch (DO.InvalidLineIDException ex)
