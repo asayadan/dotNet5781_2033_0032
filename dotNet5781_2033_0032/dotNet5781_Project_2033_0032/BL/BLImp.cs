@@ -226,34 +226,45 @@ namespace BL
             {
                 var curLine = GetLine(lineId);
                 var stations = GetLineStationsInLine(lineId);
-                var station = stations.Where(x => x.LineId == lineId).First();
-                if (station.LineStationIndex == 0)
-                    curLine.FirstStation = station.NextStation;
+                var station = stations.Where(x => x.LineId == lineId && x.StationId == stationId).First();
 
-                if (station.LineStationIndex == stations.Count() - 1)
-                    curLine.LastStation = station.PrevStation;
 
                 foreach (var st in stations)
                 {
-                    if (st.LineStationIndex > station.LineStationIndex)
+                    if (st.LineStationIndex >= station.LineStationIndex)
                     {
                         st.LineStationIndex--;
                         UpdateLineStation(st);
                     }
                 }
+                if (station.LineStationIndex != 0 && station.LineStationIndex != stations.Count() - 1)
+                {
+                    var nextStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex + 1).First();
+                    var prevStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex - 1).First();
+                    nextStation.PrevStation = station.NextStation;
+                    prevStation.NextStation = station.PrevStation;
+                    UpdateLineStation(nextStation);
+                    UpdateLineStation(prevStation);
+                    dl.RemoveLineStation(station.StationId, station.LineId);
+                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    {
+                        DistFromLastStation = distanceFromLastStation,
+                        Station1 = prevStation.StationId,
+                        Station2 = nextStation.StationId,
+                        TimeSinceLastStation = timeSinceLastStation
+                    });
+                }
 
-                var nextStation = stations.Where(x => x.LineStationIndex == station.StationId + 1).First();
-                var prevStation = stations.Where(x => x.LineStationIndex == station.StationId - 1).First();
-                nextStation.PrevStation = station.NextStation;
-                prevStation.NextStation = station.PrevStation;
-                UpdateLineStation(nextStation);
-                UpdateLineStation(prevStation);
+                else
+                {
+                    if (station.LineStationIndex == 0)
+                        curLine.FirstStation = station.NextStation;
 
-
-                dl.RemoveLineStation(station.StationId, station.LineId);
-
-
-
+                    if (station.LineStationIndex == stations.Count() - 1)
+                        curLine.LastStation = station.PrevStation;
+                    dl.RemoveLineStation(station.StationId, station.LineId);
+                    UpdateLine(curLine);
+                }
 
             }
             catch (DO.InvalidAdjacentStationIDException ex)
@@ -363,17 +374,17 @@ namespace BL
                 throw new BO.InvalidLineIDException(ex.ID, ex.Message);
             }
         }
-        public void UpdateLine(int id, int code, BO.Areas area, int firstStation, int lastStation)
+        public void UpdateLine(BO.Line line)
         {
             try
             {
                 dl.UpdateLine(new DO.Line
                 {
-                    Area = (DO.Areas)area,
-                    Code = code,
-                    FirstStation = firstStation,
-                    LastStation = lastStation,
-                    Id = id
+                    Area = (DO.Areas)line.Area,
+                    Code = line.Code,
+                    FirstStation = line.FirstStation,
+                    LastStation = line.LastStation,
+                    Id = line.Id
                 });
 
             }

@@ -61,6 +61,9 @@
     <Compile Include="AddStationLine.xaml.cs">
       <DependentUpon>AddStationLine.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RemoveStationLine.xaml.cs">
+      <DependentUpon>RemoveStationLine.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MenagmentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RemoveStationLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
