@@ -251,10 +251,6 @@ namespace PlGui
             linesInStationWorker.DoWork += SetAllLinesInStation;
             linesInStationWorker.WorkerSupportsCancellation = true;
             AllStationWorker.RunWorkerAsync();
-            //updateLineWorker.DoWork += SetAllLines;
-            //deleteLineWorker.DoWork += removeLine;
-            //updateLineInDSWorker.DoWork += UpdateLine;
-            //updateLineWorker.RunWorkerAsync();
         }
 
         private void SetAllStations(object sender, DoWorkEventArgs e)
@@ -299,8 +295,6 @@ namespace PlGui
 
         #endregion
         #region functions
-
-
         private void cbStations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             curStation = cbStations.SelectedItem as BO.Station;

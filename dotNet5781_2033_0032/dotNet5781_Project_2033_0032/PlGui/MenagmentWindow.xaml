@@ -16,7 +16,7 @@
                     <RowDefinition Height="31*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="290*"/>
+                    <ColumnDefinition Width="200*"/>
                     <ColumnDefinition Width="497*"/>
                 </Grid.ColumnDefinitions>
                 <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
@@ -49,23 +49,15 @@
                         </TransformGroup>
                     </DataGrid.RenderTransform>
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code}"  Header="Code" Width="*"/>
-                        <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="2*"/>
-                        <DataGridTextColumn x:Name="longitudeColumn"  Binding="{Binding DistFromLastStation}" Header="distance" Width="*"/>
-                        <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding Latitude}" Header="Latitude" Width="*"/>
+                        <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code, Mode=OneWay}"  Header="Code" Width="*"/>
+                        <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name, Mode=OneWay}" Header="Name" Width="2*"/>
+                        <DataGridTextColumn x:Name="longitudeColumn"  Binding="{Binding DistFromLastStation ,Mode=OneWay}" Header="distance" Width="*"/>
+                        <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding TimeSinceLastStation, Mode=OneWay}" Header="Latitude" Width="*"/>
 
                         <DataGridTemplateColumn Width="2*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="bt_updateStatioin" Width="Auto" Content="Update"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-
-                        <DataGridTemplateColumn Width="2*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button x:Name="btRemoveStation" Content="Remove" Width="Auto" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStationFromLine_Click"/>
+                                    <Button x:Name="btRemoveStation" Content="Remove" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStationFromLine_Click"/>
                                 </DataTemplate>
 
                             </DataGridTemplateColumn.CellTemplate>
@@ -124,14 +116,7 @@
                         <TextBox x:Name="stationNameTextBox" Grid.Column="1" HorizontalAlignment="Center" Height="23" Margin="3" Grid.Row="1" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="160" TextAlignment="Center"/>
                     </Grid>
                     <DataGrid x:Name="LinesInStationDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
-                        <DataGrid.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform AngleX="-0.691"/>
-                                <RotateTransform/>
-                                <TranslateTransform X="-1.424"/>
-                            </TransformGroup>
-                        </DataGrid.RenderTransform>
+
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="lineCodeColumn" Binding="{Binding Code}"  Header="Code" Width="*">
                                 <DataGridTextColumn.HeaderStyle>
