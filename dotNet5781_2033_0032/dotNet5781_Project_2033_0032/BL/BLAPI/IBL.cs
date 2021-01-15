@@ -23,6 +23,7 @@ namespace BLAPI
         IEnumerable<BO.Station> GetAllStations();
         BO.LineStation GetLineStation(int id);
         IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
+         IEnumerable<StationInLine> GetStationsInLine(int lineId);
         IEnumerable<BO.Line> GetAllLines();
         void UpdateLineStation(LineStation station);
         void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio);

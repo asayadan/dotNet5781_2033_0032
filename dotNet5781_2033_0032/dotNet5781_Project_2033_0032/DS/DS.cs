@@ -2611,7 +2611,8 @@ namespace DS
                         LineId = ListLines[i].Id,
                         LineStationIndex = j,
                         StationId = ListStations[(i * 4 + j + 1) % ListStations.Count].Code,
-                        NextStation = (j == 4 - 1) ? 0 : ListStations[(i * 4 + j + 2) % ListStations.Count].Code
+						PrevStation= (j ==0) ? ListStations[(i * 4 + j + 1) % ListStations.Count].Code : ListStations[(i * 4 + j ) % ListStations.Count].Code,
+						NextStation = (j == StationsInEachBus - 1) ? ListStations[(i * 4 + j + 1) % ListStations.Count].Code : ListStations[(i * 4 + j + 2) % ListStations.Count].Code
                     }
                     );
                 }
@@ -2636,7 +2637,29 @@ namespace DS
                             TimeSinceLastStation = DateTime.Now.AddMinutes(dist * 1000 / rnd.Next(30, 50)) - DateTime.Now
                         });
                 }
-            }
+                if (ListLineStations[i].PrevStation == ListLineStations[i].StationId)
+                {
+					ListAdjacentStations.Add(
+						new AdjacentStations
+						{
+							DistFromLastStation = 0,
+							Station1 = ListLineStations[i].StationId,
+							Station2 = ListLineStations[i ].StationId,
+							TimeSinceLastStation = new TimeSpan(0)
+						}); ;
+				}
+				if (ListLineStations[i].NextStation == ListLineStations[i].StationId)
+				{
+					ListAdjacentStations.Add(
+	new AdjacentStations
+	{
+		DistFromLastStation = 0,
+		Station1 = ListLineStations[i].StationId,
+		Station2 = ListLineStations[i ].StationId,
+		TimeSinceLastStation = new TimeSpan(0)
+	}); ;
+				}
+			}
 
             ListBuses = new List<Bus>();
             int plateNumber, range, mileage, mileageInLastTreat, fuel;

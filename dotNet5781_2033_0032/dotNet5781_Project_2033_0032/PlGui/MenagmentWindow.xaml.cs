@@ -26,6 +26,7 @@ namespace PlGui
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
         BackgroundWorker removeStationFromLineWorker = new BackgroundWorker();
         #endregion
+
         #region bus workers
         BackgroundWorker busWorker = new BackgroundWorker();
         #endregion
@@ -38,7 +39,7 @@ namespace PlGui
         ObservableCollection<BO.Line> lineCollection = new ObservableCollection<BO.Line>();
         ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.Bus> busCollection;
-        ObservableCollection<BO.Station> stationsInLineCollection = new ObservableCollection<BO.Station>();
+        ObservableCollection<BO.StationInLine> stationsInLineCollection = new ObservableCollection<BO.StationInLine>();
         ObservableCollection<BO.Line> linesInStationCollection = new ObservableCollection<BO.Line>();
         #endregion
 
@@ -98,10 +99,10 @@ namespace PlGui
         {
             try
             {
-                var helpList = new List<BO.Station>();
-                foreach (var b in bl.GetLineStationsInLine((int)e.Argument))
+                var helpList = new List<BO.StationInLine>();
+                foreach (var b in bl.GetStationsInLine((int)e.Argument))
                 {
-                    helpList.Add(bl.GetStation(b.StationId));
+                    helpList.Add(b);
                 }
                 App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {

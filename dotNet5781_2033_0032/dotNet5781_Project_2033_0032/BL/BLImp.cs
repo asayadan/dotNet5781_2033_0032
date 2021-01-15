@@ -109,7 +109,7 @@ namespace BL
         }
         public IEnumerable<BO.Station> GetAllStations()
         {
-            return from station in dl.GetAllStations() 
+            return from station in dl.GetAllStations()
                    orderby station.Code
                    select station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
 
@@ -136,12 +136,28 @@ namespace BL
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
-
         public IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId)
         {
             return from station in dl.GetLineStationsInLine(lineId)
                    orderby station.LineStationIndex
                    select station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
+        }
+        public IEnumerable<StationInLine> GetStationsInLine(int lineId)
+        {
+            return from station in dl.GetLineStationsInLine(lineId)
+                   orderby station.LineStationIndex
+                   let lastStationAdj=dl.GetAdjacentStations(station.PrevStation, station.StationId).CopyPropertiesToNew(typeof(BO.AdjacentStations)) as BO.AdjacentStations
+                   let lineSt= station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation
+                   let thisStation=GetStation(station.StationId).CopyPropertiesToNew(typeof(BO.Station)) as BO.Station
+                   select new StationInLine{
+                        DistFromLastStation=lastStationAdj.DistFromLastStation,
+                        TimeSinceLastStation=lastStationAdj.TimeSinceLastStation,
+                        LineId=lineId,
+                        StationId =station.StationId,
+                        PrevStation= station.PrevStation,
+                        Code=thisStation.Code ,
+                        Name=thisStation.Name
+                    };
             
         }
         public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
@@ -164,22 +180,41 @@ namespace BL
                         UpdateLineStation(station);
                     }
                 }
-                
-                var nextStation = stations.Where(x => x.LineStationIndex == index + 1).First();
-                
-                var prevStation = stations.Where(x => x.LineStationIndex == index - 1).First();
-                nextStation.PrevStation = stationId; 
-                prevStation.NextStation = stationId;
-                UpdateLineStation(nextStation);
-                UpdateLineStation(prevStation);
+                int helpNext, helpPrev;
+                if (index < stations.Count() - 1)
+                {
+                    var nextStation = stations.Where(x => x.LineStationIndex == index + 1).First();
+                    nextStation.PrevStation = stationId;
+                    UpdateLineStation(nextStation);
+                     helpNext = nextStation.StationId;
+                }
+                else
+                {
+                    distanceUntilNextStation = 0;
+                    timeUntilNextStatio = new TimeSpan(0);
+                    helpNext = stationId;
+                }
+                if (index > 0 )
+                {
+                    var prevStation = stations.Where(x => x.LineStationIndex == index - 1).First();
+                    prevStation.NextStation = stationId;
+                    UpdateLineStation(prevStation);
+                    helpPrev = prevStation.StationId;
+                }
+                else
+                {
+                    distanceSinceLastStation = 0;
+                    timeSinceLastStation = new TimeSpan(0);
+                    helpPrev = stationId;
+                }
 
                 dl.AddLineStation(new DO.LineStation
                 {
                     LineStationIndex = index,
                     LineId = lineId,
                     StationId = stationId,
-                    NextStation = nextStation.StationId,
-                    PrevStation = prevStation.StationId
+                    NextStation = helpNext,
+                    PrevStation = helpPrev
                 });
 
                 try
@@ -187,17 +222,20 @@ namespace BL
                     dl.AddAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceSinceLastStation,
-                        Station1 = prevStation.StationId,
+                        Station1 = helpPrev,
                         Station2 = stationId,
                         TimeSinceLastStation = timeSinceLastStation
                     });
 
+                }
 
-                    dl.AddAdjacentStations(new DO.AdjacentStations
+                catch (DO.InvalidAdjacentStationIDException) { }
+                try { 
+                dl.AddAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceUntilNextStation,
                         Station1 = stationId,
-                        Station2 = nextStation.StationId,
+                        Station2 = helpNext,
                         TimeSinceLastStation = timeUntilNextStatio
                     });
                 }
@@ -205,12 +243,9 @@ namespace BL
                 catch (DO.InvalidAdjacentStationIDException) { }
 
                 if (GetAllLines().Where(x => GetLineStationsInLine(x.Id).
-                    Where(y => y.StationId == prevStation.StationId && y.NextStation == nextStation.StationId).Count() > 0).Count() == 0)
-                    dl.RemoveAddAdjacentStations(dl.GetAdjacentStations(prevStation.StationId, nextStation.StationId), lineId);
+                    Where(y => y.StationId == helpPrev && y.NextStation == helpNext).Count() > 0).Count() == 0)
+                    dl.RemoveAddAdjacentStations(dl.GetAdjacentStations(helpPrev,helpNext), lineId);
             }
-
-
-
             catch (DO.InvalidAdjacentStationIDException ex)
             {
                 throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
@@ -338,7 +373,7 @@ namespace BL
                     LineId = Counters.lines - 1,
                     LineStationIndex = 0,
                     NextStation = lastStation,
-                    PrevStation = 0,
+                    PrevStation = firstStation,
                     StationId = firstStation
                 });
 
@@ -346,11 +381,41 @@ namespace BL
                 {
                     LineId = Counters.lines - 1,
                     LineStationIndex = 0,
-                    NextStation = 0,
+                    NextStation = lastStation,
                     PrevStation = firstStation,
                     StationId = lastStation
                 });
+                try { 
+                dl.AddAdjacentStations(new DO.AdjacentStations
+                {
+                    DistFromLastStation = 0,
+                    TimeSinceLastStation = new TimeSpan(0),
+                    Station1=firstStation,
+                    Station2=firstStation
+                }); ;
+                }
+                catch (DO.InvalidAdjacentStationIDException) { }
+                try { 
+                dl.AddAdjacentStations(new DO.AdjacentStations
+                {
+                    DistFromLastStation = distanceSinceLastStation,
+                    TimeSinceLastStation = timeSinceLastStation,
+                    Station1 = firstStation,
+                    Station2 = lastStation
+                }); ;
+                }
+                catch (DO.InvalidAdjacentStationIDException) { }
+                try { 
+                dl.AddAdjacentStations(new DO.AdjacentStations
+                {
+                    DistFromLastStation = 0,
+                    TimeSinceLastStation = new TimeSpan(0),
+                    Station1 = lastStation,
+                    Station2 = lastStation
+                }); ;
             }
+            catch (DO.InvalidAdjacentStationIDException) { }
+        }
             catch (DO.InvalidLineIDException ex)
             {
                 throw new BO.InvalidLineIDException(ex.ID, ex.Message);
