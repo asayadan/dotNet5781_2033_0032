@@ -15,10 +15,10 @@ namespace PlGui
         IBL bl;
         BackgroundWorker worker = new BackgroundWorker();
 
-        public RemoveStationLine(IBL bL, BO.Line line, BO.Station station)
+        public RemoveStationLine(IBL bL, BO.Line line, BO.StationInLine station)
         {
             InitializeComponent();
-            bl = bL; curLine = line; curStation = station;
+            bl = bL; curLine = line; curStation = new BO.Station {Code=station.Code,Name=station.Name };
             for (int i = 0; i < 60; i++)
             {
                 lastMinutesComboBox.Items.Add(i);
