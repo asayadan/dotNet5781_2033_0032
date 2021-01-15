@@ -51,13 +51,13 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code}"  Header="Code" Width="*"/>
                         <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="2*"/>
-                        <DataGridTextColumn x:Name="longitudeColumn" Binding="{Binding Longitude}" Header="Longitude" Width="*"/>
+                        <DataGridTextColumn x:Name="distancecolumn" Binding="{Binding Longitude}" Header="Longitude" Width="*"/>
                         <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding Latitude}" Header="Latitude" Width="*"/>
 
                         <DataGridTemplateColumn Width="2*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="bt_updateStatioin" Width="Auto" Content="Update Station"/>
+                                    <Button x:Name="bt_updateStatioin" Width="Auto" Content="Update"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
