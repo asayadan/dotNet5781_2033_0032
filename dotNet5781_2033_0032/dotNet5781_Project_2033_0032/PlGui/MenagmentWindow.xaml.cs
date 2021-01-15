@@ -202,7 +202,7 @@ namespace PlGui
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
-                var stationWin = new RemoveStationLine(bl, curLine, st);
+                var stationWin = new RemoveStationLine(bl, curLine, bl.GetStation(st.Code));
                 stationWin.Closing += StationWin_Closing;
                 stationWin.Show();
             });
