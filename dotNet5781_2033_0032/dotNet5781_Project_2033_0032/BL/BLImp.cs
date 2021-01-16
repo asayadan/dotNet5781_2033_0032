@@ -266,7 +266,7 @@ namespace BL
 
                 foreach (var st in stations)
                 {
-                    if (st.LineStationIndex >= station.LineStationIndex)
+                    if (st.LineStationIndex > station.LineStationIndex)
                     {
                         st.LineStationIndex--;
                         UpdateLineStation(st);

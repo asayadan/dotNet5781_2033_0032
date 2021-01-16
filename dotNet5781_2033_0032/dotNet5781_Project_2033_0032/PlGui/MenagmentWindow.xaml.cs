@@ -191,19 +191,26 @@ namespace PlGui
         private void removeStationFromLine(object sender, DoWorkEventArgs e)
         {
             var st = e.Argument as BO.StationInLine;
-     
-            var index = stationsInLineCollection.IndexOf(st);
-            if (index == stationsInLineCollection.Count - 1 || index == 0)
-            {
-                bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
-                stationsInLineWorker.RunWorkerAsync(curLine.Id);
-                return;
-            }
-
+            var boStation = bl.GetStation(st.Code);
+            var index = stationsInLineCollection.IndexOf(st);    
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
-                var stationWin = new RemoveStationLine(bl, curLine, bl.GetStation(st.Code));
+
+                if (stationsInLineCollection.Count == 2)
+                {
+                    MessageBox.Show("You can't have less then 2 stations in line");
+                    return;
+                }
+
+                if (index == stationsInLineCollection.Count - 1 || index == 0)
+                {
+                    bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
+                    stationsInLineWorker.RunWorkerAsync(curLine.Id);
+                    return;
+                }
+
+                var stationWin = new RemoveStationLine(bl, curLine, boStation);
                 stationWin.Closing += StationWin_Closing;
                 stationWin.Show();
             });

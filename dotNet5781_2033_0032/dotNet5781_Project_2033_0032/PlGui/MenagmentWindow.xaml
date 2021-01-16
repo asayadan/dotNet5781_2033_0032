@@ -8,7 +8,7 @@
         Title="MenagmentWindow" Height="450" Width="800">
 
     <TabControl  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
-        <TabItem Name="tab_lines" Header="line veiw">
+        <TabItem Name="tab_lines" Header="Line View">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="31*"/>
@@ -51,8 +51,8 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code, Mode=OneWay}"  Header="Code" Width="*"/>
                         <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name, Mode=OneWay}" Header="Name" Width="2*"/>
-                        <DataGridTextColumn x:Name="longitudeColumn"  Binding="{Binding DistFromLastStation ,Mode=OneWay}" Header="distance" Width="*"/>
-                        <DataGridTextColumn x:Name="latitudeColumn" Binding="{Binding TimeSinceLastStation, Mode=OneWay}" Header="Latitude" Width="*"/>
+                        <DataGridTextColumn x:Name="distanceColumn"  Binding="{Binding DistFromLastStation ,Mode=OneWay}" Header="distance" Width="*"/>
+                        <DataGridTextColumn x:Name="timeColumn" Binding="{Binding TimeSinceLastStation, Mode=OneWay}" Header="Latitude" Width="*"/>
 
                         <DataGridTemplateColumn Width="2*">
                             <DataGridTemplateColumn.CellTemplate>
@@ -84,7 +84,7 @@
 
             </Grid>
         </TabItem>
-        <TabItem Header="stations veiw">
+        <TabItem Header="Stations View">
             <Grid>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -156,7 +156,7 @@
                 </Grid>
             </Grid>
         </TabItem>
-        <TabItem Header="busses veiw">
+        <TabItem Header="Buses View">
             <Grid>
                 <Grid>
                     <Grid.RowDefinitions>
