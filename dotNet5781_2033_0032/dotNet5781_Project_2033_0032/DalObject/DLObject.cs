@@ -78,6 +78,12 @@ namespace DL
             return from station in DataSource.ListStations
                    select station.Clone();
         }
+        public IEnumerable<DO.Station> GetStationBy(Predicate<DO.Station> predicate)
+        {
+            return from station in DataSource.ListStations
+                   where predicate(station)
+                   select station.Clone();
+        }
 
         public void AddAdjacentStations(DO.AdjacentStations adjacentStation)
         {

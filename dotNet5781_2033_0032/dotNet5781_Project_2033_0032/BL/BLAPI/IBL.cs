@@ -21,6 +21,8 @@ namespace BLAPI
         #region Stations
         BO.Station GetStation(int id);
         IEnumerable<BO.Station> GetAllStations();
+        IEnumerable<BO.Station> GetStationsBy(Predicate<BO.Station> predicate);
+
         BO.LineStation GetLineStation(int id);
         IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
          IEnumerable<StationInLine> GetStationsInLine(int lineId);

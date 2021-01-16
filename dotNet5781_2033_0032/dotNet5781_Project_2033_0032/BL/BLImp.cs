@@ -66,20 +66,15 @@ namespace BL
         }
         public IEnumerable<BO.Bus> GetAllBuses()
         {
-            foreach (var bus in dl.GetAllBuses())
-            {
-                yield return bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
-            }
+            return  from bus in dl.GetAllBuses()
+               select bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
         }
         public IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate)
         {
 
-            foreach (var bus in dl.GetBusBy(predicate.CopyPropertiesToNew
-                (typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>))
-            {
-                yield return bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
-            }
-
+            return from   bus in dl.GetBusBy(predicate.CopyPropertiesToNew
+                (typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>)
+                 select bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
         }
         public void FuelBus(int id)
         {
@@ -114,6 +109,14 @@ namespace BL
                    select station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
 
         }
+        public IEnumerable<BO.Station> GetStationsBy(Predicate<BO.Station> predicate)
+        {
+            return from station in dl.GetAllStations()
+                   let newStation = station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station
+                   where predicate(newStation)
+                   select newStation;
+        }
+
         public BO.LineStation GetLineStation(int id)
         {
             try
@@ -341,6 +344,7 @@ namespace BL
         public IEnumerable<BO.Line> GetAllLines()
         {
             return from line in dl.GetAllLines()
+                   orderby line.Code
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
             
         }

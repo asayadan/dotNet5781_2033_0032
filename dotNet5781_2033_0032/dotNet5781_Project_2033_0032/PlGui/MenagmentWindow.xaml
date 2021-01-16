@@ -104,6 +104,8 @@
                         <Label Content="Select Station:"  />
                         <ComboBox x:Name="cbStations"  Width="125"  Text="" SelectionChanged="cbStations_SelectionChanged"
                    ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+                        <TextBox x:Name="tb_search" Width="200"/>
+                        <Button x:Name="bt_search" Content="search" Click="bt_search_Click"/>
                     </WrapPanel>
                     <Grid x:Name="gridStation" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="250">
                         <Grid.ColumnDefinitions>

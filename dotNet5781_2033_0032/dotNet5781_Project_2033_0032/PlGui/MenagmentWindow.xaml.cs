@@ -18,6 +18,7 @@ namespace PlGui
         #region variables
         IBL bl;
         string username;
+        bool hasChanged = true;
         #endregion
         #region line workers
         BackgroundWorker updateLineWorker = new BackgroundWorker();//updates the list of the busseswe show
@@ -33,11 +34,14 @@ namespace PlGui
         #region station workers
         BackgroundWorker linesInStationWorker = new BackgroundWorker();
         BackgroundWorker AllStationWorker = new BackgroundWorker();
+        BackgroundWorker Searchworker = new BackgroundWorker();
+
         #endregion
 
         #region observableCollections
         ObservableCollection<BO.Line> lineCollection = new ObservableCollection<BO.Line>();
-        ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
+        List<BO.Station> stationCollection = new List<BO.Station>();
+        ObservableCollection<BO.Station> showStationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.Bus> busCollection;
         ObservableCollection<BO.StationInLine> stationsInLineCollection = new ObservableCollection<BO.StationInLine>();
         ObservableCollection<BO.Line> linesInStationCollection = new ObservableCollection<BO.Line>();
@@ -66,6 +70,7 @@ namespace PlGui
             cb_lines.SelectedValuePath = "Id";//selection return only specific Property of object
             cb_lines.SelectedIndex = 0; //index of the object to be selected
             gridLine.DataContext = curLine;
+            lbl_usernameStations.DataContext =username;
             StationsInLineDataGrid.DataContext = stationsInLineCollection;
             cb_lines.DataContext = lineCollection;
             lbl_username.DataContext = username;
@@ -191,7 +196,6 @@ namespace PlGui
         private void removeStationFromLine(object sender, DoWorkEventArgs e)
         {
             var st = e.Argument as BO.StationInLine;
-            var boStation = bl.GetStation(st.Code);
             var index = stationsInLineCollection.IndexOf(st);    
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
@@ -210,7 +214,7 @@ namespace PlGui
                     return;
                 }
 
-                var stationWin = new RemoveStationLine(bl, curLine, boStation);
+                var stationWin = new RemoveStationLine(bl, curLine, st);
                 stationWin.Closing += StationWin_Closing;
                 stationWin.Show();
             });
@@ -259,7 +263,8 @@ namespace PlGui
             cbStations.SelectedValuePath = "Code";//selection return only specific Property of object
             gridStation.DataContext = curStation;
             LinesInStationDataGrid.DataContext = linesInStationCollection;
-            cbStations.DataContext = stationCollection;
+            cbStations.DataContext = showStationCollection;
+            Searchworker.DoWork += Search;
             AllStationWorker.DoWork += SetAllStations;
             linesInStationWorker.DoWork += SetAllLinesInStation;
             linesInStationWorker.WorkerSupportsCancellation = true;
@@ -276,6 +281,7 @@ namespace PlGui
                 {
                         //if (!LineListContains(item))
                         stationCollection.Add(item);
+                        showStationCollection.Add(item);
                 }
                 cbStations.SelectedIndex = 0;
             });
@@ -308,6 +314,7 @@ namespace PlGui
 
         #endregion
         #region functions
+
         private void cbStations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             curStation = cbStations.SelectedItem as BO.Station;
@@ -321,6 +328,26 @@ namespace PlGui
                 gridStation.DataContext = new BO.Station();
                 linesInStationCollection.Clear();
             }
+        }
+        private void bt_search_Click(object sender, RoutedEventArgs e)
+        {
+            Searchworker.RunWorkerAsync(new SearchData{ changed = hasChanged, search = tb_search.Text });
+        }
+        private void Search(object sender, DoWorkEventArgs e)
+        {
+
+            //  if ((e.Argument as SearchData).changed)
+            var helpList = bl.GetStationsBy(x=>(x as  BO.Station).Name.Contains((e.Argument as SearchData).search));
+
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                showStationCollection.Clear();
+                foreach (var station in helpList)
+                {
+                    showStationCollection.Add(station);
+                    cbStations.SelectedIndex = 0;
+                }
+            });
         }
         #endregion
         #region busses Tab
@@ -343,5 +370,7 @@ namespace PlGui
             gridBus.DataContext = curBus;
         }
         #endregion
+
+
     }
 }
