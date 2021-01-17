@@ -114,11 +114,11 @@ namespace BL
                    select station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
 
         }
-        public BO.LineStation GetLineStation(int id)
+        public BO.LineStation GetLineStation(int stationId, int lineId)
         {
             try
             {
-                return dl.GetLineStation(id).CopyPropertiesToNew(typeof(DO.LineStation)) as BO.LineStation;
+                return dl.GetLineStation(stationId, lineId).CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
             }
             catch (DO.InvalidStationIDException ex)
             {
@@ -146,19 +146,20 @@ namespace BL
         {
             return from station in dl.GetLineStationsInLine(lineId)
                    orderby station.LineStationIndex
-                   let lastStationAdj=dl.GetAdjacentStations(station.PrevStation, station.StationId).CopyPropertiesToNew(typeof(BO.AdjacentStations)) as BO.AdjacentStations
-                   let lineSt= station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation
-                   let thisStation=GetStation(station.StationId).CopyPropertiesToNew(typeof(BO.Station)) as BO.Station
-                   select new StationInLine{
-                        DistFromLastStation=lastStationAdj.DistFromLastStation,
-                        TimeSinceLastStation=lastStationAdj.TimeSinceLastStation,
-                        LineId=lineId,
-                        StationId =station.StationId,
-                        PrevStation= station.PrevStation,
-                        Code=thisStation.Code ,
-                        Name=thisStation.Name
-                    };
-            
+                   let lastStationAdj = dl.GetAdjacentStations(station.PrevStation, station.StationId).CopyPropertiesToNew(typeof(BO.AdjacentStations)) as BO.AdjacentStations
+                   let lineSt = station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation
+                   let thisStation = GetStation(station.StationId).CopyPropertiesToNew(typeof(BO.Station)) as BO.Station
+                   select new StationInLine
+                   {
+                       DistFromLastStation = lastStationAdj.DistFromLastStation,
+                       TimeSinceLastStation = lastStationAdj.TimeSinceLastStation,
+                       LineId = lineId,
+                       StationId = station.StationId,
+                       PrevStation = station.PrevStation,
+                       Code = thisStation.Code,
+                       Name = thisStation.Name
+                   };
+
         }
         public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
@@ -186,7 +187,7 @@ namespace BL
                     var nextStation = stations.Where(x => x.LineStationIndex == index + 1).First();
                     nextStation.PrevStation = stationId;
                     UpdateLineStation(nextStation);
-                     helpNext = nextStation.StationId;
+                    helpNext = nextStation.StationId;
                 }
                 else
                 {
@@ -194,7 +195,7 @@ namespace BL
                     timeUntilNextStatio = new TimeSpan(0);
                     helpNext = stationId;
                 }
-                if (index > 0 )
+                if (index > 0)
                 {
                     var prevStation = stations.Where(x => x.LineStationIndex == index - 1).First();
                     prevStation.NextStation = stationId;
@@ -230,8 +231,9 @@ namespace BL
                 }
 
                 catch (DO.InvalidAdjacentStationIDException) { }
-                try { 
-                dl.AddAdjacentStations(new DO.AdjacentStations
+                try
+                {
+                    dl.AddAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceUntilNextStation,
                         Station1 = stationId,
@@ -244,7 +246,7 @@ namespace BL
 
                 if (GetAllLines().Where(x => GetLineStationsInLine(x.Id).
                     Where(y => y.StationId == helpPrev && y.NextStation == helpNext).Count() > 0).Count() == 0)
-                    dl.RemoveAddAdjacentStations(dl.GetAdjacentStations(helpPrev,helpNext), lineId);
+                    dl.RemoveAddAdjacentStations(dl.GetAdjacentStations(helpPrev, helpNext), lineId);
             }
             catch (DO.InvalidAdjacentStationIDException ex)
             {
@@ -276,29 +278,54 @@ namespace BL
                 {
                     var nextStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex + 1).First();
                     var prevStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex - 1).First();
-                    nextStation.PrevStation = station.NextStation;
-                    prevStation.NextStation = station.PrevStation;
+                    nextStation.PrevStation = station.PrevStation;
+                    prevStation.NextStation = station.NextStation;
                     UpdateLineStation(nextStation);
                     UpdateLineStation(prevStation);
-                    dl.RemoveLineStation(station.StationId, station.LineId);
-                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    if (dl.GetAdjacentStations(station.PrevStation, station.NextStation) != null)
+                        dl.UpdateAdjacentStations(new DO.AdjacentStations
+                        {
+                            DistFromLastStation = distanceFromLastStation,
+                            Station1 = prevStation.StationId,
+                            Station2 = nextStation.StationId,
+                            TimeSinceLastStation = timeSinceLastStation
+                        });
+                    else dl.AddAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceFromLastStation,
                         Station1 = prevStation.StationId,
                         Station2 = nextStation.StationId,
                         TimeSinceLastStation = timeSinceLastStation
                     });
+                    dl.RemoveLineStation(station.StationId, station.LineId);
+
+
                 }
 
                 else
                 {
                     if (station.LineStationIndex == 0)
+                    {
                         curLine.FirstStation = station.NextStation;
+                        var nextStation = GetLineStation(station.NextStation, station.LineId);
+                        nextStation.PrevStation = nextStation.StationId;
+
+                        dl.AddAdjacentStations(new DO.AdjacentStations
+                        {
+                            DistFromLastStation = 0,
+                            Station1 = station.NextStation,
+                            Station2 = station.NextStation,
+                            TimeSinceLastStation = TimeSpan.Zero
+                        });
+                        UpdateLineStation(nextStation);
+                    }
 
                     if (station.LineStationIndex == stations.Count() - 1)
                         curLine.LastStation = station.PrevStation;
                     dl.RemoveLineStation(station.StationId, station.LineId);
                     UpdateLine(curLine);
+
+
                 }
 
             }
@@ -314,8 +341,8 @@ namespace BL
         public IEnumerable<BO.Line> LinesInStation(int stationId)
         {
             return from line in dl.LinesInStation(stationId)
-                  select  line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
-            
+                   select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
+
         }
         public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
         {
@@ -342,7 +369,7 @@ namespace BL
         {
             return from line in dl.GetAllLines()
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
-            
+
         }
         public BO.Line GetLine(int id)
         {
@@ -385,44 +412,47 @@ namespace BL
                     PrevStation = firstStation,
                     StationId = lastStation
                 });
-                try { 
-                dl.AddAdjacentStations(new DO.AdjacentStations
+                try
                 {
-                    DistFromLastStation = 0,
-                    TimeSinceLastStation = new TimeSpan(0),
-                    Station1=firstStation,
-                    Station2=firstStation
-                }); ;
+                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    {
+                        DistFromLastStation = 0,
+                        TimeSinceLastStation = new TimeSpan(0),
+                        Station1 = firstStation,
+                        Station2 = firstStation
+                    }); ;
                 }
                 catch (DO.InvalidAdjacentStationIDException) { }
-                try { 
-                dl.AddAdjacentStations(new DO.AdjacentStations
+                try
                 {
-                    DistFromLastStation = distanceSinceLastStation,
-                    TimeSinceLastStation = timeSinceLastStation,
-                    Station1 = firstStation,
-                    Station2 = lastStation
-                }); ;
+                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    {
+                        DistFromLastStation = distanceSinceLastStation,
+                        TimeSinceLastStation = timeSinceLastStation,
+                        Station1 = firstStation,
+                        Station2 = lastStation
+                    }); ;
                 }
                 catch (DO.InvalidAdjacentStationIDException) { }
-                try { 
-                dl.AddAdjacentStations(new DO.AdjacentStations
+                try
                 {
-                    DistFromLastStation = 0,
-                    TimeSinceLastStation = new TimeSpan(0),
-                    Station1 = lastStation,
-                    Station2 = lastStation
-                }); ;
+                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    {
+                        DistFromLastStation = 0,
+                        TimeSinceLastStation = new TimeSpan(0),
+                        Station1 = lastStation,
+                        Station2 = lastStation
+                    }); ;
+                }
+                catch (DO.InvalidAdjacentStationIDException) { }
             }
-            catch (DO.InvalidAdjacentStationIDException) { }
-        }
             catch (DO.InvalidLineIDException ex)
             {
                 throw new BO.InvalidLineIDException(ex.ID, ex.Message);
             }
             catch (DO.InvalidLinesStationException ex)
             {
-                throw new InvalidLinesStationException(firstStation,lastStation,"the stations are invalid");
+                throw new InvalidLinesStationException(firstStation, lastStation, "the stations are invalid");
             }
 
         }
@@ -484,7 +514,7 @@ namespace BL
             }
             catch (DO.BadUsernameOrPasswordException ex)
             {
-                throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message,ex);
+                throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message, ex);
             }
         }
         #endregion

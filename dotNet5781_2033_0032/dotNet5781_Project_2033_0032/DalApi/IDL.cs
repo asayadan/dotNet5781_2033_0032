@@ -25,7 +25,7 @@ namespace DLAPI
         void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
         void UpdateLineStation(LineStation lineStation);
         DO.AdjacentStations GetAdjacentStations(int station1, int station2);
-        DO.LineStation GetLineStation(int id);
+        DO.LineStation GetLineStation(int stationId, int lineId);
         IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
         void AddLineStation(DO.LineStation lineStation);
         void RemoveLineStation(int stationId, int lineId);

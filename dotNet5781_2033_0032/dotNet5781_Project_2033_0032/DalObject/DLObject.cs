@@ -107,11 +107,11 @@ namespace DL
                 DataSource.ListAdjacentStations.Add(helpAdj.Clone());
             }
         }
-        public DO.LineStation GetLineStation(int id)
+        public DO.LineStation GetLineStation(int stationId, int lineId)
         {
-            DO.LineStation helpLineStation = DataSource.ListLineStations.Find(p => p.StationId == id);
+            DO.LineStation helpLineStation = DataSource.ListLineStations.Find(p => p.StationId == stationId && p.LineId == lineId);
             if (helpLineStation == null)
-                throw new DO.InvalidStationIDException(id, "we doen't have this line station");
+                throw new DO.InvalidStationIDException(stationId, "we doen't have this line station");
             return helpLineStation.Clone();
         }
         public IEnumerable<DO.Line> LinesInStation(int stationId)
@@ -131,9 +131,7 @@ namespace DL
         public DO.AdjacentStations GetAdjacentStations(int station1, int station2)
         {
             var st = DataSource.ListAdjacentStations.Find(x => x.Station1 == station1 && x.Station2 == station2);
-            if (st != null)
-                return st;
-            throw new DO.InvalidAdjacentStationIDException(station1, station2, "One or more of the stations not found");
+            return st;
         }
 
         public void UpdateLineStation(DO.LineStation station)
