@@ -117,7 +117,7 @@ namespace BL
                    select newStation;
         }
 
-        public BO.LineStation GetLineStation(int id)
+        public BO.LineStation GetLineStation(int stationId, int lineId)
         {
             try
             {
