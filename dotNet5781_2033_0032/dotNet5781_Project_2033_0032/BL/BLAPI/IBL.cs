@@ -22,6 +22,9 @@ namespace BLAPI
         BO.Station GetStation(int id);
         IEnumerable<BO.Station> GetAllStations();
         BO.LineStation GetLineStation(int stationId, int lineId);
+        IEnumerable<BO.Station> GetStationsBy(Predicate<BO.Station> predicate);
+
+        BO.LineStation GetLineStation(int id);
         IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
          IEnumerable<StationInLine> GetStationsInLine(int lineId);
         IEnumerable<BO.Line> GetAllLines();
