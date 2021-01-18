@@ -9,7 +9,7 @@ namespace BLAPI
 
         #region Bus
         BO.Bus GetBus(int licenseNum);
-        void AddBus(int licenseNum, DateTime fromTime);
+        void AddBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0);
         void DeleteBus(int licenseNum);
         void UpdateBus(BO.Bus bus);
         IEnumerable<BO.Bus> GetAllBuses();
@@ -19,12 +19,11 @@ namespace BLAPI
         #endregion
 
         #region Stations
+        void DeleteStation(int id);
         BO.Station GetStation(int id);
         IEnumerable<BO.Station> GetAllStations();
         BO.LineStation GetLineStation(int stationId, int lineId);
         IEnumerable<BO.Station> GetStationsBy(Predicate<BO.Station> predicate);
-
-        BO.LineStation GetLineStation(int id);
         IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
          IEnumerable<StationInLine> GetStationsInLine(int lineId);
         IEnumerable<BO.Line> GetAllLines();

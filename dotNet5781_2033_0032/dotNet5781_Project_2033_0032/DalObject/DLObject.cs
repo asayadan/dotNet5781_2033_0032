@@ -63,7 +63,13 @@ namespace DL
         #endregion
 
         #region Stations
-
+        public void DeleteStation(int id)
+        {
+            var station = GetStation(id);
+            if (station != null)
+                DataSource.ListStations.RemoveAll(x => x.Code == id);
+            else throw new DO.InvalidStationIDException(id, "Station id not found.");
+        }
         public DO.Station GetStation(int id)
         {
             DO.Station helpStation = DataSource.ListStations.Find(x => x.Code == id);

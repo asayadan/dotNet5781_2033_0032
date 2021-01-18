@@ -24,13 +24,13 @@ namespace BL
                 throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
             }
         }
-        public void AddBus(int licenseNum, DateTime fromTime)
+        public void AddBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0)
         {
             if (((fromTime.Year >= 2018) && (licenseNum > 9999999)) && (licenseNum <= 99999999) ||//the BO.Bus registered after 2018 and has 8 digits
                 ((fromTime.Year < 2018) && (licenseNum <= 9999999)) && (licenseNum > 999999))//the BO.Bus registered before 2018 and has 7 digits
                 try
                 {
-                    dl.AddBus(new DO.Bus { LicenseNum = licenseNum, FromDate = fromTime });
+                    dl.AddBus(new DO.Bus { LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
                 }
                 catch (InvalidBusLicenseNumberException ex)
                 {
@@ -91,6 +91,17 @@ namespace BL
         #endregion
 
         #region Stations
+        public void DeleteStation(int id)
+        {
+            try
+            {
+                dl.DeleteStation(id);
+            }
+            catch (DO.InvalidStationIDException ex)
+            {
+                throw new InvalidStationIDException(ex.ID, ex.Message);
+            }
+        }
         public BO.Station GetStation(int id)
         {
             try
@@ -117,7 +128,7 @@ namespace BL
                    select newStation;
         }
 
-        public BO.LineStation GetLineStation(int id)
+        public BO.LineStation GetLineStation(int stationId, int lineId)
         {
             try
             {

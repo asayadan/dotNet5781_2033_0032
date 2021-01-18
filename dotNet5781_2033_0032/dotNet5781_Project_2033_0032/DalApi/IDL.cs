@@ -17,6 +17,7 @@ namespace DLAPI
         #endregion
 
         #region Stations
+        void DeleteStation(int id);
         DO.Station GetStation(int id);
         IEnumerable<DO.Station> GetAllStations();
         IEnumerable<DO.Station> GetStationBy(Predicate<DO.Station> predicate);

@@ -8,8 +8,8 @@ namespace DO
         public int LicenseNum { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime LastTreatment { get; set; }
-        public float FuelRemaining { get; set; }
-        public float TotalTrip { get; set; }
+        public double FuelRemaining { get; set; }
+        public double TotalTrip { get; set; }
         public Status Status { get; set; }
 
         public const int FullGasTank = 1200;//const the size of full gas tank
