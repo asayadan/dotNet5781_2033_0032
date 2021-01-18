@@ -57,6 +57,8 @@ namespace PlGui
         #region constractors
         public MenagmentWindow(IBL _bl, string user)
         {
+            var win = new HiddenWindow();
+            win.Show();
             username = user;
             bl = _bl;
             InitializeComponent();

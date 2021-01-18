@@ -64,6 +64,9 @@
     <Compile Include="AddStationLine.xaml.cs">
       <DependentUpon>AddStationLine.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HiddenWindow.xaml.cs">
+      <DependentUpon>HiddenWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PO\SearchData.cs" />
     <Compile Include="RemoveStationLine.xaml.cs">
       <DependentUpon>RemoveStationLine.xaml</DependentUpon>
@@ -81,6 +84,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddStationLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HiddenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,6 +151,9 @@
       <Project>{2b702c3e-20ac-45ab-b358-65e7f5fe4b5c}</Project>
       <Name>BL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="encrypted.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

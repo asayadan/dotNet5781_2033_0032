@@ -117,9 +117,9 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Label Content="Code:" Grid.Column="0"  HorizontalAlignment="Center" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="stationCodeTextBox" Grid.Column="1" HorizontalAlignment="Center" Height="24" Grid.Row="0" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="160" TextAlignment="Center"/>
+                        <TextBlock x:Name="stationCodeTextBox" Grid.Column="1" HorizontalAlignment="Center" Height="24" Grid.Row="0" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="160" TextAlignment="Center"/>
                         <Label Content="Name:" Grid.Column="0" HorizontalAlignment="Center" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-                        <TextBox x:Name="stationNameTextBox" Grid.Column="1" HorizontalAlignment="Center" Height="23" Margin="3" Grid.Row="1" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="160" TextAlignment="Center"/>
+                        <TextBlock x:Name="stationNameTextBox" Grid.Column="1" HorizontalAlignment="Center" Height="23" Margin="3" Grid.Row="1" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="160" TextAlignment="Center"/>
                     </Grid>
                     <DataGrid x:Name="LinesInStationDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
 
@@ -215,7 +215,6 @@
                     </Grid>
                     
                 </Grid>
-                
             </Grid>
         </TabItem>
     </TabControl>
