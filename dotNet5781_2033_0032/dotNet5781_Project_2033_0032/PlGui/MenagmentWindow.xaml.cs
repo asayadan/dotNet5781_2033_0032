@@ -29,20 +29,22 @@ namespace PlGui
         #endregion
 
         #region bus workers
-        BackgroundWorker busWorker = new BackgroundWorker();
+        BackgroundWorker AllBusesWorker = new BackgroundWorker();
+        BackgroundWorker AddBusWorker = new BackgroundWorker();
+        BackgroundWorker DeleteBusWorker = new BackgroundWorker();
         #endregion
         #region station workers
         BackgroundWorker linesInStationWorker = new BackgroundWorker();
         BackgroundWorker AllStationWorker = new BackgroundWorker();
         BackgroundWorker Searchworker = new BackgroundWorker();
+        BackgroundWorker RemoveStationWorker = new BackgroundWorker();
 
         #endregion
 
         #region observableCollections
         ObservableCollection<BO.Line> lineCollection = new ObservableCollection<BO.Line>();
-        List<BO.Station> stationCollection = new List<BO.Station>();
-        ObservableCollection<BO.Station> showStationCollection = new ObservableCollection<BO.Station>();
-        ObservableCollection<BO.Bus> busCollection;
+        ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
+        ObservableCollection<BO.Bus> busCollection = new ObservableCollection<BO.Bus>();
         ObservableCollection<BO.StationInLine> stationsInLineCollection = new ObservableCollection<BO.StationInLine>();
         ObservableCollection<BO.Line> linesInStationCollection = new ObservableCollection<BO.Line>();
         #endregion
@@ -70,7 +72,7 @@ namespace PlGui
             cb_lines.SelectedValuePath = "Id";//selection return only specific Property of object
             cb_lines.SelectedIndex = 0; //index of the object to be selected
             gridLine.DataContext = curLine;
-            lbl_usernameStations.DataContext =username;
+            lbl_usernameStations.DataContext = username;
             StationsInLineDataGrid.DataContext = stationsInLineCollection;
             cb_lines.DataContext = lineCollection;
             lbl_username.DataContext = username;
@@ -196,7 +198,7 @@ namespace PlGui
         private void removeStationFromLine(object sender, DoWorkEventArgs e)
         {
             var st = e.Argument as BO.StationInLine;
-            var index = stationsInLineCollection.IndexOf(st);    
+            var index = stationsInLineCollection.IndexOf(st);
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
@@ -266,13 +268,16 @@ namespace PlGui
             cbStations.SelectedValuePath = "Code";//selection return only specific Property of object
             gridStation.DataContext = curStation;
             LinesInStationDataGrid.DataContext = linesInStationCollection;
-            cbStations.DataContext = showStationCollection;
+            cbStations.DataContext = stationCollection;
             Searchworker.DoWork += Search;
             AllStationWorker.DoWork += SetAllStations;
             linesInStationWorker.DoWork += SetAllLinesInStation;
+            RemoveStationWorker.DoWork += DeleteStation;
             linesInStationWorker.WorkerSupportsCancellation = true;
             AllStationWorker.RunWorkerAsync();
         }
+
+
 
         private void SetAllStations(object sender, DoWorkEventArgs e)
         {
@@ -282,9 +287,9 @@ namespace PlGui
                 stationCollection.Clear();
                 foreach (var item in help)
                 {
-                        //if (!LineListContains(item))
-                        stationCollection.Add(item);
-                        showStationCollection.Add(item);
+                    //if (!LineListContains(item))
+                    //stationCollection.Add(item);
+                    stationCollection.Add(item);
                 }
                 cbStations.SelectedIndex = 0;
             });
@@ -334,7 +339,7 @@ namespace PlGui
         }
         private void bt_search_Click(object sender, RoutedEventArgs e)
         {
-            Searchworker.RunWorkerAsync(new SearchData{ changed = hasChanged, search = tb_search.Text });
+            Searchworker.RunWorkerAsync(new SearchData { changed = hasChanged, search = tb_search.Text });
         }
         private void Search(object sender, DoWorkEventArgs e)
         {
@@ -352,10 +357,10 @@ namespace PlGui
             });
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
-                showStationCollection.Clear();
+                stationCollection.Clear();
                 foreach (var station in helpList)
                 {
-                    showStationCollection.Add(station);
+                    stationCollection.Add(station);
                     cbStations.SelectedIndex = 0;
                 }
             });
@@ -365,15 +370,29 @@ namespace PlGui
         void SetBusTab()
         {
             cbBuses.DisplayMemberPath = "LicenseNum";//show only specific Property of object
+            cbBuses.SelectedValuePath = "LicenseNum";
             cbBuses.SelectedIndex = 0; //index of the object to be selected
             statusComboBox.ItemsSource = Enum.GetValues(typeof(BO.Status));
-            //      SetAllBuses();
+            cbBuses.DataContext = busCollection;
+            AllBusesWorker.DoWork += SetAllBuses;
+            DeleteBusWorker.DoWork += DeleteBus;
+            AllBusesWorker.RunWorkerAsync();
         }
 
-        //void SetAllBuses()
-        //{
-        //    cbBuses.DataContext = bl.GetAllBuses();
-        //}
+        void SetAllBuses(object sender, DoWorkEventArgs e)
+        {
+            var help = bl.GetAllBuses();
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                busCollection.Clear();
+                foreach (var item in help)
+                {
+                    //if (!LineListContains(item))
+                    busCollection.Add(item);
+                }
+                cbBuses.SelectedIndex = 0;
+            });
+        }
 
         private void cbBuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -383,6 +402,39 @@ namespace PlGui
 
         #endregion
 
+        private void bt_DeleteStation_Click(object sender, RoutedEventArgs e)
+        {
+            if (linesInStationCollection.Count == 0)
+            {
+                object toRemove = cbStations.SelectedValue;
+
+                RemoveStationWorker.RunWorkerAsync(toRemove);
+            }
+            else MessageBox.Show("Station still exist in some lines, cannot delete!");
+        }
+
+        private void DeleteStation(object sender, DoWorkEventArgs e)
+        {
+            bl.DeleteStation((int)e.Argument);
+            AllStationWorker.RunWorkerAsync();
+        }
+
+        private void bt_DeleteBus_Click(object sender, RoutedEventArgs e)
+        {
+            if (busCollection.Count == 1)
+            {
+                bt_DeleteBus.IsEnabled = false;
+                bt_UpdateBus.IsEnabled = false;
+                bt_AddBus.IsEnabled = false;
+            } 
+            DeleteBusWorker.RunWorkerAsync(cbBuses.SelectedValue);
+        }
+
+        private void DeleteBus(object sender, DoWorkEventArgs e)
+        {
+            bl.DeleteBus((int)e.Argument);
+            AllBusesWorker.RunWorkerAsync();
+        }
         private void bt_secret_Click(object sender, RoutedEventArgs e)
         {
             var win = new HiddenWindow();
@@ -395,6 +447,15 @@ namespace PlGui
             this.Visibility = Visibility.Visible;
             bt_secret.Visibility = Visibility.Collapsed;
 
+        private void bt_AddBus_Click(object sender, RoutedEventArgs e)
+        {
+            var busWin = new AddBusWindow(bl);
+            busWin.Closing += BusWin_Closing;
+            busWin.Show();
+        }
+        private void BusWin_Closing(object sender, CancelEventArgs e)
+        {
+            AllBusesWorker.RunWorkerAsync();
         }
     }
 }

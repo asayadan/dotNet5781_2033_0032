@@ -1,0 +1,43 @@
+﻿<Window x:Class="PlGui.AddBusWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        mc:Ignorable="d"
+        Title="Add new bus" Height="350" Width="250" Background="#FF8A8A8A">
+    <Window.Resources>
+        <Style x:Key="WarningMessageStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Cambria Math"/>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="License Plate Number: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0" Height="Auto"/>
+        <TextBox x:Name="licenseTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="0" Grid.Column="1" />
+        <Label Content="From date: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto"/>
+        <DatePicker x:Name="fromDateDatePicker" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="Auto" Grid.Row="1" Grid.Column="1" />
+        <Label Content="Mileage: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="0" Height="Auto"/>
+        <TextBox x:Name="mileageTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="2" Grid.Column="1" />
+        <TextBlock Text="Remaining Fuel: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="3" Grid.Column="0" />
+        <TextBox x:Name="fuelTextBox" Text="Full Gas Tank" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="3" Grid.Column="1" />
+        <Button x:Name="finishButton" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="200" Grid.Row="5" Grid.ColumnSpan="2" Click="finishButton_Click" />
+        <TextBlock x:Name="tbl_warnings" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="4"  Text="" VerticalAlignment="Center" Style="{StaticResource WarningMessageStyle}"/>
+       
+    </Grid>
+</Window>
