@@ -21,11 +21,11 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0" Height="Auto"/>
-        <ComboBox x:Name="newStationComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="0" Grid.Column="1" />
+        <ComboBox x:Name="newStationComboBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="0" Grid.Column="1" />
         <Label Content="index: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto"/>
-        <ComboBox x:Name="indexStationComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="1" Grid.Column="1" />
+        <ComboBox x:Name="indexStationComboBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="1" Grid.Column="1" />
         <TextBlock Text="Distance from &#x0a; previous station: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="0" Height="Auto"/>
-        <TextBox x:Name="lastDistanceTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="2" Grid.Column="1" />
+        <TextBox x:Name="lastDistanceTextBox" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="2" Grid.Column="1" />
         
         <Label Content="Time since last station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="3" Grid.Column="0" Height="Auto"/>
         <Grid Grid.Row="3" Grid.Column="1">
@@ -53,7 +53,7 @@
         </Grid>
 
         <TextBlock Text="Distance to &#x0a; next station: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="4" Grid.Column="0" Height="Auto"/>
-        <TextBox x:Name="nextDistanceTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="4" Grid.Column="1" />
+        <TextBox x:Name="nextDistanceTextBox" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="4" Grid.Column="1" />
         <Label Content="Time to next station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="5" Grid.Column="0" Height="Auto"/>
         <Grid Grid.Row="5" Grid.Column="1">
             <Grid.ColumnDefinitions>

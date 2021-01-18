@@ -30,7 +30,7 @@ namespace PlGui
 
         #region bus workers
         BackgroundWorker AllBusesWorker = new BackgroundWorker();
-        BackgroundWorker AddBusWorker = new BackgroundWorker();
+        BackgroundWorker UpdateBusWorker = new BackgroundWorker();
         BackgroundWorker DeleteBusWorker = new BackgroundWorker();
         #endregion
         #region station workers
@@ -38,6 +38,7 @@ namespace PlGui
         BackgroundWorker AllStationWorker = new BackgroundWorker();
         BackgroundWorker Searchworker = new BackgroundWorker();
         BackgroundWorker RemoveStationWorker = new BackgroundWorker();
+        BackgroundWorker updateStationInDSWorker = new BackgroundWorker();
 
         #endregion
 
@@ -99,7 +100,6 @@ namespace PlGui
                     lineCollection.Add(item);
                 }
                 cb_lines.SelectedIndex = 0;
-                cbStations.SelectedIndex = 0;
             });
         }
         void SetAllStationsInLine(object sender, DoWorkEventArgs e)
@@ -220,20 +220,21 @@ namespace PlGui
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 var stationWin = new RemoveStationLine(bl, curLine, st);
-            stationWin.Closing += StationWin_Closing;
-            stationWin.Show();
+                stationWin.Closing += StationLineWin_Closing;
+                stationWin.Show();
             });
         }
 
-        private void bt_AddStation_Click(object sender, RoutedEventArgs e)
+        private void bt_AddStationToLine_Click(object sender, RoutedEventArgs e)
         {
             var stationWin = new AddStationLine(bl, curLine);
-            stationWin.Closing += StationWin_Closing;
+            stationWin.Closing += StationLineWin_Closing;
             stationWin.Show();
         }
-        private void StationWin_Closing(object sender, CancelEventArgs e)
+        private void StationLineWin_Closing(object sender, CancelEventArgs e)
         {
             stationsInLineWorker.RunWorkerAsync(curLine.Id);
+            linesInStationWorker.RunWorkerAsync(curStation.Code);
         }
         public bool LineListContains(BO.Line line)
         {
@@ -273,10 +274,10 @@ namespace PlGui
             AllStationWorker.DoWork += SetAllStations;
             linesInStationWorker.DoWork += SetAllLinesInStation;
             RemoveStationWorker.DoWork += DeleteStation;
+            updateStationInDSWorker.DoWork += UpdateStation;
             linesInStationWorker.WorkerSupportsCancellation = true;
             AllStationWorker.RunWorkerAsync();
         }
-
 
 
         private void SetAllStations(object sender, DoWorkEventArgs e)
@@ -345,7 +346,7 @@ namespace PlGui
         {
 
             //  if ((e.Argument as SearchData).changed)
-            var helpList = bl.GetStationsBy(x=>(x as  BO.Station).Name.Contains((e.Argument as SearchData).search));
+            var helpList = bl.GetStationsBy(x => (x as BO.Station).Name.Contains((e.Argument as SearchData).search));
             App.Current.Dispatcher.Invoke((Action)delegate
             {
                 if ((e.Argument as SearchData).search == "הוועד הלאומי 21")
@@ -376,6 +377,7 @@ namespace PlGui
             cbBuses.DataContext = busCollection;
             AllBusesWorker.DoWork += SetAllBuses;
             DeleteBusWorker.DoWork += DeleteBus;
+            UpdateBusWorker.DoWork += UpdateBus;
             AllBusesWorker.RunWorkerAsync();
         }
 
@@ -426,7 +428,7 @@ namespace PlGui
                 bt_DeleteBus.IsEnabled = false;
                 bt_UpdateBus.IsEnabled = false;
                 bt_AddBus.IsEnabled = false;
-            } 
+            }
             DeleteBusWorker.RunWorkerAsync(cbBuses.SelectedValue);
         }
 
@@ -447,13 +449,46 @@ namespace PlGui
             this.Visibility = Visibility.Visible;
             bt_secret.Visibility = Visibility.Collapsed;
         }
-         void bt_AddBus_Click(object sender, RoutedEventArgs e)
+        void bt_AddBus_Click(object sender, RoutedEventArgs e)
         {
             var busWin = new AddBusWindow(bl);
             busWin.Closing += BusWin_Closing;
             busWin.Show();
         }
-         void BusWin_Closing(object sender, CancelEventArgs e)
+        void BusWin_Closing(object sender, CancelEventArgs e)
+        {
+            AllBusesWorker.RunWorkerAsync();
+        }
+
+        private void bt_UpdateStation_Click(object sender, RoutedEventArgs e)
+        {
+            updateStationInDSWorker.RunWorkerAsync();
+        }
+        private void UpdateStation(object sender, DoWorkEventArgs e)
+        {
+            bl.UpdateStation(curStation);
+            AllStationWorker.RunWorkerAsync();
+            stationsInLineWorker.RunWorkerAsync(curLine.Id);
+        }
+
+        private void bt_UpdateBus_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateBusWorker.RunWorkerAsync();
+        }
+
+        private void UpdateBus(object sender, DoWorkEventArgs e)
+        {
+            bl.UpdateBus(curBus);
+            AllBusesWorker.RunWorkerAsync();
+        }
+
+        private void bt_AddStation_Click(object sender, RoutedEventArgs e)
+        {
+            var stationWin = new AddStationWindow(bl);
+            stationWin.Closing += StationWin_Closing;
+            stationWin.Show();
+        }
+        void StationWin_Closing(object sender, CancelEventArgs e)
         {
             AllBusesWorker.RunWorkerAsync();
         }

@@ -70,6 +70,13 @@ namespace DL
                 DataSource.ListStations.RemoveAll(x => x.Code == id);
             else throw new DO.InvalidStationIDException(id, "Station id not found.");
         }
+
+        public void AddStation(DO.Station station)
+        {
+            if (DataSource.ListStations.Find(p => p.Code == station.Code) != null)
+                throw new DO.InvalidStationIDException(station.Code, "Station code already exists.");
+            DataSource.ListStations.Add(station.Clone());
+        }
         public DO.Station GetStation(int id)
         {
             DO.Station helpStation = DataSource.ListStations.Find(x => x.Code == id);
@@ -146,6 +153,13 @@ namespace DL
             return st;
         }
 
+        public void UpdateStation(DO.Station station)
+        {
+            var a = DataSource.ListStations.FindIndex(x => x.Code == station.Code);
+            if (a != -1)
+                DataSource.ListStations[a] = station.Clone();
+            else throw new DO.InvalidStationIDException(station.Code, "Station doesn't exist.");
+        }
         public void UpdateLineStation(DO.LineStation station)
         {
             var a = DataSource.ListLineStations.FindIndex(x => x.StationId == station.StationId && station.LineId == x.LineId);
@@ -188,7 +202,7 @@ namespace DL
         }
         public void AddLine(DO.Line line)
         {
-            if (DataSource.ListLines.FirstOrDefault(p => p.Id == line.Id) != null)
+            if (DataSource.ListLines.Find(p => p.Id == line.Id) != null)
                 throw new DO.InvalidLineIDException(line.Id, "Line number already exists.");
             DataSource.ListLines.Add(line.Clone());
         }
