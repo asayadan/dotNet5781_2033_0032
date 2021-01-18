@@ -341,13 +341,16 @@ namespace BL
                         curLine.FirstStation = station.NextStation;
                         var nextStation = GetLineStation(station.NextStation, station.LineId);
                         nextStation.PrevStation = nextStation.StationId;
-                        dl.AddAdjacentStations(new DO.AdjacentStations
+                        if (dl.GetAdjacentStations(station.NextStation, station.NextStation) == null)
                         {
-                            DistFromLastStation = 0,
-                            Station1 = station.NextStation,
-                            Station2 = station.NextStation,
-                            TimeSinceLastStation = TimeSpan.Zero
-                        });
+                            dl.AddAdjacentStations(new DO.AdjacentStations
+                            {
+                                DistFromLastStation = 0,
+                                Station1 = station.NextStation,
+                                Station2 = station.NextStation,
+                                TimeSinceLastStation = TimeSpan.Zero
+                            });
+                        }
                         UpdateLineStation(nextStation);
                     }
 
@@ -360,10 +363,10 @@ namespace BL
                 }
 
             }
-            catch (DO.InvalidAdjacentStationIDException ex)
-            {
-                throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
-            }
+     //       catch (DO.InvalidAdjacentStationIDException ex)
+       //     {
+         //       throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
+      //      }
             catch (DO.InvalidLinesStationException ex)
             {
                 throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
