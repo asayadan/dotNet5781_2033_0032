@@ -55,8 +55,6 @@ namespace PlGui
         #region constractors
         public MenagmentWindow(IBL _bl, string user)
         {
-            var win = new HiddenWindow();
-            win.Show();
             username = user;
             bl = _bl;
             InitializeComponent();
@@ -209,16 +207,19 @@ namespace PlGui
                     return;
                 }
 
-                if (index == stationsInLineCollection.Count - 1 || index == 0)
-                {
-                    bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
-                    stationsInLineWorker.RunWorkerAsync(curLine.Id);
-                    return;
-                }
+            });
 
+            if (index == stationsInLineCollection.Count - 1 || index == 0)
+            {
+                bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
+                stationsInLineWorker.RunWorkerAsync(curLine.Id);
+                return;
+            }
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
                 var stationWin = new RemoveStationLine(bl, curLine, st);
-                stationWin.Closing += StationWin_Closing;
-                stationWin.Show();
+            stationWin.Closing += StationWin_Closing;
+            stationWin.Show();
             });
         }
 
@@ -340,7 +341,15 @@ namespace PlGui
 
             //  if ((e.Argument as SearchData).changed)
             var helpList = bl.GetStationsBy(x=>(x as  BO.Station).Name.Contains((e.Argument as SearchData).search));
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                if ((e.Argument as SearchData).search == "הוועד הלאומי 21")
+                    bt_secret.Visibility = Visibility.Visible;
+                else
+                    bt_secret.Visibility = Visibility.Collapsed;
 
+
+            });
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 showStationCollection.Clear();
@@ -371,8 +380,21 @@ namespace PlGui
             curBus = cbBuses.SelectedItem as BO.Bus;
             gridBus.DataContext = curBus;
         }
+
         #endregion
 
+        private void bt_secret_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new HiddenWindow();
+            win.Closing += OpenWindowafterUsage;
+            win.Show();
+            this.Visibility = Visibility.Collapsed;
+        }
+        void OpenWindowafterUsage(object sender, CancelEventArgs e)
+        {
+            this.Visibility = Visibility.Visible;
+            bt_secret.Visibility = Visibility.Collapsed;
 
+        }
     }
 }

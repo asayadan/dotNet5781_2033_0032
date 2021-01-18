@@ -60,7 +60,7 @@ namespace PlGui
                 if (valid)
                 {
                     bl.RemoveStationFromLine(curLine.Id, curStation.Code, lastDistance, lastTimeSpan);
-                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    App.Current.Dispatcher.Invoke((Action)delegate 
                     {
                         Close();
                     });

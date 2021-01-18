@@ -279,13 +279,13 @@ namespace BL
                 }
                 if (station.LineStationIndex != 0 && station.LineStationIndex != stations.Count() - 1)
                 {
-                    var nextStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex + 1).First();
-                    var prevStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex - 1).First();
+                    var nextStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex&&x.StationId!=stationId ).FirstOrDefault();
+                    var prevStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex - 1).FirstOrDefault();
                     nextStation.PrevStation = station.PrevStation;
                     prevStation.NextStation = station.NextStation;
                     UpdateLineStation(nextStation);
                     UpdateLineStation(prevStation);
-                    if (dl.GetAdjacentStations(station.PrevStation, station.NextStation) != null)
+                    if (dl.GetAdjacentStations(prevStation.StationId, nextStation.StationId) != null)
                         dl.UpdateAdjacentStations(new DO.AdjacentStations
                         {
                             DistFromLastStation = distanceFromLastStation,

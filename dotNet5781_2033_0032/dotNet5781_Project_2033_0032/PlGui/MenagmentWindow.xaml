@@ -107,6 +107,8 @@
                         <TextBox x:Name="tb_search" Width="200"/>
                         <Button x:Name="bt_search" Content="search" Click="bt_search_Click"/>
                     </WrapPanel>
+                    <Button x:Name="bt_secret" Content="click here" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Top"  Height="60"  Visibility="Collapsed" Click="bt_secret_Click" Background="#FFF31A1A" Foreground="#FF23FF02"/>
+
                     <Grid x:Name="gridStation" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="250">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
