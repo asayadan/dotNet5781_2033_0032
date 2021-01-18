@@ -20,6 +20,7 @@ namespace BLAPI
 
         #region Stations
         void DeleteStation(int id);
+        void AddStation(int code, string name, double longitude, double latitude);
         BO.Station GetStation(int id);
         IEnumerable<BO.Station> GetAllStations();
         BO.LineStation GetLineStation(int stationId, int lineId);
@@ -27,6 +28,7 @@ namespace BLAPI
         IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
          IEnumerable<StationInLine> GetStationsInLine(int lineId);
         IEnumerable<BO.Line> GetAllLines();
+        void UpdateStation(Station station);
         void UpdateLineStation(LineStation station);
         void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio);
         void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);

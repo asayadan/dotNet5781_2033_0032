@@ -17,50 +17,43 @@ using BLAPI;
 namespace PlGui
 {
     /// <summary>
-    /// Interaction logic for AddBusWindow.xaml
+    /// Interaction logic for AddStationWindow.xaml
     /// </summary>
-    public partial class AddBusWindow : Window
+    public partial class AddStationWindow : Window
     {
         IBL bl;
         BackgroundWorker worker = new BackgroundWorker();
-        public AddBusWindow(IBL bL)
+        public AddStationWindow(IBL bL)
         {
             bl = bL;
             InitializeComponent();
         }
 
 
-        void AddBus(object sender, DoWorkEventArgs e)
+        void AddStation(object sender, DoWorkEventArgs e)
         {
 
-            int licenseNumber = 0;
-            double mileage = 0, fuel = 0;
+            int code = 0;
+            double longitude = 0, latitude = 0;
+            string name = string.Empty;
             bool valid = true;
-            DateTime fromDate = new DateTime();
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 try
                 {
-                    licenseNumber = int.Parse(licenseTextBox.Text);
-                    fromDate = fromDateDatePicker.DisplayDate;
-                    mileage = double.Parse(mileageTextBox.Text);
-                    if (fuelTextBox.Text == "Full Gas Tank") fuel = 1200;
-                    else fuel = double.Parse(fuelTextBox.Text);
-                    
-                    if (fuel < 0 || mileage < 0)
-                    {
-                        tbl_warnings.Text = "Remaining fuel and Total trip cannot be negative!";
-                        valid = false;
-                    }
+                    code = int.Parse(stationTextBox.Text);
+                    longitude = double.Parse(longitudeTextBox.Text);
+                    latitude = double.Parse(latitudeTextBox.Text);
+                    name = nameTextBox.Text;
                 }
                 catch (OverflowException)
                 {
-                    tbl_warnings.Text = "Invalid code!";
+                    tbl_warnings.Text = "Invalid input!";
                     valid = false;
                 }
                 catch (FormatException)
                 {
-                    tbl_warnings.Text = "Invalid code!";
+                    tbl_warnings.Text = "Invalid input!";
                     valid = false;
                 }
             });
@@ -70,7 +63,7 @@ namespace PlGui
                 if (valid)
                 {
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    bl.AddBus(licenseNumber, fromDate, fuel, mileage);
+                    bl.AddStation(code, name, longitude, latitude);
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
                         Close();
@@ -78,7 +71,7 @@ namespace PlGui
                 }
             }
 
-            catch (BO.InvalidBusLicenseNumberException ex)
+            catch (BO.InvalidStationIDException ex)
             {
                 App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
@@ -90,12 +83,12 @@ namespace PlGui
 
         private void finishButton_Click(object sender, RoutedEventArgs e)
         {
-            if (licenseTextBox.Text != null &&
-                fromDateDatePicker.SelectedDate != null &&
-                !string.IsNullOrEmpty(mileageTextBox.Text) &&
-                !string.IsNullOrEmpty(fuelTextBox.Text))
+            if (!string.IsNullOrEmpty(stationTextBox.Text) &&
+                !string.IsNullOrEmpty(nameTextBox.Text) &&
+                !string.IsNullOrEmpty(longitudeTextBox.Text) &&
+                !string.IsNullOrEmpty(latitudeTextBox.Text))
             {
-                worker.DoWork += AddBus;
+                worker.DoWork += AddStation;
                 worker.RunWorkerAsync();
             }
 

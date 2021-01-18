@@ -102,6 +102,23 @@ namespace BL
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
+        public void AddStation(int code, string name, double longitude, double latitude)
+        {
+            try
+            {
+                dl.AddStation(new DO.Station
+                {
+                    Code = code,
+                    Name = name,
+                    Longitude = longitude,
+                    Latitude = latitude
+                });
+            }
+            catch (DO.InvalidStationIDException ex)
+            {
+                throw new InvalidStationIDException(ex.ID, ex.Message);
+            }
+        }
         public BO.Station GetStation(int id)
         {
             try
@@ -168,6 +185,7 @@ namespace BL
                        DistFromLastStation = lastStationAdj.DistFromLastStation,
                        TimeSinceLastStation = lastStationAdj.TimeSinceLastStation,
                        LineId = lineId,
+                       LineStationIndex = station.LineStationIndex,
                        StationId = station.StationId,
                        PrevStation = station.PrevStation,
                        Code = thisStation.Code,
@@ -360,6 +378,17 @@ namespace BL
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
 
         }
+        public void UpdateStation(Station station)
+        {
+            try
+            {
+                dl.UpdateStation(station.CopyPropertiesToNew(typeof(DO.Station)) as DO.Station);
+            }
+            catch (DO.InvalidStationIDException ex)
+            {
+                throw new InvalidStationIDException(ex.ID, ex.Message);
+            }
+        }
         public void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
         {
             try
@@ -469,7 +498,7 @@ namespace BL
             }
             catch (DO.InvalidLinesStationException ex)
             {
-                throw new InvalidLinesStationException(firstStation, lastStation, "the stations are invalid");
+                throw new InvalidLinesStationException(firstStation, lastStation, ex.Message);
             }
 
         }

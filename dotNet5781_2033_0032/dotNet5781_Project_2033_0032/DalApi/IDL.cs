@@ -18,12 +18,14 @@ namespace DLAPI
 
         #region Stations
         void DeleteStation(int id);
+        void AddStation(DO.Station station);
         DO.Station GetStation(int id);
         IEnumerable<DO.Station> GetAllStations();
         IEnumerable<DO.Station> GetStationBy(Predicate<DO.Station> predicate);
         IEnumerable<DO.Line> LinesInStation(int stationId);
         void AddAdjacentStations(DO.AdjacentStations adjacentStations);
-        void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStations, int linneId);
+        void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStatons, int linneId);
+        void UpdateStation(DO.Station station);
         void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
         void UpdateLineStation(LineStation lineStation);
         DO.AdjacentStations GetAdjacentStations(int station1, int station2);

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="HiddenWindow" Height="450" Width="800" Foreground="#FF132306">
     <Canvas Background="#FF16D120">
-        <Image Source="C:\Users\א\Documents\school\courses\5781\semester 1\project in windows\dotNet5781_2033_0032\dotNet5781_Project_2033_0032\PlGui\encrypted.jpg" Height="180" Canvas.Left="185" Canvas.Top="145" Width="355" RenderTransformOrigin="0.507,1.276">
+        <Image Source="encrypted.jpg" Height="180" Canvas.Left="185" Canvas.Top="145" Width="355" RenderTransformOrigin="0.507,1.276">
         </Image>
         <TextBlock x:Name="Congradulate" Height="50"   TextWrapping="Wrap" Text="Well done!! you have found the HIDDEN window!!" Canvas.Top="45" FontWeight="Bold" FontSize="24" FontFamily="MV Boli" Canvas.Left="65" RenderTransformOrigin="0.77,0.3" />
         <Button Name="Cool_Button"  Content="CLICK FOR COOL EFECT" Canvas.Left="286" Canvas.Top="346" RenderTransformOrigin="0.231,0.468" Height="51" Background="#FF0B1C45" FontFamily="MV Boli" BorderBrush="#FF020111" Foreground="#FFFCFFE3" Click="Cool_Button_Click"/>

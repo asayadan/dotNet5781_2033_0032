@@ -14,6 +14,7 @@ namespace BO
         public int StationId { get; set; }
         public int PrevStation { get; set; }
         public int Code { get; set; }
+        public int LineStationIndex { get; set; }
         public string Name { get; set; }
     }
 }

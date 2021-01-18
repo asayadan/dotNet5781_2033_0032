@@ -31,7 +31,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Content="Code: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0" Height="Auto"/>
-        <TextBox x:Name="CodeTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="0" Grid.Column="1" />
+        <TextBox x:Name="CodeTextBox" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="0" Grid.Column="1" />
         <Label Content="Area: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto"/>
         <ComboBox x:Name="areaComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="1" Grid.Column="1" />
         <Label Content="First Station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="0" Height="Auto"/>
@@ -41,7 +41,7 @@
         <Button x:Name="finishButton" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="200" Grid.Row="7" Grid.ColumnSpan="2" Click="finishButton_Click" />
         <TextBlock x:Name="tbl_warnings" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="6"  Text="" VerticalAlignment="Center" Style="{StaticResource WarningMessageStyle}"/>
         <TextBlock Text="Distance from &#x0a; previous station: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="4" Grid.Column="0" />
-        <TextBox x:Name="tb_distance" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
+        <TextBox x:Name="tb_distance" TextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
 
         <Label Content="Time between the stations: " HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="0" />
 
