@@ -446,14 +446,14 @@ namespace PlGui
         {
             this.Visibility = Visibility.Visible;
             bt_secret.Visibility = Visibility.Collapsed;
-
-        private void bt_AddBus_Click(object sender, RoutedEventArgs e)
+        }
+         void bt_AddBus_Click(object sender, RoutedEventArgs e)
         {
             var busWin = new AddBusWindow(bl);
             busWin.Closing += BusWin_Closing;
             busWin.Show();
         }
-        private void BusWin_Closing(object sender, CancelEventArgs e)
+         void BusWin_Closing(object sender, CancelEventArgs e)
         {
             AllBusesWorker.RunWorkerAsync();
         }
