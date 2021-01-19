@@ -70,6 +70,7 @@
     <Compile Include="HiddenWindow.xaml.cs">
       <DependentUpon>HiddenWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PO\ObsTimeSpan.cs" />
     <Compile Include="PO\SearchData.cs" />
     <Compile Include="RemoveStationLine.xaml.cs">
       <DependentUpon>RemoveStationLine.xaml</DependentUpon>
