@@ -199,6 +199,7 @@ namespace PlGui
         {
             var st = e.Argument as BO.StationInLine;
             var index = stationsInLineCollection.IndexOf(st);
+            bool valid = true;
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
@@ -206,11 +207,12 @@ namespace PlGui
                 if (stationsInLineCollection.Count == 2)
                 {
                     MessageBox.Show("You can't have less then 2 stations in line");
-                    return;
+                    valid=false;
                 }
 
             });
-
+            if (!valid)
+                return;
             if (index == stationsInLineCollection.Count - 1 || index == 0)
             {
                 bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);

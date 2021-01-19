@@ -214,7 +214,7 @@ namespace BL
                     }
                 }
                 int helpNext, helpPrev;
-                if (index < stations.Count() - 1)
+                if (index < stations.Count())
                 {
                     var nextStation = stations.Where(x => x.LineStationIndex == index + 1).First();
                     nextStation.PrevStation = stationId;
