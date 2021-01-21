@@ -49,16 +49,25 @@
                         </TransformGroup>
                     </DataGrid.RenderTransform>
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="indexColumn" Binding="{Binding LineStationIndex, Mode=OneTime}" Width="0.5*"/>
+                        <DataGridTextColumn x:Name="indexColumn"  Binding="{Binding LineStationIndex, Mode=OneTime}" Width="0.5*"/>
                         <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code, Mode=OneWay}"  Header="Code" Width="*"/>
                         <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name, Mode=OneWay}" Header="Name" Width="2*"/>
                         <DataGridTextColumn x:Name="distanceColumn"  Binding="{Binding DistFromLastStation ,Mode=OneWay}" Header="Distance" Width="*"/>
                         <DataGridTextColumn x:Name="timeColumn" Binding="{Binding TimeSinceLastStation, Mode=OneWay}" Header="Time" Width="*"/>
 
-                        <DataGridTemplateColumn Width="2*">
+                        <DataGridTemplateColumn Width="0.7*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="btRemoveStation" Content="Remove" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStationFromLine_Click"/>
+                                </DataTemplate>
+
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Width="0.7*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="bt_updatStationInLine" Content="Update" Background="GreenYellow" ToolTip="Update station properties from current line." Click="btRemoveStationFromLine_Click"/>
                                 </DataTemplate>
 
                             </DataGridTemplateColumn.CellTemplate>
@@ -180,7 +189,22 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="bt_fuel" Background="White" Height="100" Width="100" Grid.Row="0" Click="bt_FuelOrFix_Click">
+                            <Image Source="fuel.png" Width="100" Height="100"/>
+                        </Button>
+                        <Button x:Name="bt_fix" Background="White" Height="100" Width="100" Grid.Row="1" Click="bt_FuelOrFix_Click">
+                            <Image Source="fix.png" Width="80" Height="80"/>
+                        </Button>
+
+
+                    </Grid>
                     <Label Content="Select Bus:" Grid.Row="0" HorizontalAlignment="Left" Margin="39,15,0,0" VerticalAlignment="Top" Height="25" Width="90"/>
                     <ComboBox x:Name="cbBuses" HorizontalAlignment="Left" Text="" VerticalAlignment="Top" SelectionChanged="cbBuses_SelectionChanged"
                         ItemsSource="{Binding}" Grid.Row="0" Height="25" Margin="141,15,0,0" Width="123"
@@ -207,12 +231,12 @@
                         <TextBox x:Name="fuelTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="2.667,4.333,0,5.333" Grid.Row="3" Text="{Binding FuelRemaining, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                         <Label Content="Status:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.667,0,3" Grid.Row="4" VerticalAlignment="Center"/>
                         <ComboBox x:Name="statusComboBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="2.667,4.333,0,5.333" Grid.Row="4" Text="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-
+                        
 
 
 
                     </Grid>
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -222,6 +246,7 @@
                         <Button x:Name="bt_AddBus" Content="Add New Bus" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Background="#FF6DB469" Click="bt_AddBus_Click"/>
                         <Button x:Name="bt_UpdateBus" Content="Apply Changes On Current Bus" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="CadetBlue" Click="bt_UpdateBus_Click"/>
                     </Grid>
+                   
                     
                 </Grid>
             </Grid>
