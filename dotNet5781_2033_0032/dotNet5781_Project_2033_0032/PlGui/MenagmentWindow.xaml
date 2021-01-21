@@ -60,7 +60,6 @@
                                 <DataTemplate>
                                     <Button x:Name="btRemoveStation" Content="Remove" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStationFromLine_Click"/>
                                 </DataTemplate>
-
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 

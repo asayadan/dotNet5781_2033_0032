@@ -19,7 +19,7 @@
         <TextBlock Text="Distance between stations: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0" Height="Auto"/>
         <TextBox x:Name="lastDistanceTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="0" Grid.Column="1" />
         <Label Content="Time between stations: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto"/>
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid x:Name="gr_time" Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="*"/>
