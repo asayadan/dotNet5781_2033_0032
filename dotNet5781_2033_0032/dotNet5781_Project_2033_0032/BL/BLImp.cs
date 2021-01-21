@@ -24,13 +24,13 @@ namespace BL
                 throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
             }
         }
-        public void AddBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0)
+        public void CreateBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0)
         {
             if (((fromTime.Year >= 2018) && (licenseNum > 9999999)) && (licenseNum <= 99999999) ||//the BO.Bus registered after 2018 and has 8 digits
                 ((fromTime.Year < 2018) && (licenseNum <= 9999999)) && (licenseNum > 999999))//the BO.Bus registered before 2018 and has 7 digits
                 try
                 {
-                    dl.AddBus(new DO.Bus { LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
+                    dl.CreateBus(new DO.Bus { LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
                 }
                 catch (DO.InvalidBusLicenseNumberException ex)
                 {
@@ -102,11 +102,11 @@ namespace BL
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
-        public void AddStation(int code, string name, double longitude, double latitude)
+        public void CreateStation(int code, string name, double longitude, double latitude)
         {
             try
             {
-                dl.AddStation(new DO.Station
+                dl.CreateStation(new DO.Station
                 {
                     Code = code,
                     Name = name,
@@ -193,7 +193,7 @@ namespace BL
                    };
 
         }
-        public void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
+        public void CreateStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
             try
             {
@@ -241,7 +241,7 @@ namespace BL
                     helpPrev = stationId;
                 }
 
-                dl.AddLineStation(new DO.LineStation
+                dl.CreateLineStation(new DO.LineStation
                 {
                     LineStationIndex = index,
                     LineId = lineId,
@@ -252,7 +252,7 @@ namespace BL
 
                 try
                 {
-                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceSinceLastStation,
                         Station1 = helpPrev,
@@ -265,7 +265,7 @@ namespace BL
                 catch (DO.InvalidAdjacentStationIDException) { }
                 try
                 {
-                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceUntilNextStation,
                         Station1 = stationId,
@@ -278,7 +278,7 @@ namespace BL
 
                 if (GetAllLines().Where(x => GetLineStationsInLine(x.Id).
                     Where(y => y.StationId == helpPrev && y.NextStation == helpNext).Count() > 0).Count() == 0)
-                    dl.RemoveAddAdjacentStations(dl.GetAdjacentStations(helpPrev, helpNext), lineId);
+                    dl.RemoveAdjacentStations(dl.GetAdjacentStations(helpPrev, helpNext), lineId);
             }
             catch (DO.InvalidAdjacentStationIDException ex)
             {
@@ -322,7 +322,7 @@ namespace BL
                             Station2 = nextStation.StationId,
                             TimeSinceLastStation = timeSinceLastStation
                         });
-                    else dl.AddAdjacentStations(new DO.AdjacentStations
+                    else dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceFromLastStation,
                         Station1 = prevStation.StationId,
@@ -343,7 +343,7 @@ namespace BL
                         nextStation.PrevStation = nextStation.StationId;
                         if (dl.GetAdjacentStations(station.NextStation, station.NextStation) == null)
                         {
-                            dl.AddAdjacentStations(new DO.AdjacentStations
+                            dl.CreateAdjacentStations(new DO.AdjacentStations
                             {
                                 DistFromLastStation = 0,
                                 Station1 = station.NextStation,
@@ -428,11 +428,11 @@ namespace BL
                 throw new BO.InvalidLineIDException(ex.ID, ex.Message);
             }
         }
-        public void AddLine(int code, BO.Areas area, int firstStation, int lastStation, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
+        public void CreateLine(int code, BO.Areas area, int firstStation, int lastStation, double distanceSinceLastStation, TimeSpan timeSinceLastStation)
         {
             try
             {
-                dl.AddLine(new DO.Line
+                dl.CreateLine(new DO.Line
                 {
                     Area = (DO.Areas)area,
                     Code = code,
@@ -441,7 +441,7 @@ namespace BL
                     Id = Counters.lines++
                 });
 
-                dl.AddLineStation(new DO.LineStation
+                dl.CreateLineStation(new DO.LineStation
                 {
                     LineId = Counters.lines - 1,
                     LineStationIndex = 0,
@@ -450,7 +450,7 @@ namespace BL
                     StationId = firstStation
                 });
 
-                dl.AddLineStation(new DO.LineStation
+                dl.CreateLineStation(new DO.LineStation
                 {
                     LineId = Counters.lines - 1,
                     LineStationIndex = 0,
@@ -460,7 +460,7 @@ namespace BL
                 });
                 try
                 {
-                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = 0,
                         TimeSinceLastStation = new TimeSpan(0),
@@ -471,7 +471,7 @@ namespace BL
                 catch (DO.InvalidAdjacentStationIDException) { }
                 try
                 {
-                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = distanceSinceLastStation,
                         TimeSinceLastStation = timeSinceLastStation,
@@ -482,7 +482,7 @@ namespace BL
                 catch (DO.InvalidAdjacentStationIDException) { }
                 try
                 {
-                    dl.AddAdjacentStations(new DO.AdjacentStations
+                    dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
                         DistFromLastStation = 0,
                         TimeSinceLastStation = new TimeSpan(0),
@@ -550,13 +550,13 @@ namespace BL
                 throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message);
             }
         }
-        public void AddUser(string userName, string password, string passwordValidation)
+        public void CreateUser(string userName, string password, string passwordValidation)
         {
             if (password != passwordValidation)
                 throw new BadUsernameOrPasswordException(userName, password, "Passwords aren't equal.");
             try
             {
-                dl.AddUser(new DO.User { Admin = false, Password = password, UserName = userName });
+                dl.CreateUser(new DO.User { Admin = false, Password = password, UserName = userName });
             }
             catch (DO.BadUsernameOrPasswordException ex)
             {

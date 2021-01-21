@@ -35,7 +35,7 @@ namespace DL
             }
             else throw new DO.InvalidBusLicenseNumberException(licenseNum, "this license plaet number doesn't exists");
         }
-        public void AddBus(DO.Bus NewBus)
+        public void CreateBus(DO.Bus NewBus)
         {
             if (DataSource.ListBuses.FirstOrDefault(p => p.LicenseNum == NewBus.LicenseNum) != null)
                 throw new DO.InvalidBusLicenseNumberException(NewBus.LicenseNum, "this license plaet number alredy exists");
@@ -69,7 +69,7 @@ namespace DL
             else throw new DO.InvalidStationIDException(id, "Station id not found.");
         }
 
-        public void AddStation(DO.Station station)
+        public void CreateStation(DO.Station station)
         {
             if (DataSource.ListStations.Find(p => p.Code == station.Code) != null)
                 throw new DO.InvalidStationIDException(station.Code, "Station code already exists.");
@@ -96,13 +96,13 @@ namespace DL
                    select station.Clone();
         }
 
-        public void AddAdjacentStations(DO.AdjacentStations adjacentStation)
+        public void CreateAdjacentStations(DO.AdjacentStations adjacentStation)
         {
             if (DataSource.ListAdjacentStations.FirstOrDefault(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2) != null)
                 throw new DO.InvalidAdjacentStationIDException(adjacentStation.Station1, adjacentStation.Station2, "the data base alredy has this adjacent station data structure");
             DataSource.ListAdjacentStations.Add(adjacentStation.Clone());
         }
-        public void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStation, int linneId)
+        public void RemoveAdjacentStations(DO.AdjacentStations adjacentStation, int linneId)
         {
             int helpIndex = DataSource.ListAdjacentStations.FindIndex(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2);
             if (helpIndex == -1)
@@ -165,7 +165,7 @@ namespace DL
                 DataSource.ListLineStations[a] = station.Clone();
             else throw new DO.InvalidLinesStationException(station.StationId, station.LineId, "Station doesn't exist.");
         }
-        public void AddLineStation(DO.LineStation lineStation)
+        public void CreateLineStation(DO.LineStation lineStation)
         {
             if (DataSource.ListLineStations.FirstOrDefault(p => p.StationId == lineStation.StationId && p.LineId == lineStation.LineId) != null)
                 throw new DO.InvalidLinesStationException(lineStation.StationId, lineStation.LineId, "the data base alredy has this line station");
@@ -198,7 +198,7 @@ namespace DL
             }
             else throw new DO.InvalidLineIDException(id, "this line id doesn't exists");
         }
-        public void AddLine(DO.Line line)
+        public void CreateLine(DO.Line line)
         {
             if (DataSource.ListLines.Find(p => p.Id == line.Id) != null)
                 throw new DO.InvalidLineIDException(line.Id, "Line number already exists.");
@@ -234,7 +234,7 @@ namespace DL
                 throw new DO.BadUsernameOrPasswordException(username, password, "the password and username doesn't match");
             return helpUser.Admin;
         }
-        public void AddUser(DO.User user)
+        public void CreateUser(DO.User user)
         {
             if (DataSource.ListUsers.FirstOrDefault(p => p.UserName == user.UserName) != null)
                 throw new DO.BadUsernameOrPasswordException(user.UserName, user.Password, "the data base alredy has this line line");

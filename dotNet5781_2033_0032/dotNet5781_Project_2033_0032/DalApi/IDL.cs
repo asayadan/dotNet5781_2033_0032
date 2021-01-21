@@ -10,7 +10,7 @@ namespace DLAPI
         IEnumerable<DO.Bus> GetAllBuses();
         IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate);
         DO.Bus GetBus(int licenseNum);
-        void AddBus(DO.Bus NewBus);
+        void CreateBus(DO.Bus NewBus);
         void DeleteBus(int licenseNum);
         void UpdateBus(DO.Bus bus);
 
@@ -18,20 +18,20 @@ namespace DLAPI
 
         #region Stations
         void DeleteStation(int id);
-        void AddStation(DO.Station station);
+        void CreateStation(DO.Station station);
         DO.Station GetStation(int id);
         IEnumerable<DO.Station> GetAllStations();
         IEnumerable<DO.Station> GetStationBy(Predicate<DO.Station> predicate);
         IEnumerable<DO.Line> LinesInStation(int stationId);
-        void AddAdjacentStations(DO.AdjacentStations adjacentStations);
-        void RemoveAddAdjacentStations(DO.AdjacentStations adjacentStatons, int linneId);
+        void CreateAdjacentStations(DO.AdjacentStations adjacentStations);
+        void RemoveAdjacentStations(DO.AdjacentStations adjacentStatons, int linneId);
         void UpdateStation(DO.Station station);
         void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
         void UpdateLineStation(LineStation lineStation);
         DO.AdjacentStations GetAdjacentStations(int station1, int station2);
         DO.LineStation GetLineStation(int stationId, int lineId);
         IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
-        void AddLineStation(DO.LineStation lineStation);
+        void CreateLineStation(DO.LineStation lineStation);
         void RemoveLineStation(int stationId, int lineId);
 
         #endregion
@@ -40,20 +40,17 @@ namespace DLAPI
 
         IEnumerable<DO.Line> GetAllLines();
         DO.Line GetLine(int id);
-        void AddLine(DO.Line line);
+        void CreateLine(DO.Line line);
         void RemoveLine(int id);
         void UpdateLine(DO.Line line);
         #endregion
 
         #region User
         bool GetUserPrivileges(string username, string password);
-        void AddUser(DO.User user);
+        void CreateUser(DO.User user);
 
 
 
         #endregion
-
-
-
     }
 }

@@ -70,7 +70,7 @@ namespace PlGui
                 if (valid)
                 {
                         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        bl.AddBus(licenseNumber, fromDate, fuel, mileage);
+                        bl.CreateBus(licenseNumber, fromDate, fuel, mileage);
                         App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                         {
                             Close();

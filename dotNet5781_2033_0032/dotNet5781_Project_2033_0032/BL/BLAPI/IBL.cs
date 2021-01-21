@@ -9,7 +9,7 @@ namespace BLAPI
 
         #region Bus
         BO.Bus GetBus(int licenseNum);
-        void AddBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0);
+        void CreateBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0);
         void DeleteBus(int licenseNum);
         void UpdateBus(BO.Bus bus);
         IEnumerable<BO.Bus> GetAllBuses();
@@ -20,7 +20,7 @@ namespace BLAPI
 
         #region Stations
         void DeleteStation(int id);
-        void AddStation(int code, string name, double longitude, double latitude);
+        void CreateStation(int code, string name, double longitude, double latitude);
         BO.Station GetStation(int id);
         IEnumerable<BO.Station> GetAllStations();
         BO.LineStation GetLineStation(int stationId, int lineId);
@@ -30,7 +30,7 @@ namespace BLAPI
         IEnumerable<BO.Line> GetAllLines();
         void UpdateStation(Station station);
         void UpdateLineStation(LineStation station);
-        void AddStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio);
+        void CreateStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio);
         void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
         IEnumerable<BO.Line> LinesInStation(int stationId);
         void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
@@ -39,7 +39,7 @@ namespace BLAPI
 
         #region Line
         BO.Line GetLine(int id);
-        void AddLine(int code, BO.Areas area, int firstStation, int lastStation, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
+        void CreateLine(int code, BO.Areas area, int firstStation, int lastStation, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
         void RemoveLine(int id);
         void UpdateLine(Line line);
 
@@ -47,7 +47,7 @@ namespace BLAPI
 
         #region User
         bool GetUserPrivileges(string userName, string password);
-        void AddUser(string username, string password, string passwordValidation);
+        void CreateUser(string username, string password, string passwordValidation);
         #endregion
 
     }
