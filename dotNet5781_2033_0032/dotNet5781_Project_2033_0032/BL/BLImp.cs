@@ -32,7 +32,7 @@ namespace BL
                 {
                     dl.AddBus(new DO.Bus { LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
                 }
-                catch (InvalidBusLicenseNumberException ex)
+                catch (DO.InvalidBusLicenseNumberException ex)
                 {
                     throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
                 }
