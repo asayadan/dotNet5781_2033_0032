@@ -50,14 +50,12 @@ namespace DL
         }
         public void UpdateBus(DO.Bus bus)
         {
-            DO.Bus helpBus = DataSource.ListBuses.FirstOrDefault(p => p.LicenseNum == bus.LicenseNum);
-            if (helpBus == null)
+            int index = DataSource.ListBuses.FindIndex(p => p.LicenseNum == bus.LicenseNum);
+            if (index == -1)
                 throw new DO.InvalidBusLicenseNumberException(bus.LicenseNum, "this license plaet number doesn't exists");
             else
-            {
-                DataSource.ListBuses.Remove(helpBus);
-                DataSource.ListBuses.Add(bus.Clone());
-            }
+                DataSource.ListBuses[index] = bus.Clone();
+            
         }
 
         #endregion

@@ -32,6 +32,7 @@ namespace PlGui
         BackgroundWorker AllBusesWorker = new BackgroundWorker();
         BackgroundWorker UpdateBusWorker = new BackgroundWorker();
         BackgroundWorker DeleteBusWorker = new BackgroundWorker();
+        BackgroundWorker fuelOrFixWorker = new BackgroundWorker();
         #endregion
         #region station workers
         BackgroundWorker linesInStationWorker = new BackgroundWorker();
@@ -158,7 +159,7 @@ namespace PlGui
             {
                 if (lineCollection.Count > 0)
                 {
-                    bt_AddStation.IsEnabled = true;
+                    bt_AddStationToLine.IsEnabled = true;
                     bt_DeleteLine.IsEnabled = true;
                     bt_UpdateLine.IsEnabled = true;
                 }
@@ -382,6 +383,7 @@ namespace PlGui
             AllBusesWorker.DoWork += SetAllBuses;
             DeleteBusWorker.DoWork += DeleteBus;
             UpdateBusWorker.DoWork += UpdateBus;
+            fuelOrFixWorker.DoWork += FuelOrFix;
             AllBusesWorker.RunWorkerAsync();
         }
 
@@ -390,13 +392,19 @@ namespace PlGui
             var help = bl.GetAllBuses();
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
+                var index = cbBuses.SelectedIndex;
+
                 busCollection.Clear();
                 foreach (var item in help)
                 {
                     //if (!LineListContains(item))
                     busCollection.Add(item);
                 }
-                cbBuses.SelectedIndex = 0;
+                if (index == -1)
+                    cbBuses.SelectedIndex = 0;
+                else if (index < busCollection.Count)
+                    cbBuses.SelectedIndex = index;
+                else cbBuses.SelectedIndex = index - 1;
             });
         }
 
@@ -431,7 +439,8 @@ namespace PlGui
             {
                 bt_DeleteBus.IsEnabled = false;
                 bt_UpdateBus.IsEnabled = false;
-                bt_AddBus.IsEnabled = false;
+                bt_fuel.IsEnabled = false;
+                bt_fix.IsEnabled = false;
             }
             DeleteBusWorker.RunWorkerAsync(cbBuses.SelectedValue);
         }
@@ -461,6 +470,18 @@ namespace PlGui
         }
         void BusWin_Closing(object sender, CancelEventArgs e)
         {
+            List<int> list = new List<int> { 1, 2, 3, 4 };
+            List<int> res1 = list.FindAll(x => x % 2 == 0);
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                if (lineCollection.Count > 0)
+                {
+                    bt_UpdateBus.IsEnabled = true;
+                    bt_DeleteBus.IsEnabled = true;
+                    bt_fuel.IsEnabled = true;
+                    bt_fix.IsEnabled = true;
+                }
+            });
             AllBusesWorker.RunWorkerAsync();
         }
 
@@ -494,6 +515,20 @@ namespace PlGui
         }
         void StationWin_Closing(object sender, CancelEventArgs e)
         {
+            AllBusesWorker.RunWorkerAsync();
+        }
+
+        private void bt_FuelOrFix_Click(object sender, RoutedEventArgs e)
+        {
+            bool isFuel;
+            if ((sender as Button).Name == "bt_fuel") isFuel = true;
+            else isFuel = false;
+            fuelOrFixWorker.RunWorkerAsync(isFuel);
+        }
+        private void FuelOrFix(object sender, DoWorkEventArgs e)
+        {
+            if ((bool)e.Argument) bl.FuelBus(curBus.LicenseNum);
+            else bl.FixBus(curBus.LicenseNum);
             AllBusesWorker.RunWorkerAsync();
         }
     }

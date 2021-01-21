@@ -170,5 +170,11 @@
   <ItemGroup>
     <Resource Include="encrypted.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="fuel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="fix.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
