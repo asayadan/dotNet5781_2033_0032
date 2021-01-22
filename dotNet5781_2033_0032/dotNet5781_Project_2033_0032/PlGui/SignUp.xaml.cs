@@ -35,7 +35,7 @@ namespace PlGui
             PlGui.User user = (PlGui.User)e.Argument;
             try
             {
-                bl.AddUser(user.username, user.password,user.varifyPassword);
+                bl.CreateUser(user.username, user.password,user.varifyPassword);
                 this.Dispatcher.Invoke((Action)(() =>
                 {
                     this.Close();

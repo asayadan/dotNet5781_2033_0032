@@ -8,12 +8,12 @@ namespace BLAPI
     {
 
         #region Bus
-        BO.Bus GetBus(int licenseNum);
+        BO.Bus RequestBus(int licenseNum);
         void CreateBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0);
         void DeleteBus(int licenseNum);
         void UpdateBus(BO.Bus bus);
-        IEnumerable<BO.Bus> GetAllBuses();
-        IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate);
+        IEnumerable<BO.Bus> RequestAllBuses();
+        IEnumerable<BO.Bus> RequestBusBy(Predicate<BO.Bus> predicate);
         void FuelBus(int id);
         void FixBus(int id);
         #endregion
@@ -21,13 +21,13 @@ namespace BLAPI
         #region Stations
         void DeleteStation(int id);
         void CreateStation(int code, string name, double longitude, double latitude);
-        BO.Station GetStation(int id);
-        IEnumerable<BO.Station> GetAllStations();
-        BO.LineStation GetLineStation(int stationId, int lineId);
-        IEnumerable<BO.Station> GetStationsBy(Predicate<BO.Station> predicate);
-        IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId);
-         IEnumerable<StationInLine> GetStationsInLine(int lineId);
-        IEnumerable<BO.Line> GetAllLines();
+        BO.Station RequestStation(int id);
+        IEnumerable<BO.Station> RequestAllStations();
+        BO.LineStation RequestLineStation(int stationId, int lineId);
+        IEnumerable<BO.Station> RequestStationsBy(Predicate<BO.Station> predicate);
+        IEnumerable<BO.LineStation> RequestLineStationsInLine(int lineId);
+         IEnumerable<StationInLine> RequestStationsInLine(int lineId);
+        IEnumerable<BO.Line> RequestAllLines();
         void UpdateStation(Station station);
         void UpdateLineStation(LineStation station);
         void CreateStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio);
@@ -38,7 +38,7 @@ namespace BLAPI
         #endregion
 
         #region Line
-        BO.Line GetLine(int id);
+        BO.Line RequestLine(int id);
         void CreateLine(int code, BO.Areas area, int firstStation, int lastStation, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
         void RemoveLine(int id);
         void UpdateLine(Line line);
@@ -46,7 +46,7 @@ namespace BLAPI
         #endregion
 
         #region User
-        bool GetUserPrivileges(string userName, string password);
+        bool RequestUserPrivileges(string userName, string password);
         void CreateUser(string username, string password, string passwordValidation);
         #endregion
 

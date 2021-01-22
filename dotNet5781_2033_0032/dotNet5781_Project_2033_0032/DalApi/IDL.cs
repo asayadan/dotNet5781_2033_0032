@@ -7,9 +7,9 @@ namespace DLAPI
     public interface IDL
     {
         #region Bus
-        IEnumerable<DO.Bus> GetAllBuses();
-        IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate);
-        DO.Bus GetBus(int licenseNum);
+        IEnumerable<DO.Bus> RequestAllBuses();
+        IEnumerable<DO.Bus> RequestBusBy(Predicate<DO.Bus> predicate);
+        DO.Bus RequestBus(int licenseNum);
         void CreateBus(DO.Bus NewBus);
         void DeleteBus(int licenseNum);
         void UpdateBus(DO.Bus bus);
@@ -19,18 +19,18 @@ namespace DLAPI
         #region Stations
         void DeleteStation(int id);
         void CreateStation(DO.Station station);
-        DO.Station GetStation(int id);
-        IEnumerable<DO.Station> GetAllStations();
-        IEnumerable<DO.Station> GetStationBy(Predicate<DO.Station> predicate);
+        DO.Station RequestStation(int id);
+        IEnumerable<DO.Station> RequestAllStations();
+        IEnumerable<DO.Station> RequestStationBy(Predicate<DO.Station> predicate);
         IEnumerable<DO.Line> LinesInStation(int stationId);
         void CreateAdjacentStations(DO.AdjacentStations adjacentStations);
         void RemoveAdjacentStations(DO.AdjacentStations adjacentStatons, int linneId);
         void UpdateStation(DO.Station station);
         void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
         void UpdateLineStation(LineStation lineStation);
-        DO.AdjacentStations GetAdjacentStations(int station1, int station2);
-        DO.LineStation GetLineStation(int stationId, int lineId);
-        IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId);
+        DO.AdjacentStations RequestAdjacentStations(int station1, int station2);
+        DO.LineStation RequestLineStation(int stationId, int lineId);
+        IEnumerable<DO.LineStation> RequestLineStationsInLine(int lineId);
         void CreateLineStation(DO.LineStation lineStation);
         void RemoveLineStation(int stationId, int lineId);
 
@@ -38,15 +38,15 @@ namespace DLAPI
 
         #region Line
 
-        IEnumerable<DO.Line> GetAllLines();
-        DO.Line GetLine(int id);
+        IEnumerable<DO.Line> RequestAllLines();
+        DO.Line RequestLine(int id);
         void CreateLine(DO.Line line);
         void RemoveLine(int id);
         void UpdateLine(DO.Line line);
         #endregion
 
         #region User
-        bool GetUserPrivileges(string username, string password);
+        bool RequestUserPrivileges(string username, string password);
         void CreateUser(DO.User user);
 
 

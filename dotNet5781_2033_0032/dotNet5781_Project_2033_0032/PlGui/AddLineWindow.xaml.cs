@@ -44,7 +44,7 @@ namespace PlGui
         }
         void SetAllStations(object sender, DoWorkEventArgs e)
         {
-            var help = bl.GetAllStations();
+            var help = bl.RequestAllStations();
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 firstStationComboBox.ItemsSource = help;
@@ -94,7 +94,7 @@ namespace PlGui
                 if (valid)
                 {
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    bl.AddLine(a, b, firstStation, lastStation,distance,timeSpan);
+                    bl.CreateLine(a, b, firstStation, lastStation,distance,timeSpan);
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
                         Close();

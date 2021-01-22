@@ -43,8 +43,8 @@ namespace PlGui
 
         void GetStations(object sender, DoWorkEventArgs e)
         {
-            var AllStations = bl.GetAllStations().ToList();
-            var stationsInLine = bl.GetLineStationsInLine(curLine.Id).ToList();
+            var AllStations = bl.RequestAllStations().ToList();
+            var stationsInLine = bl.RequestLineStationsInLine(curLine.Id).ToList();
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
@@ -117,7 +117,7 @@ namespace PlGui
             {
                 if (valid)
                 {
-                    bl.AddStationToLine(curLine.Id, station.Code, index,
+                    bl.CreateStationToLine(curLine.Id, station.Code, index,
                         lastDistance, lastTimeSpan, nextDistance, nextTimeSpan);
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {

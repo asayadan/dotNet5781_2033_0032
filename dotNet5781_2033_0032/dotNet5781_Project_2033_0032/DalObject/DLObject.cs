@@ -15,18 +15,18 @@ namespace DL
         #endregion
 
         #region Bus
-        public IEnumerable<DO.Bus> GetAllBuses()
+        public IEnumerable<DO.Bus> RequestAllBuses()
         {
             return from bus in DataSource.ListBuses
                    select bus.Clone();
         }
-        public IEnumerable<DO.Bus> GetBusBy(Predicate<DO.Bus> predicate)
+        public IEnumerable<DO.Bus> RequestBusBy(Predicate<DO.Bus> predicate)
         {
             return from bus in DataSource.ListBuses
                    where predicate(bus)
                    select bus.Clone();
         }
-        public DO.Bus GetBus(int licenseNum)
+        public DO.Bus RequestBus(int licenseNum)
         {
             DO.Bus helpBus = DataSource.ListBuses.Find(x => x.LicenseNum == licenseNum);
             if (helpBus != null)
@@ -63,7 +63,7 @@ namespace DL
         #region Stations
         public void DeleteStation(int id)
         {
-            var station = GetStation(id);
+            var station = RequestStation(id);
             if (station != null)
                 DataSource.ListStations.RemoveAll(x => x.Code == id);
             else throw new DO.InvalidStationIDException(id, "Station id not found.");
@@ -75,7 +75,7 @@ namespace DL
                 throw new DO.InvalidStationIDException(station.Code, "Station code already exists.");
             DataSource.ListStations.Add(station.Clone());
         }
-        public DO.Station GetStation(int id)
+        public DO.Station RequestStation(int id)
         {
             DO.Station helpStation = DataSource.ListStations.Find(x => x.Code == id);
             if (helpStation != null)
@@ -84,12 +84,12 @@ namespace DL
             }
             else throw new DO.InvalidStationIDException(id, "bad station id");
         }
-        public IEnumerable<DO.Station> GetAllStations()
+        public IEnumerable<DO.Station> RequestAllStations()
         {
             return from station in DataSource.ListStations
                    select station.Clone();
         }
-        public IEnumerable<DO.Station> GetStationBy(Predicate<DO.Station> predicate)
+        public IEnumerable<DO.Station> RequestStationBy(Predicate<DO.Station> predicate)
         {
             return from station in DataSource.ListStations
                    where predicate(station)
@@ -124,7 +124,7 @@ namespace DL
                 DataSource.ListAdjacentStations.Add(helpAdj.Clone());
             }
         }
-        public DO.LineStation GetLineStation(int stationId, int lineId)
+        public DO.LineStation RequestLineStation(int stationId, int lineId)
         {
             DO.LineStation helpLineStation = DataSource.ListLineStations.Find(p => p.StationId == stationId && p.LineId == lineId);
             if (helpLineStation == null)
@@ -137,7 +137,7 @@ namespace DL
                    where lineStations.StationId == stationId
                    select DataSource.ListLines.Find(x => x.Id == lineStations.LineId).Clone();
         }
-        public IEnumerable<DO.LineStation> GetLineStationsInLine(int lineId)
+        public IEnumerable<DO.LineStation> RequestLineStationsInLine(int lineId)
         {
             return from lineStation in DataSource.ListLineStations
                    where lineStation.LineId == lineId
@@ -145,7 +145,7 @@ namespace DL
                    select lineStation.Clone();
         }
 
-        public DO.AdjacentStations GetAdjacentStations(int station1, int station2)
+        public DO.AdjacentStations RequestAdjacentStations(int station1, int station2)
         {
             var st = DataSource.ListAdjacentStations.Find(x => x.Station1 == station1 && x.Station2 == station2);
             return st;
@@ -183,12 +183,12 @@ namespace DL
         #endregion
 
         #region Line
-        public IEnumerable<DO.Line> GetAllLines()
+        public IEnumerable<DO.Line> RequestAllLines()
         {
             return from line in DataSource.ListLines
                    select line.Clone();
         }
-        public DO.Line GetLine(int id)
+        public DO.Line RequestLine(int id)
         {
 
             DO.Line helpLine = DataSource.ListLines.Find(x => x.Id == id);
@@ -227,7 +227,7 @@ namespace DL
         #endregion
 
         #region User
-        public bool GetUserPrivileges(string username, string password)
+        public bool RequestUserPrivileges(string username, string password)
         {
             DO.User helpUser = DataSource.ListUsers.Find(x => x.UserName == username && x.Password == password);
             if (helpUser == null)

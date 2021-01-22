@@ -13,11 +13,11 @@ namespace BL
 
 
         #region Bus
-        public BO.Bus GetBus(int licenseNum)
+        public BO.Bus RequestBus(int licenseNum)
         {
             try
             {
-                return dl.GetBus(licenseNum).CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
+                return dl.RequestBus(licenseNum).CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
             }
             catch (DO.InvalidBusLicenseNumberException ex)
             {
@@ -64,27 +64,27 @@ namespace BL
                 throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
             }
         }
-        public IEnumerable<BO.Bus> GetAllBuses()
+        public IEnumerable<BO.Bus> RequestAllBuses()
         {
-            return  from bus in dl.GetAllBuses()
+            return  from bus in dl.RequestAllBuses()
                select bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
         }
-        public IEnumerable<BO.Bus> GetBusBy(Predicate<BO.Bus> predicate)
+        public IEnumerable<BO.Bus> RequestBusBy(Predicate<BO.Bus> predicate)
         {
 
-            return from   bus in dl.GetBusBy(predicate.CopyPropertiesToNew
+            return from   bus in dl.RequestBusBy(predicate.CopyPropertiesToNew
                 (typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>)
                  select bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
         }
         public void FuelBus(int id)
         {
-            var a = dl.GetBus(id);
+            var a = dl.RequestBus(id);
             a.FuelRemaining = DO.Bus.FullGasTank;
             dl.UpdateBus(a);
         }
         public void FixBus(int id)
         {
-            var a = dl.GetBus(id);
+            var a = dl.RequestBus(id);
             a.LastTreatment = DateTime.Now;
             dl.UpdateBus(a);
         }
@@ -119,37 +119,37 @@ namespace BL
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
-        public BO.Station GetStation(int id)
+        public BO.Station RequestStation(int id)
         {
             try
             {
-                return dl.GetStation(id).CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
+                return dl.RequestStation(id).CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
             }
             catch (DO.InvalidStationIDException ex)
             {
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
-        public IEnumerable<BO.Station> GetAllStations()
+        public IEnumerable<BO.Station> RequestAllStations()
         {
-            return from station in dl.GetAllStations()
+            return from station in dl.RequestAllStations()
                    orderby station.Code
                    select station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station;
 
         }
-        public IEnumerable<BO.Station> GetStationsBy(Predicate<BO.Station> predicate)
+        public IEnumerable<BO.Station> RequestStationsBy(Predicate<BO.Station> predicate)
         {
-            return from station in dl.GetAllStations()
+            return from station in dl.RequestAllStations()
                    let newStation = station.CopyPropertiesToNew(typeof(BO.Station)) as BO.Station
                    where predicate(newStation)
                    select newStation;
         }
 
-        public BO.LineStation GetLineStation(int stationId, int lineId)
+        public BO.LineStation RequestLineStation(int stationId, int lineId)
         {
             try
             {
-                return dl.GetLineStation(stationId, lineId).CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
+                return dl.RequestLineStation(stationId, lineId).CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
             }
             catch (DO.InvalidStationIDException ex)
             {
@@ -167,19 +167,19 @@ namespace BL
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
         }
-        public IEnumerable<BO.LineStation> GetLineStationsInLine(int lineId)
+        public IEnumerable<BO.LineStation> RequestLineStationsInLine(int lineId)
         {
-            return from station in dl.GetLineStationsInLine(lineId)
+            return from station in dl.RequestLineStationsInLine(lineId)
                    orderby station.LineStationIndex
                    select station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
         }
-        public IEnumerable<StationInLine> GetStationsInLine(int lineId)
+        public IEnumerable<StationInLine> RequestStationsInLine(int lineId)
         {
-            return from station in dl.GetLineStationsInLine(lineId)
+            return from station in dl.RequestLineStationsInLine(lineId)
                    orderby station.LineStationIndex
-                   let lastStationAdj = dl.GetAdjacentStations(station.PrevStation, station.StationId).CopyPropertiesToNew(typeof(BO.AdjacentStations)) as BO.AdjacentStations
+                   let lastStationAdj = dl.RequestAdjacentStations(station.PrevStation, station.StationId).CopyPropertiesToNew(typeof(BO.AdjacentStations)) as BO.AdjacentStations
                    let lineSt = station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation
-                   let thisStation = GetStation(station.StationId).CopyPropertiesToNew(typeof(BO.Station)) as BO.Station
+                   let thisStation = RequestStation(station.StationId).CopyPropertiesToNew(typeof(BO.Station)) as BO.Station
                    select new StationInLine
                    {
                        DistFromLastStation = lastStationAdj.DistFromLastStation,
@@ -197,8 +197,8 @@ namespace BL
         {
             try
             {
-                var curLine = GetLine(lineId);
-                var stations = GetLineStationsInLine(lineId);
+                var curLine = RequestLine(lineId);
+                var stations = RequestLineStationsInLine(lineId);
                 if (index == 0)
                     curLine.FirstStation = stationId;
 
@@ -276,9 +276,9 @@ namespace BL
 
                 catch (DO.InvalidAdjacentStationIDException) { }
 
-                if (GetAllLines().Where(x => GetLineStationsInLine(x.Id).
+                if (RequestAllLines().Where(x => RequestLineStationsInLine(x.Id).
                     Where(y => y.StationId == helpPrev && y.NextStation == helpNext).Count() > 0).Count() == 0)
-                    dl.RemoveAdjacentStations(dl.GetAdjacentStations(helpPrev, helpNext), lineId);
+                    dl.RemoveAdjacentStations(dl.RequestAdjacentStations(helpPrev, helpNext), lineId);
             }
             catch (DO.InvalidAdjacentStationIDException ex)
             {
@@ -293,8 +293,8 @@ namespace BL
         {
             try
             {
-                var curLine = GetLine(lineId);
-                var stations = GetLineStationsInLine(lineId);
+                var curLine = RequestLine(lineId);
+                var stations = RequestLineStationsInLine(lineId);
                 var station = stations.Where(x => x.LineId == lineId && x.StationId == stationId).First();
 
 
@@ -314,7 +314,7 @@ namespace BL
                     prevStation.NextStation = station.NextStation;
                     UpdateLineStation(nextStation);
                     UpdateLineStation(prevStation);
-                    if (dl.GetAdjacentStations(prevStation.StationId, nextStation.StationId) != null)
+                    if (dl.RequestAdjacentStations(prevStation.StationId, nextStation.StationId) != null)
                         dl.UpdateAdjacentStations(new DO.AdjacentStations
                         {
                             DistFromLastStation = distanceFromLastStation,
@@ -339,9 +339,9 @@ namespace BL
                     if (station.LineStationIndex == 0)
                     {
                         curLine.FirstStation = station.NextStation;
-                        var nextStation = GetLineStation(station.NextStation, station.LineId);
+                        var nextStation = RequestLineStation(station.NextStation, station.LineId);
                         nextStation.PrevStation = nextStation.StationId;
-                        if (dl.GetAdjacentStations(station.NextStation, station.NextStation) == null)
+                        if (dl.RequestAdjacentStations(station.NextStation, station.NextStation) == null)
                         {
                             dl.CreateAdjacentStations(new DO.AdjacentStations
                             {
@@ -410,18 +410,18 @@ namespace BL
         #endregion
 
         #region Line
-        public IEnumerable<BO.Line> GetAllLines()
+        public IEnumerable<BO.Line> RequestAllLines()
         {
-            return from line in dl.GetAllLines()
+            return from line in dl.RequestAllLines()
                    orderby line.Code
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
 
         }
-        public BO.Line GetLine(int id)
+        public BO.Line RequestLine(int id)
         {
             try
             {
-                return dl.GetLine(id).CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
+                return dl.RequestLine(id).CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
             }
             catch (DO.InvalidLineIDException ex)
             {
@@ -506,7 +506,7 @@ namespace BL
         {
             try
             {
-                foreach (var station in GetLineStationsInLine(id))
+                foreach (var station in RequestLineStationsInLine(id))
                     dl.RemoveLineStation(station.StationId, id);
                 dl.RemoveLine(id);
             }
@@ -539,11 +539,11 @@ namespace BL
         #endregion
 
         #region User
-        public bool GetUserPrivileges(string userName, string password)
+        public bool RequestUserPrivileges(string userName, string password)
         {
             try
             {
-                return dl.GetUserPrivileges(userName, password);
+                return dl.RequestUserPrivileges(userName, password);
             }
             catch (DO.BadUsernameOrPasswordException ex)
             {

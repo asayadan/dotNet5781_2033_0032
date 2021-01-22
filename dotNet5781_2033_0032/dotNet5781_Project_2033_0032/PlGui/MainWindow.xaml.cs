@@ -31,7 +31,7 @@ namespace PlGui
             PlGui.User user = (PlGui.User)e.Argument;
             try
             {
-                if (bl.GetUserPrivileges(user.username, user.password))
+                if (bl.RequestUserPrivileges(user.username, user.password))
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {

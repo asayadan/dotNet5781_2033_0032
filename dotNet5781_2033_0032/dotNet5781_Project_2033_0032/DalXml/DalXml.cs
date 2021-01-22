@@ -58,62 +58,62 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public AdjacentStations GetAdjacentStations(int station1, int station2)
+        public AdjacentStations RequestAdjacentStations(int station1, int station2)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Bus> GetAllBuses()
+        public IEnumerable<Bus> RequestAllBuses()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Line> GetAllLines()
+        public IEnumerable<Line> RequestAllLines()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Station> GetAllStations()
+        public IEnumerable<Station> RequestAllStations()
         {
             throw new NotImplementedException();
         }
 
-        public Bus GetBus(int licenseNum)
+        public Bus RequestBus(int licenseNum)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Bus> GetBusBy(Predicate<Bus> predicate)
+        public IEnumerable<Bus> RequestBusBy(Predicate<Bus> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public Line GetLine(int id)
+        public Line RequestLine(int id)
         {
             throw new NotImplementedException();
         }
 
-        public LineStation GetLineStation(int stationId, int lineId)
+        public LineStation RequestLineStation(int stationId, int lineId)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<LineStation> GetLineStationsInLine(int lineId)
+        public IEnumerable<LineStation> RequestLineStationsInLine(int lineId)
         {
             throw new NotImplementedException();
         }
 
-        public Station GetStation(int id)
+        public Station RequestStation(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Station> GetStationBy(Predicate<Station> predicate)
+        public IEnumerable<Station> RequestStationBy(Predicate<Station> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public bool GetUserPrivileges(string username, string password)
+        public bool RequestUserPrivileges(string username, string password)
         {
             throw new NotImplementedException();
         }

@@ -93,7 +93,7 @@ namespace PlGui
 
         void SetAllLines(object sender, DoWorkEventArgs e)
         {
-            var help = bl.GetAllLines();
+            var help = bl.RequestAllLines();
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 lineCollection.Clear();
@@ -110,7 +110,7 @@ namespace PlGui
             try
             {
                 var helpList = new List<BO.StationInLine>();
-                foreach (var b in bl.GetStationsInLine((int)e.Argument))
+                foreach (var b in bl.RequestStationsInLine((int)e.Argument))
                 {
                     helpList.Add(b);
                 }
@@ -287,7 +287,7 @@ namespace PlGui
 
         private void SetAllStations(object sender, DoWorkEventArgs e)
         {
-            var help = bl.GetAllStations();
+            var help = bl.RequestAllStations();
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 stationCollection.Clear();
@@ -351,7 +351,7 @@ namespace PlGui
         {
 
             //  if ((e.Argument as SearchData).changed)
-            var helpList = bl.GetStationsBy(x => (x as BO.Station).Name.Contains((e.Argument as SearchData).search));
+            var helpList = bl.RequestStationsBy(x => (x as BO.Station).Name.Contains((e.Argument as SearchData).search));
             App.Current.Dispatcher.Invoke((Action)delegate
             {
                 if ((e.Argument as SearchData).search == "הוועד הלאומי 21")
@@ -389,7 +389,7 @@ namespace PlGui
 
         void SetAllBuses(object sender, DoWorkEventArgs e)
         {
-            var help = bl.GetAllBuses();
+            var help = bl.RequestAllBuses();
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 var index = cbBuses.SelectedIndex;
