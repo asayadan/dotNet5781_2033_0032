@@ -17,6 +17,7 @@ namespace PlGui
     /// <summary>
     /// Interaction logic for SimulationControlWindow.xaml
     /// </summary>
+
     public partial class SimulationControlWindow : Window
     {
         bool isWorking = false;
@@ -24,7 +25,6 @@ namespace PlGui
         public SimulationControlWindow()
         {
             InitializeComponent();
-            tb_time.DataContext = startTime;
             for (int i = 0; i < 60; i++)
             {
                 lastMinutesComboBox.Items.Add(i);
@@ -58,7 +58,7 @@ namespace PlGui
                 gr_time.Visibility = Visibility.Collapsed;
                 tb_time.Visibility = Visibility.Visible;
                 tb_speed.IsReadOnly = true;
-                bt_activation.Content="Running";
+                bt_activation.Content="Stop";
             }
             else
             {
@@ -68,7 +68,8 @@ namespace PlGui
                 bt_activation.Content = "Start";
             }
             isWorking = !isWorking;
-            var start = new TimeSpan((int)lastHoursComboBox.SelectedItem,
+
+            tb_time.DataContext = new TimeSpan((int)lastHoursComboBox.SelectedItem,
                                         (int)lastMinutesComboBox.SelectedItem,
                                         (int)lastSecondsComboBox.SelectedItem);
 

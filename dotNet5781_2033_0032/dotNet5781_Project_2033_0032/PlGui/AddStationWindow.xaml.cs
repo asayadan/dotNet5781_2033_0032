@@ -63,7 +63,7 @@ namespace PlGui
                 if (valid)
                 {
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    bl.AddStation(code, name, longitude, latitude);
+                    bl.CreateStation(code, name, longitude, latitude);
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
                         Close();

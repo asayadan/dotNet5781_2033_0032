@@ -26,6 +26,7 @@ namespace PlGui
         BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
         BackgroundWorker removeStationFromLineWorker = new BackgroundWorker();
+        BackgroundWorker updateAdjecntStationsWorker = new BackgroundWorker();
         #endregion
 
         #region bus workers
@@ -86,6 +87,8 @@ namespace PlGui
             deleteLineWorker.DoWork += removeLine;
             updateLineInDSWorker.DoWork += UpdateLine;
             removeStationFromLineWorker.DoWork += removeStationFromLine;
+            updateAdjecntStationsWorker.DoWork += UpdateAdjecentStation;
+            stationsInLineWorker.WorkerSupportsCancellation = true;
             updateLineWorker.RunWorkerAsync();
         }
 
@@ -110,7 +113,7 @@ namespace PlGui
             try
             {
                 var helpList = new List<BO.StationInLine>();
-                foreach (var b in bl.RequestStationsInLine((int)e.Argument))
+                foreach (var b in bl.RequestStationsInLine(curLine.Id))
                 {
                     helpList.Add(b);
                 }
@@ -185,7 +188,7 @@ namespace PlGui
             {
                 if (lineCollection.Count == 0)
                 {
-                    bt_AddStation.IsEnabled = false;
+                    bt_AddStationToLine.IsEnabled = false;
                     bt_DeleteLine.IsEnabled = false;
                     bt_UpdateLine.IsEnabled = false;
                 }
@@ -210,7 +213,7 @@ namespace PlGui
                 if (stationsInLineCollection.Count == 2)
                 {
                     MessageBox.Show("You can't have less then 2 stations in line");
-                    valid=false;
+                    valid = false;
                 }
 
             });
@@ -238,6 +241,8 @@ namespace PlGui
         }
         private void StationLineWin_Closing(object sender, CancelEventArgs e)
         {
+
+            stationsInLineWorker.CancelAsync();
             stationsInLineWorker.RunWorkerAsync(curLine.Id);
             linesInStationWorker.RunWorkerAsync(curStation.Code);
         }
@@ -298,6 +303,20 @@ namespace PlGui
                     stationCollection.Add(item);
                 }
                 cbStations.SelectedIndex = 0;
+
+                if (stationCollection.Count == 0)
+                {
+                    bt_DeleteStation.IsEnabled = false;
+                    bt_UpdateStation.IsEnabled = false;
+                }
+
+                if (stationCollection.Count > 0)
+                {
+                    bt_DeleteStation.IsEnabled = true;
+                    bt_UpdateStation.IsEnabled = true;
+                }
+
+                tb_search.Text = "";
             });
         }
 
@@ -346,6 +365,7 @@ namespace PlGui
         private void bt_search_Click(object sender, RoutedEventArgs e)
         {
             Searchworker.RunWorkerAsync(new SearchData { changed = hasChanged, search = tb_search.Text });
+
         }
         private void Search(object sender, DoWorkEventArgs e)
         {
@@ -367,7 +387,19 @@ namespace PlGui
                 foreach (var station in helpList)
                 {
                     stationCollection.Add(station);
-                    cbStations.SelectedIndex = 0;
+                }
+                cbStations.SelectedIndex = 0;
+
+                if (stationCollection.Count == 0)
+                {
+                    bt_DeleteStation.IsEnabled = false;
+                    bt_UpdateStation.IsEnabled = false;
+                }
+
+                if (stationCollection.Count > 0)
+                {
+                    bt_DeleteStation.IsEnabled = true;
+                    bt_UpdateStation.IsEnabled = true;
                 }
             });
         }
@@ -431,6 +463,7 @@ namespace PlGui
         {
             bl.DeleteStation((int)e.Argument);
             AllStationWorker.RunWorkerAsync();
+            
         }
 
         private void bt_DeleteBus_Click(object sender, RoutedEventArgs e)
@@ -493,7 +526,7 @@ namespace PlGui
         {
             bl.UpdateStation(curStation);
             AllStationWorker.RunWorkerAsync();
-            stationsInLineWorker.RunWorkerAsync(curLine.Id);
+            if (lineCollection.Count != 0) stationsInLineWorker.RunWorkerAsync(curLine.Id);
         }
 
         private void bt_UpdateBus_Click(object sender, RoutedEventArgs e)
@@ -515,7 +548,7 @@ namespace PlGui
         }
         void StationWin_Closing(object sender, CancelEventArgs e)
         {
-            AllBusesWorker.RunWorkerAsync();
+            AllStationWorker.RunWorkerAsync();
         }
 
         private void bt_FuelOrFix_Click(object sender, RoutedEventArgs e)
@@ -530,6 +563,20 @@ namespace PlGui
             if ((bool)e.Argument) bl.FuelBus(curBus.LicenseNum);
             else bl.FixBus(curBus.LicenseNum);
             AllBusesWorker.RunWorkerAsync();
+        }
+
+        private void bt_updatStationInLine_Click(object sender, RoutedEventArgs e)
+        {
+            updateAdjecntStationsWorker.RunWorkerAsync((sender as Button).DataContext);
+        }
+
+        private void UpdateAdjecentStation(object sender, DoWorkEventArgs e)
+        {
+
+            var adjSt = e.Argument as BO.StationInLine;
+            bl.UpdateAdjacentStations(adjSt.PrevStation, adjSt.StationId, adjSt.DistFromLastStation, adjSt.TimeSinceLastStation);
+            stationsInLineWorker.RunWorkerAsync(curLine);
+
         }
     }
 }
