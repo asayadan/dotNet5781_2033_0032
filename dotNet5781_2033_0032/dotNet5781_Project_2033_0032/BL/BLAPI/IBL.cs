@@ -6,7 +6,8 @@ namespace BLAPI
 {
     public interface IBL
     {
-
+        void StartSimulator(TimeSpan start, int speed, Action<TimeSpan> func);
+        void StopSimulator();
         #region Bus
         BO.Bus RequestBus(int licenseNum);
         void CreateBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0);
@@ -34,7 +35,6 @@ namespace BLAPI
         void RemoveStationFromLine(int lineId, int stationId, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
         IEnumerable<BO.Line> LinesInStation(int stationId);
         void UpdateAdjacentStations(int station1, int station2, double distanceSinceLastStation, TimeSpan timeSinceLastStation);
-
         #endregion
 
         #region Line
