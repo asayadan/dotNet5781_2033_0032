@@ -115,13 +115,12 @@ namespace DL
         }
         public void UpdateAdjacentStations(DO.AdjacentStations adjacentStations)
         {
-            DO.AdjacentStations helpAdj = DataSource.ListAdjacentStations.Find(p => p.Station1 == adjacentStations.Station1 && p.Station2 == adjacentStations.Station2);
-            if (helpAdj == null)
+            var helpAdj = DataSource.ListAdjacentStations.FindIndex(p => p.Station1 == adjacentStations.Station1 && p.Station2 == adjacentStations.Station2);
+            if (helpAdj == -1)
                 throw new DO.InvalidAdjacentStationIDException(adjacentStations.Station1, adjacentStations.Station2, "we doen't have this two adjacent station");
             else
             {
-                DataSource.ListAdjacentStations.Remove(helpAdj);
-                DataSource.ListAdjacentStations.Add(helpAdj.Clone());
+                DataSource.ListAdjacentStations[helpAdj] = adjacentStations;
             }
         }
         public DO.LineStation RequestLineStation(int stationId, int lineId)

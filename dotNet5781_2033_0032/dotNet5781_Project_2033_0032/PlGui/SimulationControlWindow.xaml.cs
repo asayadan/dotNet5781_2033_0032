@@ -11,20 +11,31 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
+using BLAPI;
+using System.ComponentModel;
 
 namespace PlGui
 {
     /// <summary>
     /// Interaction logic for SimulationControlWindow.xaml
     /// </summary>
+
     public partial class SimulationControlWindow : Window
     {
+        BackgroundWorker worker = new BackgroundWorker();
+        IBL bl;
+        int speed;
         bool isWorking = false;
-        TimeSpan startTime = new TimeSpan(0);
-        public SimulationControlWindow()
+        TimeSpan startTime = TimeSpan.Zero;
+        Func<TimeSpan> getTime = null;
+        public SimulationControlWindow(IBL bL)
         {
+            bl = bL;
             InitializeComponent();
-            tb_time.DataContext = startTime;
+            worker.WorkerSupportsCancellation = true;
+            worker.DoWork += StartOrStopTimer;
+            getTime = () => startTime;
             for (int i = 0; i < 60; i++)
             {
                 lastMinutesComboBox.Items.Add(i);
@@ -34,13 +45,23 @@ namespace PlGui
             lastSecondsComboBox.SelectedIndex = 0;
             lastMinutesComboBox.SelectedIndex = 0;
             lastHoursComboBox.SelectedIndex = 0;
+            tb_time.DataContext = getTime();
+        }
+
+        private void StartOrStopTimer(object sender, DoWorkEventArgs e)
+        {
+
+            bl.StartSimulator(startTime, speed, 
+                (timeSpan) => 
+                App.Current.Dispatcher.Invoke((Action)delegate { tb_time.DataContext = timeSpan; }));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
             try
             {
-                int speed = int.Parse(tb_speed.Text);
+                speed = int.Parse(tb_speed.Text);
             }
             catch (FormatException ex)//shouldn't happen
             {
@@ -53,25 +74,34 @@ namespace PlGui
                 return;
             }
             tb_warnings.Text = "";
+            startTime = new TimeSpan((int)lastHoursComboBox.SelectedItem,
+                                                (int)lastMinutesComboBox.SelectedItem,
+                                                (int)lastSecondsComboBox.SelectedItem);
             if (!isWorking)
             {
                 gr_time.Visibility = Visibility.Collapsed;
                 tb_time.Visibility = Visibility.Visible;
                 tb_speed.IsReadOnly = true;
-                bt_activation.Content="Running";
+                worker.RunWorkerAsync();
+                bt_activation.Content = "Stop";
             }
             else
             {
                 gr_time.Visibility = Visibility.Visible;
                 tb_time.Visibility = Visibility.Collapsed;
                 tb_speed.IsReadOnly = false;
+                bl.StopSimulator();
                 bt_activation.Content = "Start";
             }
             isWorking = !isWorking;
-            var start = new TimeSpan((int)lastHoursComboBox.SelectedItem,
-                                        (int)lastMinutesComboBox.SelectedItem,
-                                        (int)lastSecondsComboBox.SelectedItem);
+
+            
+
+
+           
 
         }
+
+
     }
 }

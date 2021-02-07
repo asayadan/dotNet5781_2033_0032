@@ -3,16 +3,35 @@ using BO;
 using DLAPI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Windows.Media.Animation;
 
 namespace BL
 {
     class BLImp : IBL
     {
         IDL dl = DLFactory.GetDL();
-
+        internal volatile bool Cancel;
 
         #region Bus
+        public void StartSimulator(TimeSpan startTime, int speed, Action<TimeSpan> func)
+        {
+            Cancel = false;
+            while (!Cancel)
+            {
+                startTime += new TimeSpan(0, 0, speed);
+                func(startTime);
+                Thread.Sleep(1000);
+            }
+        }
+
+        public void StopSimulator()
+        {
+            Cancel = true;
+        }
+
         public BO.Bus RequestBus(int licenseNum)
         {
             try
@@ -66,15 +85,15 @@ namespace BL
         }
         public IEnumerable<BO.Bus> RequestAllBuses()
         {
-            return  from bus in dl.RequestAllBuses()
-               select bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
+            return from bus in dl.RequestAllBuses()
+                   select bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
         }
         public IEnumerable<BO.Bus> RequestBusBy(Predicate<BO.Bus> predicate)
         {
 
-            return from   bus in dl.RequestBusBy(predicate.CopyPropertiesToNew
+            return from bus in dl.RequestBusBy(predicate.CopyPropertiesToNew
                 (typeof(Predicate<BO.Bus>)) as Predicate<DO.Bus>)
-                 select bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
+                   select bus.CopyPropertiesToNew(typeof(BO.Bus)) as BO.Bus;
         }
         public void FuelBus(int id)
         {
@@ -308,7 +327,7 @@ namespace BL
                 }
                 if (station.LineStationIndex != 0 && station.LineStationIndex != stations.Count() - 1)
                 {
-                    var nextStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex&&x.StationId!=stationId ).FirstOrDefault();
+                    var nextStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex && x.StationId != stationId).FirstOrDefault();
                     var prevStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex - 1).FirstOrDefault();
                     nextStation.PrevStation = station.PrevStation;
                     prevStation.NextStation = station.NextStation;
@@ -363,10 +382,10 @@ namespace BL
                 }
 
             }
-     //       catch (DO.InvalidAdjacentStationIDException ex)
-       //     {
-         //       throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
-      //      }
+            //       catch (DO.InvalidAdjacentStationIDException ex)
+            //     {
+            //       throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
+            //      }
             catch (DO.InvalidLinesStationException ex)
             {
                 throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);

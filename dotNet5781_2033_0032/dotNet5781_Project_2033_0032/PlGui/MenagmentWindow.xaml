@@ -52,8 +52,8 @@
                         <DataGridTextColumn x:Name="indexColumn"  Binding="{Binding LineStationIndex, Mode=OneTime}" Width="0.5*"/>
                         <DataGridTextColumn x:Name="codeColumn" Binding="{Binding Code, Mode=OneWay}"  Header="Code" Width="*"/>
                         <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name, Mode=OneWay}" Header="Name" Width="2*"/>
-                        <DataGridTextColumn x:Name="distanceColumn"  Binding="{Binding DistFromLastStation ,Mode=OneWay}" Header="Distance" Width="*"/>
-                        <DataGridTextColumn x:Name="timeColumn" Binding="{Binding TimeSinceLastStation, Mode=OneWay}" Header="Time" Width="*"/>
+                        <DataGridTextColumn x:Name="distanceColumn"  Binding="{Binding DistFromLastStation ,Mode=TwoWay}" Header="Distance" Width="*"/>
+                        <DataGridTextColumn x:Name="timeColumn" Binding="{Binding TimeSinceLastStation, Mode=TwoWay}" Header="Time" Width="*"/>
 
                         <DataGridTemplateColumn Width="0.7*">
                             <DataGridTemplateColumn.CellTemplate>
@@ -66,7 +66,7 @@
                         <DataGridTemplateColumn Width="0.7*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="bt_updatStationInLine" Content="Update" Background="GreenYellow" ToolTip="Update station properties from current line." Click="btRemoveStationFromLine_Click"/>
+                                    <Button x:Name="bt_updatStationInLine" Content="Update" Background="GreenYellow" ToolTip="Update station properties from current line." Click="bt_updatStationInLine_Click"/>
                                 </DataTemplate>
 
                             </DataGridTemplateColumn.CellTemplate>
