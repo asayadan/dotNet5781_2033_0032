@@ -8,8 +8,9 @@ namespace BLAPI
         public static IBL GetBL(string type)
         {
             switch (type)
+
             {
-                case "1":
+                case "BLImp":
                     return new BLImp();
                 default:
                     return new BLImp();
