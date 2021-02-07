@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using DLAPI;
 using DO;
 using System.Xml;
+using System.Xml.Linq;
+
 
 namespace DL
 {
@@ -16,12 +18,76 @@ namespace DL
         DalXml() { }
         public static DalXml Instance { get; } = new DalXml();
         #endregion
-        #region stations
-        #endregion
+        string AdjacentStationsPath = "";
+
+        #region station
+        /// <summary>
+        /// we add to the memory ne AdjacentStations if it doesn't exist already
+        /// </summary>
+        /// <param name="adjacentStations">the stations we want to add</param>
         public void CreateAdjacentStations(AdjacentStations adjacentStations)
+        {
+            XElement AdjacentStationsRootElem = XMLTools.LoadListFromXMLElement(AdjacentStationsPath);
+           
+            AdjacentStations thisStaions = (from stations in AdjacentStationsRootElem.Elements()
+                                                 where stations.Equals(adjacentStations.Station1, adjacentStations.Station2)
+                                                 select stations.ToAdjecentStation()
+                                            ).FirstOrDefault();
+
+            if (adjacentStations == null)
+                throw new DO.InvalidAdjacentStationIDException(adjacentStations.Station1, adjacentStations.Station2, "we already have this AdjecentStations");
+
+            AdjacentStationsRootElem.Add(adjacentStations.ToXElement());
+
+            XMLTools.SaveListToXMLElement(AdjacentStationsRootElem,AdjacentStationsPath);
+
+        }
+       /// <summary>
+       /// searches for an AdjacentStations by stations ID
+       /// </summary>
+       /// <param name="station1"></param>
+       /// <param name="station2"></param>
+       /// <returns>the AdjacentStations instance as it appear in the memory</returns>
+        public AdjacentStations RequestAdjacentStations(int station1, int station2)
+        {
+            try
+            {
+
+                XElement AdjacentStationsRootElem = XMLTools.LoadListFromXMLElement(AdjacentStationsPath);
+
+                AdjacentStations adjacentStations = (from stations in AdjacentStationsRootElem.Elements()
+                                 where stations.Equals(station1,station2)
+                                 select stations.ToAdjecentStation()
+                                 ).FirstOrDefault();
+
+                if (adjacentStations == null)
+                    throw new DO.InvalidAdjacentStationIDException(station1, station2);
+
+                return adjacentStations;
+            }
+            catch (FormatException ex)
+            {
+                throw new XMLFileFormatException(AdjacentStationsPath, "unexpected format error occurred", ex);
+            }
+        }
+
+        public void RemoveAdjacentStations(AdjacentStations adjacentStatons, int linneId)
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateAdjacentStations(AdjacentStations adjacentStations)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+        #region line
+
+
+
+        #endregion
+
 
         public void CreateBus(Bus NewBus)
         {
@@ -58,10 +124,7 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public AdjacentStations RequestAdjacentStations(int station1, int station2)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public IEnumerable<Bus> RequestAllBuses()
         {
@@ -123,11 +186,6 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public void RemoveAdjacentStations(AdjacentStations adjacentStatons, int linneId)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RemoveLine(int id)
         {
             throw new NotImplementedException();
@@ -138,10 +196,6 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public void UpdateAdjacentStations(AdjacentStations adjacentStations)
-        {
-            throw new NotImplementedException();
-        }
 
         public void UpdateBus(Bus bus)
         {
