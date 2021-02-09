@@ -130,7 +130,7 @@ namespace DL
                 throw new DO.InvalidStationIDException(stationId, "we doen't have this line station");
             return helpLineStation.Clone();
         }
-        public IEnumerable<DO.Line> LinesInStation(int stationId)
+        public IEnumerable<DO.Line> GetLinesInStation(int stationId)
         {
             return from lineStations in DataSource.ListLineStations
                    where lineStations.StationId == stationId

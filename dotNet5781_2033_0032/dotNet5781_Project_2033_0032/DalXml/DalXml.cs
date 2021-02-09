@@ -19,6 +19,9 @@ namespace DL
         public static DalXml Instance { get; } = new DalXml();
         #endregion
         string AdjacentStationsPath = "";
+        string BusPath="";
+        string LinePath = "";
+
 
         #region station
         /// <summary>
@@ -30,11 +33,11 @@ namespace DL
             XElement AdjacentStationsRootElem = XMLTools.LoadListFromXMLElement(AdjacentStationsPath);
            
             AdjacentStations thisStaions = (from stations in AdjacentStationsRootElem.Elements()
-                                                 where stations.Equals(adjacentStations.Station1, adjacentStations.Station2)
+                                                 where stations.Equal(adjacentStations.Station1, adjacentStations.Station2)
                                                  select stations.ToAdjecentStation()
                                             ).FirstOrDefault();
 
-            if (adjacentStations == null)
+            if (adjacentStations != null)
                 throw new DO.InvalidAdjacentStationIDException(adjacentStations.Station1, adjacentStations.Station2, "we already have this AdjecentStations");
 
             AdjacentStationsRootElem.Add(adjacentStations.ToXElement());
@@ -56,7 +59,7 @@ namespace DL
                 XElement AdjacentStationsRootElem = XMLTools.LoadListFromXMLElement(AdjacentStationsPath);
 
                 AdjacentStations adjacentStations = (from stations in AdjacentStationsRootElem.Elements()
-                                 where stations.Equals(station1,station2)
+                                 where stations.Equal(station1,station2)
                                  select stations.ToAdjecentStation()
                                  ).FirstOrDefault();
 
@@ -71,33 +74,152 @@ namespace DL
             }
         }
 
-        public void RemoveAdjacentStations(AdjacentStations adjacentStatons, int linneId)
+        public void RemoveAdjacentStations(AdjacentStations adjacentStatons)
         {
-            throw new NotImplementedException();
+            XElement AdjacentStationsRootElem = XMLTools.LoadListFromXMLElement(AdjacentStationsPath);
+
+            XElement helptations = (from stations in AdjacentStationsRootElem.Elements()
+                            where stations.Equal(adjacentStatons.Station1,adjacentStatons.Station2)
+                                         select stations).FirstOrDefault();
+
+            if (helptations != null)
+            {
+                helptations.Remove(); //<==>   Remove stations from the XML file
+
+                XMLTools.SaveListToXMLElement(AdjacentStationsRootElem, AdjacentStationsPath);
+            }
+            else
+                throw new DO.InvalidAdjacentStationIDException(adjacentStatons.Station1, adjacentStatons.Station2);
         }
 
         public void UpdateAdjacentStations(AdjacentStations adjacentStations)
         {
-            throw new NotImplementedException();
+            XElement AdjacentStationsRootElem = XMLTools.LoadListFromXMLElement(AdjacentStationsPath);
+
+            XElement helptations = (from stations in AdjacentStationsRootElem.Elements()
+                                         where stations.Equal(adjacentStations.Station1, adjacentStations.Station2)
+                                         select stations).FirstOrDefault();
+
+            if (helptations != null)
+            {
+                helptations = adjacentStations.ToXElement();
+
+                XMLTools.SaveListToXMLElement(AdjacentStationsRootElem, AdjacentStationsPath);
+            }
+            else
+                throw new DO.InvalidAdjacentStationIDException(adjacentStations.Station1, adjacentStations.Station2);
         }
 
         #endregion
         #region line
 
-
-
-        #endregion
-
-
-        public void CreateBus(Bus NewBus)
-        {
-            throw new NotImplementedException();
-        }
-
         public void CreateLine(Line line)
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Line> RequestAllLines()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Line RequestLine(int id)
+        {
+            List<Line> ListStudents = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
+
+            Line helpLine = (from line in ListStudents
+                   where line.Id == id
+                   select line).FirstOrDefault();
+            if (helpLine != null)
+                return helpLine; //no need to Clone()
+
+            else throw new DO.InvalidLineIDException(id, "this line id doesn't exists");
+        }
+        public void RemoveLine(int id)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region bus
+        public void CreateBus(Bus NewBus)
+        {
+            XElement BusRootElem = XMLTools.LoadListFromXMLElement(BusPath);
+
+            Bus thisSus = (from bus in BusRootElem.Elements()
+                           where bus.IsActive()&&bus.Equal(NewBus.LicenseNum)
+                           select bus.ToBus()).FirstOrDefault();
+
+            if (thisSus != null)
+                throw new DO.InvalidBusLicenseNumberException(NewBus.LicenseNum, "we already have this bus");
+
+            BusRootElem.Add(thisSus.ToXElement());
+
+            XMLTools.SaveListToXMLElement(BusRootElem, BusPath);
+        }
+
+
+        public void DeleteBus(int licenseNum)
+        {
+            XElement BusRootElem = XMLTools.LoadListFromXMLElement(BusPath);
+
+
+            Bus thisBus = (from bus in BusRootElem.Elements()
+                           where bus.IsActive() && bus.Equal(licenseNum)
+                           select bus.ToBus()).FirstOrDefault();
+
+            if (thisBus != null)
+            {
+                BusRootElem.Remove(); //<==>   Remove stations from the XML file
+
+                XMLTools.SaveListToXMLElement(BusRootElem, BusPath);
+            }
+            else
+                throw new DO.InvalidBusLicenseNumberException(licenseNum, "we don't have this bus");
+        }
+
+        public Bus RequestBus(int licenseNum)
+        {
+            XElement BusRootElem = XMLTools.LoadListFromXMLElement(BusPath);
+
+            Bus thisBus = (from bus in BusRootElem.Elements()
+                           where bus.IsActive() && bus.Equal(licenseNum)
+                           select bus.ToBus()).FirstOrDefault();
+
+            if (thisBus != null)
+            {
+                return thisBus;
+            }
+            else
+                throw new DO.InvalidBusLicenseNumberException(licenseNum, "we don't have this bus");
+
+        }
+            public IEnumerable<Bus> RequestAllBuses()
+        {
+            XElement BusRootElem = XMLTools.LoadListFromXMLElement(BusPath);
+            return (from bus in BusRootElem.Elements()
+                    where bus.IsActive()
+                    select bus.ToBus());
+       }
+
+        public void UpdateBus(Bus Newbus)
+        {
+            XElement BusRootElem = XMLTools.LoadListFromXMLElement(BusPath);
+
+            XElement helpBus = (from bus in BusRootElem.Elements()
+                           where bus.IsActive() && bus.Equal(Newbus.LicenseNum)
+                           select bus).FirstOrDefault();
+
+            if (helpBus != null)
+            {
+                helpBus = Newbus.ToXElement();
+
+                XMLTools.SaveListToXMLElement(BusRootElem, BusPath);
+            }
+            else
+                throw new DO.InvalidBusLicenseNumberException(Newbus.LicenseNum, "we don't have this bus");
+        }
+        #endregion
 
         public void CreateLineStation(LineStation lineStation)
         {
@@ -114,24 +236,7 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public void DeleteBus(int licenseNum)
-        {
-            throw new NotImplementedException();
-        }
-
         public void DeleteStation(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-        public IEnumerable<Bus> RequestAllBuses()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Line> RequestAllLines()
         {
             throw new NotImplementedException();
         }
@@ -141,17 +246,7 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public Bus RequestBus(int licenseNum)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Bus> RequestBusBy(Predicate<Bus> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Line RequestLine(int id)
         {
             throw new NotImplementedException();
         }
@@ -181,23 +276,12 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Line> LinesInStation(int stationId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveLine(int id)
+        public IEnumerable<Line> GetLinesInStation(int stationId)
         {
             throw new NotImplementedException();
         }
 
         public void RemoveLineStation(int stationId, int lineId)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void UpdateBus(Bus bus)
         {
             throw new NotImplementedException();
         }
