@@ -60,8 +60,6 @@ namespace PlGui
         #region constractors
         public MenagmentWindow(IBL _bl, string user)
         {
-            SimulationControlWindow win = new SimulationControlWindow(_bl);
-            win.Show();
             username = user;
             bl = _bl;
             InitializeComponent();

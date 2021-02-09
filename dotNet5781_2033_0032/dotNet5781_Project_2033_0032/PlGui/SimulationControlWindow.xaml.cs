@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using BLAPI;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace PlGui
 {
@@ -28,11 +29,12 @@ namespace PlGui
         int speed;
         bool isWorking = false;
         TimeSpan startTime = TimeSpan.Zero;
+        
         Func<TimeSpan> getTime = null;
         public SimulationControlWindow(IBL bL)
         {
             bl = bL;
-            InitializeComponent();
+            InitializeComponent();  
             worker.WorkerSupportsCancellation = true;
             worker.DoWork += StartOrStopTimer;
             getTime = () => startTime;
@@ -45,7 +47,6 @@ namespace PlGui
             lastSecondsComboBox.SelectedIndex = 0;
             lastMinutesComboBox.SelectedIndex = 0;
             lastHoursComboBox.SelectedIndex = 0;
-            tb_time.DataContext = getTime();
         }
 
         private void StartOrStopTimer(object sender, DoWorkEventArgs e)
@@ -58,19 +59,18 @@ namespace PlGui
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 speed = int.Parse(tb_speed.Text);
             }
             catch (FormatException ex)//shouldn't happen
             {
-                tb_warnings.Text = "invalid speed";
+                tb_warnings.Text = "Invalid speed";
                 return;
             }
             catch (ArgumentNullException ex)
             {
-                tb_warnings.Text = "invalid speed";
+                tb_warnings.Text = "Invalid speed";
                 return;
             }
             tb_warnings.Text = "";

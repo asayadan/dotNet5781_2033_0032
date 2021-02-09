@@ -240,6 +240,14 @@ namespace DL
             DataSource.ListUsers.Add(user.Clone());
         }
 
+
+
         #endregion
+
+        public IEnumerable<DO.LineTrip> GetAllLineTrips()
+        {
+            return from lineTrip in DataSource.ListLineTrips
+                   select lineTrip.Clone();
+        }
     }
 }

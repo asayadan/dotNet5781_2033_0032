@@ -48,9 +48,8 @@ namespace DLAPI
         #region User
         bool RequestUserPrivileges(string username, string password);
         void CreateUser(DO.User user);
-
-
-
         #endregion
+        IEnumerable<LineTrip> GetAllLineTrips();
+
     }
 }

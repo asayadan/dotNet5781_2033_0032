@@ -300,5 +300,10 @@ namespace DL
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<LineTrip> GetAllLineTrips()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
