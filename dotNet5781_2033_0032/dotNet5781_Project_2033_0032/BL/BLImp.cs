@@ -233,7 +233,7 @@ namespace BL
         {
             var lineTrip = GetAllLineTrips().Where(p => p.LineId == lineId).First();
             int min = 0;
-            while (SimulationClock.GetTime + timeToStation >=
+            while (SimulationClock.GetTime + timeToStation >
                 lineTrip.StartAt + TimeSpan.FromMilliseconds(min * lineTrip.Frequency.TotalMilliseconds))
                 min++;
             return (lineTrip, min);
