@@ -13,7 +13,7 @@ namespace BL
     class BLImp : IBL
     {
         IDL dl = DLFactory.GetDL();
-        internal volatile bool Cancel;
+        internal static volatile bool Cancel = true;
 
         public void StartSimulator(TimeSpan startTime, int speed, Action<TimeSpan> func)
         {
@@ -30,6 +30,11 @@ namespace BL
         public void StopSimulator()
         {
             Cancel = true;
+        }
+
+        public bool IsSimulationActivated()
+        {
+            return !Cancel;
         }
 
         #region Bus
@@ -228,7 +233,7 @@ namespace BL
         {
             var lineTrip = GetAllLineTrips().Where(p => p.LineId == lineId).First();
             int min = 0;
-            while (SimulationClock.GetTime + timeToStation >
+            while (SimulationClock.GetTime + timeToStation >=
                 lineTrip.StartAt + TimeSpan.FromMilliseconds(min * lineTrip.Frequency.TotalMilliseconds))
                 min++;
             return (lineTrip, min);
@@ -237,7 +242,6 @@ namespace BL
         public IEnumerable<LineTiming> RequestLineTimingFromStation(int stationId)
         {
             return from line in LinesInStation(stationId)
-                   orderby line.Code
                    let index = RequestLineStation(stationId, line.Id).LineStationIndex
                    let TimeInStation = TimeSpan.FromMilliseconds(RequestStationsInLine(line.Id).
                         Where(p => p.LineStationIndex <= index).

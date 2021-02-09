@@ -145,7 +145,7 @@
             <Label x:Name="lbl_name" Content="welcome: "/>
             <Label x:Name="lbl_username" Content="{Binding Mode=OneWay}"/>
         </StackPanel>
-        <Label Content="List of Stations for selected Line:" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"   Grid.Column="1"/>
+        <TextBlock x:Name="tb_currentState" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"   Grid.Column="1"/>
 
     </Grid>
 </Window>

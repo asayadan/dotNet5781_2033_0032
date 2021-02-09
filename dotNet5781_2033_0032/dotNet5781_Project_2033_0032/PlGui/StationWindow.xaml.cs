@@ -31,7 +31,7 @@ namespace PlGui
         ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.LineTiming> allLinesInStation = new ObservableCollection<BO.LineTiming>();
         ObservableCollection<BO.LineTiming> timeOfLinesInStation = new ObservableCollection<BO.LineTiming>();
-
+        
         BO.Station curStation;
 
         public StationWindow(IBL bL, string userName)
@@ -70,10 +70,9 @@ namespace PlGui
                     foreach (var lineTiming in lineTimings)
                         timeOfLinesInStation.Add(lineTiming);
 
-                    foreach (var lineTiming in sorted)
-                        allLinesInStation.Add(lineTiming);
-                });
-            }
+                foreach (var lineTiming in sorted)
+                    allLinesInStation.Add(lineTiming);
+            });
         }
         private void SetWindow(object sender, DoWorkEventArgs e)
         {
