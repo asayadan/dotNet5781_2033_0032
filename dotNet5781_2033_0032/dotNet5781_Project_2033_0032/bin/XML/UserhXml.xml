@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ArrayOfUser xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <User>
+    <isActive>true</isActive>
+    <UserName>Admin</UserName>
+    <Password>Admin</Password>
+    <Admin>true</Admin>
+  </User>
+  <User>
+    <isActive>true</isActive>
+    <UserName>Donald J Trump</UserName>
+    <Password>#MAGA</Password>
+    <Admin>true</Admin>
+  </User>
+  <User>
+    <isActive>true</isActive>
+    <UserName>Noam</UserName>
+    <Password>qwerty</Password>
+    <Admin>false</Admin>
+  </User>
+  <User>
+    <isActive>true</isActive>
+    <UserName>Achiya</UserName>
+    <Password>12345678</Password>
+    <Admin>false</Admin>
+  </User>
+  <User>
+    <isActive>true</isActive>
+    <UserName>www</UserName>
+    <Password>asd</Password>
+    <Admin>false</Admin>
+  </User>
+</ArrayOfUser>
