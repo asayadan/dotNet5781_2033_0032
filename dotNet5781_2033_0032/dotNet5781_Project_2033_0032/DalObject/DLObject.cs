@@ -102,7 +102,7 @@ namespace DL
                 throw new DO.InvalidAdjacentStationIDException(adjacentStation.Station1, adjacentStation.Station2, "the data base alredy has this adjacent station data structure");
             DataSource.ListAdjacentStations.Add(adjacentStation.Clone());
         }
-        public void RemoveAdjacentStations(DO.AdjacentStations adjacentStation, int linneId)
+        public void RemoveAdjacentStations(DO.AdjacentStations adjacentStation)
         {
             int helpIndex = DataSource.ListAdjacentStations.FindIndex(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2);
             if (helpIndex == -1)
