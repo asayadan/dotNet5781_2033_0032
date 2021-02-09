@@ -22,9 +22,9 @@ namespace DLAPI
         DO.Station RequestStation(int id);
         IEnumerable<DO.Station> RequestAllStations();
         IEnumerable<DO.Station> RequestStationBy(Predicate<DO.Station> predicate);
-        IEnumerable<DO.Line> LinesInStation(int stationId);
+        IEnumerable<DO.Line> GetLinesInStation(int stationId);
         void CreateAdjacentStations(DO.AdjacentStations adjacentStations);
-        void RemoveAdjacentStations(DO.AdjacentStations adjacentStatons, int linneId);
+        void RemoveAdjacentStations(DO.AdjacentStations adjacentStatons);
         void UpdateStation(DO.Station station);
         void UpdateAdjacentStations(DO.AdjacentStations adjacentStations);
         void UpdateLineStation(LineStation lineStation);

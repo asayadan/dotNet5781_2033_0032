@@ -52,7 +52,7 @@ namespace BL
                 ((fromTime.Year < 2018) && (licenseNum <= 9999999)) && (licenseNum > 999999))//the BO.Bus registered before 2018 and has 7 digits
                 try
                 {
-                    dl.CreateBus(new DO.Bus { LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
+                    dl.CreateBus(new DO.Bus {isActive=true, LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
                 }
                 catch (DO.InvalidBusLicenseNumberException ex)
                 {
@@ -343,7 +343,7 @@ namespace BL
 
                 if (RequestAllLines().Where(x => RequestLineStationsInLine(x.Id).
                     Where(y => y.StationId == helpPrev && y.NextStation == helpNext).Count() > 0).Count() == 0)
-                    dl.RemoveAdjacentStations(dl.RequestAdjacentStations(helpPrev, helpNext), lineId);
+                    dl.RemoveAdjacentStations(dl.RequestAdjacentStations(helpPrev, helpNext));
             }
             catch (DO.InvalidAdjacentStationIDException ex)
             {
@@ -439,7 +439,7 @@ namespace BL
         }
         public IEnumerable<BO.Line> LinesInStation(int stationId)
         {
-            return from line in dl.LinesInStation(stationId)
+            return from line in dl.GetLinesInStation(stationId)
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
 
         }

@@ -5,6 +5,7 @@ namespace DO
     public class Bus
     {
         #region variables
+        public bool isActive { get; set; }
         public int LicenseNum { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime LastTreatment { get; set; }
