@@ -15,15 +15,15 @@ namespace BL
         IDL dl = DLFactory.GetDL();
         internal volatile bool Cancel;
 
-        #region Bus
         public void StartSimulator(TimeSpan startTime, int speed, Action<TimeSpan> func)
         {
+            SimulationClock.GetTime = startTime;
             Cancel = false;
             while (!Cancel)
             {
-                startTime += new TimeSpan(0, 0, speed);
-                func(startTime);
                 Thread.Sleep(1000);
+                SimulationClock.GetTime += new TimeSpan(0, 0, speed);
+                func(SimulationClock.GetTime);
             }
         }
 
@@ -31,6 +31,9 @@ namespace BL
         {
             Cancel = true;
         }
+
+        #region Bus
+
 
         public BO.Bus RequestBus(int licenseNum)
         {
@@ -212,6 +215,49 @@ namespace BL
                    };
 
         }
+
+        public IEnumerable<LineTrip> GetAllLineTrips()
+        {
+            return from lineTrip in dl.GetAllLineTrips()
+                   orderby lineTrip.StartAt
+                   select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as LineTrip;
+                   
+
+        }
+        public (LineTrip, int) GetClosestLineTripByLine(int lineId, TimeSpan timeToStation)
+        {
+            var lineTrip = GetAllLineTrips().Where(p => p.LineId == lineId).First();
+            int min = 0;
+            while (SimulationClock.GetTime + timeToStation >
+                lineTrip.StartAt + TimeSpan.FromMilliseconds(min * lineTrip.Frequency.TotalMilliseconds))
+                min++;
+            return (lineTrip, min);
+        }
+
+        public IEnumerable<LineTiming> RequestLineTimingFromStation(int stationId)
+        {
+            return from line in LinesInStation(stationId)
+                   orderby line.Code
+                   let index = RequestLineStation(stationId, line.Id).LineStationIndex
+                   let TimeInStation = TimeSpan.FromMilliseconds(RequestStationsInLine(line.Id).
+                        Where(p => p.LineStationIndex <= index).
+                        Sum(p => p.TimeSinceLastStation.TotalMilliseconds))
+                   let closestTrip = GetClosestLineTripByLine(line.Id, TimeInStation)
+                   let lastStationName = RequestStation(line.LastStation).Name
+                   let timeInFirstStation = TimeSpan.FromMilliseconds(closestTrip.Item1.StartAt.TotalMilliseconds +
+                                                closestTrip.Item1.Frequency.TotalMilliseconds * closestTrip.Item2)
+                   orderby timeInFirstStation + TimeInStation
+                   select new LineTiming
+                   {
+                       LastStationName = lastStationName,
+                       LineCode = line.Code,
+                       LineId = line.Id,
+                       TimeToStation = timeInFirstStation + TimeInStation - SimulationClock.GetTime,
+                       TripStartTime = timeInFirstStation
+                   };
+
+        }      
+
         public void CreateStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
             try

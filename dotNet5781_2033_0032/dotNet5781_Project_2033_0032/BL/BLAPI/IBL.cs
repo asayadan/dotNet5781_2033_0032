@@ -6,6 +6,7 @@ namespace BLAPI
 {
     public interface IBL
     {
+        IEnumerable<LineTiming> RequestLineTimingFromStation(int stationId);
         void StartSimulator(TimeSpan start, int speed, Action<TimeSpan> func);
         void StopSimulator();
         #region Bus

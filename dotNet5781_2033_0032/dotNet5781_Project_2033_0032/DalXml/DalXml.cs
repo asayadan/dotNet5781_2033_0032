@@ -18,6 +18,7 @@ namespace DL
         #endregion
         #region stations
         #endregion
+
         public void CreateAdjacentStations(AdjacentStations adjacentStations)
         {
             throw new NotImplementedException();
@@ -159,6 +160,11 @@ namespace DL
         }
 
         public void UpdateStation(Station station)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<LineTrip> GetAllLineTrips()
         {
             throw new NotImplementedException();
         }

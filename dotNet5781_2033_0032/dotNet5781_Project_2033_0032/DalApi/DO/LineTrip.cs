@@ -8,6 +8,6 @@ namespace DO
         public int LineId { get; set; }
         public TimeSpan StartAt { get; set; }
         public TimeSpan Frequency { get; set; }
-        public TimeSpan FinshAt { get; set; }
+        public TimeSpan FinishAt { get; set; }
     }
 }

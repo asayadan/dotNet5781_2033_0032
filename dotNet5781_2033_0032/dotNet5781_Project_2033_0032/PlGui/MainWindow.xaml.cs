@@ -9,6 +9,9 @@ namespace PlGui
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
+
+
     public partial class MainWindow : Window
     {
         IBL bl = BLFactory.GetBL("1");
@@ -17,24 +20,21 @@ namespace PlGui
         public MainWindow()
         {
             InitializeComponent();
-
             getUser.DoWork += OpenWindow;
-            //MenagmentWindow menWin = new MenagmentWindow(bl, tb_username.Text);
-            //menWin.Show();
-            //this.Close();
         }
-
-
 
         void OpenWindow(object sender, DoWorkEventArgs e)
         {
             PlGui.User user = (PlGui.User)e.Argument;
             try
             {
+                
                 if (bl.RequestUserPrivileges(user.username, user.password))
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
+                        SimulationControlWindow win = new SimulationControlWindow(bl);
+                        win.Show();
                         MenagmentWindow menWin = new MenagmentWindow(bl, user.username);
                         menWin.Closing += OpenWindowafterUsage;
                         menWin.Show();
@@ -45,10 +45,16 @@ namespace PlGui
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-                        MessageBox.Show("section under construction");
-                        tb_warnings.Text = "";
+                        SimulationControlWindow win = new SimulationControlWindow(bl);
+                        win.Show();
+                        StationWindow statWin = new StationWindow(bl, user.username);
+                        statWin.Closing += OpenWindowafterUsage;
+                        statWin.Show();
+                        this.Visibility = Visibility.Collapsed;
                     }));
                 }
+                
+
             }
             catch (BO.BadUsernameOrPasswordException)
             {

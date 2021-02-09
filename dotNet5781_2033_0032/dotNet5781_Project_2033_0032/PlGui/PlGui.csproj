@@ -82,6 +82,9 @@
     <Compile Include="SimulationControlWindow.xaml.cs">
       <DependentUpon>SimulationControlWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StationWindow.xaml.cs">
+      <DependentUpon>StationWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddBusWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,6 +133,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="StationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MenagmentWindow.xaml.cs">
@@ -175,6 +182,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="fix.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BusLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="clock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="arrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
