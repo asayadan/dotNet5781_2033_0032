@@ -33,8 +33,6 @@ namespace PlGui
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-                        SimulationControlWindow win = new SimulationControlWindow(bl);
-                        win.Show();
                         MenagmentWindow menWin = new MenagmentWindow(bl, user.username);
                         menWin.Closing += OpenWindowafterUsage;
                         menWin.Show();
@@ -45,8 +43,7 @@ namespace PlGui
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-                        SimulationControlWindow win = new SimulationControlWindow(bl);
-                        win.Show();
+
                         StationWindow statWin = new StationWindow(bl, user.username);
                         statWin.Closing += OpenWindowafterUsage;
                         statWin.Show();

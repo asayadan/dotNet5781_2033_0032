@@ -15,7 +15,7 @@ namespace DL
         {
             return bool.Parse(xElement.Element("isActive").Value);
         }
-        #region TimeSpan
+        #region DateTime
         /// <summary>
         /// converts from XElement to DateTime
         /// </summary>
@@ -152,6 +152,53 @@ namespace DL
                         trip.InAt.ToXElement("TimeIn"),
                         new XElement("OutStation", trip.OutStation),
                         trip.OutAt.ToXElement("TimeOut"));
+        }
+        ///// <summary>
+        ///// checkes wether or not the element in the XElement contains the AdjacentStations represented by 
+        ///// this stations
+        ///// </summary>
+        ///// <param name="stationElement">the element</param>
+        ///// <param name="station1"></param>
+        ///// <param name="station2"></param>
+        ///// <returns>true if they are the same false otherwise</returns>
+        //public static bool Equals(this XElement stationElement, int station1, int station2)
+        //{
+        //    return station1 == int.Parse(stationElement.Element("Station1").Value) &&
+        //            station2 == int.Parse(stationElement.Element("Station2").Value);
+        //}
+        #endregion
+        #region Trip
+
+        /// <summary>
+        /// converts from XElement to LineTrip
+        /// </summary>
+        /// <param name="lineTripElement">the Xelement thet needs to be converted</param>
+        /// <returns>the converted LineTrip</returns>
+        /// <exception cref="FormatException"/>
+        public static LineTrip ToLineTrip(this XElement lineTripElement)
+        {
+            return new LineTrip()
+            {
+                Id = int.Parse(lineTripElement.Element("ID").Value),
+                LineId = int.Parse(lineTripElement.Element("LineID").Value),
+                StartAt = lineTripElement.Element("StartAt").ToTimeSpan(),
+                Frequency = lineTripElement.Element("Frequency").ToTimeSpan(),
+                FinishAt = lineTripElement.Element("FinishAt").ToTimeSpan()
+            };
+        }
+        /// <summary>
+        /// converts from  LineTrip to XElement
+        /// </summary>
+        /// <param name="stations">the LineTrip thet needs to be converted</param>
+        /// <returns>the converted XElement</returns>
+        public static XElement ToXElement(this LineTrip trip)
+        {
+            return new XElement("Trip",
+                        new XElement("ID", trip.Id),
+                        new XElement("LineID", trip.LineId),
+                        trip.StartAt.ToXElement("StartAt"),
+                        trip.Frequency.ToXElement("Frequency"),
+                        trip.FinishAt.ToXElement("FinishAt"));
         }
         ///// <summary>
         ///// checkes wether or not the element in the XElement contains the AdjacentStations represented by 

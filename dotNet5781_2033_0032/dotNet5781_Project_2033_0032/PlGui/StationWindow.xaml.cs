@@ -31,20 +31,22 @@ namespace PlGui
         ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.LineTiming> allLinesInStation = new ObservableCollection<BO.LineTiming>();
         ObservableCollection<BO.LineTiming> timeOfLinesInStation = new ObservableCollection<BO.LineTiming>();
-        
+
         BO.Station curStation;
 
         public StationWindow(IBL bL, string userName)
         {
             bl = bL;
             InitializeComponent();
+            SimulationControlWindow win = new SimulationControlWindow(bl);
+            win.Show();
             lbl_username.DataContext = userName;
             getAllStationsWorker.DoWork += SetWindow;
             getAllStationsWorker.RunWorkerAsync();
             getLinesInStationWorker.DoWork += SetLinesInStation;
             Searchworker.DoWork += Search;
             TimeSpan t;
-            
+
             BO.SimulationClock.valueChanged += (object sender, EventArgs e) => getLinesInStationWorker.RunWorkerAsync();
         }
 
@@ -66,13 +68,23 @@ namespace PlGui
                     var sorted = lineTimings.OrderBy(p => p.LineCode);
                     timeOfLinesInStation.Clear();
                     allLinesInStation.Clear();
-
+                    if (!bl.IsSimulationActivated())
+                    {
+                        tb_currentState.Text = "Simulation Not activated!";
+                        tb_currentState.Foreground = new SolidColorBrush(Colors.Red);
+                    }
+                    else
+                    {
+                        tb_currentState.Text = "Simulation activated!";
+                        tb_currentState.Foreground = new SolidColorBrush(Colors.Green);
+                    }
                     foreach (var lineTiming in lineTimings)
                         timeOfLinesInStation.Add(lineTiming);
 
-                foreach (var lineTiming in sorted)
-                    allLinesInStation.Add(lineTiming);
-            });
+                    foreach (var lineTiming in sorted)
+                        allLinesInStation.Add(lineTiming);
+                });
+            }
         }
         private void SetWindow(object sender, DoWorkEventArgs e)
         {
@@ -96,18 +108,21 @@ namespace PlGui
                 ClosestLinesDataGrid.DataContext = timeOfLinesInStation;
             });
 
-            
-            
+
+
         }
 
         private void cb_stations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             tb_stationName.DataContext = curStation = cb_stations.SelectedItem as BO.Station;
-            getLinesInStationWorker.RunWorkerAsync();
+            if (!getLinesInStationWorker.IsBusy)
+            {
+                getLinesInStationWorker.RunWorkerAsync();
+            }
         }
         private void bt_search_Click(object sender, RoutedEventArgs e)
         {
-            Searchworker.RunWorkerAsync(new SearchData{ changed = false, search = tb_search.Text });
+            Searchworker.RunWorkerAsync(new SearchData { changed = false, search = tb_search.Text });
 
         }
         private void Search(object sender, DoWorkEventArgs e)
@@ -147,7 +162,7 @@ namespace PlGui
             }
             return DependencyProperty.UnsetValue;
         }
-      
+
     }
 
 }

@@ -21,6 +21,7 @@ namespace DL
         string AdjacentStationsPath = "";
         string BusPath="";
         string LinePath = "";
+        string UserPath = "";
 
 
         #region station
@@ -111,23 +112,39 @@ namespace DL
         }
 
         #endregion
-        #region line
 
-        public void CreateLine(Line line)
+        #region line
+        public void CreateAllLine(List<Line> listLines)
         {
-            throw new NotImplementedException();
+                XMLTools.SaveListToXMLSerializer(listLines, LinePath);
+        }
+        public void CreateLine(Line Newline)
+        {
+            List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
+            Line helpLine = (from line in ListLines
+                             where line.Id == Newline.Id
+                             select line).FirstOrDefault();
+            if (helpLine != null)
+                throw new DO.InvalidLineIDException(Newline.Id, "this line id exists in our database");
+            else
+            {
+                ListLines.Add(Newline);
+                XMLTools.SaveListToXMLSerializer(ListLines, LinePath);
+            }
         }
 
         public IEnumerable<Line> RequestAllLines()
         {
-            throw new NotImplementedException();
+            List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
+            return from line in ListLines
+                      select line;
         }
 
         public Line RequestLine(int id)
         {
-            List<Line> ListStudents = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
+            List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
 
-            Line helpLine = (from line in ListStudents
+            Line helpLine = (from line in ListLines
                    where line.Id == id
                    select line).FirstOrDefault();
             if (helpLine != null)
@@ -137,11 +154,26 @@ namespace DL
         }
         public void RemoveLine(int id)
         {
-            throw new NotImplementedException();
+            List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
+
+            Line helpLine = (from line in ListLines
+                             where line.Id == id
+                             select line).FirstOrDefault();
+            if (helpLine != null)
+            {
+                ListLines.Remove(helpLine);
+                XMLTools.SaveListToXMLSerializer(ListLines, LinePath);
+            }
+            else throw new DO.InvalidLineIDException(id, "this line id doesn't exists");
         }
         #endregion
 
         #region bus
+        public void CreateAllBusses(List<Bus> listBusses)
+        {
+            XMLTools.SaveListToXMLSerializer(listBusses, BusPath);
+        }
+
         public void CreateBus(Bus NewBus)
         {
             XElement BusRootElem = XMLTools.LoadListFromXMLElement(BusPath);
@@ -221,17 +253,51 @@ namespace DL
         }
         #endregion
 
+        #region user
+
+        public void CreateAllUsers(List<User> listUsers)
+        {
+            XMLTools.SaveListToXMLSerializer(listUsers, UserPath);
+        }
+        public void CreateUser(User NewUser)
+        {
+            List<User> ListUsers = XMLTools.LoadListFromXMLSerializer<User>(UserPath);
+            User helpUser = (from user in ListUsers
+                             where user.isActive&&user.UserName == NewUser.UserName
+                             select user).FirstOrDefault();
+            if (helpUser != null)
+                throw new DO.BadUsernameOrPasswordException(NewUser.UserName,NewUser.Password, "this username id doesn't exists");
+            else
+            {
+                ListUsers.Add(helpUser);
+                XMLTools.SaveListToXMLSerializer(ListUsers, UserPath);
+            }
+        }
+
+        public bool RequestUserPrivileges(string username, string password)
+        {
+            List<User> ListUsers = XMLTools.LoadListFromXMLSerializer<User>(UserPath);
+            DO.User helpUser = (from user in ListUsers
+                               where user.isActive&&user.UserName == username && user.Password == password
+                                select user).FirstOrDefault();
+            if (helpUser == null)
+                throw new DO.BadUsernameOrPasswordException(username, password, "the password and username doesn't match");
+            return helpUser.Admin;
+        }
+        #endregion
+
+        #region Trip
+        public IEnumerable<LineTrip> GetAllLineTrips()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
         public void CreateLineStation(LineStation lineStation)
         {
             throw new NotImplementedException();
         }
 
         public void CreateStation(Station station)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CreateUser(User user)
         {
             throw new NotImplementedException();
         }
@@ -271,11 +337,6 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public bool RequestUserPrivileges(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Line> GetLinesInStation(int stationId)
         {
             throw new NotImplementedException();
@@ -297,11 +358,6 @@ namespace DL
         }
 
         public void UpdateStation(Station station)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<LineTrip> GetAllLineTrips()
         {
             throw new NotImplementedException();
         }
