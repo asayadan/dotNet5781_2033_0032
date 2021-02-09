@@ -2,6 +2,7 @@
 {
     public class LineStation
     {
+        public bool isActive { get; set; }
         public int LineId { get; set; }
         public int StationId { get; set; }
         public int LineStationIndex { get; set; }

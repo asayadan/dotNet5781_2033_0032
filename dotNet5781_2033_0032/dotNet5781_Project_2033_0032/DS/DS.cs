@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using DLAPI;
 using System.Linq;
+using System.Xml.Linq;
+
 namespace DS
 {
     public static class DataSource
@@ -2609,6 +2611,7 @@ namespace DS
                     ListLineStations.Add(
                     new LineStation
                     {
+                        isActive=true,
                         LineId = ListLines[i].Id,
                         LineStationIndex = j,
                         StationId = ListStations[(i * 4 + j + 1) % ListStations.Count].Code,
@@ -2626,16 +2629,18 @@ namespace DS
             {
                 if (ListLineStations[i].NextStation == ListLineStations[i + 1].StationId)
                 {
+
                     var station1 = ListStations.Find(x => x.Code == ListLineStations[i].StationId);
                     var station2 = ListStations.Find(x => x.Code == ListLineStations[i + 1].StationId);
                     var dist = DistanceBetween(station1, station2);
                     ListAdjacentStations.Add(
                         new AdjacentStations
                         {
+                            isActive = true,
                             DistFromLastStation = dist,
                             Station1 = ListLineStations[i].StationId,
                             Station2 = ListLineStations[i + 1].StationId,
-                            TimeSinceLastStation = DateTime.Now.AddMinutes(dist * 1000 / rnd.Next(30, 50)) - DateTime.Now
+                            TimeSinceLastStation = DateTime.Now.AddHours(dist * 1000 / rnd.Next(30, 50)) - DateTime.Now
                         });
                 }
                 if (ListLineStations[i].PrevStation == ListLineStations[i].StationId)
@@ -2643,17 +2648,19 @@ namespace DS
                     ListAdjacentStations.Add(
                         new AdjacentStations
                         {
+                            isActive = true,
                             DistFromLastStation = 0,
                             Station1 = ListLineStations[i].StationId,
                             Station2 = ListLineStations[i].StationId,
                             TimeSinceLastStation = new TimeSpan(0)
-                        }); ;
+                        });
                 }
                 if (ListLineStations[i].NextStation == ListLineStations[i].StationId)
                 {
                     ListAdjacentStations.Add(
                     new AdjacentStations
                     {
+                        isActive = true,
                         DistFromLastStation = 0,
                         Station1 = ListLineStations[i].StationId,
                         Station2 = ListLineStations[i].StationId,
@@ -2666,6 +2673,7 @@ namespace DS
             {
                 new User
                 {
+                    isActive=true,
                     Admin = true,
                     Password = "Admin",
                     UserName = "Admin"
@@ -2673,6 +2681,7 @@ namespace DS
 
                  new User
                 {
+                     isActive=true,
                     Admin = true,
                     Password = "#MAGA",
                     UserName = "Donald J Trump"
@@ -2680,6 +2689,7 @@ namespace DS
 
                 new User
                 {
+                     isActive=true,
                     Admin = false,
                     UserName = "Noam",
                     Password = "qwerty"
@@ -2687,6 +2697,7 @@ namespace DS
 
                 new User
                 {
+                     isActive=true,
                     Admin = false,
                     UserName = "Achiya",
                     Password = "12345678"
@@ -2707,6 +2718,7 @@ namespace DS
                 var c = new TimeSpan(rnd.Next(0, 8), rnd.Next(0, 59), rnd.Next(0, 59));
                 ListLineTrips.Add(new LineTrip
                 {
+                    isActive = true,
                     StartAt = c,
                     FinishAt = t + c,
                     Frequency = new TimeSpan(0, rnd.Next(30, 50), 0),
@@ -2738,6 +2750,7 @@ namespace DS
 
                 ListBuses.Add(new Bus
                 {
+                    isActive = true,
                     LicenseNum = plateNumber,
                     FromDate = date,
                     LastTreatment = date,
@@ -2748,14 +2761,46 @@ namespace DS
             }
 
 
-
-
-
+            foreach (var item in ListStations)
+            {
+                item.isActive = true;
+            }
+            foreach (var item in ListLines)
+            {
+                item.isActive = true;
+            }
             //ListTrips = new List<Trip>(); Shlav 2
             //ListLineTrips = new List<LineTrip>(); shlav 2
             // ListBusesOnTrips = new List<BusOnTrip>(); Shlav 2
-
-
+            string AdjacentStationsPath = @"AdjacentStationsXml.xml";//XElement
+            string BusPath = @"BusXml.xml";//XElement
+            string LinePath = @"LineXml.xml";//
+            string UserPath = @"UserhXml.xml";//
+            string LineTripPath = @"LineTripXml.xml";//XElement
+            string StationPath = @"StationXml.xml";//
+            string LineStationsPath = @"LineStationsXml.xml";//
+            XMLTools.SaveListToXMLSerializer(ListUsers, UserPath);
+            XMLTools.SaveListToXMLSerializer(ListLines, LinePath);
+            XMLTools.SaveListToXMLSerializer(ListStations, StationPath);
+            XMLTools.SaveListToXMLSerializer(ListLineStations, LineStationsPath);
+            XElement adjElement = new XElement("AdjacentStations");
+            XElement busElement = new XElement("Busses");
+            foreach (var item in ListAdjacentStations)
+            {
+                adjElement.Add(item.ToXElement());
+            }
+            XMLTools.SaveListToXMLElement(adjElement, AdjacentStationsPath);
+            foreach (var item in ListBuses)
+            {
+                busElement.Add(item.ToXElement());
+            }
+            XMLTools.SaveListToXMLElement(busElement, BusPath);
+            XElement lineTripsElement = new XElement("LineTrips");
+            foreach (var item in ListLineTrips)
+            {
+                lineTripsElement.Add(item.ToXElement());
+            }
+            XMLTools.SaveListToXMLElement(lineTripsElement, LineTripPath);
         }
 
 

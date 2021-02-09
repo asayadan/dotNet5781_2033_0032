@@ -323,6 +323,7 @@ namespace BL
                 {
                     dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
+                        isActive = true,
                         DistFromLastStation = distanceSinceLastStation,
                         Station1 = helpPrev,
                         Station2 = stationId,
@@ -336,6 +337,7 @@ namespace BL
                 {
                     dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
+                        isActive=true,
                         DistFromLastStation = distanceUntilNextStation,
                         Station1 = stationId,
                         Station2 = helpNext,
@@ -414,6 +416,7 @@ namespace BL
                         {
                             dl.CreateAdjacentStations(new DO.AdjacentStations
                             {
+                                isActive = true,
                                 DistFromLastStation = 0,
                                 Station1 = station.NextStation,
                                 Station2 = station.NextStation,
@@ -464,6 +467,7 @@ namespace BL
             {
                 dl.UpdateAdjacentStations(new DO.AdjacentStations
                 {
+                    isActive = true,
                     DistFromLastStation = distanceSinceLastStation,
                     Station1 = station1,
                     Station2 = station2,
@@ -625,13 +629,15 @@ namespace BL
                 throw new BadUsernameOrPasswordException(userName, password, "Passwords aren't equal.");
             try
             {
-                dl.CreateUser(new DO.User { Admin = false, Password = password, UserName = userName });
+                dl.CreateUser(new DO.User { isActive = true, Admin = false, Password = password, UserName = userName });
             }
             catch (DO.BadUsernameOrPasswordException ex)
             {
                 throw new BadUsernameOrPasswordException(ex.Username, ex.Password, ex.Message, ex);
             }
         }
+
+
         #endregion
     }
 }
