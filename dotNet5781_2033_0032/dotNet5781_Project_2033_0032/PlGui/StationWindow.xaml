@@ -22,12 +22,14 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Content="Select Station:"  />
-            <ComboBox x:Name="cb_stations"  Width="125" SelectionChanged="cb_stations_SelectionChanged"
-                   ItemsSource="{Binding}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+            <Label Content="Select Station:" Width="100" />
+            <ComboBox x:Name="cb_stations"  Width="150"  Text="" SelectionChanged="cb_stations_SelectionChanged"
+                   ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+            <TextBox x:Name="tb_search" Width="200"/>
+            <Button x:Name="bt_search" Content="search" Click="bt_search_Click"/>
         </WrapPanel>
-        
+
 
         <Grid Background="Yellow" Grid.Row="1" Grid.Column="0">
 
