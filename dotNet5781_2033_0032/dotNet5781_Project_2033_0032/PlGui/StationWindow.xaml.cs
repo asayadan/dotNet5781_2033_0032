@@ -114,8 +114,9 @@ namespace PlGui
 
         private void cb_stations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             tb_stationName.DataContext = curStation = cb_stations.SelectedItem as BO.Station;
-            if (!getLinesInStationWorker.IsBusy)
+            if (!getLinesInStationWorker.IsBusy&& !getAllStationsWorker.IsBusy)
             {
                 getLinesInStationWorker.RunWorkerAsync();
             }
