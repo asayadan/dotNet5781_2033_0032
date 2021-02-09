@@ -9,6 +9,8 @@ namespace BLAPI
         IEnumerable<LineTiming> RequestLineTimingFromStation(int stationId);
         void StartSimulator(TimeSpan start, int speed, Action<TimeSpan> func);
         void StopSimulator();
+        bool IsSimulationActivated();
+
         #region Bus
         BO.Bus RequestBus(int licenseNum);
         void CreateBus(int licenseNum, DateTime fromTime, double fuel = 1200, double totalTrip = 0);

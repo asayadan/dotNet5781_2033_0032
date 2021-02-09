@@ -30,7 +30,7 @@ namespace PlGui
         ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.LineTiming> allLinesInStation = new ObservableCollection<BO.LineTiming>();
         ObservableCollection<BO.LineTiming> timeOfLinesInStation = new ObservableCollection<BO.LineTiming>();
-
+        
         BO.Station curStation;
 
         public StationWindow(IBL bL, string userName)
@@ -49,8 +49,21 @@ namespace PlGui
         private void SetLinesInStation(object sender, DoWorkEventArgs e)
         {
             var lineTimings = bl.RequestLineTimingFromStation(curStation.Code);
+
             App.Current.Dispatcher.Invoke((Action)delegate
             {
+
+                if (!bl.IsSimulationActivated())
+                {
+                    tb_currentState.Text = "Simulation Not activated!";
+                    tb_currentState.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    tb_currentState.Text = "Simulation activated!";
+                    tb_currentState.Foreground = new SolidColorBrush(Colors.Green);
+                }
+
                 var sorted = lineTimings.OrderBy(p => p.LineCode);
                 timeOfLinesInStation.Clear();
                 allLinesInStation.Clear();
@@ -60,7 +73,10 @@ namespace PlGui
 
                 foreach (var lineTiming in sorted)
                     allLinesInStation.Add(lineTiming);
+
+                
             });
+
         }
         private void SetWindow(object sender, DoWorkEventArgs e)
         {
