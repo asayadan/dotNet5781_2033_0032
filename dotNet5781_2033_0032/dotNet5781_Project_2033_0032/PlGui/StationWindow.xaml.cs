@@ -27,6 +27,7 @@ namespace PlGui
         IBL bl;
         BackgroundWorker getAllStationsWorker = new BackgroundWorker();
         BackgroundWorker getLinesInStationWorker = new BackgroundWorker();
+        BackgroundWorker Searchworker = new BackgroundWorker();
         ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.LineTiming> allLinesInStation = new ObservableCollection<BO.LineTiming>();
         ObservableCollection<BO.LineTiming> timeOfLinesInStation = new ObservableCollection<BO.LineTiming>();
@@ -41,6 +42,7 @@ namespace PlGui
             getAllStationsWorker.DoWork += SetWindow;
             getAllStationsWorker.RunWorkerAsync();
             getLinesInStationWorker.DoWork += SetLinesInStation;
+            Searchworker.DoWork += Search;
             TimeSpan t;
             
             BO.SimulationClock.valueChanged += (object sender, EventArgs e) => getLinesInStationWorker.RunWorkerAsync();
@@ -48,35 +50,29 @@ namespace PlGui
 
         private void SetLinesInStation(object sender, DoWorkEventArgs e)
         {
-            var lineTimings = bl.RequestLineTimingFromStation(curStation.Code);
-
-            App.Current.Dispatcher.Invoke((Action)delegate
+            if (curStation == null)
             {
-
-                if (!bl.IsSimulationActivated())
+                App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    tb_currentState.Text = "Simulation Not activated!";
-                    tb_currentState.Foreground = new SolidColorBrush(Colors.Red);
-                }
-                else
+                    timeOfLinesInStation.Clear();
+                    allLinesInStation.Clear();
+                });
+            }
+            else
+            {
+                var lineTimings = bl.RequestLineTimingFromStation(curStation.Code);
+                App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    tb_currentState.Text = "Simulation activated!";
-                    tb_currentState.Foreground = new SolidColorBrush(Colors.Green);
-                }
+                    var sorted = lineTimings.OrderBy(p => p.LineCode);
+                    timeOfLinesInStation.Clear();
+                    allLinesInStation.Clear();
 
-                var sorted = lineTimings.OrderBy(p => p.LineCode);
-                timeOfLinesInStation.Clear();
-                allLinesInStation.Clear();
-
-                foreach (var lineTiming in lineTimings)
-                    timeOfLinesInStation.Add(lineTiming);
+                    foreach (var lineTiming in lineTimings)
+                        timeOfLinesInStation.Add(lineTiming);
 
                 foreach (var lineTiming in sorted)
                     allLinesInStation.Add(lineTiming);
-
-                
             });
-
         }
         private void SetWindow(object sender, DoWorkEventArgs e)
         {
@@ -109,6 +105,27 @@ namespace PlGui
             tb_stationName.DataContext = curStation = cb_stations.SelectedItem as BO.Station;
             getLinesInStationWorker.RunWorkerAsync();
         }
+        private void bt_search_Click(object sender, RoutedEventArgs e)
+        {
+            Searchworker.RunWorkerAsync(new SearchData{ changed = false, search = tb_search.Text });
+
+        }
+        private void Search(object sender, DoWorkEventArgs e)
+        {
+
+            //  if ((e.Argument as SearchData).changed)
+            var helpList = bl.RequestStationsBy(x => (x as BO.Station).Name.Contains((e.Argument as SearchData).search));
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                stationCollection.Clear();
+                foreach (var station in helpList)
+                {
+                    stationCollection.Add(station);
+                }
+                cb_stations.SelectedIndex = 0;
+                curStation = cb_stations.SelectedItem as BO.Station;
+            });
+        }
     }
 
     [ValueConversion(typeof(TimeSpan), typeof(String))]
@@ -130,6 +147,7 @@ namespace PlGui
             }
             return DependencyProperty.UnsetValue;
         }
+      
     }
 
 }
