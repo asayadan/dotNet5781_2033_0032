@@ -81,7 +81,7 @@ namespace PlGui
             {
                 gr_time.Visibility = Visibility.Collapsed;
                 tb_time.Visibility = Visibility.Visible;
-                tb_speed.IsReadOnly = true;
+                slider.IsEnabled = false;
                 worker.RunWorkerAsync();
                 bt_activation.Content = "Stop";
             }
@@ -89,7 +89,7 @@ namespace PlGui
             {
                 gr_time.Visibility = Visibility.Visible;
                 tb_time.Visibility = Visibility.Collapsed;
-                tb_speed.IsReadOnly = false;
+                slider.IsEnabled = true;
                 bl.StopSimulator();
                 bt_activation.Content = "Start";
             }

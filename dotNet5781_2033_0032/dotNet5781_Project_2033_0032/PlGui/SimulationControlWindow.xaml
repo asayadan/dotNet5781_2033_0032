@@ -38,11 +38,19 @@
         <ComboBox x:Name="lastMinutesComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />
         <ComboBox x:Name="lastSecondsComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="4" />
     </Grid>
-        <TextBox x:Name="tb_time" Grid.Row="1" Grid.Column="1" TextAlignment="Center"  Visibility="Collapsed" IsReadOnly="True" Text="{Binding Mode=OneWay}"/>
+        <TextBox x:Name="tb_time" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextAlignment="Center"  Visibility="Collapsed" IsReadOnly="True" Text="{Binding Mode=OneWay}"/>
         <Label Content="Select speed"  FontSize="25" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
         <Label Content="start time"  FontSize="25" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
         <Button x:Name="bt_activation" Content="Start" FontSize="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Click="Button_Click" />
         <TextBox x:Name="tb_warnings" Text="" Foreground="Red" FontSize="25" TextAlignment="Center" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <TextBox x:Name="tb_speed" HorizontalAlignment="Center"  FontSize="25"  Grid.Row="1" TextAlignment="Right" Text="1" VerticalAlignment="Center"  Width="100"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="tb_speed" HorizontalAlignment="Center"  FontSize="25"  Grid.Row="1" TextAlignment="Center" Text="{Binding ElementName=slider, Path=Value}" VerticalAlignment="Center"  Width="100"/>
+            <Slider x:Name="slider" Grid.Row="0" HorizontalAlignment="Center" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" VerticalAlignment="Center" Maximum="180" Minimum="1" Width="180"/>
+        </Grid>
+        
     </Grid>
 </Window>
