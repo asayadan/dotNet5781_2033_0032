@@ -2640,7 +2640,7 @@ namespace DS
                             DistFromLastStation = dist,
                             Station1 = ListLineStations[i].StationId,
                             Station2 = ListLineStations[i + 1].StationId,
-                            TimeSinceLastStation = DateTime.Now.AddHours(dist * 1000 / rnd.Next(30, 50)) - DateTime.Now
+                            TimeSinceLastStation = DateTime.Now.AddHours(dist * 1000 / rnd.Next(60, 100)) - DateTime.Now
                         });
                 }
                 if (ListLineStations[i].PrevStation == ListLineStations[i].StationId)

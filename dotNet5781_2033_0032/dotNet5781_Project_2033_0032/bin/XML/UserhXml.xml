@@ -24,10 +24,4 @@
     <Password>12345678</Password>
     <Admin>false</Admin>
   </User>
-  <User>
-    <isActive>true</isActive>
-    <UserName>www</UserName>
-    <Password>asd</Password>
-    <Admin>false</Admin>
-  </User>
 </ArrayOfUser>
