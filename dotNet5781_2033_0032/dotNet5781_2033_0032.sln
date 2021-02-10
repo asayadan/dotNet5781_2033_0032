@@ -32,6 +32,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "dotNet5781_Project_20
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{A3DE9F25-2A5E-4E78-98B5-79E98BAAD8EA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XML", "XML", "{E47AB9B5-D0D3-48AC-B465-78F2FE6B437B}"
+	ProjectSection(SolutionItems) = preProject
+		dotNet5781_Project_2033_0032\bin\XML\AdjacentStationsXml.xml = dotNet5781_Project_2033_0032\bin\XML\AdjacentStationsXml.xml
+		dotNet5781_Project_2033_0032\bin\XML\BusXml.xml = dotNet5781_Project_2033_0032\bin\XML\BusXml.xml
+		dotNet5781_Project_2033_0032\bin\XML\LineStationsXml.xml = dotNet5781_Project_2033_0032\bin\XML\LineStationsXml.xml
+		dotNet5781_Project_2033_0032\bin\XML\LineTripXml.xml = dotNet5781_Project_2033_0032\bin\XML\LineTripXml.xml
+		dotNet5781_Project_2033_0032\bin\XML\LineXml.xml = dotNet5781_Project_2033_0032\bin\XML\LineXml.xml
+		dotNet5781_Project_2033_0032\bin\XML\StationXml.xml = dotNet5781_Project_2033_0032\bin\XML\StationXml.xml
+		dotNet5781_Project_2033_0032\bin\XML\UserhXml.xml = dotNet5781_Project_2033_0032\bin\XML\UserhXml.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +105,7 @@ Global
 		{91C72A1E-A558-42DF-8B33-3A90DB1FDEDE} = {3E82F158-AA56-4F90-B345-3D1CB402B674}
 		{2B702C3E-20AC-45AB-B358-65E7F5FE4B5C} = {3E82F158-AA56-4F90-B345-3D1CB402B674}
 		{A3DE9F25-2A5E-4E78-98B5-79E98BAAD8EA} = {3E82F158-AA56-4F90-B345-3D1CB402B674}
+		{E47AB9B5-D0D3-48AC-B465-78F2FE6B437B} = {A3DE9F25-2A5E-4E78-98B5-79E98BAAD8EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5661313-90F7-44F6-911A-B8BE57DD7BDA}

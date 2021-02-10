@@ -40,7 +40,7 @@ namespace DL
                                                  select stations.ToAdjecentStation()
                                             ).FirstOrDefault();
 
-            if (adjacentStations != null)
+            if (thisStaions != null)
                 throw new DO.InvalidAdjacentStationIDException(adjacentStations.Station1, adjacentStations.Station2, "we already have this AdjecentStations");
 
             AdjacentStationsRootElem.Add(adjacentStations.ToXElement());
@@ -136,6 +136,7 @@ namespace DL
         {
             List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
             return from line in ListLines
+                   where line.isActive
                       select line;
         }
 
@@ -328,7 +329,7 @@ namespace DL
             else
             {
                 ListStation.Add(lineStation);
-                XMLTools.SaveListToXMLSerializer(ListStation, LinePath);
+                XMLTools.SaveListToXMLSerializer(ListStation, LineStationsPath);
             }
         }
         public LineStation RequestLineStation(int stationId, int lineId)

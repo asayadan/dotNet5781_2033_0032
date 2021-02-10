@@ -110,6 +110,10 @@ namespace PlGui
         {
             try
             {
+                if (linesInStationWorker.IsBusy)
+                {
+                    return;
+                }
                 var helpList = new List<BO.StationInLine>();
                 foreach (var b in bl.RequestStationsInLine(curLine.Id))
                 {
@@ -350,7 +354,7 @@ namespace PlGui
         {
             curStation = cbStations.SelectedItem as BO.Station;
             gridStation.DataContext = curStation;
-            if (cbStations.SelectedValue != null)
+            if (cbStations.SelectedValue != null&& !stationsInLineWorker.IsBusy)
             {
                 linesInStationWorker.RunWorkerAsync((int)cbStations.SelectedValue);
             }

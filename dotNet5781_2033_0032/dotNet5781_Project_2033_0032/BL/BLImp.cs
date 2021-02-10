@@ -231,7 +231,7 @@ namespace BL
         }
         public (LineTrip, int) GetClosestLineTripByLine(int lineId, TimeSpan timeToStation)
         {
-            var lineTrip = GetAllLineTrips().Where(p => p.LineId == lineId).First();
+            var lineTrip = GetAllLineTrips().Where(p => p.LineId == lineId).FirstOrDefault();
             int min = 0;
             while (SimulationClock.GetTime + timeToStation >
                 lineTrip.StartAt + TimeSpan.FromMilliseconds(min * lineTrip.Frequency.TotalMilliseconds))
@@ -507,15 +507,17 @@ namespace BL
             {
                 dl.CreateLine(new DO.Line
                 {
+                    isActive = true,
                     Area = (DO.Areas)area,
                     Code = code,
                     FirstStation = firstStation,
                     LastStation = lastStation,
                     Id = Counters.lines++
-                });
+                }) ;
 
                 dl.CreateLineStation(new DO.LineStation
                 {
+                    isActive=true,
                     LineId = Counters.lines - 1,
                     LineStationIndex = 0,
                     NextStation = lastStation,
@@ -525,6 +527,7 @@ namespace BL
 
                 dl.CreateLineStation(new DO.LineStation
                 {
+                    isActive = true,
                     LineId = Counters.lines - 1,
                     LineStationIndex = 0,
                     NextStation = lastStation,
@@ -535,6 +538,7 @@ namespace BL
                 {
                     dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
+                        isActive = true,
                         DistFromLastStation = 0,
                         TimeSinceLastStation = new TimeSpan(0),
                         Station1 = firstStation,
@@ -546,6 +550,7 @@ namespace BL
                 {
                     dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
+                        isActive = true,
                         DistFromLastStation = distanceSinceLastStation,
                         TimeSinceLastStation = timeSinceLastStation,
                         Station1 = firstStation,
@@ -557,6 +562,7 @@ namespace BL
                 {
                     dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
+                        isActive = true,
                         DistFromLastStation = 0,
                         TimeSinceLastStation = new TimeSpan(0),
                         Station1 = lastStation,
@@ -594,6 +600,7 @@ namespace BL
             {
                 dl.UpdateLine(new DO.Line
                 {
+                    isActive = true,
                     Area = (DO.Areas)line.Area,
                     Code = line.Code,
                     FirstStation = line.FirstStation,
