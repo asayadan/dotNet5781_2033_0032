@@ -4,6 +4,6 @@
   <dal-packages>
     <data namespace ="DL" class ="DLObject">DalObject</data>
     <xml namespace="DL" class="DalXml">DalXml</xml>
-    <oracle namespace="Dal" class="DalDbOracle">DalOracle</oracle>
+    <oracle namespace="Dal" class="DalDbOracle">DalOracle</oracle>d
   </dal-packages>
 </config>

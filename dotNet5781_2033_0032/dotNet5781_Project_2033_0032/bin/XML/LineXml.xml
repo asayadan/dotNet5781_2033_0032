@@ -13,7 +13,7 @@
     <Code>222</Code>
     <FirstStation>38844</FirstStation>
     <LastStation>38856</LastStation>
-    <Area>South</Area>
+    <Area>Jerusalem</Area>
     <Id>2</Id>
   </Line>
   <Line>
@@ -21,7 +21,7 @@
     <Code>333</Code>
     <FirstStation>38859</FirstStation>
     <LastStation>38869</LastStation>
-    <Area>General</Area>
+    <Area>Center</Area>
     <Id>3</Id>
   </Line>
   <Line>
@@ -29,15 +29,15 @@
     <Code>444</Code>
     <FirstStation>38870</FirstStation>
     <LastStation>38881</LastStation>
-    <Area>South</Area>
+    <Area>North</Area>
     <Id>4</Id>
   </Line>
   <Line>
-    <isActive>false</isActive>
+    <isActive>true</isActive>
     <Code>555</Code>
     <FirstStation>38883</FirstStation>
     <LastStation>38892</LastStation>
-    <Area>Center</Area>
+    <Area>Jerusalem</Area>
     <Id>5</Id>
   </Line>
 </ArrayOfLine>

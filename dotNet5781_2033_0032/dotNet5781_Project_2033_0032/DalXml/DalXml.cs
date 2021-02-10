@@ -336,7 +336,7 @@ namespace DL
         {
             List<LineStation> ListStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
             LineStation helpStation = (from station in ListStation
-                                       where station.StationId == stationId && station.LineId == lineId
+                                       where station.StationId == stationId && station.LineId == lineId&&station.isActive
                                        && station.isActive
                                        select station).FirstOrDefault();
             if (helpStation == null)
@@ -349,7 +349,7 @@ namespace DL
             List<LineStation> ListStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
 
             return from lineStation in ListStation
-                   where lineStation.LineId == lineId
+                   where lineStation.LineId == lineId && lineStation.isActive
                    orderby lineStation.LineStationIndex ascending
                    select lineStation;
         }
@@ -374,7 +374,7 @@ namespace DL
         {
                 List<LineStation> ListStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
                 LineStation helpStation = (from station in ListStation
-                                           where station.StationId == lineStation.StationId && station.LineId == lineStation.LineId
+                                           where station.StationId == lineStation.StationId && station.LineId == lineStation.LineId && station.isActive
                                            && station.isActive
                                            select station).FirstOrDefault();
                 if (helpStation == null)
@@ -393,8 +393,8 @@ namespace DL
         {
             List<Station> ListStation = XMLTools.LoadListFromXMLSerializer<Station>(StationPath);
             Station helpStation = (from station in ListStation
-                                   where station.isActive && station.Code == Newstation.Code
-                             select station).FirstOrDefault();
+                                   where station.isActive && station.Code == Newstation.Code && station.isActive
+                                   select station).FirstOrDefault();
             if (helpStation != null)
                 throw new DO.InvalidStationIDException(Newstation.Code, "Station code already exists.");
             else
@@ -408,7 +408,7 @@ namespace DL
         {
             List<Station> ListStation = XMLTools.LoadListFromXMLSerializer<Station>(StationPath);
             Station helpStation = (from station in ListStation
-                                   where station.isActive && station.Code == id
+                                   where station.isActive && station.Code == id 
                                    select station).FirstOrDefault();
             if (helpStation == null)
                 throw new DO.InvalidStationIDException(id, "Station id not found.");
@@ -452,7 +452,7 @@ namespace DL
             List<LineStation> ListLineStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
             List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
             return from lineStations in ListLineStation
-                   where lineStations.StationId == stationId
+                   where lineStations.StationId == stationId&&lineStations.isActive
                    select ListLines.Find(x => x.Id == lineStations.LineId);
         }
         public void UpdateStation(Station Ustation)

@@ -135,6 +135,7 @@ namespace BL
             {
                 dl.CreateStation(new DO.Station
                 {
+                    isActive = true,
                     Code = code,
                     Name = name,
                     Longitude = longitude,
@@ -313,6 +314,7 @@ namespace BL
 
                 dl.CreateLineStation(new DO.LineStation
                 {
+                    isActive = true,
                     LineStationIndex = index,
                     LineId = lineId,
                     StationId = stationId,
@@ -389,6 +391,7 @@ namespace BL
                     if (dl.RequestAdjacentStations(prevStation.StationId, nextStation.StationId) != null)
                         dl.UpdateAdjacentStations(new DO.AdjacentStations
                         {
+                            isActive = true,
                             DistFromLastStation = distanceFromLastStation,
                             Station1 = prevStation.StationId,
                             Station2 = nextStation.StationId,
@@ -396,6 +399,7 @@ namespace BL
                         });
                     else dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
+                        isActive = true,
                         DistFromLastStation = distanceFromLastStation,
                         Station1 = prevStation.StationId,
                         Station2 = nextStation.StationId,
@@ -436,13 +440,14 @@ namespace BL
                 }
 
             }
+            catch (AggregateException) { }
             //       catch (DO.InvalidAdjacentStationIDException ex)
             //     {
             //       throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
             //      }
-            catch (DO.InvalidLinesStationException ex)
+           // catch (DO.InvalidLinesStationException ex)
             {
-                throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
+         //       throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
             }
         }
         public IEnumerable<BO.Line> LinesInStation(int stationId)
