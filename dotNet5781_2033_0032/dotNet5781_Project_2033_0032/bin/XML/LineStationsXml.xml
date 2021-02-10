@@ -10,83 +10,75 @@
   </LineStation>
   <LineStation>
     <isActive>true</isActive>
-    <LineId>2</LineId>
+    <LineId>1</LineId>
+    <StationId>38833</StationId>
+    <LineStationIndex>1</LineStationIndex>
+    <PrevStation>38832</PrevStation>
+    <NextStation>38834</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>true</isActive>
+    <LineId>1</LineId>
+    <StationId>38834</StationId>
+    <LineStationIndex>2</LineStationIndex>
+    <PrevStation>38833</PrevStation>
+    <NextStation>38836</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>true</isActive>
+    <LineId>1</LineId>
+    <StationId>38836</StationId>
+    <LineStationIndex>3</LineStationIndex>
+    <PrevStation>38834</PrevStation>
+    <NextStation>38837</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>true</isActive>
+    <LineId>1</LineId>
     <StationId>38837</StationId>
-    <LineStationIndex>0</LineStationIndex>
-    <PrevStation>38837</PrevStation>
+    <LineStationIndex>4</LineStationIndex>
+    <PrevStation>38836</PrevStation>
     <NextStation>38838</NextStation>
   </LineStation>
   <LineStation>
     <isActive>true</isActive>
-    <LineId>2</LineId>
+    <LineId>1</LineId>
     <StationId>38838</StationId>
-    <LineStationIndex>1</LineStationIndex>
+    <LineStationIndex>5</LineStationIndex>
     <PrevStation>38837</PrevStation>
     <NextStation>38839</NextStation>
   </LineStation>
   <LineStation>
     <isActive>true</isActive>
-    <LineId>2</LineId>
+    <LineId>1</LineId>
     <StationId>38839</StationId>
-    <LineStationIndex>2</LineStationIndex>
+    <LineStationIndex>6</LineStationIndex>
     <PrevStation>38838</PrevStation>
     <NextStation>38840</NextStation>
   </LineStation>
   <LineStation>
     <isActive>true</isActive>
-    <LineId>2</LineId>
+    <LineId>1</LineId>
     <StationId>38840</StationId>
-    <LineStationIndex>3</LineStationIndex>
+    <LineStationIndex>7</LineStationIndex>
     <PrevStation>38839</PrevStation>
     <NextStation>38841</NextStation>
   </LineStation>
   <LineStation>
     <isActive>true</isActive>
-    <LineId>2</LineId>
+    <LineId>1</LineId>
     <StationId>38841</StationId>
-    <LineStationIndex>4</LineStationIndex>
+    <LineStationIndex>8</LineStationIndex>
     <PrevStation>38840</PrevStation>
     <NextStation>38842</NextStation>
   </LineStation>
   <LineStation>
     <isActive>true</isActive>
-    <LineId>2</LineId>
+    <LineId>1</LineId>
     <StationId>38842</StationId>
-    <LineStationIndex>5</LineStationIndex>
-    <PrevStation>38841</PrevStation>
-    <NextStation>38844</NextStation>
-  </LineStation>
-  <LineStation>
-    <isActive>true</isActive>
-    <LineId>2</LineId>
-    <StationId>38844</StationId>
-    <LineStationIndex>6</LineStationIndex>
-    <PrevStation>38842</PrevStation>
-    <NextStation>38845</NextStation>
-  </LineStation>
-  <LineStation>
-    <isActive>true</isActive>
-    <LineId>2</LineId>
-    <StationId>38845</StationId>
-    <LineStationIndex>7</LineStationIndex>
-    <PrevStation>38844</PrevStation>
-    <NextStation>38846</NextStation>
-  </LineStation>
-  <LineStation>
-    <isActive>true</isActive>
-    <LineId>2</LineId>
-    <StationId>38846</StationId>
-    <LineStationIndex>8</LineStationIndex>
-    <PrevStation>38845</PrevStation>
-    <NextStation>38847</NextStation>
-  </LineStation>
-  <LineStation>
-    <isActive>true</isActive>
-    <LineId>2</LineId>
-    <StationId>38847</StationId>
     <LineStationIndex>9</LineStationIndex>
-    <PrevStation>38846</PrevStation>
-    <NextStation>38847</NextStation>
+    <PrevStation>38841</PrevStation>
+    <NextStation>38842</NextStation>
   </LineStation>
   <LineStation>
     <isActive>true</isActive>
@@ -330,74 +322,82 @@
   </LineStation>
   <LineStation>
     <isActive>false</isActive>
-    <LineId>1</LineId>
-    <StationId>38833</StationId>
-    <LineStationIndex>0</LineStationIndex>
-    <PrevStation>38832</PrevStation>
-    <NextStation>38834</NextStation>
-  </LineStation>
-  <LineStation>
-    <isActive>false</isActive>
-    <LineId>1</LineId>
-    <StationId>38834</StationId>
-    <LineStationIndex>1</LineStationIndex>
-    <PrevStation>38833</PrevStation>
-    <NextStation>38836</NextStation>
-  </LineStation>
-  <LineStation>
-    <isActive>false</isActive>
-    <LineId>1</LineId>
-    <StationId>38836</StationId>
-    <LineStationIndex>2</LineStationIndex>
-    <PrevStation>38834</PrevStation>
-    <NextStation>38837</NextStation>
-  </LineStation>
-  <LineStation>
-    <isActive>false</isActive>
-    <LineId>1</LineId>
+    <LineId>2</LineId>
     <StationId>38837</StationId>
-    <LineStationIndex>3</LineStationIndex>
-    <PrevStation>38836</PrevStation>
+    <LineStationIndex>0</LineStationIndex>
+    <PrevStation>38837</PrevStation>
     <NextStation>38838</NextStation>
   </LineStation>
   <LineStation>
     <isActive>false</isActive>
-    <LineId>1</LineId>
+    <LineId>2</LineId>
     <StationId>38838</StationId>
-    <LineStationIndex>4</LineStationIndex>
+    <LineStationIndex>1</LineStationIndex>
     <PrevStation>38837</PrevStation>
     <NextStation>38839</NextStation>
   </LineStation>
   <LineStation>
     <isActive>false</isActive>
-    <LineId>1</LineId>
+    <LineId>2</LineId>
     <StationId>38839</StationId>
-    <LineStationIndex>5</LineStationIndex>
+    <LineStationIndex>2</LineStationIndex>
     <PrevStation>38838</PrevStation>
     <NextStation>38840</NextStation>
   </LineStation>
   <LineStation>
     <isActive>false</isActive>
-    <LineId>1</LineId>
+    <LineId>2</LineId>
     <StationId>38840</StationId>
-    <LineStationIndex>6</LineStationIndex>
+    <LineStationIndex>3</LineStationIndex>
     <PrevStation>38839</PrevStation>
     <NextStation>38841</NextStation>
   </LineStation>
   <LineStation>
     <isActive>false</isActive>
-    <LineId>1</LineId>
+    <LineId>2</LineId>
     <StationId>38841</StationId>
-    <LineStationIndex>7</LineStationIndex>
+    <LineStationIndex>4</LineStationIndex>
     <PrevStation>38840</PrevStation>
     <NextStation>38842</NextStation>
   </LineStation>
   <LineStation>
     <isActive>false</isActive>
-    <LineId>1</LineId>
+    <LineId>2</LineId>
     <StationId>38842</StationId>
-    <LineStationIndex>8</LineStationIndex>
+    <LineStationIndex>5</LineStationIndex>
     <PrevStation>38841</PrevStation>
-    <NextStation>38842</NextStation>
+    <NextStation>38844</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>false</isActive>
+    <LineId>2</LineId>
+    <StationId>38844</StationId>
+    <LineStationIndex>6</LineStationIndex>
+    <PrevStation>38842</PrevStation>
+    <NextStation>38845</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>false</isActive>
+    <LineId>2</LineId>
+    <StationId>38845</StationId>
+    <LineStationIndex>7</LineStationIndex>
+    <PrevStation>38844</PrevStation>
+    <NextStation>38846</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>false</isActive>
+    <LineId>2</LineId>
+    <StationId>38846</StationId>
+    <LineStationIndex>8</LineStationIndex>
+    <PrevStation>38845</PrevStation>
+    <NextStation>38847</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>false</isActive>
+    <LineId>2</LineId>
+    <StationId>38847</StationId>
+    <LineStationIndex>9</LineStationIndex>
+    <PrevStation>38846</PrevStation>
+    <NextStation>38847</NextStation>
   </LineStation>
 </ArrayOfLineStation>
