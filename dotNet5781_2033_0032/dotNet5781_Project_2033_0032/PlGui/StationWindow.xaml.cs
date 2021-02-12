@@ -65,64 +65,77 @@ namespace PlGui
             }
             else
             {
-                var lineTimings = bl.RequestLineTimingFromStation(curStation.Code);
-                App.Current.Dispatcher.Invoke((Action)delegate
+                try
                 {
-                    var sorted = lineTimings.OrderBy(p => p.LineCode);
-                    timeOfLinesInStation.Clear();
-                    allLinesInStation.Clear();
-                    if (!bl.IsSimulationActivated())
+                    lineStationMutex.WaitOne();
+                    var lineTimings = bl.RequestLineTimingFromStation(curStation.Code);
+                    lineStationMutex.ReleaseMutex();
+                    App.Current.Dispatcher.Invoke((Action)delegate
                     {
-                        tb_currentState.Text = "Simulation Not activated!";
-                        tb_currentState.Foreground = new SolidColorBrush(Colors.Red);
-                    }
-                    else
-                    {
-                        tb_currentState.Text = "Simulation activated!";
-                        tb_currentState.Foreground = new SolidColorBrush(Colors.Green);
-                    }
-                    foreach (var lineTiming in lineTimings)
-                        timeOfLinesInStation.Add(lineTiming);
+                        var sorted = lineTimings.OrderBy(p => p.LineCode);
+                        timeOfLinesInStation.Clear();
+                        allLinesInStation.Clear();
+                        if (!bl.IsSimulationActivated())
+                        {
+                            tb_currentState.Text = "Simulation Not activated!";
+                            tb_currentState.Foreground = new SolidColorBrush(Colors.Red);
+                        }
+                        else
+                        {
+                            tb_currentState.Text = "Simulation activated!";
+                            tb_currentState.Foreground = new SolidColorBrush(Colors.Green);
+                        }
+                        foreach (var lineTiming in lineTimings)
+                            timeOfLinesInStation.Add(lineTiming);
 
-                    foreach (var lineTiming in sorted)
-                        allLinesInStation.Add(lineTiming);
-                });
+                        foreach (var lineTiming in sorted)
+                            allLinesInStation.Add(lineTiming);
+                    });
+
+                }
+                catch (Exception)
+                {
+                }
+
             }
+
         }
         private void SetWindow(object sender, DoWorkEventArgs e)
         {
-            stationCollection = new ObservableCollection<BO.Station>(bl.RequestAllStations());
-
-            App.Current.Dispatcher.Invoke((Action)delegate
+            try
             {
-                cb_stations.DataContext = stationCollection;
-                cb_stations.DisplayMemberPath = "Name";
-                cb_stations.SelectedIndex = 1;
-                curStation = stationCollection[1];
+                lineStationMutex.WaitOne();
+
+                stationCollection = new ObservableCollection<BO.Station>(bl.RequestAllStations());
+
+                App.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    cb_stations.DataContext = stationCollection;
+                    cb_stations.DisplayMemberPath = "Name";
+                    cb_stations.SelectedIndex = 1;
+                    curStation = stationCollection[1];
+                });
+                lineStationMutex.ReleaseMutex();
+                SetLinesInStation(sender, e);
+            }
 
 
-            });
+            catch (Exception)
 
-            SetLinesInStation(sender, e);
-
+            {
+                lineStationMutex.ReleaseMutex();
+            }
             App.Current.Dispatcher.Invoke((Action)delegate
             {
                 StationsInLineDataGrid.DataContext = allLinesInStation;
                 ClosestLinesDataGrid.DataContext = timeOfLinesInStation;
             });
-
-
-
         }
-
         private void cb_stations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             
             tb_stationName.DataContext = curStation = cb_stations.SelectedItem as BO.Station;
-            lineStationMutex.WaitOne();
-
-           getLinesInStationWorker.RunWorkerAsync();
-            lineStationMutex.ReleaseMutex();
+            getLinesInStationWorker.RunWorkerAsync();
         }
         private void bt_search_Click(object sender, RoutedEventArgs e)
         {

@@ -9,7 +9,14 @@
 
     <TabControl  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
         <TabItem Name="tab_lines" Header="Line View">
+
             <Grid>
+                <Grid.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="#FFB9B9B9" Offset="1"/>
+                    </RadialGradientBrush>
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="31*"/>
                     <RowDefinition Height="177*"/>
@@ -39,7 +46,7 @@
                     <Label Content="Area:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
                     <ComboBox x:Name="areaComboBox" Grid.Column="1" SelectedItem="{Binding Area}" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
                 </Grid>
-                <DataGrid x:Name="StationsInLineDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
+                <DataGrid x:Name="StationsInLineDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1" BorderBrush="{x:Null}" Background="#FFB4EFB7">
                     <DataGrid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -66,9 +73,8 @@
                         <DataGridTemplateColumn Width="0.7*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="bt_updatStationInLine" Content="Update" Background="GreenYellow" ToolTip="Update station properties from current line." Click="bt_updatStationInLine_Click"/>
+                                    <Button x:Name="bt_updatStationInLine" Content="Update" Background="ForestGreen" ToolTip="Update station properties from current line." Click="bt_updatStationInLine_Click"/>
                                 </DataTemplate>
-
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>

@@ -30,9 +30,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label Content="Hours" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0"/>
-        <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+        <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1"  Grid.Column="1"/>
         <Label Content="Minutes" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="2"/>
-        <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3"/>
+        <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1"  Grid.Column="3"/>
         <Label Content="Seconds" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="4"/>
         <ComboBox x:Name="lastHoursComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="0" />
         <ComboBox x:Name="lastMinutesComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />

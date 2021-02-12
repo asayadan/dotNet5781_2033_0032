@@ -273,7 +273,7 @@ namespace BL
                 if (index == 0)
                     curLine.FirstStation = stationId;
 
-                if (index == stations.Count() - 1)
+                if (index == stations.Count() )
                     curLine.LastStation = stationId;
 
                 foreach (var station in stations)

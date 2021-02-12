@@ -379,6 +379,14 @@
   <LineStation>
     <isActive>true</isActive>
     <LineId>1</LineId>
+    <StationId>38837</StationId>
+    <LineStationIndex>3</LineStationIndex>
+    <PrevStation>38836</PrevStation>
+    <NextStation>38876</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>false</isActive>
+    <LineId>1</LineId>
     <StationId>38839</StationId>
     <LineStationIndex>6</LineStationIndex>
     <PrevStation>38838</PrevStation>
@@ -388,17 +396,9 @@
     <isActive>true</isActive>
     <LineId>1</LineId>
     <StationId>38838</StationId>
-    <LineStationIndex>5</LineStationIndex>
-    <PrevStation>38876</PrevStation>
-    <NextStation>38839</NextStation>
-  </LineStation>
-  <LineStation>
-    <isActive>true</isActive>
-    <LineId>1</LineId>
-    <StationId>38837</StationId>
-    <LineStationIndex>3</LineStationIndex>
-    <PrevStation>38836</PrevStation>
-    <NextStation>38876</NextStation>
+    <LineStationIndex>6</LineStationIndex>
+    <PrevStation>38844</PrevStation>
+    <NextStation>38838</NextStation>
   </LineStation>
   <LineStation>
     <isActive>true</isActive>
@@ -406,6 +406,14 @@
     <StationId>38876</StationId>
     <LineStationIndex>4</LineStationIndex>
     <PrevStation>38837</PrevStation>
+    <NextStation>38844</NextStation>
+  </LineStation>
+  <LineStation>
+    <isActive>true</isActive>
+    <LineId>1</LineId>
+    <StationId>38844</StationId>
+    <LineStationIndex>5</LineStationIndex>
+    <PrevStation>38876</PrevStation>
     <NextStation>38838</NextStation>
   </LineStation>
 </ArrayOfLineStation>
