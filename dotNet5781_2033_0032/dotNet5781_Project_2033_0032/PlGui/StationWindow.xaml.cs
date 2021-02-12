@@ -48,8 +48,6 @@ namespace PlGui
             getAllStationsWorker.RunWorkerAsync();
             getLinesInStationWorker.DoWork += SetLinesInStation;
             Searchworker.DoWork += Search;
-            TimeSpan t;
-
             BO.SimulationClock.valueChanged += (object sender, EventArgs e) => getLinesInStationWorker.RunWorkerAsync();
         }
 

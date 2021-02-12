@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace PlGui
 {
@@ -583,5 +586,30 @@ namespace PlGui
             stationsInLineWorker.RunWorkerAsync(curLine);
 
         }
+    }
+
+    [ValueConversion(typeof(int), typeof(String))]
+    public class IntTotationNameAsString : IValueConverter
+    { 
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int code = (int)value;
+            return BLAPI.BLFactory.GetBL("").RequestStation(code).Name;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string strValue = value as string;
+            try
+            {
+                BO.Station station = BLAPI.BLFactory.GetBL("").RequestAllStations().Where(p => p.Name == strValue).FirstOrDefault();
+                return station.Code;
+            }
+            catch (NullReferenceException)
+            {
+                return DependencyProperty.UnsetValue;
+            }
+        }
+
     }
 }
