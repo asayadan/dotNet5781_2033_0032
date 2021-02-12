@@ -285,6 +285,7 @@ namespace BL
                     }
                 }
                 int helpNext, helpPrev;
+                stations = RequestLineStationsInLine(lineId);
                 if (index < stations.Count())
                 {
                     var nextStation = stations.Where(x => x.LineStationIndex == index + 1).First();
@@ -369,7 +370,7 @@ namespace BL
             {
                 var curLine = RequestLine(lineId);
                 var stations = RequestLineStationsInLine(lineId);
-                var station = stations.Where(x => x.LineId == lineId && x.StationId == stationId).First();
+                var station = stations.Where(x => x.LineId == lineId && x.StationId == stationId).FirstOrDefault();
 
 
                 foreach (var st in stations)
@@ -380,10 +381,11 @@ namespace BL
                         UpdateLineStation(st);
                     }
                 }
+                stations = RequestLineStationsInLine(lineId);
                 if (station.LineStationIndex != 0 && station.LineStationIndex != stations.Count() - 1)
                 {
-                    var nextStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex && x.StationId != stationId).FirstOrDefault();
-                    var prevStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex - 1).FirstOrDefault();
+                    var nextStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex && x.StationId != stationId).First();
+                    var prevStation = stations.Where(x => x.LineStationIndex == station.LineStationIndex - 1).First();
                     nextStation.PrevStation = station.PrevStation;
                     prevStation.NextStation = station.NextStation;
                     UpdateLineStation(nextStation);
@@ -432,8 +434,24 @@ namespace BL
                     }
 
                     if (station.LineStationIndex == stations.Count() - 1)
+                    {
                         curLine.LastStation = station.PrevStation;
-                    dl.RemoveLineStation(station.StationId, station.LineId);
+                        var prevStation = RequestLineStation(station.PrevStation, station.LineId);
+                        prevStation.NextStation = prevStation.StationId;
+                        if (dl.RequestAdjacentStations(station.PrevStation, station.PrevStation) == null)
+                        {
+                            dl.CreateAdjacentStations(new DO.AdjacentStations
+                            {
+                                isActive = true,
+                                DistFromLastStation = stations.Count() - 2,
+                                Station1 = station.PrevStation,
+                                Station2 = station.PrevStation,
+                                TimeSinceLastStation = TimeSpan.Zero
+                            });
+                        }
+                        UpdateLineStation(prevStation);
+                    }
+                     dl.RemoveLineStation(station.StationId, station.LineId);
                     UpdateLine(curLine);
 
 

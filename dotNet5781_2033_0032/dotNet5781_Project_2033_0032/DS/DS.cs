@@ -2560,7 +2560,7 @@ namespace DS
                     Code = 111,
                     Area = (Areas)rnd.Next(0, 5),
                     FirstStation = ListStations[count++ * 0].Code,
-                    LastStation = ListStations[StationsInEachBus * count].Code
+                    LastStation = ListStations[StationsInEachBus * count-1].Code
                 },
 
                 new Line
@@ -2568,8 +2568,8 @@ namespace DS
                     Id = 2,
                     Code = 222,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = ListStations[StationsInEachBus * count++ + 1].Code,
-                    LastStation = ListStations[StationsInEachBus * count].Code
+                    FirstStation = ListStations[StationsInEachBus * count++ ].Code,
+                    LastStation = ListStations[StationsInEachBus * count-1].Code
                 },
 
                 new Line
@@ -2577,8 +2577,8 @@ namespace DS
                     Id = 3,
                     Code = 333,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = ListStations[StationsInEachBus * count++ + 1].Code,
-                    LastStation = ListStations[StationsInEachBus * count].Code
+                    FirstStation = ListStations[StationsInEachBus * count++ ].Code,
+                    LastStation = ListStations[StationsInEachBus * count-1].Code
                 },
 
                 new Line
@@ -2586,8 +2586,8 @@ namespace DS
                     Id = 4,
                     Code = 444,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = ListStations[StationsInEachBus * count++ + 1].Code,
-                    LastStation = ListStations[StationsInEachBus * count].Code
+                    FirstStation = ListStations[StationsInEachBus * count++].Code,
+                    LastStation = ListStations[StationsInEachBus * count-1].Code
 
                 },
 
@@ -2596,8 +2596,8 @@ namespace DS
                     Id = 5,
                     Code = 555,
                     Area = (Areas)rnd.Next(0, 5),
-                    FirstStation = ListStations[StationsInEachBus * count++ + 1].Code,
-                    LastStation = ListStations[StationsInEachBus * count].Code
+                    FirstStation = ListStations[StationsInEachBus * count++].Code,
+                    LastStation = ListStations[StationsInEachBus * count-1].Code
 
                 },
             };
@@ -2614,9 +2614,9 @@ namespace DS
                         isActive=true,
                         LineId = ListLines[i].Id,
                         LineStationIndex = j,
-                        StationId = ListStations[(i * 4 + j + 1) % ListStations.Count].Code,
-                        PrevStation = (j == 0) ? ListStations[(i * 4 + j + 1) % ListStations.Count].Code : ListStations[(i * 4 + j) % ListStations.Count].Code,
-                        NextStation = (j == StationsInEachBus - 1) ? ListStations[(i * 4 + j + 1) % ListStations.Count].Code : ListStations[(i * 4 + j + 2) % ListStations.Count].Code
+                        StationId = ListStations[(i * StationsInEachBus + j ) % ListStations.Count].Code,
+                        PrevStation = (j == 0) ? ListStations[(i * StationsInEachBus + j ) % ListStations.Count].Code : ListStations[(i * StationsInEachBus + j-1) % ListStations.Count].Code,
+                        NextStation = (j == StationsInEachBus - 1) ? ListStations[(i * StationsInEachBus + j) % ListStations.Count].Code : ListStations[(i * StationsInEachBus + j +1) % ListStations.Count].Code
                     }
                     );
                 }

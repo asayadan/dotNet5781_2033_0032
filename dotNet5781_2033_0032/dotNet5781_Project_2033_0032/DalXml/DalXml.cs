@@ -66,9 +66,6 @@ namespace DL
                                                      select stations.ToAdjecentStation()
                                  ).FirstOrDefault();
 
-                if (adjacentStations == null)
-                    throw new DO.InvalidAdjacentStationIDException(station1, station2);
-
                 return adjacentStations;
             }
             catch (FormatException ex)
@@ -105,6 +102,7 @@ namespace DL
 
             if (helptations != null)
             {
+                adjacentStations.isActive = true;
                 helptations = adjacentStations.ToXElement();
 
                 XMLTools.SaveListToXMLElement(AdjacentStationsRootElem, AdjacentStationsPath);
@@ -178,6 +176,7 @@ namespace DL
                              select line).FirstOrDefault();
             if (helpLine != null)
             {
+                Uline.isActive = true;
                 ListLines.Remove(helpLine);
                 ListLines.Add(Uline);
                 XMLTools.SaveListToXMLSerializer<Line>(ListLines,LinePath);
@@ -266,6 +265,7 @@ namespace DL
 
             if (helpBus != null)
             {
+                Newbus.isActive = true;
                 helpBus = Newbus.ToXElement();
 
                 XMLTools.SaveListToXMLElement(BusRootElem, BusPath);
@@ -381,8 +381,9 @@ namespace DL
                     throw new DO.InvalidLinesStationException(lineStation.StationId, lineStation.LineId, "this line station id doesn't exists");
                 else
                 {
+                    lineStation.isActive = true;
                     ListStation.Remove(helpStation);
-                ListStation.Add(lineStation);
+                    ListStation.Add(lineStation);
                     XMLTools.SaveListToXMLSerializer(ListStation, LineStationsPath);
                 }
             }
@@ -465,6 +466,7 @@ namespace DL
                 throw new DO.InvalidStationIDException(Ustation.Code, "Station id not found.");
             else
             {
+                Ustation.isActive=true;
                 ListStation.Remove(helpStation);
                 ListStation.Add(Ustation);
                 XMLTools.SaveListToXMLSerializer(ListStation, StationPath);

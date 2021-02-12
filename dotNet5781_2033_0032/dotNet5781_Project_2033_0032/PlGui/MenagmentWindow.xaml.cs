@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,6 +20,7 @@ namespace PlGui
         IBL bl;
         string username;
         bool hasChanged = true;
+        private static Mutex lineStationMutex = new Mutex();
         #endregion
         #region line workers
         BackgroundWorker updateLineWorker = new BackgroundWorker();//updates the list of the busseswe show
@@ -110,15 +112,13 @@ namespace PlGui
         {
             try
             {
-                if (linesInStationWorker.IsBusy)
-                {
-                    return;
-                }
+                lineStationMutex.WaitOne();
                 var helpList = new List<BO.StationInLine>();
                 foreach (var b in bl.RequestStationsInLine(curLine.Id))
                 {
                     helpList.Add(b);
                 }
+                lineStationMutex.ReleaseMutex();
                 App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
                     stationsInLineCollection.Clear();
@@ -126,12 +126,11 @@ namespace PlGui
                     {
                         stationsInLineCollection.Add(station);
                     }
-                    cbStations.SelectedIndex = 0;
                 });
             }
             catch (BO.InvalidStationIDException)
             {
-
+                lineStationMutex.ReleaseMutex();
             }
         }
         #endregion
@@ -327,6 +326,7 @@ namespace PlGui
             try
             {
                 var helpList = new List<BO.Line>();
+                lineStationMutex.WaitOne();
                 foreach (var b in bl.LinesInStation((int)e.Argument))
                 {
                     //helpList.Add(bl.Ge
@@ -345,6 +345,7 @@ namespace PlGui
             {
 
             }
+            finally { lineStationMutex.ReleaseMutex(); }
         }
 
         #endregion
@@ -354,7 +355,8 @@ namespace PlGui
         {
             curStation = cbStations.SelectedItem as BO.Station;
             gridStation.DataContext = curStation;
-            if (cbStations.SelectedValue != null&& !stationsInLineWorker.IsBusy)
+            lineStationMutex.WaitOne();
+            if (cbStations.SelectedValue != null)
             {
                 linesInStationWorker.RunWorkerAsync((int)cbStations.SelectedValue);
             }
@@ -363,6 +365,7 @@ namespace PlGui
                 gridStation.DataContext = new BO.Station();
                 linesInStationCollection.Clear();
             }
+            lineStationMutex.ReleaseMutex();
         }
         private void bt_search_Click(object sender, RoutedEventArgs e)
         {

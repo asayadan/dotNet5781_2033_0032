@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,8 @@ namespace PlGui
     public partial class StationWindow : Window
     {
         IBL bl;
+        private static Mutex lineStationMutex = new Mutex();
+
         BackgroundWorker getAllStationsWorker = new BackgroundWorker();
         BackgroundWorker getLinesInStationWorker = new BackgroundWorker();
         BackgroundWorker Searchworker = new BackgroundWorker();
@@ -116,10 +119,10 @@ namespace PlGui
         {
             
             tb_stationName.DataContext = curStation = cb_stations.SelectedItem as BO.Station;
-            if (!getLinesInStationWorker.IsBusy&& !getAllStationsWorker.IsBusy)
-            {
-                getLinesInStationWorker.RunWorkerAsync();
-            }
+            lineStationMutex.WaitOne();
+
+           getLinesInStationWorker.RunWorkerAsync();
+            lineStationMutex.ReleaseMutex();
         }
         private void bt_search_Click(object sender, RoutedEventArgs e)
         {
