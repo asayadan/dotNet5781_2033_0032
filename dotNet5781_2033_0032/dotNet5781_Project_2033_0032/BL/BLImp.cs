@@ -12,6 +12,11 @@ namespace BL
 {
     class BLImp : IBL
     {
+        #region singelton
+        static BLImp() { }
+        BLImp() { }
+        public static BLImp Instance { get; } = new BLImp();
+        #endregion
         IDL dl = DLFactory.GetDL();
         internal static volatile bool Cancel = true;
 

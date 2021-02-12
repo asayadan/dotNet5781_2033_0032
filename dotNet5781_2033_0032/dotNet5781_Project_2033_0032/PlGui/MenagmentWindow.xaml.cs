@@ -590,7 +590,7 @@ namespace PlGui
 
     [ValueConversion(typeof(int), typeof(String))]
     public class IntTotationNameAsString : IValueConverter
-    { 
+    {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int code = (int)value;
@@ -602,7 +602,7 @@ namespace PlGui
             string strValue = value as string;
             try
             {
-                BO.Station station = BLAPI.BLFactory.GetBL("").RequestAllStations().Where(p => p.Name == strValue).FirstOrDefault();
+                 BO.Station station = BLAPI.BLFactory.GetBL("").RequestAllStations().Where(p => p.Name == strValue).FirstOrDefault();
                 return station.Code;
             }
             catch (NullReferenceException)

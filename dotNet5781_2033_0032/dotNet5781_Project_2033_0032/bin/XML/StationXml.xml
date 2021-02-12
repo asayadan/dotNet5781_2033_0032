@@ -23,6 +23,13 @@
   </Station>
   <Station>
     <isActive>true</isActive>
+    <Code>38834</Code>
+    <Name>פריד/ששת הימים</Name>
+    <Latitude>31.88855</Latitude>
+    <Longitude>34.790904</Longitude>
+  </Station>
+  <Station>
+    <isActive>true</isActive>
     <Code>38836</Code>
     <Name>ת. מרכזית לוד/הורדה</Name>
     <Latitude>31.956392</Latitude>
@@ -2085,12 +2092,5 @@
     <Name>שדרות וייצמן/יהודה הנשיא</Name>
     <Latitude>32.337669</Latitude>
     <Longitude>34.859541</Longitude>
-  </Station>
-  <Station>
-    <isActive>true</isActive>
-    <Code>38834</Code>
-    <Name>פריד/ששת הימיםךלחיעכגד</Name>
-    <Latitude>31.88855</Latitude>
-    <Longitude>34.790904</Longitude>
   </Station>
 </ArrayOfStation>

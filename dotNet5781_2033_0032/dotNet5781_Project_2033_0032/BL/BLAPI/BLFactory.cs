@@ -11,9 +11,9 @@ namespace BLAPI
 
             {
                 case "BLImp":
-                    return new BLImp();
+                    return BLImp.Instance;
                 default:
-                    return new BLImp();
+                    return BLImp.Instance;
             }
         }
     }
