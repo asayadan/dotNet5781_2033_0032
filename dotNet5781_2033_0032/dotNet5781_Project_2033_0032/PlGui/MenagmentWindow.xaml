@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
         Title="MenagmentWindow" Height="450" Width="800">
-
+    
+    <Window.Resources>
+        <local:IntTotationNameAsString x:Key="intToStationNameConverter"/>
+    </Window.Resources>
     <TabControl  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
         <TabItem Name="tab_lines" Header="Line View">
 
@@ -126,8 +129,8 @@
 
                     <Grid x:Name="gridStation" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="250">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -157,7 +160,7 @@
                             </DataGridTextColumn>
 
 
-                            <DataGridTextColumn x:Name="lastStationColumn" Binding="{Binding LastStation}" Header="last Station" Width="2*">
+                            <DataGridTextColumn x:Name="lastStationColumn" Binding="{Binding LastStation, Converter={StaticResource intToStationNameConverter}}" Header="last Station" Width="2*">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style TargetType="DataGridColumnHeader">
                                         <Setter Property="HorizontalContentAlignment"
@@ -236,7 +239,7 @@
                         <TextBox x:Name="fuelTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="2.667,4.333,0,5.333" Grid.Row="3" Text="{Binding FuelRemaining, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                         <Label Content="Status:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.667,0,3" Grid.Row="4" VerticalAlignment="Center"/>
                         <ComboBox x:Name="statusComboBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="2.667,4.333,0,5.333" Grid.Row="4" Text="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        
+
 
 
 
@@ -251,8 +254,8 @@
                         <Button x:Name="bt_AddBus" Content="Add New Bus" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Background="#FF6DB469" Click="bt_AddBus_Click"/>
                         <Button x:Name="bt_UpdateBus" Content="Apply Changes On Current Bus" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="CadetBlue" Click="bt_UpdateBus_Click"/>
                     </Grid>
-                   
-                    
+
+
                 </Grid>
             </Grid>
         </TabItem>

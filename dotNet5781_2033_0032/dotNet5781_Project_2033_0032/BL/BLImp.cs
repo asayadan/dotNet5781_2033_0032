@@ -543,7 +543,7 @@ namespace BL
                 {
                     isActive=true,
                     LineId = Counters.lines - 1,
-                    LineStationIndex = 0,
+                    LineStationIndex = 1,
                     NextStation = lastStation,
                     PrevStation = firstStation,
                     StationId = firstStation
