@@ -675,5 +675,19 @@ namespace BL
 
 
         #endregion
+        public IEnumerable<LineTrip> RequestLineTripInLine(int lineId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateLineTrip(int lineId, TimeSpan startAt, TimeSpan frequency, TimeSpan finishedAt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteLineTrip(int lineTripId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

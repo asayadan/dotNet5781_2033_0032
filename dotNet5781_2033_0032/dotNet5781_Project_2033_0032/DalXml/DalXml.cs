@@ -209,15 +209,14 @@ namespace DL
             XElement BusRootElem = XMLTools.LoadListFromXMLElement(BusPath);
 
 
-            Bus thisBus = (from bus in BusRootElem.Elements()
+            XElement thisBus = (from bus in BusRootElem.Elements()
                            where bus.IsActive() && bus.Equal(licenseNum)
-                           select bus.ToBus()).FirstOrDefault();
+                           select bus).FirstOrDefault();
 
             if (thisBus != null)
             {
-                BusRootElem.Remove(); //<==>   Remove stations from the XML file
-                thisBus.isActive = false;
-                BusRootElem.Add(thisBus);
+                thisBus.Element("isActive").Value = false.ToString();
+
                 XMLTools.SaveListToXMLElement(BusRootElem, BusPath);
             }
             else
@@ -326,7 +325,7 @@ namespace DL
                 throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
             }
         }
-        public IEnumerable<LineTrip> GetAllLineTripsInLine(int lineID)
+        public IEnumerable<LineTrip> GetAllLineTripsInLine(int tripID)
         {
             try
             {
@@ -334,7 +333,7 @@ namespace DL
 
                 XElement BusRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
                 return (from lineTrip in BusRootElem.Elements()
-                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == lineID
+                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == tripID
                         select lineTrip.ToLineTrip());
             }
             catch (XMLFileLoadCreateException ex)
@@ -353,13 +352,14 @@ namespace DL
             try
             {
                 XElement tripRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
-                var helpTrip= (from lineTrip in tripRootElem.Elements()
-                        where lineTrip.IsActive() && lineTrip.Equal(Newtrip)
-                        select lineTrip.ToLineTrip()).FirstOrDefault();
-                if (helpTrip != null) { }
-                //   throw new DO.(NewUser.UserName, NewUser.Password, "this username id doesn't exists");
+                var helpTrip = (from lineTrip in tripRootElem.Elements()
+                                where lineTrip.IsActive() && lineTrip.Equal(Newtrip)
+                                select lineTrip.ToLineTrip()).FirstOrDefault();
+                if (helpTrip != null)
+                    throw new DO.BadLineTripException(Newtrip.Id, Newtrip.LineId, "this username id doesn't exists");
                 else
                 {
+                    Newtrip.isActive = true;
                     tripRootElem.Add(helpTrip.ToXElement());
 
                     XMLTools.SaveListToXMLElement(tripRootElem, LineTripPath);
@@ -374,8 +374,34 @@ namespace DL
             {
                 throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
             }
-
         }
+            public void deleteLineTrip(int tripID)
+            {
+                try
+                {
+                    XElement tripRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
+                    var helpTrip = (from lineTrip in tripRootElem.Elements()
+                                    where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == tripID
+                                    select lineTrip).FirstOrDefault();
+                    if (helpTrip == null)
+                        throw new DO.BadLineTripException(tripID, -1, "this username id doesn't exists");
+                    else
+                    {
+                        helpTrip.Element("isActive").Value = false.ToString();
+                        XMLTools.SaveListToXMLElement(tripRootElem, LineTripPath);
+                    }
+                }
+                catch (XMLFileLoadCreateException ex)
+                {
+
+                    throw ex;
+                }
+                catch (Exception ex)
+                {
+                    throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
+                }
+
+            }
         #endregion
 
         #region LineStations

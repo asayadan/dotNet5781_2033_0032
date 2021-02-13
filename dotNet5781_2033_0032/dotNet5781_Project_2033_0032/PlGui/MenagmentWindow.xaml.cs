@@ -32,6 +32,8 @@ namespace PlGui
         BackgroundWorker stationsInLineWorker = new BackgroundWorker();
         BackgroundWorker removeStationFromLineWorker = new BackgroundWorker();
         BackgroundWorker updateAdjecntStationsWorker = new BackgroundWorker();
+        BackgroundWorker getLineTrip = new BackgroundWorker();//gets the Trips of this line
+
         #endregion
 
         #region bus workers
