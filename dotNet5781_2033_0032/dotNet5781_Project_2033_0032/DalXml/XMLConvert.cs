@@ -212,11 +212,11 @@ namespace DL
         ///// <param name="station1"></param>
         ///// <param name="station2"></param>
         ///// <returns>true if they are the same false otherwise</returns>
-        //public static bool Equals(this XElement stationElement, int station1, int station2)
-        //{
-        //    return station1 == int.Parse(stationElement.Element("Station1").Value) &&
-        //            station2 == int.Parse(stationElement.Element("Station2").Value);
-        //}
+        public static bool Equal(this XElement lineTripElement, DO.LineTrip lineTrip)
+        {
+            return lineTrip.Id == int.Parse(lineTripElement.Element("ID").Value);
+        }
+
         #endregion
         #region Bus
         /// <summary>

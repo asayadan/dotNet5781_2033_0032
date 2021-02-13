@@ -309,10 +309,72 @@ namespace DL
 
         public IEnumerable<LineTrip> GetAllLineTrips()
         {
+            try
+            {
             XElement BusRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
             return (from lineTrip in BusRootElem.Elements()
                     where lineTrip.IsActive()
                     select lineTrip.ToLineTrip());
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
+            }
+        }
+        public IEnumerable<LineTrip> GetAllLineTripsInLine(int lineID)
+        {
+            try
+            {
+
+
+                XElement BusRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
+                return (from lineTrip in BusRootElem.Elements()
+                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == lineID
+                        select lineTrip.ToLineTrip());
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new XMLFileFormatException(LineTripPath,"unexpected problem in lineTrip xml",ex);
+            }
+        }
+
+        public void CreateLineTrip(LineTrip Newtrip)
+        {
+            try
+            {
+                XElement tripRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
+                var helpTrip= (from lineTrip in tripRootElem.Elements()
+                        where lineTrip.IsActive() && lineTrip.Equal(Newtrip)
+                        select lineTrip.ToLineTrip()).FirstOrDefault();
+                if (helpTrip != null) { }
+                //   throw new DO.(NewUser.UserName, NewUser.Password, "this username id doesn't exists");
+                else
+                {
+                    tripRootElem.Add(helpTrip.ToXElement());
+
+                    XMLTools.SaveListToXMLElement(tripRootElem, LineTripPath);
+                }
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
+            }
+
         }
         #endregion
 

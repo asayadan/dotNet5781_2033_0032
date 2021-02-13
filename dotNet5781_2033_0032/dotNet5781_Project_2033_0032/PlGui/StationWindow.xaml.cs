@@ -152,7 +152,7 @@ namespace PlGui
                 {
                     stationCollection.Add(station);
                 }
-                cb_stations.SelectedIndex = 0;
+              //  cb_stations.SelectedIndex = 0;
                 curStation = cb_stations.SelectedItem as BO.Station;
             });
         }
