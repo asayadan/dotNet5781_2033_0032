@@ -249,5 +249,10 @@ namespace DL
             return from lineTrip in DataSource.ListLineTrips
                    select lineTrip.Clone();
         }
+
+        public IEnumerable<DO.LineTrip> GetAllLineTripsInLine(int lineId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

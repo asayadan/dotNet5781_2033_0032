@@ -325,7 +325,7 @@ namespace DL
                 throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
             }
         }
-        public IEnumerable<LineTrip> GetAllLineTripsInLine(int tripID)
+        public IEnumerable<LineTrip> GetAllLineTripsInLine(int lineId)
         {
             try
             {
@@ -333,7 +333,7 @@ namespace DL
 
                 XElement BusRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
                 return (from lineTrip in BusRootElem.Elements()
-                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == tripID
+                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == lineId
                         select lineTrip.ToLineTrip());
             }
             catch (XMLFileLoadCreateException ex)
