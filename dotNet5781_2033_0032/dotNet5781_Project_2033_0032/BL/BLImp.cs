@@ -229,7 +229,7 @@ namespace BL
 
         public IEnumerable<LineTrip> GetAllLineTrips()
         {
-            return from lineTrip in dl.GetAllLineTrips()
+            return from lineTrip in dl.RequestAllLineTrips()
                    orderby lineTrip.StartAt
                    select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as LineTrip;
                    
@@ -677,17 +677,53 @@ namespace BL
         #endregion
         public IEnumerable<LineTrip> RequestLineTripInLine(int lineId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return from lineTrip in dl.RequestAllLineTripsInLine(lineId)
+                       orderby lineTrip.StartAt
+                       select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as BO.LineTrip;
+
+            }
+            catch (DO.BadLineTripException ex)//
+            {
+
+                throw new BO.BadLineTripException(ex.ID, ex.LineID, ex.Message, ex);
+            }
         }
 
         public void CreateLineTrip(int lineId, TimeSpan startAt, TimeSpan frequency, TimeSpan finishedAt)
         {
-            throw new NotImplementedException();
+            try
+            {
+                dl.CreateLineTrip(new DO.LineTrip
+                {
+                    isActive = true,
+                    Id = Counters.lineTrip++,
+                    LineId = lineId,
+                    StartAt = startAt,
+                    Frequency = frequency,
+                    FinishAt = finishedAt
+                });
+            }
+            catch (DO.BadLineTripException ex)//
+            {
+
+                throw new BO.BadLineTripException(ex.ID,ex.LineID,ex.Message,ex);
+            }
+
         }
 
         public void DeleteLineTrip(int lineTripId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                dl.deleteLineTrip(lineTripId);
+            }
+            catch (DO.BadLineTripException ex)//
+            {
+
+                throw new BO.BadLineTripException(ex.ID, ex.LineID, ex.Message, ex);
+            }
         }
     }
 }

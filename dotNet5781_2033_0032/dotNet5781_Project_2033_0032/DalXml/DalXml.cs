@@ -306,7 +306,7 @@ namespace DL
 
         #region Trip
 
-        public IEnumerable<LineTrip> GetAllLineTrips()
+        public IEnumerable<LineTrip> RequestAllLineTrips()
         {
             try
             {
@@ -325,7 +325,7 @@ namespace DL
                 throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
             }
         }
-        public IEnumerable<LineTrip> GetAllLineTripsInLine(int tripID)
+        public IEnumerable<LineTrip> RequestAllLineTripsInLine(int tripID)
         {
             try
             {
