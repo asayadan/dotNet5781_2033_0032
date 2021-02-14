@@ -255,7 +255,7 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DO.LineTrip> RequestAllLineTripsInLine(int tripID)
+        public IEnumerable<DO.LineTrip> RequestAllLineTripsInLine(int lineId)
         {
             throw new NotImplementedException();
         }

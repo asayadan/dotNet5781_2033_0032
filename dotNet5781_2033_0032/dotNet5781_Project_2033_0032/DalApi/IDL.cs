@@ -50,7 +50,7 @@ namespace DLAPI
         void CreateUser(DO.User user);
         #endregion
         IEnumerable<LineTrip> RequestAllLineTrips();
-         IEnumerable<LineTrip> RequestAllLineTripsInLine(int tripID);
+         IEnumerable<LineTrip> RequestAllLineTripsInLine(int lineId);
 
          void CreateLineTrip(LineTrip Newtrip);
          void deleteLineTrip(int tripID);

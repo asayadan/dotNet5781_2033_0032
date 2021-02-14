@@ -119,7 +119,7 @@ namespace PlGui
             {
                 lineStationMutex.WaitOne();
                 var helpList = new List<BO.StationInLine>();
-                foreach (var b in bl.RequestStationsInLine(curLine.Id))
+                foreach (var b in bl.RequestStationsInLineByLine(curLine.Id))
                 {
                     helpList.Add(b);
                 }
@@ -185,7 +185,7 @@ namespace PlGui
             if (e.Argument != null)
             {
                 int toRemove = (int)e.Argument;
-                bl.RemoveLine(toRemove);
+                bl.DeleteLine(toRemove);
                 SetAllLines(sender, e);
 
             }
@@ -227,7 +227,7 @@ namespace PlGui
                 return;
             if (index == stationsInLineCollection.Count - 1 || index == 0)
             {
-                bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
+                bl.DeleteStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
                 stationsInLineWorker.RunWorkerAsync(curLine.Id);
                 return;
             }
@@ -590,9 +590,15 @@ namespace PlGui
         }
     }
 
+    /// <summary>
+    /// A converter to show the last station name, instead of the station code
+    /// </summary>
     [ValueConversion(typeof(int), typeof(String))]
     public class IntTotationNameAsString : IValueConverter
     {
+        /// <summary>
+        /// Using the request station method with the given code to get the station name
+        /// </summary>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int code = (int)value;

@@ -110,15 +110,29 @@ namespace BL
         }
         public void FuelBus(int id)
         {
-            var a = dl.RequestBus(id);
-            a.FuelRemaining = DO.Bus.FullGasTank;
-            dl.UpdateBus(a);
+            try
+            {
+                var a = dl.RequestBus(id);
+                a.FuelRemaining = DO.Bus.FullGasTank;
+                dl.UpdateBus(a);
+            }
+            catch (DO.InvalidBusLicenseNumberException ex)
+            {
+                throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message)
+            }
         }
         public void FixBus(int id)
         {
-            var a = dl.RequestBus(id);
-            a.LastTreatment = DateTime.Now;
-            dl.UpdateBus(a);
+            try
+            {
+                var a = dl.RequestBus(id);
+                a.LastTreatment = DateTime.Now;
+                dl.UpdateBus(a);
+            }
+            catch (DO.InvalidBusLicenseNumberException ex)
+            {
+                throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
+            }
         }
         #endregion
 
@@ -184,7 +198,7 @@ namespace BL
             {
                 return dl.RequestLineStation(stationId, lineId).CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
             }
-            catch (DO.InvalidStationIDException ex)
+            catch (DO.InvalidLinesStationException ex)
             {
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
@@ -206,7 +220,7 @@ namespace BL
                    orderby station.LineStationIndex
                    select station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
         }
-        public IEnumerable<StationInLine> RequestStationsInLine(int lineId)
+        public IEnumerable<StationInLine> RequestStationsInLineByLine(int lineId)
         {
             return from station in dl.RequestLineStationsInLine(lineId)
                    orderby station.LineStationIndex
@@ -238,7 +252,7 @@ namespace BL
 
         public IEnumerable<LineTrip> GetAllLineTripsInLine(int lineId)
         {
-            return from lineTrip in dl.GetAllLineTrips()
+            return from lineTrip in dl.RequestAllLineTripsInLine(lineId)
                    orderby lineTrip.StartAt
                    select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as LineTrip;
         }
@@ -249,7 +263,8 @@ namespace BL
             var currentTime = SimulationClock.GetTime;
             var futureTrips = lineTripsInLine.Where(p => currentTime <= p.FinishAt);
             var lineTrip = futureTrips.LastOrDefault();
-            
+            if (lineTrip == null)
+                return (lineTrip, 0);
             while (currentTime >
                 lineTrip.StartAt + TimeSpan.FromMilliseconds(min * lineTrip.Frequency.TotalMilliseconds)
                 + timeToStation)
@@ -261,10 +276,11 @@ namespace BL
         {
             return from line in LinesInStation(stationId)
                    let index = RequestLineStation(stationId, line.Id).LineStationIndex
-                   let TimeInStation = TimeSpan.FromMilliseconds(RequestStationsInLine(line.Id).
+                   let TimeInStation = TimeSpan.FromMilliseconds(RequestStationsInLineByLine(line.Id).
                         Where(p => p.LineStationIndex <= index).
                         Sum(p => p.TimeSinceLastStation.TotalMilliseconds))
                    let closestTrip = GetClosestLineTripByLine(line.Id, TimeInStation)
+                   where closestTrip.Item1 != null
                    let lastStationName = RequestStation(line.LastStation).Name
                    let timeInFirstStation = TimeSpan.FromMilliseconds(closestTrip.Item1.StartAt.TotalMilliseconds +
                                                 closestTrip.Item1.Frequency.TotalMilliseconds * closestTrip.Item2)
@@ -380,7 +396,7 @@ namespace BL
                 throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
             }
         }
-        public void RemoveStationFromLine(int lineId, int stationId, double distanceFromLastStation, TimeSpan timeSinceLastStation)
+        public void DeleteStationFromLine(int lineId, int stationId, double distanceFromLastStation, TimeSpan timeSinceLastStation)
         {
             try
             {
@@ -621,7 +637,7 @@ namespace BL
             }
 
         }
-        public void RemoveLine(int id)
+        public void DeleteLine(int id)
         {
             try
             {
@@ -719,7 +735,7 @@ namespace BL
             catch (DO.BadLineTripException ex)//
             {
 
-                throw new BO.BadLineTripException(ex.ID,ex.LineID,ex.Message,ex);
+                throw new BO.BadLineTripException(ex.ID, ex.LineID, ex.Message, ex);
             }
 
         }
