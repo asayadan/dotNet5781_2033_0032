@@ -62,7 +62,7 @@ namespace BL
                 ((fromTime.Year < 2018) && (licenseNum <= 9999999)) && (licenseNum > 999999))//the BO.Bus registered before 2018 and has 7 digits
                 try
                 {
-                    dl.CreateBus(new DO.Bus { isActive = true, LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
+                    dl.CreateBus(new DO.Bus {isActive=true, LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
                 }
                 catch (DO.InvalidBusLicenseNumberException ex)
                 {
@@ -227,33 +227,22 @@ namespace BL
 
         }
 
-        //public IEnumerable<LineTrip> GetAllLineTrips()
-        //{
-        //    return from lineTrip in dl.GetAllLineTrips()
-        //           orderby lineTrip.StartAt
-        //           select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as LineTrip;
-
-
-        //}
-
-        public IEnumerable<LineTrip> GetAllLineTripsInLine(int lineId)
+        public IEnumerable<LineTrip> GetAllLineTrips()
         {
-            return from lineTrip in dl.GetAllLineTripsInLine(lineId)
+            return from lineTrip in dl.RequestAllLineTrips()
                    orderby lineTrip.StartAt
                    select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as LineTrip;
+                   
+
         }
         public (LineTrip, int) GetClosestLineTripByLine(int lineId, TimeSpan timeToStation)
         {
-            var lineTripsInLine = GetAllLineTripsInLine(lineId);
+            var lineTrip = GetAllLineTrips().Where(p => p.LineId == lineId).FirstOrDefault();
             int min = 0;
-            var currentTime = SimulationClock.GetTime;
-            var futureTrips = lineTripsInLine.Where(p => currentTime <= p.FinishAt);
-            var lineTrip = futureTrips.LastOrDefault();
-            
-            while (currentTime >
+            while (SimulationClock.GetTime >
                 lineTrip.StartAt + TimeSpan.FromMilliseconds(min * lineTrip.Frequency.TotalMilliseconds)
                 + timeToStation)
-                min++;
+                    min++;
             return (lineTrip, min);
         }
 
@@ -278,7 +267,7 @@ namespace BL
                        TripStartTime = timeInFirstStation
                    };
 
-        }
+        }      
 
         public void CreateStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
@@ -289,7 +278,7 @@ namespace BL
                 if (index == 0)
                     curLine.FirstStation = stationId;
 
-                if (index == stations.Count())
+                if (index == stations.Count() )
                     curLine.LastStation = stationId;
 
                 foreach (var station in stations)
@@ -357,7 +346,7 @@ namespace BL
                 {
                     dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
-                        isActive = true,
+                        isActive=true,
                         DistFromLastStation = distanceUntilNextStation,
                         Station1 = stationId,
                         Station2 = helpNext,
@@ -467,7 +456,7 @@ namespace BL
                         }
                         UpdateLineStation(prevStation);
                     }
-                    dl.RemoveLineStation(station.StationId, station.LineId);
+                     dl.RemoveLineStation(station.StationId, station.LineId);
                     UpdateLine(curLine);
 
 
@@ -479,9 +468,9 @@ namespace BL
             //     {
             //       throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
             //      }
-            // catch (DO.InvalidLinesStationException ex)
+           // catch (DO.InvalidLinesStationException ex)
             {
-                //       throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
+         //       throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
             }
         }
         public IEnumerable<BO.Line> LinesInStation(int stationId)
@@ -553,11 +542,11 @@ namespace BL
                     FirstStation = firstStation,
                     LastStation = lastStation,
                     Id = Counters.lines++
-                });
+                }) ;
 
                 dl.CreateLineStation(new DO.LineStation
                 {
-                    isActive = true,
+                    isActive=true,
                     LineId = Counters.lines - 1,
                     LineStationIndex = 1,
                     NextStation = lastStation,
@@ -688,17 +677,53 @@ namespace BL
         #endregion
         public IEnumerable<LineTrip> RequestLineTripInLine(int lineId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return from lineTrip in dl.RequestAllLineTripsInLine(lineId)
+                       orderby lineTrip.StartAt
+                       select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as BO.LineTrip;
+
+            }
+            catch (DO.BadLineTripException ex)//
+            {
+
+                throw new BO.BadLineTripException(ex.ID, ex.LineID, ex.Message, ex);
+            }
         }
 
         public void CreateLineTrip(int lineId, TimeSpan startAt, TimeSpan frequency, TimeSpan finishedAt)
         {
-            throw new NotImplementedException();
+            try
+            {
+                dl.CreateLineTrip(new DO.LineTrip
+                {
+                    isActive = true,
+                    Id = Counters.lineTrip++,
+                    LineId = lineId,
+                    StartAt = startAt,
+                    Frequency = frequency,
+                    FinishAt = finishedAt
+                });
+            }
+            catch (DO.BadLineTripException ex)//
+            {
+
+                throw new BO.BadLineTripException(ex.ID,ex.LineID,ex.Message,ex);
+            }
+
         }
 
         public void DeleteLineTrip(int lineTripId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                dl.deleteLineTrip(lineTripId);
+            }
+            catch (DO.BadLineTripException ex)//
+            {
+
+                throw new BO.BadLineTripException(ex.ID, ex.LineID, ex.Message, ex);
+            }
         }
     }
 }

@@ -49,7 +49,10 @@ namespace DLAPI
         bool RequestUserPrivileges(string username, string password);
         void CreateUser(DO.User user);
         #endregion
-        IEnumerable<LineTrip> GetAllLineTripsInLine(int lineId);
+        IEnumerable<LineTrip> RequestAllLineTrips();
+         IEnumerable<LineTrip> RequestAllLineTripsInLine(int tripID);
 
+         void CreateLineTrip(LineTrip Newtrip);
+         void deleteLineTrip(int tripID);
     }
 }

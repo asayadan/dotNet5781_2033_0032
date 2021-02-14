@@ -59,5 +59,14 @@ namespace BO
         public InvalidLineIDException(int id, string message, Exception inner) : base(message, inner) { ID = id; }
         public override string ToString() => base.ToString() + "bad sline ID:" + ID.ToString();
     }
+    [Serializable]
+    public class BadLineTripException : Exception
+    {
+        public int ID;
+        public int LineID;
+        public BadLineTripException(int iD, int lineID) : base() { LineID = lineID; ID = iD; }
+        public BadLineTripException(int iD, int lineID, string message) : base(message) { LineID = lineID; ID = iD; }
+        public BadLineTripException(int iD, int lineID, string message, Exception inner) : base(message, inner) { LineID = lineID; ID = iD; }
+    }
 }
 

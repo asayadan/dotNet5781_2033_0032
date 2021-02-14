@@ -306,7 +306,7 @@ namespace DL
 
         #region Trip
 
-        public IEnumerable<LineTrip> GetAllLineTrips()
+        public IEnumerable<LineTrip> RequestAllLineTrips()
         {
             try
             {
@@ -325,7 +325,7 @@ namespace DL
                 throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
             }
         }
-        public IEnumerable<LineTrip> GetAllLineTripsInLine(int lineId)
+        public IEnumerable<LineTrip> RequestAllLineTripsInLine(int tripID)
         {
             try
             {
@@ -333,7 +333,7 @@ namespace DL
 
                 XElement BusRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
                 return (from lineTrip in BusRootElem.Elements()
-                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == lineId
+                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == tripID
                         select lineTrip.ToLineTrip());
             }
             catch (XMLFileLoadCreateException ex)
