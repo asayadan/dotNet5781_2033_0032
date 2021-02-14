@@ -118,7 +118,7 @@ namespace BL
             }
             catch (DO.InvalidBusLicenseNumberException ex)
             {
-                throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message)
+                throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
             }
         }
         public void FixBus(int id)
@@ -385,7 +385,7 @@ namespace BL
 
                 if (RequestAllLines().Where(x => RequestLineStationsInLine(x.Id).
                     Where(y => y.StationId == helpPrev && y.NextStation == helpNext).Count() > 0).Count() == 0)
-                    dl.RemoveAdjacentStations(dl.RequestAdjacentStations(helpPrev, helpNext));
+                    dl.DeleteAdjacentStations(dl.RequestAdjacentStations(helpPrev, helpNext));
             }
             catch (DO.InvalidAdjacentStationIDException ex)
             {
@@ -439,7 +439,7 @@ namespace BL
                         Station2 = nextStation.StationId,
                         TimeSinceLastStation = timeSinceLastStation
                     });
-                    dl.RemoveLineStation(station.StationId, station.LineId);
+                    dl.DeleteLineStation(station.StationId, station.LineId);
 
 
                 }
@@ -483,7 +483,7 @@ namespace BL
                         }
                         UpdateLineStation(prevStation);
                     }
-                    dl.RemoveLineStation(station.StationId, station.LineId);
+                    dl.DeleteLineStation(station.StationId, station.LineId);
                     UpdateLine(curLine);
 
 
@@ -502,7 +502,7 @@ namespace BL
         }
         public IEnumerable<BO.Line> LinesInStation(int stationId)
         {
-            return from line in dl.GetLinesInStation(stationId)
+            return from line in dl.RequestLinesInStation(stationId)
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
 
         }
@@ -642,8 +642,8 @@ namespace BL
             try
             {
                 foreach (var station in RequestLineStationsInLine(id))
-                    dl.RemoveLineStation(station.StationId, id);
-                dl.RemoveLine(id);
+                    dl.DeleteLineStation(station.StationId, id);
+                dl.DeleteLine(id);
             }
             catch (DO.InvalidLineIDException ex)
             {
@@ -744,7 +744,7 @@ namespace BL
         {
             try
             {
-                dl.deleteLineTrip(lineTripId);
+                dl.DeleteLineTrip(lineTripId);
             }
             catch (DO.BadLineTripException ex)//
             {

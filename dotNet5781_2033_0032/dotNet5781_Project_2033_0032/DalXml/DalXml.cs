@@ -74,7 +74,7 @@ namespace DL
             }
         }
 
-        public void RemoveAdjacentStations(AdjacentStations adjacentStatons)
+        public void DeleteAdjacentStations(AdjacentStations adjacentStatons)
         {
             XElement AdjacentStationsRootElem = XMLTools.LoadListFromXMLElement(AdjacentStationsPath);
 
@@ -150,7 +150,7 @@ namespace DL
 
             else throw new DO.InvalidLineIDException(id, "this line id doesn't exists");
         }
-        public void RemoveLine(int id)
+        public void DeleteLine(int id)
         {
             List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
 
@@ -375,7 +375,7 @@ namespace DL
                 throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
             }
         }
-            public void deleteLineTrip(int tripID)
+            public void DeleteLineTrip(int tripID)
             {
                 try
                 {
@@ -441,7 +441,7 @@ namespace DL
                    orderby lineStation.LineStationIndex ascending
                    select lineStation;
         }
-        public void RemoveLineStation(int stationId, int lineId)
+        public void DeleteLineStation(int stationId, int lineId)
         {
             List<LineStation> ListStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
             LineStation helpStation = (from station in ListStation
@@ -536,7 +536,7 @@ namespace DL
                    select station;
         }
 
-        public IEnumerable<Line> GetLinesInStation(int stationId)
+        public IEnumerable<Line> RequestLinesInStation(int stationId)
         {
             List<LineStation> ListLineStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
             List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);

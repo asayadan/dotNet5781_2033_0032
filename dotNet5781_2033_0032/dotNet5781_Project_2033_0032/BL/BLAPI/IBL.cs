@@ -66,7 +66,7 @@ namespace BLAPI
         /// <exception cref="InvalidBusLicenseNumberException"/>
         BO.Bus RequestBus(int licenseNum);
         /// <summary>
-        /// Creates a new line and saves it in the database.
+        /// Creates a new bus and saves it in the database.
         /// </summary>
         /// <param name="licenseNum">The license number of the new bus.</param>
         /// <param name="fromTime">The production date of the new bus.</param>
@@ -115,7 +115,7 @@ namespace BLAPI
         /// <summary>
         /// Deletes the station from the database according to its ID (code).
         /// </summary>
-        /// <param name="id">The id (code) of the line to be deketed.</param>
+        /// <param name="id">The id (code) of the line to be deleted.</param>
         /// <exception cref="InvalidStationIDException"/>
         void DeleteStation(int id);
         /// <summary>
@@ -125,8 +125,7 @@ namespace BLAPI
         /// <param name="name">The name of the new station.</param>
         /// <param name="longitude">The longitude coordinate of the new station.</param>
         /// <param name="latitude">The latitude coordinate of the new station.</param>
-        /// <exception cref="InvalidAdjacentLineIDException"/>
-        /// <exception cref="InvalidLinesStationException"/>
+        /// <exception cref="InvalidStationIDException"/>
         void CreateStation(int code, string name, double longitude, double latitude);
         /// <summary>
         /// Returns a station according to the station ID.
@@ -212,6 +211,12 @@ namespace BLAPI
         #endregion
 
         #region Line
+        /// <summary>
+        /// Returns a line according to the line ID.
+        /// </summary>
+        /// <param name="id">The idof the requested line.</param>
+        /// <returns>The requested line.</returns>
+        /// <exception cref="InvalidLineIDException"/>
         BO.Line RequestLine(int id);
         /// <summary>
         /// Returns all existing lines.
