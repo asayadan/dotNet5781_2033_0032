@@ -103,7 +103,7 @@ namespace DL
             if (helptations != null)
             {
                 adjacentStations.isActive = true;
-                helptations = adjacentStations.ToXElement();
+                helptations.ReplaceWith(adjacentStations.ToXElement());
 
                 XMLTools.SaveListToXMLElement(AdjacentStationsRootElem, AdjacentStationsPath);
             }
@@ -265,7 +265,7 @@ namespace DL
             if (helpBus != null)
             {
                 Newbus.isActive = true;
-                helpBus = Newbus.ToXElement();
+                helpBus.ReplaceWith(Newbus.ToXElement());
 
                 XMLTools.SaveListToXMLElement(BusRootElem, BusPath);
             }
@@ -461,34 +461,34 @@ namespace DL
         public void UpdateLineStation(LineStation lineStation)
         {
                 List<LineStation> ListStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
-                LineStation helpStation = (from station in ListStation
-                                           where station.StationId == lineStation.StationId && station.LineId == lineStation.LineId && station.isActive
-                                           && station.isActive
-                                           select station).FirstOrDefault();
-                if (helpStation == null)
+                //LineStation helpStation = (from station in ListStation
+                //                           where station.StationId == lineStation.StationId && station.LineId == lineStation.LineId && station.isActive
+                //                           && station.isActive
+                //                           select station).FirstOrDefault();
+                var i = ListStation.FindIndex(p => p.StationId == lineStation.StationId && p.LineId == lineStation.LineId && p.isActive);
+                if (i == -1)
                     throw new DO.InvalidLinesStationException(lineStation.StationId, lineStation.LineId, "this line station id doesn't exists");
                 else
                 {
                     lineStation.isActive = true;
-                    ListStation.Remove(helpStation);
-                    ListStation.Add(lineStation);
+                    ListStation[i] = lineStation;
                     XMLTools.SaveListToXMLSerializer(ListStation, LineStationsPath);
                 }
             }
         #endregion
 
         #region station
-        public void CreateStation(Station Newstation)
+        public void CreateStation(Station newStation)
         {
             List<Station> ListStation = XMLTools.LoadListFromXMLSerializer<Station>(StationPath);
             Station helpStation = (from station in ListStation
-                                   where station.isActive && station.Code == Newstation.Code && station.isActive
+                                   where station.isActive && station.Code == newStation.Code && station.isActive
                                    select station).FirstOrDefault();
             if (helpStation != null)
-                throw new DO.InvalidStationIDException(Newstation.Code, "Station code already exists.");
+                throw new DO.InvalidStationIDException(newStation.Code, "Station code already exists.");
             else
             {
-                ListStation.Add(helpStation);
+                ListStation.Add(newStation);
                 XMLTools.SaveListToXMLSerializer(ListStation, StationPath);
             }
         }

@@ -55,7 +55,7 @@ namespace PlGui
                 }
                 for (int i = 0; i < stationsInLine.Count + 1; i++)
                     indexStationComboBox.Items.Add(i);
-
+                
                 newStationComboBox.DisplayMemberPath = "Name";
                 newStationComboBox.SelectedValuePath = "Code";
             });
@@ -65,11 +65,24 @@ namespace PlGui
         private void finishButton_Click(object sender, RoutedEventArgs e)
         {
             if (newStationComboBox.SelectedItem != null &&
-                indexStationComboBox.SelectedItem != null &&
-                nextDistanceTextBox != null && lastDistanceTextBox != null &&
-                nextHoursComboBox.SelectedItem != null && lastHoursComboBox.SelectedItem != null &&
-                lastMinutesComboBox.SelectedItem != null && lastMinutesComboBox.SelectedItem != null &&
-                lastSecondsComboBox.SelectedItem != null && nextSecondsComboBox.SelectedItem != null)
+                indexStationComboBox.SelectedItem != null && (
+                lastDistanceTextBox != null && nextDistanceTextBox != null &&
+                lastHoursComboBox.SelectedItem != null && nextHoursComboBox.SelectedItem != null &&
+                lastMinutesComboBox.SelectedItem != null && nextMinutesComboBox.SelectedItem != null &&
+                lastSecondsComboBox.SelectedItem != null && nextSecondsComboBox.SelectedItem != null
+                ||
+                indexStationComboBox.SelectedIndex == indexStationComboBox.Items.Count - 1 &&
+                lastDistanceTextBox != null && 
+                lastHoursComboBox.SelectedItem != null && 
+                lastMinutesComboBox.SelectedItem != null && 
+                lastSecondsComboBox.SelectedItem != null
+                ||
+                indexStationComboBox.SelectedIndex == 0 &&
+                nextDistanceTextBox != null &&
+                nextHoursComboBox.SelectedItem != null &&
+                nextMinutesComboBox.SelectedItem != null &&
+                nextSecondsComboBox.SelectedItem != null
+                ))
             {
                 worker= new BackgroundWorker();
                 worker.DoWork += AddStation;
@@ -132,6 +145,25 @@ namespace PlGui
             }
         }
 
+        private void indexStationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int stationAmount = indexStationComboBox.Items.Count;
+
+            if (indexStationComboBox.SelectedIndex != 0 || indexStationComboBox.SelectedIndex != stationAmount - 1)
+                for (int i = 2; i <= 5; i++)
+                    MainGrid.RowDefinitions.ElementAt(i).Height = GridLength.Auto;
+
+            if (indexStationComboBox.SelectedIndex == 0) {
+                MainGrid.RowDefinitions.ElementAt(2).Height = new GridLength(0);
+                MainGrid.RowDefinitions.ElementAt(3).Height = new GridLength(0);
+            }
+
+            else if (indexStationComboBox.SelectedIndex == stationAmount - 1)
+            {
+                MainGrid.RowDefinitions.ElementAt(4).Height = new GridLength(0);
+                MainGrid.RowDefinitions.ElementAt(5).Height = new GridLength(0);
+            }
+        }
     }
 }
 
