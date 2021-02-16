@@ -23,16 +23,16 @@ namespace PlGui
         IBL bl;
         string username;
         bool hasChanged = true;
-        private static Mutex lineStationMutex = new Mutex();
+        private static Mutex lineStationMutex = new Mutex();//maneges the access to LineStationXML
         #endregion
-        #region line workers
+        #region line workers //
         BackgroundWorker updateLineWorker = new BackgroundWorker();//updates the list of the busseswe show
         BackgroundWorker deleteLineWorker = new BackgroundWorker();//deletes lines from here and the memory
-        BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//
-        BackgroundWorker stationsInLineWorker = new BackgroundWorker();
-        BackgroundWorker removeStationFromLineWorker = new BackgroundWorker();
-        BackgroundWorker updateAdjecntStationsWorker = new BackgroundWorker();
-        BackgroundWorker getLineTrip = new BackgroundWorker();//gets the Trips of this line
+        BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//updates the momery 
+        BackgroundWorker stationsInLineWorker = new BackgroundWorker();//gets the stations in a certain line
+        BackgroundWorker removeStationFromLineWorker = new BackgroundWorker();//deletes a stations from the current line
+        BackgroundWorker updateAdjecntStationsWorker = new BackgroundWorker();//updates a station in the memory (AdjecentStations)
+        BackgroundWorker getLineTripWorker = new BackgroundWorker();//gets the Trips of this line
 
         #endregion
 
@@ -55,6 +55,7 @@ namespace PlGui
         ObservableCollection<BO.Line> lineCollection = new ObservableCollection<BO.Line>();
         ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.Bus> busCollection = new ObservableCollection<BO.Bus>();
+        ObservableCollection<BO.LineTrip> tripsInLineCollection = new ObservableCollection<BO.LineTrip>();
         ObservableCollection<BO.StationInLine> stationsInLineCollection = new ObservableCollection<BO.StationInLine>();
         ObservableCollection<BO.Line> linesInStationCollection = new ObservableCollection<BO.Line>();
         #endregion
@@ -64,18 +65,23 @@ namespace PlGui
         BO.Station curStation;
         BO.Bus curBus;
         #endregion
-        #region constractors
+        #region constractors //
+        /// <summary>
+        /// Initializes the window
+        /// </summary>
+        /// <param name="_bl">the BLImp </param>
+        /// <param name="user">the the username of user who logged in</param>
         public MenagmentWindow(IBL _bl, string user)
         {
             username = user;
             bl = _bl;
             InitializeComponent();
-            SetLinesTab();
-            SetStationTab();
-            SetBusTab();
+            SetLinesTab();//stas the line Tab
+            SetStationTab();//sets the stations tab
+            SetBusTab();//sets the busses tab
         }
         #endregion
-        #region setters
+        #region setters //
         void SetLinesTab()
         {
             cb_lines.DisplayMemberPath = "Code";//show only specific Property of object
@@ -84,6 +90,7 @@ namespace PlGui
             gridLine.DataContext = curLine;
             lbl_usernameStations.DataContext = username;
             StationsInLineDataGrid.DataContext = stationsInLineCollection;
+            TripInLineDataGrid.DataContext = tripsInLineCollection;
             cb_lines.DataContext = lineCollection;
             lbl_username.DataContext = username;
             areaComboBox.ItemsSource = Enum.GetValues(typeof(BO.Areas));
@@ -93,16 +100,19 @@ namespace PlGui
             updateLineInDSWorker.DoWork += UpdateLine;
             removeStationFromLineWorker.DoWork += removeStationFromLine;
             updateAdjecntStationsWorker.DoWork += UpdateAdjecentStation;
+            getLineTripWorker.DoWork += SetAllTripsInLine;
             stationsInLineWorker.WorkerSupportsCancellation = true;
             updateLineWorker.RunWorkerAsync();
         }
-
-
-
+        /// <summary>
+        /// gets all the lines and sets them in the DataGrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void SetAllLines(object sender, DoWorkEventArgs e)
         {
             var help = bl.RequestAllLines();
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            App.Current.Dispatcher.Invoke((Action)delegate 
             {
                 lineCollection.Clear();
                 foreach (var item in help)
@@ -113,18 +123,23 @@ namespace PlGui
                 cb_lines.SelectedIndex = 0;
             });
         }
+        /// <summary>
+        /// get the stations in the current line and shows them on the DataGrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void SetAllStationsInLine(object sender, DoWorkEventArgs e)
         {
             try
             {
-                lineStationMutex.WaitOne();
+                lineStationMutex.WaitOne();//waiting until no one is using the xml for the LineStations
                 var helpList = new List<BO.StationInLine>();
                 foreach (var b in bl.RequestStationsInLineByLine(curLine.Id))
                 {
-                    helpList.Add(b);
+                    helpList.Add(b);//we get the list of the staions in this line
                 }
-                lineStationMutex.ReleaseMutex();
-                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                lineStationMutex.ReleaseMutex();//we won't use LineStationXML so we release the mutex
+                App.Current.Dispatcher.Invoke((Action)delegate // we update the DataGrid with the stations in this line
                 {
                     stationsInLineCollection.Clear();
                     foreach (var station in helpList)
@@ -138,8 +153,41 @@ namespace PlGui
                 lineStationMutex.ReleaseMutex();
             }
         }
+        /// <summary>
+        /// get the LineTrips in the current line and shows them on the DataGrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void SetAllTripsInLine(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                var helpList = new List<BO.LineTrip>();
+                foreach (var b in bl.RequestLineTripInLine(curLine.Id))
+                {
+                    helpList.Add(b);//we get the list of the staions in this line
+                }
+                App.Current.Dispatcher.Invoke((Action)delegate // we update the DataGrid with the stations in this line
+                {
+                    tripsInLineCollection.Clear();
+                    foreach (var trip in helpList)
+                    {
+                        tripsInLineCollection.Add(trip);
+                    }
+                });
+            }
+            catch (BO.BadLineTripException)
+            {
+            }
+        }
         #endregion
         #region  functions
+        /// <summary>
+        /// what happens when the selection in cb_lines is changed 
+        /// displays the new selected line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cb_lines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //updatelinesWorker.RunWorkerAsync( = (cb_lines.SelectedItem as BO.Line);
@@ -148,6 +196,7 @@ namespace PlGui
             if (cb_lines.SelectedValue != null)
             {
                 stationsInLineWorker.RunWorkerAsync((int)cb_lines.SelectedValue);
+                getLineTripWorker.RunWorkerAsync((int)cb_lines.SelectedValue);
             }
             else
             {
@@ -202,18 +251,27 @@ namespace PlGui
             });
 
         }
+        /// <summary>
+        /// what happen when you press the btRemoveStationFromLine button-removes the current LineStation from the current line
+        /// </summary>
+        /// <param name="sender">the button</param>
+        /// <param name="e">params</param>
         private void btRemoveStationFromLine_Click(object sender, RoutedEventArgs e)
         {
             removeStationFromLineWorker.RunWorkerAsync((sender as Button).DataContext);
         }
-
+        /// <summary>
+        /// removes the current LineStation from the line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">params including teh current Station(and by extension the lineId</param>
         private void removeStationFromLine(object sender, DoWorkEventArgs e)
         {
-            var st = e.Argument as BO.StationInLine;
-            var index = stationsInLineCollection.IndexOf(st);
+            var st = e.Argument as BO.StationInLine;//the station to remove
+            var index = stationsInLineCollection.IndexOf(st);//gets teh index of the station in the line
             bool valid = true;
 
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            App.Current.Dispatcher.Invoke((Action)delegate 
             {
 
                 if (stationsInLineCollection.Count == 2)
@@ -224,17 +282,17 @@ namespace PlGui
 
             });
             if (!valid)
-                return;
-            if (index == stationsInLineCollection.Count - 1 || index == 0)
+                return;//we can't  have less then 2 stations in line
+            if (index == stationsInLineCollection.Count - 1 || index == 0)//if we delete the first or the last station
             {
-                bl.DeleteStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
-                stationsInLineWorker.RunWorkerAsync(curLine.Id);
+                bl.DeleteStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);//we remove the station
+                stationsInLineWorker.RunWorkerAsync(curLine.Id);//we updates the stations in the DataGrid
                 return;
             }
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            App.Current.Dispatcher.Invoke((Action)delegate // if the station is in the middle of the line
             {
-                var stationWin = new RemoveStationLine(bl, curLine, st);
-                stationWin.Closing += StationLineWin_Closing;
+                var stationWin = new RemoveStationLine(bl, curLine, st);//we create a new window
+                stationWin.Closing += StationLineWin_Closing;//when the new window will open this window will open
                 stationWin.Show();
             });
         }
@@ -249,6 +307,7 @@ namespace PlGui
         {
 
             stationsInLineWorker.CancelAsync();
+            getLineTripWorker.CancelAsync();
             stationsInLineWorker.RunWorkerAsync(curLine.Id);
             linesInStationWorker.RunWorkerAsync(curStation.Code);
         }
@@ -270,6 +329,11 @@ namespace PlGui
                 updateLineInDSWorker.RunWorkerAsync(helpLine);
             }
         }
+        /// <summary>
+        /// push the updates you made in the current line to the momory
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateLine(object sender, DoWorkEventArgs e)
         {
             var helpLine = e.Argument as BO.Line;
@@ -493,6 +557,11 @@ namespace PlGui
             bl.DeleteBus((int)e.Argument);
             AllBusesWorker.RunWorkerAsync();
         }
+        /// <summary>
+        /// shshshshshshsh
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bt_secret_Click(object sender, RoutedEventArgs e)
         {
             var win = new HiddenWindow();
@@ -500,6 +569,11 @@ namespace PlGui
             win.Show();
             this.Visibility = Visibility.Collapsed;
         }
+        /// <summary>
+        /// open back the window after we close the secret window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void OpenWindowafterUsage(object sender, CancelEventArgs e)
         {
             this.Visibility = Visibility.Visible;
@@ -575,17 +649,27 @@ namespace PlGui
             AllBusesWorker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// what happens when you click on the update button(updates the time between the stations
+        /// </summary>
+        /// <param name="sender">the button</param>
+        /// <param name="e"></param>
         private void bt_updatStationInLine_Click(object sender, RoutedEventArgs e)
         {
-            updateAdjecntStationsWorker.RunWorkerAsync((sender as Button).DataContext);
+            updateAdjecntStationsWorker.RunWorkerAsync((sender as Button).DataContext);//we update the station in a BackgroundWorker
         }
 
+       /// <summary>
+       /// enter the updates we made in the station into the memory
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e">the args including the updated stations</param>
         private void UpdateAdjecentStation(object sender, DoWorkEventArgs e)
         {
 
             var adjSt = e.Argument as BO.StationInLine;
             bl.UpdateAdjacentStations(adjSt.PrevStation, adjSt.StationId, adjSt.DistFromLastStation, adjSt.TimeSinceLastStation);
-            stationsInLineWorker.RunWorkerAsync(curLine);
+            stationsInLineWorker.RunWorkerAsync(curLine);//displays the updated stations
 
         }
     }
@@ -596,15 +680,34 @@ namespace PlGui
     [ValueConversion(typeof(int), typeof(String))]
     public class IntTotationNameAsString : IValueConverter
     {
+        Func<object, object> func;
+        Mutex mutx = new Mutex();
         /// <summary>
-        /// Using the request station method with the given code to get the station name
+        /// converts between the code to the name
         /// </summary>
+        /// <param name="value">the value t oconvert</param>
+        /// <param name="targetType">the Type to convert into</param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>the name of the station</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int code = (int)value;
-            return BLAPI.BLFactory.GetBL("").RequestStation(code).Name;
+            try
+            {
+                int code = (int)value;
+                return BLAPI.BLFactory.GetBL("").RequestStation(code).Name;
+            }
+            catch (BO.InvalidStationIDException ex)
+            { return ""; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string strValue = value as string;

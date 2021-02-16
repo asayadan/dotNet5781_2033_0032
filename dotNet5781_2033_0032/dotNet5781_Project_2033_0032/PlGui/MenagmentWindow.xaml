@@ -27,28 +27,55 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200*"/>
-                    <ColumnDefinition Width="450*"/>
+                    <ColumnDefinition Width="400*"/>
                 </Grid.ColumnDefinitions>
                 <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
                     <Label Content="Select Line:"  />
                     <ComboBox x:Name="cb_lines"  Width="125"  Text="" SelectionChanged="cb_lines_SelectionChanged"
                    ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
                 </WrapPanel>
-                <Grid x:Name="gridLine" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Code:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-                    <TextBox x:Name="codeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                    <Label Content="Area:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="areaComboBox" Grid.Column="1" SelectedItem="{Binding Area}" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
-                </Grid>
+                <WrapPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                    <Grid x:Name="gridLine" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Code:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                        <TextBox x:Name="codeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="Area:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="areaComboBox" Grid.Column="1" SelectedItem="{Binding Area}" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
+                    </Grid>
+                    <DataGrid x:Name="TripInLineDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected"  Grid.Column="0" Grid.Row="1" BorderBrush="{x:Null}" Background="#FFB4EFB7">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="StartColumn" Binding="{Binding StartAt, Mode=OneWay}"  Header="starts at:" Width="*"/>
+                            <DataGridTextColumn x:Name="frequencyColumn" Binding="{Binding Frequency, Mode=OneWay}" Header="frequency" Width="*"/>
+                            <DataGridTextColumn x:Name="endColumn"  Binding="{Binding FinishAt ,Mode=TwoWay}" Header="ends at:" Width="*"/>
+
+                            <DataGridTemplateColumn Width="0.3*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="btRemoveStation" Content="Remove" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStationFromLine_Click"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="0.3*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="bt_updatTripInLine" Content="Update" Background="ForestGreen" ToolTip="Update station properties from current line." Click="bt_updatStationInLine_Click"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </WrapPanel>
                 <DataGrid x:Name="StationsInLineDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1" BorderBrush="{x:Null}" Background="#FFB4EFB7">
                     <DataGrid.RenderTransform>
                         <TransformGroup>
