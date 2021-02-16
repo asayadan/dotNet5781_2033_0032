@@ -23,14 +23,14 @@ namespace PlGui
         IBL bl;
         string username;
         bool hasChanged = true;
-        private static Mutex lineStationMutex = new Mutex();
+        private static Mutex lineStationMutex = new Mutex();//maneges the access to LineStationXML
         #endregion
         #region line workers
         BackgroundWorker updateLineWorker = new BackgroundWorker();//updates the list of the busseswe show
         BackgroundWorker deleteLineWorker = new BackgroundWorker();//deletes lines from here and the memory
-        BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//
-        BackgroundWorker stationsInLineWorker = new BackgroundWorker();
-        BackgroundWorker removeStationFromLineWorker = new BackgroundWorker();
+        BackgroundWorker updateLineInDSWorker = new BackgroundWorker();//updates the momery 
+        BackgroundWorker stationsInLineWorker = new BackgroundWorker();//gets the stations in a certain line
+        BackgroundWorker removeStationFromLineWorker = new BackgroundWorker();//deletes a stations from the current line
         BackgroundWorker updateAdjecntStationsWorker = new BackgroundWorker();
         BackgroundWorker getLineTrip = new BackgroundWorker();//gets the Trips of this line
 
@@ -70,9 +70,9 @@ namespace PlGui
             username = user;
             bl = _bl;
             InitializeComponent();
-            SetLinesTab();
-            SetStationTab();
-            SetBusTab();
+            SetLinesTab();//stas the line Tab
+            SetStationTab();//sets the stations tab
+            SetBusTab();//sets the busses tab
         }
         #endregion
         #region setters
@@ -113,18 +113,23 @@ namespace PlGui
                 cb_lines.SelectedIndex = 0;
             });
         }
+        /// <summary>
+        /// get the stations in the current line and shows them on the DataGrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void SetAllStationsInLine(object sender, DoWorkEventArgs e)
         {
             try
             {
-                lineStationMutex.WaitOne();
+                lineStationMutex.WaitOne();//waiting until no one is using the xml for the LineStations
                 var helpList = new List<BO.StationInLine>();
                 foreach (var b in bl.RequestStationsInLine(curLine.Id))
                 {
-                    helpList.Add(b);
+                    helpList.Add(b);//we get the list of the staions in this line
                 }
-                lineStationMutex.ReleaseMutex();
-                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                lineStationMutex.ReleaseMutex();//we won't use LineStationXML so we release the mutex
+                App.Current.Dispatcher.Invoke((Action)delegate // we update the DataGrid with the stations in this line
                 {
                     stationsInLineCollection.Clear();
                     foreach (var station in helpList)
@@ -202,18 +207,27 @@ namespace PlGui
             });
 
         }
+        /// <summary>
+        /// what happen when you press the btRemoveStationFromLine button-removes the current LineStation from the current line
+        /// </summary>
+        /// <param name="sender">the button</param>
+        /// <param name="e">params</param>
         private void btRemoveStationFromLine_Click(object sender, RoutedEventArgs e)
         {
             removeStationFromLineWorker.RunWorkerAsync((sender as Button).DataContext);
         }
-
+        /// <summary>
+        /// removes the current LineStation from the line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">params including teh current Station(and by extension the lineId</param>
         private void removeStationFromLine(object sender, DoWorkEventArgs e)
         {
-            var st = e.Argument as BO.StationInLine;
-            var index = stationsInLineCollection.IndexOf(st);
+            var st = e.Argument as BO.StationInLine;//the station to remove
+            var index = stationsInLineCollection.IndexOf(st);//gets teh index of the station in the line
             bool valid = true;
 
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            App.Current.Dispatcher.Invoke((Action)delegate 
             {
 
                 if (stationsInLineCollection.Count == 2)
@@ -224,17 +238,17 @@ namespace PlGui
 
             });
             if (!valid)
-                return;
-            if (index == stationsInLineCollection.Count - 1 || index == 0)
+                return;//we can't  have less then 2 stations in line
+            if (index == stationsInLineCollection.Count - 1 || index == 0)//if we delete the first or the last station
             {
-                bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);
-                stationsInLineWorker.RunWorkerAsync(curLine.Id);
+                bl.RemoveStationFromLine(curLine.Id, st.Code, 0, TimeSpan.Zero);//we remove the station
+                stationsInLineWorker.RunWorkerAsync(curLine.Id);//we updates the stations in the DataGrid
                 return;
             }
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            App.Current.Dispatcher.Invoke((Action)delegate // if the station is in the middle of the line
             {
-                var stationWin = new RemoveStationLine(bl, curLine, st);
-                stationWin.Closing += StationLineWin_Closing;
+                var stationWin = new RemoveStationLine(bl, curLine, st);//we create a new window
+                stationWin.Closing += StationLineWin_Closing;//when the new window will open this window will open
                 stationWin.Show();
             });
         }
@@ -270,6 +284,11 @@ namespace PlGui
                 updateLineInDSWorker.RunWorkerAsync(helpLine);
             }
         }
+        /// <summary>
+        /// push the updates you made in the current line to the momory
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateLine(object sender, DoWorkEventArgs e)
         {
             var helpLine = e.Argument as BO.Line;
@@ -575,28 +594,56 @@ namespace PlGui
             AllBusesWorker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// what happens when you click on the update button(updates the time between the stations
+        /// </summary>
+        /// <param name="sender">the button</param>
+        /// <param name="e"></param>
         private void bt_updatStationInLine_Click(object sender, RoutedEventArgs e)
         {
-            updateAdjecntStationsWorker.RunWorkerAsync((sender as Button).DataContext);
+            updateAdjecntStationsWorker.RunWorkerAsync((sender as Button).DataContext);//we update the station in a BackgroundWorker
         }
 
+       /// <summary>
+       /// enter the updates we made in the station into the memory
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e">the args including the updated stations</param>
         private void UpdateAdjecentStation(object sender, DoWorkEventArgs e)
         {
 
             var adjSt = e.Argument as BO.StationInLine;
             bl.UpdateAdjacentStations(adjSt.PrevStation, adjSt.StationId, adjSt.DistFromLastStation, adjSt.TimeSinceLastStation);
-            stationsInLineWorker.RunWorkerAsync(curLine);
+            stationsInLineWorker.RunWorkerAsync(curLine);//displays the updated stations
 
         }
     }
 
+
+
+    //a class to convert between the code of the station  and teh name of the station 
     [ValueConversion(typeof(int), typeof(String))]
     public class IntTotationNameAsString : IValueConverter
     {
+        /// <summary>
+        /// converts between the code to the name
+        /// </summary>
+        /// <param name="value">the value t oconvert</param>
+        /// <param name="targetType">the Type to convert into</param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>the name of the station</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int code = (int)value;
-            return BLAPI.BLFactory.GetBL("").RequestStation(code).Name;
+            try
+            {
+                int code = (int)value;
+                return BLAPI.BLFactory.GetBL("").RequestStation(code).Name;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
