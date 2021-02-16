@@ -2,6 +2,13 @@
 <ArrayOfStation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Station>
     <isActive>true</isActive>
+    <Code>38831</Code>
+    <Name>בי''ס בר לב/בן יהודה</Name>
+    <Latitude>32.183921</Latitude>
+    <Longitude>34.917806</Longitude>
+  </Station>
+  <Station>
+    <isActive>true</isActive>
     <Code>38832</Code>
     <Name>הרצל/צומת בילו</Name>
     <Latitude>31.870034</Latitude>
@@ -2085,19 +2092,5 @@
     <Name>שדרות וייצמן/יהודה הנשיא</Name>
     <Latitude>32.337669</Latitude>
     <Longitude>34.859541</Longitude>
-  </Station>
-  <Station>
-    <isActive>true</isActive>
-    <Code>38831</Code>
-    <Name>בי''ס בר לב/בן יהודה</Name>
-    <Latitude>33.183921</Latitude>
-    <Longitude>34.917806</Longitude>
-  </Station>
-  <Station>
-    <isActive>true</isActive>
-    <Code>11111</Code>
-    <Name>ניימן</Name>
-    <Latitude>33.333333</Latitude>
-    <Longitude>33.333333</Longitude>
   </Station>
 </ArrayOfStation>

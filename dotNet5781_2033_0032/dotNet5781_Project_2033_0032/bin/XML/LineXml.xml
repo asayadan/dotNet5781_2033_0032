@@ -2,18 +2,34 @@
 <ArrayOfLine xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Line>
     <isActive>true</isActive>
+    <Code>111</Code>
+    <FirstStation>38831</FirstStation>
+    <LastStation>38841</LastStation>
+    <Area>Center</Area>
+    <Id>1</Id>
+  </Line>
+  <Line>
+    <isActive>true</isActive>
     <Code>222</Code>
     <FirstStation>38842</FirstStation>
     <LastStation>38855</LastStation>
-    <Area>North</Area>
+    <Area>Jerusalem</Area>
     <Id>2</Id>
+  </Line>
+  <Line>
+    <isActive>true</isActive>
+    <Code>333</Code>
+    <FirstStation>38856</FirstStation>
+    <LastStation>38867</LastStation>
+    <Area>Jerusalem</Area>
+    <Id>3</Id>
   </Line>
   <Line>
     <isActive>true</isActive>
     <Code>444</Code>
     <FirstStation>38869</FirstStation>
     <LastStation>38880</LastStation>
-    <Area>General</Area>
+    <Area>Center</Area>
     <Id>4</Id>
   </Line>
   <Line>
@@ -21,23 +37,23 @@
     <Code>555</Code>
     <FirstStation>38881</FirstStation>
     <LastStation>38891</LastStation>
-    <Area>General</Area>
+    <Area>Jerusalem</Area>
     <Id>5</Id>
   </Line>
   <Line>
     <isActive>true</isActive>
-    <Code>333</Code>
-    <FirstStation>38860</FirstStation>
-    <LastStation>38867</LastStation>
-    <Area>South</Area>
-    <Id>3</Id>
+    <Code>77</Code>
+    <FirstStation>38834</FirstStation>
+    <LastStation>38839</LastStation>
+    <Area>North</Area>
+    <Id>6</Id>
   </Line>
   <Line>
-    <isActive>true</isActive>
-    <Code>111</Code>
-    <FirstStation>38833</FirstStation>
-    <LastStation>38840</LastStation>
+    <isActive>false</isActive>
+    <Code>77</Code>
+    <FirstStation>38834</FirstStation>
+    <LastStation>38839</LastStation>
     <Area>North</Area>
-    <Id>1</Id>
+    <Id>7</Id>
   </Line>
 </ArrayOfLine>

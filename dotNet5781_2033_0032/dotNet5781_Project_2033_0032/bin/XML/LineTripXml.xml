@@ -5,19 +5,19 @@
     <ID>0</ID>
     <LineID>1</LineID>
     <StartAt>
-      <Hours>4</Hours>
-      <Minutes>19</Minutes>
-      <Seconds>25</Seconds>
+      <Hours>7</Hours>
+      <Minutes>56</Minutes>
+      <Seconds>6</Seconds>
     </StartAt>
     <Frequency>
       <Hours>0</Hours>
-      <Minutes>38</Minutes>
+      <Minutes>42</Minutes>
       <Seconds>0</Seconds>
     </Frequency>
     <FinishAt>
-      <Hours>14</Hours>
-      <Minutes>24</Minutes>
-      <Seconds>47</Seconds>
+      <Hours>18</Hours>
+      <Minutes>35</Minutes>
+      <Seconds>13</Seconds>
     </FinishAt>
   </Trip>
   <Trip>
@@ -25,29 +25,9 @@
     <ID>1</ID>
     <LineID>2</LineID>
     <StartAt>
-      <Hours>7</Hours>
-      <Minutes>27</Minutes>
-      <Seconds>58</Seconds>
-    </StartAt>
-    <Frequency>
-      <Hours>0</Hours>
-      <Minutes>43</Minutes>
-      <Seconds>0</Seconds>
-    </Frequency>
-    <FinishAt>
-      <Hours>22</Hours>
-      <Minutes>51</Minutes>
-      <Seconds>39</Seconds>
-    </FinishAt>
-  </Trip>
-  <Trip>
-    <isActive>true</isActive>
-    <ID>2</ID>
-    <LineID>3</LineID>
-    <StartAt>
-      <Hours>6</Hours>
-      <Minutes>5</Minutes>
-      <Seconds>44</Seconds>
+      <Hours>1</Hours>
+      <Minutes>46</Minutes>
+      <Seconds>27</Seconds>
     </StartAt>
     <Frequency>
       <Hours>0</Hours>
@@ -55,9 +35,29 @@
       <Seconds>0</Seconds>
     </Frequency>
     <FinishAt>
-      <Hours>17</Hours>
-      <Minutes>57</Minutes>
-      <Seconds>5</Seconds>
+      <Hours>14</Hours>
+      <Minutes>8</Minutes>
+      <Seconds>23</Seconds>
+    </FinishAt>
+  </Trip>
+  <Trip>
+    <isActive>true</isActive>
+    <ID>2</ID>
+    <LineID>3</LineID>
+    <StartAt>
+      <Hours>7</Hours>
+      <Minutes>3</Minutes>
+      <Seconds>26</Seconds>
+    </StartAt>
+    <Frequency>
+      <Hours>0</Hours>
+      <Minutes>33</Minutes>
+      <Seconds>0</Seconds>
+    </Frequency>
+    <FinishAt>
+      <Hours>20</Hours>
+      <Minutes>12</Minutes>
+      <Seconds>11</Seconds>
     </FinishAt>
   </Trip>
   <Trip>
@@ -65,19 +65,19 @@
     <ID>3</ID>
     <LineID>4</LineID>
     <StartAt>
-      <Hours>5</Hours>
-      <Minutes>27</Minutes>
-      <Seconds>54</Seconds>
+      <Hours>4</Hours>
+      <Minutes>32</Minutes>
+      <Seconds>48</Seconds>
     </StartAt>
     <Frequency>
       <Hours>0</Hours>
-      <Minutes>43</Minutes>
+      <Minutes>33</Minutes>
       <Seconds>0</Seconds>
     </Frequency>
     <FinishAt>
-      <Hours>2</Hours>
-      <Minutes>10</Minutes>
-      <Seconds>57</Seconds>
+      <Hours>23</Hours>
+      <Minutes>4</Minutes>
+      <Seconds>28</Seconds>
     </FinishAt>
   </Trip>
   <Trip>
@@ -85,19 +85,19 @@
     <ID>4</ID>
     <LineID>5</LineID>
     <StartAt>
-      <Hours>4</Hours>
-      <Minutes>5</Minutes>
-      <Seconds>54</Seconds>
+      <Hours>3</Hours>
+      <Minutes>57</Minutes>
+      <Seconds>34</Seconds>
     </StartAt>
     <Frequency>
       <Hours>0</Hours>
-      <Minutes>41</Minutes>
+      <Minutes>49</Minutes>
       <Seconds>0</Seconds>
     </Frequency>
     <FinishAt>
       <Hours>4</Hours>
-      <Minutes>52</Minutes>
-      <Seconds>7</Seconds>
+      <Minutes>43</Minutes>
+      <Seconds>9</Seconds>
     </FinishAt>
   </Trip>
 </LineTrips>

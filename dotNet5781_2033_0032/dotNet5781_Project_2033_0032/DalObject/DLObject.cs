@@ -269,5 +269,15 @@ namespace DL
         {
             throw new NotImplementedException();
         }
+
+        public int RequestCounter(string type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCounter(string type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

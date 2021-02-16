@@ -583,13 +583,13 @@ namespace BL
                     Code = code,
                     FirstStation = firstStation,
                     LastStation = lastStation,
-                    Id = Counters.lines++
+                    Id = GetCounterAndAdd("Line")
                 });
 
                 dl.CreateLineStation(new DO.LineStation
                 {
                     isActive = true,
-                    LineId = Counters.lines - 1,
+                    LineId = GetCounters("Line") - 1,
                     LineStationIndex = 1,
                     NextStation = lastStation,
                     PrevStation = firstStation,
@@ -599,7 +599,7 @@ namespace BL
                 dl.CreateLineStation(new DO.LineStation
                 {
                     isActive = true,
-                    LineId = Counters.lines - 1,
+                    LineId = GetCounters("Line") - 1,
                     LineStationIndex = 0,
                     NextStation = lastStation,
                     PrevStation = firstStation,
@@ -740,7 +740,7 @@ namespace BL
                 dl.CreateLineTrip(new DO.LineTrip
                 {
                     isActive = true,
-                    Id = Counters.lineTrip++,
+                    Id = GetCounterAndAdd("LineTrip"),
                     LineId = lineId,
                     StartAt = startAt,
                     Frequency = frequency,
@@ -766,6 +766,19 @@ namespace BL
 
                 throw new BO.BadLineTripException(ex.ID, ex.LineID, ex.Message, ex);
             }
+        }
+
+        public int GetCounters(string type)
+        {
+            return dl.RequestCounter(type);
+        }
+
+        public int GetCounterAndAdd(string type)
+        {
+            int help = dl.RequestCounter(type);
+            dl.UpdateCounter(type);
+            return help;
+
         }
     }
 }

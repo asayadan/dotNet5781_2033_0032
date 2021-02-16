@@ -6,6 +6,8 @@ namespace DLAPI
 {
     public interface IDL
     {
+        int RequestCounter(string type);
+        void UpdateCounter(string type);
         #region Bus
         /// <summary>
         /// Returns all existing buses.
