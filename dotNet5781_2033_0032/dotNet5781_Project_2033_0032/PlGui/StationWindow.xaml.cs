@@ -39,9 +39,7 @@ namespace PlGui
         BO.Station curStation;
         BO.Station firstStation;
         BO.Station secondStation;
-        bool changed;
-        int i = 0;
-
+        bool changed = true;
 
         public StationWindow(IBL bL, string userName)
         {
@@ -61,7 +59,7 @@ namespace PlGui
             getAllStationsWorker.RunWorkerAsync();
             getLinesInStationWorker.DoWork += SetLinesInStation;
             Searchworker.DoWork += Search;
-            //BO.SimulationClock.valueChanged += (object sender, EventArgs e) => { getLinesInStationWorker.RunWorkerAsync(); };
+            BO.SimulationClock.valueChanged += (object sender, EventArgs e) => { getLinesInStationWorker.RunWorkerAsync(); };
         }
         private void SetLinesInStation(object sender, DoWorkEventArgs e)
         {
@@ -78,7 +76,7 @@ namespace PlGui
                 try
                 {
                     lineStationMutex.WaitOne();
-                    var lineTimings = bl.RequestLineTimingFromStation(curStation.Code);
+                    var lineTimings = bl.RequestLineTimingFromStation(curStation.Code).ToList();
                     lineStationMutex.ReleaseMutex();
                     App.Current.Dispatcher.Invoke((Action)delegate
                     {
@@ -115,8 +113,8 @@ namespace PlGui
             try
             {
                 lineStationMutex.WaitOne();
-
-                stationCollection = new ObservableCollection<BO.Station>(bl.RequestAllStations());
+                stationCollection = new ObservableCollection<BO.Station>(bl.RequestAllStations().ToList());
+                lineStationMutex.ReleaseMutex();
 
                 App.Current.Dispatcher.Invoke((Action)delegate
                 {
@@ -127,7 +125,6 @@ namespace PlGui
 
                     curStation = stationCollection[0];
                 });
-                lineStationMutex.ReleaseMutex();
                 SetLinesInStation(sender, e);
             }
 
@@ -158,7 +155,10 @@ namespace PlGui
         {
 
             //  if ((e.Argument as SearchData).changed)
-            var helpList = bl.RequestStationsBy(x => (x as BO.Station).Name.Contains((e.Argument as SearchData).search));
+            lineStationMutex.WaitOne();
+            var helpList = bl.RequestStationsBy(x => (x as BO.Station).Name.Contains((e.Argument as SearchData).search)).ToList();
+            lineStationMutex.ReleaseMutex();
+
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 stationCollection.Clear();
@@ -178,7 +178,8 @@ namespace PlGui
             getLinesInTwoStation.DoWork += GetLinesInBothStation;
             BO.SimulationClock.valueChanged += (object sender, EventArgs e) =>
             {
-                if (!getLinesInTwoStation.IsBusy) getLinesInTwoStation.RunWorkerAsync();
+                if (!getLinesInTwoStation.IsBusy)
+                    getLinesInTwoStation.RunWorkerAsync();
             };
             LinesInBothStationsDataGrid.DataContext = linesInBothStations;
         }
@@ -188,14 +189,16 @@ namespace PlGui
             if (firstStation != null && secondStation != null)
             {
                 lineStationMutex.WaitOne();
-                var res = bl.LinesInTwoStations(firstStation.Code, secondStation.Code);
+                var res = bl.LinesInTwoStations(firstStation.Code, secondStation.Code).ToList();
                 lineStationMutex.ReleaseMutex();
                 App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
                     bool a = true;
                     for (int i = 0; linesInBothStations.Count == res.Count() && i < linesInBothStations.Count; i++)
                     {
-                        if (linesInBothStations[i].Item1.TripStartTime != res.ToArray()[i].Item1.TripStartTime) {
+                        if (changed || linesInBothStations[i].Item1.TripStartTime != res[i].Item1.TripStartTime)
+                        {
+                            changed = false;
                             a = false;
                             break;
                         }
@@ -208,7 +211,7 @@ namespace PlGui
                         {
                             linesInBothStations.Add(item);
                         }
-                    }                    
+                    }
                 });
             }
         }
@@ -217,9 +220,9 @@ namespace PlGui
         {
             if (cb_firstStation.SelectedItem != null && cb_secondStation.SelectedItem != null)
             {
+                changed = true;
                 firstStation = cb_firstStation.SelectedItem as BO.Station;
                 secondStation = cb_secondStation.SelectedItem as BO.Station;
-                changed = true;
                 if (!getLinesInTwoStation.IsBusy) getLinesInTwoStation.RunWorkerAsync();
             }
 
@@ -229,21 +232,16 @@ namespace PlGui
 
         private void bt_startTrip_Click(object sender, RoutedEventArgs e)
         {
-            cb_firstStation.IsEnabled = cb_secondStation.IsEnabled = false;
+            var tuple = ((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem;
+            tripEndTime = tuple.Item2.TimeToStation + BO.SimulationClock.GetTime;
             LinesInBothStationsDataGrid.IsEnabled = false;
             pb_tripProgress.Visibility = Visibility.Visible;
             pb_tripProgress.Minimum = BO.SimulationClock.GetTime.TotalMilliseconds - tripEndTime.TotalMilliseconds;
             pb_tripProgress.Maximum = 0;
+            pb_tripProgress.Value = pb_tripProgress.Minimum;
             bt_startTrip.IsEnabled = false;
             tb_start.Text = "Trip Progress:";
-            pb_tripProgress.Value = pb_tripProgress.Minimum;
-            var tuple = ((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem;
-            tripEndTime = tuple.Item2.TimeToStation - tuple.Item1.TimeToStation + tuple.Item1.TripStartTime
-                + BO.SimulationClock.GetTime;
             BO.SimulationClock.valueChanged += Trip;
-
-
-
         }
         private void Trip(object sender, EventArgs e)
         {
