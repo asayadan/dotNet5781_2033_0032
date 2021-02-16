@@ -164,7 +164,10 @@ namespace PlGui
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             TimeSpan ts = (TimeSpan)value;
-            return ((int)ts.TotalMinutes).ToString();
+            int minutes = (int)ts.TotalMinutes;
+            if (minutes == 0)
+                return '↓'; //bus is at station yay
+            return minutes;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

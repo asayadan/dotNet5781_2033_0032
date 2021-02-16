@@ -62,7 +62,7 @@ namespace BL
                 ((fromTime.Year < 2018) && (licenseNum <= 9999999)) && (licenseNum > 999999))//the BO.Bus registered before 2018 and has 7 digits
                 try
                 {
-                    dl.CreateBus(new DO.Bus {isActive=true, LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
+                    dl.CreateBus(new DO.Bus { isActive = true, LicenseNum = licenseNum, FromDate = fromTime, Status = DO.Status.Ready, FuelRemaining = fuel, TotalTrip = totalTrip });
                 }
                 catch (DO.InvalidBusLicenseNumberException ex)
                 {
@@ -110,15 +110,29 @@ namespace BL
         }
         public void FuelBus(int id)
         {
-            var a = dl.RequestBus(id);
-            a.FuelRemaining = DO.Bus.FullGasTank;
-            dl.UpdateBus(a);
+            try
+            {
+                var a = dl.RequestBus(id);
+                a.FuelRemaining = DO.Bus.FullGasTank;
+                dl.UpdateBus(a);
+            }
+            catch (DO.InvalidBusLicenseNumberException ex)
+            {
+                throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
+            }
         }
         public void FixBus(int id)
         {
-            var a = dl.RequestBus(id);
-            a.LastTreatment = DateTime.Now;
-            dl.UpdateBus(a);
+            try
+            {
+                var a = dl.RequestBus(id);
+                a.LastTreatment = DateTime.Now;
+                dl.UpdateBus(a);
+            }
+            catch (DO.InvalidBusLicenseNumberException ex)
+            {
+                throw new InvalidBusLicenseNumberException(ex.LicenseNum, ex.Message);
+            }
         }
         #endregion
 
@@ -184,7 +198,7 @@ namespace BL
             {
                 return dl.RequestLineStation(stationId, lineId).CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
             }
-            catch (DO.InvalidStationIDException ex)
+            catch (DO.InvalidLinesStationException ex)
             {
                 throw new InvalidStationIDException(ex.ID, ex.Message);
             }
@@ -206,7 +220,7 @@ namespace BL
                    orderby station.LineStationIndex
                    select station.CopyPropertiesToNew(typeof(BO.LineStation)) as BO.LineStation;
         }
-        public IEnumerable<StationInLine> RequestStationsInLine(int lineId)
+        public IEnumerable<StationInLine> RequestStationsInLineByLine(int lineId)
         {
             return from station in dl.RequestLineStationsInLine(lineId)
                    orderby station.LineStationIndex
@@ -227,22 +241,34 @@ namespace BL
 
         }
 
-        public IEnumerable<LineTrip> GetAllLineTrips()
+        //public IEnumerable<LineTrip> GetAllLineTrips()
+        //{
+        //    return from lineTrip in dl.GetAllLineTrips()
+        //           orderby lineTrip.StartAt
+        //           select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as LineTrip;
+
+
+        //}
+
+        public IEnumerable<LineTrip> GetAllLineTripsInLine(int lineId)
         {
-            return from lineTrip in dl.RequestAllLineTrips()
+            return from lineTrip in dl.RequestAllLineTripsInLine(lineId)
                    orderby lineTrip.StartAt
                    select lineTrip.CopyPropertiesToNew(typeof(BO.LineTrip)) as LineTrip;
-                   
-
         }
         public (LineTrip, int) GetClosestLineTripByLine(int lineId, TimeSpan timeToStation)
         {
-            var lineTrip = GetAllLineTrips().Where(p => p.LineId == lineId).FirstOrDefault();
+            var lineTripsInLine = GetAllLineTripsInLine(lineId);
             int min = 0;
-            while (SimulationClock.GetTime >
+            var currentTime = SimulationClock.GetTime;
+            var futureTrips = lineTripsInLine.Where(p => currentTime <= p.FinishAt);
+            var lineTrip = futureTrips.LastOrDefault();
+            if (lineTrip == null)
+                return (lineTrip, 0);
+            while (currentTime >
                 lineTrip.StartAt + TimeSpan.FromMilliseconds(min * lineTrip.Frequency.TotalMilliseconds)
                 + timeToStation)
-                    min++;
+                min++;
             return (lineTrip, min);
         }
 
@@ -250,10 +276,11 @@ namespace BL
         {
             return from line in LinesInStation(stationId)
                    let index = RequestLineStation(stationId, line.Id).LineStationIndex
-                   let TimeInStation = TimeSpan.FromMilliseconds(RequestStationsInLine(line.Id).
+                   let TimeInStation = TimeSpan.FromMilliseconds(RequestStationsInLineByLine(line.Id).
                         Where(p => p.LineStationIndex <= index).
                         Sum(p => p.TimeSinceLastStation.TotalMilliseconds))
                    let closestTrip = GetClosestLineTripByLine(line.Id, TimeInStation)
+                   where closestTrip.Item1 != null
                    let lastStationName = RequestStation(line.LastStation).Name
                    let timeInFirstStation = TimeSpan.FromMilliseconds(closestTrip.Item1.StartAt.TotalMilliseconds +
                                                 closestTrip.Item1.Frequency.TotalMilliseconds * closestTrip.Item2)
@@ -267,7 +294,7 @@ namespace BL
                        TripStartTime = timeInFirstStation
                    };
 
-        }      
+        }
 
         public void CreateStationToLine(int lineId, int stationId, int index, double distanceSinceLastStation, TimeSpan timeSinceLastStation, double distanceUntilNextStation, TimeSpan timeUntilNextStatio)
         {
@@ -278,7 +305,7 @@ namespace BL
                 if (index == 0)
                     curLine.FirstStation = stationId;
 
-                if (index == stations.Count() )
+                if (index == stations.Count())
                     curLine.LastStation = stationId;
 
                 foreach (var station in stations)
@@ -346,7 +373,7 @@ namespace BL
                 {
                     dl.CreateAdjacentStations(new DO.AdjacentStations
                     {
-                        isActive=true,
+                        isActive = true,
                         DistFromLastStation = distanceUntilNextStation,
                         Station1 = stationId,
                         Station2 = helpNext,
@@ -358,7 +385,7 @@ namespace BL
 
                 if (RequestAllLines().Where(x => RequestLineStationsInLine(x.Id).
                     Where(y => y.StationId == helpPrev && y.NextStation == helpNext).Count() > 0).Count() == 0)
-                    dl.RemoveAdjacentStations(dl.RequestAdjacentStations(helpPrev, helpNext));
+                    dl.DeleteAdjacentStations(dl.RequestAdjacentStations(helpPrev, helpNext));
             }
             catch (DO.InvalidAdjacentStationIDException ex)
             {
@@ -369,7 +396,7 @@ namespace BL
                 throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
             }
         }
-        public void RemoveStationFromLine(int lineId, int stationId, double distanceFromLastStation, TimeSpan timeSinceLastStation)
+        public void DeleteStationFromLine(int lineId, int stationId, double distanceFromLastStation, TimeSpan timeSinceLastStation)
         {
             try
             {
@@ -412,7 +439,7 @@ namespace BL
                         Station2 = nextStation.StationId,
                         TimeSinceLastStation = timeSinceLastStation
                     });
-                    dl.RemoveLineStation(station.StationId, station.LineId);
+                    dl.DeleteLineStation(station.StationId, station.LineId);
 
 
                 }
@@ -456,7 +483,7 @@ namespace BL
                         }
                         UpdateLineStation(prevStation);
                     }
-                     dl.RemoveLineStation(station.StationId, station.LineId);
+                    dl.DeleteLineStation(station.StationId, station.LineId);
                     UpdateLine(curLine);
 
 
@@ -468,14 +495,14 @@ namespace BL
             //     {
             //       throw new BO.InvalidAdjacentLineIDException(ex.ID1, ex.ID2, ex.Message);
             //      }
-           // catch (DO.InvalidLinesStationException ex)
+            // catch (DO.InvalidLinesStationException ex)
             {
-         //       throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
+                //       throw new InvalidLinesStationException(ex.ID, ex.lineId, ex.Message);
             }
         }
         public IEnumerable<BO.Line> LinesInStation(int stationId)
         {
-            return from line in dl.GetLinesInStation(stationId)
+            return from line in dl.RequestLinesInStation(stationId)
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
 
         }
@@ -542,11 +569,11 @@ namespace BL
                     FirstStation = firstStation,
                     LastStation = lastStation,
                     Id = Counters.lines++
-                }) ;
+                });
 
                 dl.CreateLineStation(new DO.LineStation
                 {
-                    isActive=true,
+                    isActive = true,
                     LineId = Counters.lines - 1,
                     LineStationIndex = 1,
                     NextStation = lastStation,
@@ -610,13 +637,13 @@ namespace BL
             }
 
         }
-        public void RemoveLine(int id)
+        public void DeleteLine(int id)
         {
             try
             {
                 foreach (var station in RequestLineStationsInLine(id))
-                    dl.RemoveLineStation(station.StationId, id);
-                dl.RemoveLine(id);
+                    dl.DeleteLineStation(station.StationId, id);
+                dl.DeleteLine(id);
             }
             catch (DO.InvalidLineIDException ex)
             {
@@ -708,7 +735,7 @@ namespace BL
             catch (DO.BadLineTripException ex)//
             {
 
-                throw new BO.BadLineTripException(ex.ID,ex.LineID,ex.Message,ex);
+                throw new BO.BadLineTripException(ex.ID, ex.LineID, ex.Message, ex);
             }
 
         }
@@ -717,7 +744,7 @@ namespace BL
         {
             try
             {
-                dl.deleteLineTrip(lineTripId);
+                dl.DeleteLineTrip(lineTripId);
             }
             catch (DO.BadLineTripException ex)//
             {

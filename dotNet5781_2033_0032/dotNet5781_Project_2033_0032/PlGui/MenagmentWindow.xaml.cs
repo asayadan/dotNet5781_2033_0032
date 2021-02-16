@@ -124,7 +124,7 @@ namespace PlGui
             {
                 lineStationMutex.WaitOne();//waiting until no one is using the xml for the LineStations
                 var helpList = new List<BO.StationInLine>();
-                foreach (var b in bl.RequestStationsInLine(curLine.Id))
+                foreach (var b in bl.RequestStationsInLineByLine(curLine.Id))
                 {
                     helpList.Add(b);//we get the list of the staions in this line
                 }
@@ -190,7 +190,7 @@ namespace PlGui
             if (e.Argument != null)
             {
                 int toRemove = (int)e.Argument;
-                bl.RemoveLine(toRemove);
+                bl.DeleteLine(toRemove);
                 SetAllLines(sender, e);
 
             }
@@ -619,9 +619,9 @@ namespace PlGui
         }
     }
 
-
-
-    //a class to convert between the code of the station  and teh name of the station 
+    /// <summary>
+    /// A converter to show the last station name, instead of the station code
+    /// </summary>
     [ValueConversion(typeof(int), typeof(String))]
     public class IntTotationNameAsString : IValueConverter
     {

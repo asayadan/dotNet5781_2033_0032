@@ -23,7 +23,7 @@
         <Label Content="Station: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0" Height="Auto"/>
         <ComboBox x:Name="newStationComboBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="0" Grid.Column="1" />
         <Label Content="index: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto"/>
-        <ComboBox x:Name="indexStationComboBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="1" Grid.Column="1" />
+        <ComboBox x:Name="indexStationComboBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="1" Grid.Column="1" SelectionChanged="indexStationComboBox_SelectionChanged"/>
         <TextBlock Text="Distance from &#x0a; previous station: " TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="0" Height="Auto"/>
         <TextBox x:Name="lastDistanceTextBox" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="23" Grid.Row="2" Grid.Column="1" />
         

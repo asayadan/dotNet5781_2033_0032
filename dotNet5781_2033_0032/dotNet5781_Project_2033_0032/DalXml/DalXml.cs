@@ -74,7 +74,7 @@ namespace DL
             }
         }
 
-        public void RemoveAdjacentStations(AdjacentStations adjacentStatons)
+        public void DeleteAdjacentStations(AdjacentStations adjacentStatons)
         {
             XElement AdjacentStationsRootElem = XMLTools.LoadListFromXMLElement(AdjacentStationsPath);
 
@@ -103,7 +103,7 @@ namespace DL
             if (helptations != null)
             {
                 adjacentStations.isActive = true;
-                helptations = adjacentStations.ToXElement();
+                helptations.ReplaceWith(adjacentStations.ToXElement());
 
                 XMLTools.SaveListToXMLElement(AdjacentStationsRootElem, AdjacentStationsPath);
             }
@@ -150,7 +150,7 @@ namespace DL
 
             else throw new DO.InvalidLineIDException(id, "this line id doesn't exists");
         }
-        public void RemoveLine(int id)
+        public void DeleteLine(int id)
         {
             List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
 
@@ -265,7 +265,7 @@ namespace DL
             if (helpBus != null)
             {
                 Newbus.isActive = true;
-                helpBus = Newbus.ToXElement();
+                helpBus.ReplaceWith(Newbus.ToXElement());
 
                 XMLTools.SaveListToXMLElement(BusRootElem, BusPath);
             }
@@ -325,7 +325,7 @@ namespace DL
                 throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
             }
         }
-        public IEnumerable<LineTrip> RequestAllLineTripsInLine(int tripID)
+        public IEnumerable<LineTrip> RequestAllLineTripsInLine(int lineId)
         {
             try
             {
@@ -333,7 +333,7 @@ namespace DL
 
                 XElement BusRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
                 return (from lineTrip in BusRootElem.Elements()
-                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == tripID
+                        where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == lineId
                         select lineTrip.ToLineTrip());
             }
             catch (XMLFileLoadCreateException ex)
@@ -375,7 +375,7 @@ namespace DL
                 throw new XMLFileFormatException(LineTripPath, "unexpected problem in lineTrip xml", ex);
             }
         }
-            public void deleteLineTrip(int tripID)
+            public void DeleteLineTrip(int tripID)
             {
                 try
                 {
@@ -441,7 +441,7 @@ namespace DL
                    orderby lineStation.LineStationIndex ascending
                    select lineStation;
         }
-        public void RemoveLineStation(int stationId, int lineId)
+        public void DeleteLineStation(int stationId, int lineId)
         {
             List<LineStation> ListStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
             LineStation helpStation = (from station in ListStation
@@ -461,34 +461,34 @@ namespace DL
         public void UpdateLineStation(LineStation lineStation)
         {
                 List<LineStation> ListStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
-                LineStation helpStation = (from station in ListStation
-                                           where station.StationId == lineStation.StationId && station.LineId == lineStation.LineId && station.isActive
-                                           && station.isActive
-                                           select station).FirstOrDefault();
-                if (helpStation == null)
+                //LineStation helpStation = (from station in ListStation
+                //                           where station.StationId == lineStation.StationId && station.LineId == lineStation.LineId && station.isActive
+                //                           && station.isActive
+                //                           select station).FirstOrDefault();
+                var i = ListStation.FindIndex(p => p.StationId == lineStation.StationId && p.LineId == lineStation.LineId && p.isActive);
+                if (i == -1)
                     throw new DO.InvalidLinesStationException(lineStation.StationId, lineStation.LineId, "this line station id doesn't exists");
                 else
                 {
                     lineStation.isActive = true;
-                    ListStation.Remove(helpStation);
-                    ListStation.Add(lineStation);
+                    ListStation[i] = lineStation;
                     XMLTools.SaveListToXMLSerializer(ListStation, LineStationsPath);
                 }
             }
         #endregion
 
         #region station
-        public void CreateStation(Station Newstation)
+        public void CreateStation(Station newStation)
         {
             List<Station> ListStation = XMLTools.LoadListFromXMLSerializer<Station>(StationPath);
             Station helpStation = (from station in ListStation
-                                   where station.isActive && station.Code == Newstation.Code && station.isActive
+                                   where station.isActive && station.Code == newStation.Code && station.isActive
                                    select station).FirstOrDefault();
             if (helpStation != null)
-                throw new DO.InvalidStationIDException(Newstation.Code, "Station code already exists.");
+                throw new DO.InvalidStationIDException(newStation.Code, "Station code already exists.");
             else
             {
-                ListStation.Add(helpStation);
+                ListStation.Add(newStation);
                 XMLTools.SaveListToXMLSerializer(ListStation, StationPath);
             }
         }
@@ -536,7 +536,7 @@ namespace DL
                    select station;
         }
 
-        public IEnumerable<Line> GetLinesInStation(int stationId)
+        public IEnumerable<Line> RequestLinesInStation(int stationId)
         {
             List<LineStation> ListLineStation = XMLTools.LoadListFromXMLSerializer<LineStation>(LineStationsPath);
             List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);

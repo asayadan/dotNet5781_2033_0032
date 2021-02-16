@@ -34,7 +34,7 @@
     </Time>
   </AdjecentStations>
   <AdjecentStations>
-    <isActive>true</isActive>
+    <isActive>False</isActive>
     <Station1>38833</Station1>
     <Station2>38834</Station2>
     <Distance>0.096342087298334239</Distance>
@@ -45,7 +45,7 @@
     </Time>
   </AdjecentStations>
   <AdjecentStations>
-    <isActive>true</isActive>
+    <isActive>False</isActive>
     <Station1>38834</Station1>
     <Station2>38836</Station2>
     <Distance>0.12685854563252835</Distance>
@@ -81,7 +81,7 @@
     <isActive>true</isActive>
     <Station1>38838</Station1>
     <Station2>38839</Station2>
-    <Distance>0.0052464846325876724</Distance>
+    <Distance>0.03</Distance>
     <Time>
       <Hours>0</Hours>
       <Minutes>3</Minutes>
@@ -647,6 +647,61 @@
       <Hours>0</Hours>
       <Minutes>0</Minutes>
       <Seconds>0</Seconds>
+    </Time>
+  </AdjecentStations>
+  <AdjecentStations>
+    <isActive>true</isActive>
+    <Station1>38833</Station1>
+    <Station2>38832</Station2>
+    <Distance>15</Distance>
+    <Time>
+      <Hours>0</Hours>
+      <Minutes>6</Minutes>
+      <Seconds>2</Seconds>
+    </Time>
+  </AdjecentStations>
+  <AdjecentStations>
+    <isActive>true</isActive>
+    <Station1>38832</Station1>
+    <Station2>38834</Station2>
+    <Distance>12</Distance>
+    <Time>
+      <Hours>0</Hours>
+      <Minutes>8</Minutes>
+      <Seconds>2</Seconds>
+    </Time>
+  </AdjecentStations>
+  <AdjecentStations>
+    <isActive>true</isActive>
+    <Station1>38834</Station1>
+    <Station2>11111</Station2>
+    <Distance>3.3333</Distance>
+    <Time>
+      <Hours>0</Hours>
+      <Minutes>6</Minutes>
+      <Seconds>2</Seconds>
+    </Time>
+  </AdjecentStations>
+  <AdjecentStations>
+    <isActive>true</isActive>
+    <Station1>11111</Station1>
+    <Station2>38836</Station2>
+    <Distance>5</Distance>
+    <Time>
+      <Hours>0</Hours>
+      <Minutes>5</Minutes>
+      <Seconds>3</Seconds>
+    </Time>
+  </AdjecentStations>
+  <AdjecentStations>
+    <isActive>true</isActive>
+    <Station1>38842</Station1>
+    <Station2>38833</Station2>
+    <Distance>10</Distance>
+    <Time>
+      <Hours>0</Hours>
+      <Minutes>10</Minutes>
+      <Seconds>4</Seconds>
     </Time>
   </AdjecentStations>
 </AdjacentStations>

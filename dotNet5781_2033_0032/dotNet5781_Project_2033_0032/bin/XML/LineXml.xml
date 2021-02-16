@@ -26,18 +26,18 @@
   </Line>
   <Line>
     <isActive>true</isActive>
-    <Code>111</Code>
-    <FirstStation>38833</FirstStation>
-    <LastStation>38840</LastStation>
-    <Area>North</Area>
-    <Id>1</Id>
-  </Line>
-  <Line>
-    <isActive>true</isActive>
     <Code>333</Code>
     <FirstStation>38860</FirstStation>
     <LastStation>38867</LastStation>
     <Area>South</Area>
     <Id>3</Id>
+  </Line>
+  <Line>
+    <isActive>true</isActive>
+    <Code>111</Code>
+    <FirstStation>38833</FirstStation>
+    <LastStation>38840</LastStation>
+    <Area>North</Area>
+    <Id>1</Id>
   </Line>
 </ArrayOfLine>

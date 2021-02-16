@@ -102,7 +102,7 @@ namespace DL
                 throw new DO.InvalidAdjacentStationIDException(adjacentStation.Station1, adjacentStation.Station2, "the data base alredy has this adjacent station data structure");
             DataSource.ListAdjacentStations.Add(adjacentStation.Clone());
         }
-        public void RemoveAdjacentStations(DO.AdjacentStations adjacentStation)
+        public void DeleteAdjacentStations(DO.AdjacentStations adjacentStation)
         {
             int helpIndex = DataSource.ListAdjacentStations.FindIndex(p => p.Station1 == adjacentStation.Station1 && p.Station2 == adjacentStation.Station2);
             if (helpIndex == -1)
@@ -130,7 +130,7 @@ namespace DL
                 throw new DO.InvalidStationIDException(stationId, "we doen't have this line station");
             return helpLineStation.Clone();
         }
-        public IEnumerable<DO.Line> GetLinesInStation(int stationId)
+        public IEnumerable<DO.Line> RequestLinesInStation(int stationId)
         {
             return from lineStations in DataSource.ListLineStations
                    where lineStations.StationId == stationId
@@ -170,7 +170,7 @@ namespace DL
                 throw new DO.InvalidLinesStationException(lineStation.StationId, lineStation.LineId, "the data base alredy has this line station");
             DataSource.ListLineStations.Add(lineStation.Clone());
         }
-        public void RemoveLineStation(int stationId, int lineId)
+        public void DeleteLineStation(int stationId, int lineId)
         {
             int helpIndex = DataSource.ListLineStations.FindIndex(p => p.StationId == stationId && p.LineId == lineId);
             DO.LineStation helpLineStation = DataSource.ListLineStations[helpIndex];
@@ -203,7 +203,7 @@ namespace DL
                 throw new DO.InvalidLineIDException(line.Id, "Line number already exists.");
             DataSource.ListLines.Add(line.Clone());
         }
-        public void RemoveLine(int id)
+        public void DeleteLine(int id)
         {
             int helpIndex = DataSource.ListLines.FindIndex(p => p.Id == id);
             DO.Line helpLine = DataSource.ListLines[helpIndex];
@@ -255,7 +255,7 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DO.LineTrip> RequestAllLineTripsInLine(int tripID)
+        public IEnumerable<DO.LineTrip> RequestAllLineTripsInLine(int lineId)
         {
             throw new NotImplementedException();
         }
@@ -265,7 +265,7 @@ namespace DL
             throw new NotImplementedException();
         }
 
-        public void deleteLineTrip(int tripID)
+        public void DeleteLineTrip(int tripID)
         {
             throw new NotImplementedException();
         }
