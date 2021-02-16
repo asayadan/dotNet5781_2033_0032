@@ -506,6 +506,21 @@ namespace BL
                    select line.CopyPropertiesToNew(typeof(BO.Line)) as BO.Line;
 
         }
+
+        public IEnumerable<(BO.LineTiming, BO.LineTiming)> LinesInTwoStations(int station1Id, int station2Id)
+        {
+            return from first in RequestLineTimingFromStation(station1Id)
+                   from second in RequestLineTimingFromStation(station2Id)
+                   where first.LineId == second.LineId
+                   where first.TimeToStation < second.TimeToStation
+                   select (first, second);
+            
+           
+
+
+
+        }
+
         public void UpdateStation(Station station)
         {
             try

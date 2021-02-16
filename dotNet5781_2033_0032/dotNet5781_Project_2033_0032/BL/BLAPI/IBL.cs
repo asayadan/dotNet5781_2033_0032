@@ -140,6 +140,12 @@ namespace BLAPI
         /// <returns>An IEnumerable of all the stations.</returns>
         IEnumerable<BO.Station> RequestAllStations();
         /// <summary>
+        /// Returns all lines that pass in two given stations by that order.
+        /// </summary>
+        /// <returns>An IEnumerable of tuple of the first and second lineTiming.</returns>
+        IEnumerable<(BO.LineTiming, BO.LineTiming)> LinesInTwoStations(int station1Id, int station2Id);
+
+        /// <summary>
         /// Returns a line station according to the station code and line ID.
         /// </summary>
         /// <param name="stationId">The station ID (code) of the requested line station.</param>
