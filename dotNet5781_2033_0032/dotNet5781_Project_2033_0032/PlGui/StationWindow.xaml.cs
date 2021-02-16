@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BLAPI;
 
 namespace PlGui
@@ -31,11 +26,22 @@ namespace PlGui
         BackgroundWorker getAllStationsWorker = new BackgroundWorker();
         BackgroundWorker getLinesInStationWorker = new BackgroundWorker();
         BackgroundWorker Searchworker = new BackgroundWorker();
+        BackgroundWorker getLinesInTwoStation = new BackgroundWorker();
+        BackgroundWorker tripWorker = new BackgroundWorker();
+
+
         ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.LineTiming> allLinesInStation = new ObservableCollection<BO.LineTiming>();
         ObservableCollection<BO.LineTiming> timeOfLinesInStation = new ObservableCollection<BO.LineTiming>();
+        ObservableCollection<(BO.LineTiming, BO.LineTiming)> linesInBothStations = new ObservableCollection<(BO.LineTiming, BO.LineTiming)>();
 
+        TimeSpan tripEndTime;
         BO.Station curStation;
+        BO.Station firstStation;
+        BO.Station secondStation;
+        bool changed;
+        int i = 0;
+
 
         public StationWindow(IBL bL, string userName)
         {
@@ -44,13 +50,19 @@ namespace PlGui
             SimulationControlWindow win = new SimulationControlWindow(bl);
             win.Show();
             lbl_username.DataContext = userName;
-            getAllStationsWorker.DoWork += SetWindow;
+            getAllStationsWorker.DoWork += GetStations;
+            SetYellowSignTab();
+            SetTripPlanTab();
+        }
+
+        #region Yellow Sign Tab
+        void SetYellowSignTab()
+        {
             getAllStationsWorker.RunWorkerAsync();
             getLinesInStationWorker.DoWork += SetLinesInStation;
             Searchworker.DoWork += Search;
-            BO.SimulationClock.valueChanged += (object sender, EventArgs e) => getLinesInStationWorker.RunWorkerAsync();
+            //BO.SimulationClock.valueChanged += (object sender, EventArgs e) => { getLinesInStationWorker.RunWorkerAsync(); };
         }
-
         private void SetLinesInStation(object sender, DoWorkEventArgs e)
         {
             if (curStation == null)
@@ -98,7 +110,7 @@ namespace PlGui
             }
 
         }
-        private void SetWindow(object sender, DoWorkEventArgs e)
+        private void GetStations(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -108,10 +120,12 @@ namespace PlGui
 
                 App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    cb_stations.DataContext = stationCollection;
-                    cb_stations.DisplayMemberPath = "Name";
-                    cb_stations.SelectedIndex = 1;
-                    curStation = stationCollection[1];
+                    cb_stations.DataContext = cb_firstStation.DataContext = cb_secondStation.DataContext = stationCollection;
+                    cb_stations.DisplayMemberPath = cb_firstStation.DisplayMemberPath = cb_secondStation.DisplayMemberPath = "Name";
+                    cb_stations.SelectedValuePath = cb_firstStation.SelectedValuePath = cb_secondStation.SelectedValuePath = "Code";
+                    cb_stations.SelectedIndex = 0;
+
+                    curStation = stationCollection[0];
                 });
                 lineStationMutex.ReleaseMutex();
                 SetLinesInStation(sender, e);
@@ -127,11 +141,11 @@ namespace PlGui
             {
                 StationsInLineDataGrid.DataContext = allLinesInStation;
                 ClosestLinesDataGrid.DataContext = timeOfLinesInStation;
+                LinesInBothStationsDataGrid.DataContext = linesInBothStations;
             });
         }
         private void cb_stations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             tb_stationName.DataContext = curStation = cb_stations.SelectedItem as BO.Station;
             getLinesInStationWorker.RunWorkerAsync();
         }
@@ -152,9 +166,122 @@ namespace PlGui
                 {
                     stationCollection.Add(station);
                 }
-              //  cb_stations.SelectedIndex = 0;
                 curStation = cb_stations.SelectedItem as BO.Station;
             });
+
+        }
+
+        #endregion
+
+        public void SetTripPlanTab()
+        {
+            getLinesInTwoStation.DoWork += GetLinesInBothStation;
+            BO.SimulationClock.valueChanged += (object sender, EventArgs e) =>
+            {
+                if (!getLinesInTwoStation.IsBusy) getLinesInTwoStation.RunWorkerAsync();
+            };
+            LinesInBothStationsDataGrid.DataContext = linesInBothStations;
+        }
+
+        private void GetLinesInBothStation(object sender, DoWorkEventArgs e)
+        {
+            if (firstStation != null && secondStation != null)
+            {
+                lineStationMutex.WaitOne();
+                var res = bl.LinesInTwoStations(firstStation.Code, secondStation.Code);
+                lineStationMutex.ReleaseMutex();
+                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                {
+                    bool a = true;
+                    for (int i = 0; linesInBothStations.Count == res.Count() && i < linesInBothStations.Count; i++)
+                    {
+                        if (linesInBothStations[i].Item1.TripStartTime != res.ToArray()[i].Item1.TripStartTime) {
+                            a = false;
+                            break;
+                        }
+                    }
+
+                    if (!a || linesInBothStations.Count != res.Count())
+                    {
+                        linesInBothStations.Clear();
+                        foreach (var item in res)
+                        {
+                            linesInBothStations.Add(item);
+                        }
+                    }                    
+                });
+            }
+        }
+
+        private void cb_Station_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cb_firstStation.SelectedItem != null && cb_secondStation.SelectedItem != null)
+            {
+                firstStation = cb_firstStation.SelectedItem as BO.Station;
+                secondStation = cb_secondStation.SelectedItem as BO.Station;
+                changed = true;
+                if (!getLinesInTwoStation.IsBusy) getLinesInTwoStation.RunWorkerAsync();
+            }
+
+            //else BO.SimulationClock.valueChanged -= (object _sender, EventArgs _e) => getLinesInTwoStation.RunWorkerAsync();
+
+        }
+
+        private void bt_startTrip_Click(object sender, RoutedEventArgs e)
+        {
+            cb_firstStation.IsEnabled = cb_secondStation.IsEnabled = false;
+            LinesInBothStationsDataGrid.IsEnabled = false;
+            pb_tripProgress.Visibility = Visibility.Visible;
+            pb_tripProgress.Minimum = BO.SimulationClock.GetTime.TotalMilliseconds - tripEndTime.TotalMilliseconds;
+            pb_tripProgress.Maximum = 0;
+            bt_startTrip.IsEnabled = false;
+            tb_start.Text = "Trip Progress:";
+            pb_tripProgress.Value = pb_tripProgress.Minimum;
+            var tuple = ((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem;
+            tripEndTime = tuple.Item2.TimeToStation - tuple.Item1.TimeToStation + tuple.Item1.TripStartTime
+                + BO.SimulationClock.GetTime;
+            BO.SimulationClock.valueChanged += Trip;
+
+
+
+        }
+        private void Trip(object sender, EventArgs e)
+        {
+            UpdateProgresssBar(sender, e);
+            if (BO.SimulationClock.GetTime.TotalMilliseconds - tripEndTime.TotalMilliseconds >= 0)
+            {
+                BO.SimulationClock.valueChanged -= Trip;
+                App.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    bt_startTrip.IsEnabled = true;
+                    cb_firstStation.IsEnabled = cb_secondStation.IsEnabled = true;
+                    LinesInBothStationsDataGrid.IsEnabled = true;
+                    pb_tripProgress.Visibility = Visibility.Collapsed;
+                    tb_start.Text = "Waiting to start...";
+
+                });
+            }
+
+
+        }
+
+        private void UpdateProgresssBar(object sender, EventArgs e)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                pb_tripProgress.Value = BO.SimulationClock.GetTime.TotalMilliseconds - tripEndTime.TotalMilliseconds;
+            });
+        }
+
+        private void LinesInBothStationsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (LinesInBothStationsDataGrid.SelectedItem != null)
+            {
+                bt_startTrip.IsEnabled = true;
+
+            }
+            else bt_startTrip.IsEnabled = false;
         }
     }
 
@@ -173,14 +300,63 @@ namespace PlGui
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string strValue = value as string;
-            int result;
-            if (int.TryParse(strValue, out result))
+            if (int.TryParse(strValue, out int result))
             {
                 return TimeSpan.FromMinutes(result);
             }
             return DependencyProperty.UnsetValue;
         }
 
+
     }
+
+    [ValueConversion(typeof((BO.LineTiming, BO.LineTiming)), typeof(String))]
+    public class TimeOfStartTwoLineTimingConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var tuple = ((BO.LineTiming, BO.LineTiming))value;
+            return tuple.Item1.TimeToStation + BO.SimulationClock.GetTime;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof((BO.LineTiming, BO.LineTiming)), typeof(String))]
+    public class TimeOfEndTwoLineTimingConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var tuple = ((BO.LineTiming, BO.LineTiming))value;
+            return tuple.Item2.TimeToStation + BO.SimulationClock.GetTime;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof((BO.LineTiming, BO.LineTiming)), typeof(String))]
+    public class CodeOfTwoLineTimingConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var tuple = ((BO.LineTiming, BO.LineTiming))value;
+            return tuple.Item1.LineCode;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+
+
 
 }

@@ -8,144 +8,191 @@
         Title="StationWindow" Height="450" Width="800">
     <Window.Resources>
         <local:TimeSpanConverter x:Key="tsConverter"/>
+        <local:TimeOfStartTwoLineTimingConverter x:Key="timeOfStartTwoLineTimingConverter"/>
+        <local:TimeOfEndTwoLineTimingConverter x:Key="timeOfEndTwoLineTimingConverter"/>
+        <local:CodeOfTwoLineTimingConverter x:Key="codeOfTwoLineTimingConverter"/>
     </Window.Resources>
-
-
-
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="31*"/>
-            <RowDefinition Height="177*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-            <Label Content="Select Station:" Width="100" />
-            <ComboBox x:Name="cb_stations"  Width="150"  Text="" SelectionChanged="cb_stations_SelectionChanged"
-                   ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
-            <TextBox x:Name="tb_search" Width="200"/>
-            <Button x:Name="bt_search" Content="search" Click="bt_search_Click"/>
-        </WrapPanel>
-
-
-        <Grid Background="Yellow" Grid.Row="1" Grid.Column="0">
-
-            <DataGrid Background="Black" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" x:Name="ClosestLinesDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5">
-                <DataGrid.Resources>
-                    <Style TargetType="{x:Type DataGrid}">
-                        <Setter Property="Background" Value="Black"/>
-                    </Style>
-                    <Style TargetType="{x:Type DataGridRow}">
-                        <Setter Property="Background" Value="Black"/>
-                        <Setter Property="Foreground" Value="Yellow"/>
-                                            
-                    </Style>
-                    <Style TargetType="{x:Type DataGridCell}">
-                        <Setter Property="TextBlock.TextAlignment" Value="Center" />
-                        <Setter Property="TextBlock.FontSize" Value="20" />
-                        <Setter Property="TextBlock.FontFamily" Value="Aharoni Bold"/>
-
-                    </Style>
-
-                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                        <Setter Property="Background" Value="Black"/>
-                    </Style>
-                    
-                    
-                    
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-
-                    <DataGridTextColumn x:Name="TimeToStationColumn" Binding="{Binding TimeToStation, Converter={StaticResource tsConverter}, Mode=OneWay}" Width="*">
-                        <DataGridTextColumn.HeaderStyle>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="HorizontalContentAlignment"
-                                                Value="Center"/>
-                            </Style>
-                        </DataGridTextColumn.HeaderStyle>
-                        <DataGridTextColumn.HeaderTemplate>
-
-                            <DataTemplate>
-                                <Image Source="clock.png" Width="45" Height="38"/>
-                            </DataTemplate>
-                        </DataGridTextColumn.HeaderTemplate>
-                    </DataGridTextColumn>
-
-                    <DataGridTextColumn x:Name="LastStationNameColumn" Binding="{Binding LastStationName, Mode=OneWay}" Width="3*">
-                        <DataGridTextColumn.HeaderStyle>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="HorizontalContentAlignment"
-                                                Value="Center"/>
-                            </Style>
-                        </DataGridTextColumn.HeaderStyle>
-                        <DataGridTextColumn.HeaderTemplate>
-
-                            <DataTemplate>
-                                <Image Source="arrow.png" Width="45" Height="38"/>
-                            </DataTemplate>
-                        </DataGridTextColumn.HeaderTemplate>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn x:Name="LineCodeColumn" Binding="{Binding LineCode, Mode=OneWay}" Width="*">
-                        <DataGridTextColumn.HeaderStyle>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="HorizontalContentAlignment"
-                                                Value="Center"/>
-                            </Style>
-                        </DataGridTextColumn.HeaderStyle>
-                        <DataGridTextColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Image Source="bus.png" Width="45" Height="38"/>
-                            </DataTemplate>
-                        </DataGridTextColumn.HeaderTemplate>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Border BorderBrush="Black" BorderThickness="5"/>
-            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="5"/>
-        </Grid>
-        <Grid Background="Yellow" Grid.Row="1" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="3*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
+    <TabControl>
+        <TabItem Name="tab_station" Header="Yellow Sign">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="31*"/>
+                    <RowDefinition Height="177*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image  Source="BusLogo.png" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Border BorderBrush="Black" BorderThickness="5"/>
-                <TextBlock x:Name="tb_stationName"  Grid.Column="1"  TextAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding Path=Name}"/>
-                <Border BorderBrush="Black" BorderThickness="5"/>
+                <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                    <Label Content="Select Station:" Width="100" />
+                    <ComboBox x:Name="cb_stations"  Width="150"  Text="" SelectionChanged="cb_stations_SelectionChanged"
+                   ItemsSource="{Binding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+                    <TextBox x:Name="tb_search" Width="200"/>
+                    <Button x:Name="bt_search" Content="search" Click="bt_search_Click"/>
+                </WrapPanel>
+
+
+                <Grid Background="Yellow" Grid.Row="1" Grid.Column="0">
+
+                    <DataGrid Background="Black" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" x:Name="ClosestLinesDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGrid}">
+                                <Setter Property="Background" Value="Black"/>
+                            </Style>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="Foreground" Value="Yellow"/>
+
+                            </Style>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="TextBlock.FontSize" Value="20" />
+                                <Setter Property="TextBlock.FontFamily" Value="Aharoni Bold"/>
+
+                            </Style>
+
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="Black"/>
+                            </Style>
+
+
+
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn x:Name="TimeToStationColumn" Binding="{Binding TimeToStation, Converter={StaticResource tsConverter}, Mode=OneWay}" Width="*">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderTemplate>
+
+                                    <DataTemplate>
+                                        <Image Source="clock.png" Width="45" Height="38"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn x:Name="LastStationNameColumn" Binding="{Binding LastStationName, Mode=OneWay}" Width="3*">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderTemplate>
+
+                                    <DataTemplate>
+                                        <Image Source="arrow.png" Width="45" Height="38"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn x:Name="LineCodeColumn" Binding="{Binding LineCode, Mode=OneWay}" Width="*">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Image Source="bus.png" Width="45" Height="38"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="5"/>
+                    <Border Grid.Row="1" BorderBrush="Black" BorderThickness="5"/>
+                </Grid>
+                <Grid Background="Yellow" Grid.Row="1" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image  Source="BusLogo.png" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Border BorderBrush="Black" BorderThickness="5"/>
+                        <TextBlock x:Name="tb_stationName"  Grid.Column="1"  TextAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding Path=Name}"/>
+                        <Border BorderBrush="Black" BorderThickness="5"/>
+
+                    </Grid>
+
+                    <DataGrid Background="Yellow" x:Name="StationsInLineDataGrid" HeadersVisibility="None" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                <Setter Property="TextBlock.FontSize" Value="30" />
+                                <Setter Property="TextBlock.FontFamily" Value="Aharoni Bold"/>
+                                <Setter Property="Background" Value="Yellow"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="LastStationName"  Binding="{Binding LineCode, Mode=OneWay}" Width="0.5*"/>
+                            <DataGridTextColumn x:Name="codeColumn" Binding="{Binding LastStationName, Mode=OneWay}"  Header="Code" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="5"/>
+                    <Border Grid.Row="1" BorderBrush="Black" BorderThickness="5"/>
+                </Grid>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Label x:Name="lbl_name" Content="welcome: "/>
+                    <Label x:Name="lbl_username" Content="{Binding Mode=OneWay}"/>
+                </StackPanel>
+                <TextBlock x:Name="tb_currentState" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"   Grid.Column="1"/>
+
+            </Grid>
+        </TabItem>
+        <TabItem Name="tab_trip" Header="Trip Plan">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="ANormalCol"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="ANormalRow"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="First Station: " VerticalAlignment="Center" FontSize="30" FontFamily="David" HorizontalAlignment="Center" TextAlignment="Center"/>
+                <TextBlock Text="Second Station: " VerticalAlignment="Center" FontSize="30" FontFamily="David" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="1"/>
+                <TextBlock Text="Lines: " VerticalAlignment="Center" FontSize="30" FontFamily="David" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="2"/>
+
+
+                <Button x:Name="bt_startTrip" IsEnabled="False" Content="Start Trip" Background="LightGreen" Click="bt_startTrip_Click" Height="50" Width="300" HorizontalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2"/>
+                <ComboBox x:Name="cb_firstStation" SelectionChanged="cb_Station_SelectionChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding}" Height="50" Width="200" Grid.Column="1"/>
+                <ComboBox x:Name="cb_secondStation" SelectionChanged="cb_Station_SelectionChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding}" Height="50" Width="200" Grid.Row="1" Grid.Column="1"/>
+                <DataGrid x:Name="LinesInBothStationsDataGrid" ItemsSource="{Binding}" SelectionChanged="LinesInBothStationsDataGrid_SelectionChanged" Grid.Row="2" Grid.Column="1">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                        </Style>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment"
+                                                Value="Center"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="codeColumnPassenger"  Binding="{Binding Converter={StaticResource codeOfTwoLineTimingConverter}, Mode=OneWay}" Header="Code" Width="0.5*"/>
+                        <DataGridTextColumn x:Name="timeOfStart" Binding="{Binding Converter={StaticResource timeOfStartTwoLineTimingConverter}, Mode=OneWay}"  Header="Start Time" Width="*"/>
+                        <DataGridTextColumn x:Name="timeOfEnd"  Binding="{Binding Converter={StaticResource timeOfEndTwoLineTimingConverter}, Mode=OneWay}" Header="End Time" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock x:Name="tb_start" Text="Waiting to start..." VerticalAlignment="Center" Grid.Row="1" FontSize="30" FontFamily="David" HorizontalAlignment="Center" Grid.Column="2" Grid.RowSpan="2" TextAlignment="Center"/>
+                <ProgressBar x:Name="pb_tripProgress" Grid.Row="2" Grid.Column="2" Visibility="Collapsed" Height="20" Width="220"/>
 
             </Grid>
 
-            <DataGrid Background="Yellow" x:Name="StationsInLineDataGrid" HeadersVisibility="None" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
-                <DataGrid.Resources>
-                    <Style TargetType="{x:Type DataGridCell}">
-                        <Setter Property="TextBlock.TextAlignment" Value="Center" />
-                        <Setter Property="TextBlock.FontSize" Value="30" />
-                        <Setter Property="TextBlock.FontFamily" Value="Aharoni Bold"/>
-                        <Setter Property="Background" Value="Yellow"/>
-                    </Style>
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="LastStationName"  Binding="{Binding LineCode, Mode=OneWay}" Width="0.5*"/>
-                    <DataGridTextColumn x:Name="codeColumn" Binding="{Binding LastStationName, Mode=OneWay}"  Header="Code" Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Border BorderBrush="Black" BorderThickness="5"/>
-            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="5"/>
-        </Grid>
+        </TabItem>
+    </TabControl>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <Label x:Name="lbl_name" Content="welcome: "/>
-            <Label x:Name="lbl_username" Content="{Binding Mode=OneWay}"/>
-        </StackPanel>
-        <TextBlock x:Name="tb_currentState" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"   Grid.Column="1"/>
-
-    </Grid>
 </Window>
