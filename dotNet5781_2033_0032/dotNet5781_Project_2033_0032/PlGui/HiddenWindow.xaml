@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="HiddenWindow" Height="450" Width="800" Foreground="#FF132306">
+        Title="Secret Window" Height="450" Width="800" Foreground="#FF132306">
     <Canvas Background="#FF16D120">
         <Image Source="encrypted.jpg" Height="180" Canvas.Left="185" Canvas.Top="145" Width="355" RenderTransformOrigin="0.507,1.276">
         </Image>

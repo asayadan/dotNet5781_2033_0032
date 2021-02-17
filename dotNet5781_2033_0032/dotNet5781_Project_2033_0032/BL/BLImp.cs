@@ -784,6 +784,28 @@ namespace BL
             }
         }
 
+        public void CreateTrip(string userName, int lineId, int inStation, TimeSpan inAt, int outStation, TimeSpan outAt)
+        {
+            try
+            {
+                dl.CreateTrip(new DO.Trip
+                {
+                    Id = GetCounterAndAdd("Trip"),
+                    UserName = userName,
+                    LineId = lineId,
+                    InStation = inStation,
+                    InAt = inAt,
+                    OutStation = outStation,
+                    OutAt = outAt
+                });
+            }
+            catch (DO.BadLineTripException ex)
+            {
+                throw new BadTripException(ex.ID, ex.LineID, ex.Message);
+            }
+        }
+
+
         public int GetCounters(string type)
         {
             return dl.RequestCounter(type);

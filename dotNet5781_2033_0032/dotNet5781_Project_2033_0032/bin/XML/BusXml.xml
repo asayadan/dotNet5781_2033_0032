@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Busses>
   <Bus>
-    <isActive>true</isActive>
+    <isActive>False</isActive>
     <licensePlateNumber>5482291</licensePlateNumber>
-    <Fuel>436</Fuel>
+    <Fuel>1200</Fuel>
     <mileage>54</mileage>
     <FromDate>
       <Year>2017</Year>
@@ -11,9 +11,9 @@
       <Day>27</Day>
     </FromDate>
     <lastTreatment>
-      <Year>2017</Year>
-      <Month>11</Month>
-      <Day>27</Day>
+      <Year>2021</Year>
+      <Month>2</Month>
+      <Day>17</Day>
     </lastTreatment>
     <BusStatus>Ready</BusStatus>
   </Bus>

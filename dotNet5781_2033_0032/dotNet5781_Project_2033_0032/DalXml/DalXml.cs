@@ -23,7 +23,7 @@ namespace DL
         string LinePath = @"LineXml.xml";//
         string UserPath = @"UserhXml.xml";//
         string LineTripPath = @"LineTripXml.xml";//XElement
-        string TripPath = @"TripXml.xml";//XElement
+        string TripPath = @"TripXml.xml";
         string StationPath = @"StationXml.xml";//
         string LineStationsPath = @"LineStationsXml.xml";//
         string CounterPath = @"CounterXML.xml";
@@ -331,8 +331,6 @@ namespace DL
         {
             try
             {
-
-
                 XElement BusRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
                 return (from lineTrip in BusRootElem.Elements()
                         where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == lineId
@@ -418,7 +416,7 @@ namespace DL
                 else
                 {
                     tripRootElem.Add(newTrip.ToXElement());
-                    XMLTools.SaveListToXMLElement(tripRootElem, LineTripPath);
+                    XMLTools.SaveListToXMLElement(tripRootElem, TripPath);
                 }
             }
             catch (XMLFileLoadCreateException ex)

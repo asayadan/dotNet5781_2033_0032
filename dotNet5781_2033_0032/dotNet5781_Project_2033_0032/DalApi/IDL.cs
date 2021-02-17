@@ -189,7 +189,7 @@ namespace DLAPI
         /// <summary>
         /// Checks if a user is an admin.
         /// </summary>
-        /// <param name="userName">The username of the checked user</param> 
+        /// <param name="username">The username of the checked user</param> 
         /// <param name="password">The password of the checked user</param> 
         /// <returns>True if the user is an admin, False otherwise.</returns>
         bool RequestUserPrivileges(string username, string password);

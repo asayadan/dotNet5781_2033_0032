@@ -68,5 +68,13 @@ namespace BO
         public BadLineTripException(int iD, int lineID, string message) : base(message) { LineID = lineID; ID = iD; }
         public BadLineTripException(int iD, int lineID, string message, Exception inner) : base(message, inner) { LineID = lineID; ID = iD; }
     }
+    public class BadTripException : Exception
+    {
+        public int ID;
+        public int LineID;
+        public BadTripException(int iD, int lineID) : base() { LineID = lineID; ID = iD; }
+        public BadTripException(int iD, int lineID, string message) : base(message) { LineID = lineID; ID = iD; }
+        public BadTripException(int iD, int lineID, string message, Exception inner) : base(message, inner) { LineID = lineID; ID = iD; }
+    }
 }
 

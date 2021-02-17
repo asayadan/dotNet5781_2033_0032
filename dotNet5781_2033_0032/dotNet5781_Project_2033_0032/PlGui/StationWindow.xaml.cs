@@ -28,6 +28,8 @@ namespace PlGui
         BackgroundWorker getLinesInStationWorker = new BackgroundWorker();
         BackgroundWorker searchWorker = new BackgroundWorker();
         BackgroundWorker getLinesInTwoStationWorker = new BackgroundWorker();
+        BackgroundWorker tripWorker = new BackgroundWorker();
+
         #endregion
 
         #region ObservableCollection
@@ -37,11 +39,13 @@ namespace PlGui
         ObservableCollection<(BO.LineTiming, BO.LineTiming)> linesInBothStations = new ObservableCollection<(BO.LineTiming, BO.LineTiming)>();
         #endregion
 
+        TimeSpan tripStartTime;
         TimeSpan tripEndTime;
         BO.Station curStation;
         BO.Station firstStation;
         BO.Station secondStation;
         bool changed = true;
+        string username;
 
         public StationWindow(IBL bL, string userName)
         {
@@ -50,6 +54,7 @@ namespace PlGui
             SimulationControlWindow win = new SimulationControlWindow(bl); // Opening the simulation window
             win.Show();
             lbl_username.DataContext = userName;
+            username = userName;
             getAllStationsWorker.DoWork += GetStations;
             SetYellowSignTab();
             SetTripPlanTab();
@@ -189,6 +194,30 @@ namespace PlGui
                     getLinesInTwoStationWorker.RunWorkerAsync();
             };
             LinesInBothStationsDataGrid.DataContext = linesInBothStations;
+            tripWorker.DoWork += CreateTrip;
+        }
+
+        private void CreateTrip(object sender, DoWorkEventArgs e)
+        {
+            int lineCode = (int)e.Argument;
+            var res = bl.LineInTwoStations(firstStation.Code, secondStation.Code, lineCode);
+            tripEndTime = res.Item2.TimeToStation;
+            tripStartTime = res.Item1.TimeToStation;
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                LinesInBothStationsDataGrid.IsEnabled = false;
+                pb_tripProgress.Visibility = Visibility.Visible;
+                pb_tripProgress.Minimum = -tripEndTime.TotalMilliseconds;
+                pb_tripProgress.Maximum = 0;
+                pb_tripProgress.Value = pb_tripProgress.Minimum;
+                bt_startTrip.IsEnabled = false;
+                tb_start.Text = "Trip Progress:";
+            });
+            tripEndTime += BO.SimulationClock.GetTime;
+            
+           
+            bl.CreateTrip(username, lineCode, firstStation.Code, tripStartTime, secondStation.Code, tripEndTime);
+            BO.SimulationClock.valueChanged += Trip;
         }
 
         private void GetLinesInBothStation(object sender, DoWorkEventArgs e)
@@ -239,17 +268,8 @@ namespace PlGui
 
         private void bt_startTrip_Click(object sender, RoutedEventArgs e)
         {
-             var tuple = ((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem;
-            tripEndTime = bl.LineInTwoStations(firstStation.Code, secondStation.Code, tuple.Item1.LineCode).Item2.TimeToStation;
-            LinesInBothStationsDataGrid.IsEnabled = false;
-            pb_tripProgress.Visibility = Visibility.Visible;
-            pb_tripProgress.Minimum = 0- tripEndTime.TotalMilliseconds;
-            pb_tripProgress.Maximum = 0;
-            tripEndTime += BO.SimulationClock.GetTime;
-            pb_tripProgress.Value = pb_tripProgress.Minimum;
-            bt_startTrip.IsEnabled = false;
-            tb_start.Text = "Trip Progress:";
-            BO.SimulationClock.valueChanged += Trip;
+
+            tripWorker.RunWorkerAsync((((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem).Item1.LineCode);
         }
         private void Trip(object sender, EventArgs e)
         {

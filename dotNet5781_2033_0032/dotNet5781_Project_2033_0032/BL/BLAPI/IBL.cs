@@ -18,7 +18,7 @@ namespace BLAPI
         /// <param name="coun">the name of teh object we want the counter for</param>
         /// <returns>the counter</returns>
         int GetCounterAndAdd(string coun);
-        #region LineTrip
+        #region Trip
         /// <summary>
         /// Checks the lines that are suppose to pass in the given station.
         /// </summary>
@@ -50,6 +50,18 @@ namespace BLAPI
         /// <param name="lineTripId">The id of the line trip to be deleted.</param>
         /// <exception cref="BadLineTripException"/>
         void DeleteLineTrip(int lineTripId);
+
+        /// <summary>
+        /// Creates a new trip and saves it in the database.
+        /// </summary>
+        /// <param name="UserName">Username of the new trip.</param>
+        /// <param name="LineId">Line Id of the new trip.</param>
+        /// <param name="InStation">Start station code of the new trip.</param>
+        /// <param name="InAt">Time of bus arriving on the start station of the new trip.</param>
+        /// <param name="OutStation">Finish station code of the new trip.</param>
+        /// <param name="OutAt">Time of bus arriving on the finish station of the new trip.</param>
+        /// <exception cref="BadTripException"/>
+        void CreateTrip(string UserName, int LineId, int InStation, TimeSpan InAt, int OutStation, TimeSpan OutAt);
 
         #endregion
 
