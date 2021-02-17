@@ -19,8 +19,8 @@
       <Minutes>3</Minutes>
       <Seconds>47</Seconds>
     </FinishAt>
-  </LineTrip>
-  <LineTrip>
+  </Trip>
+  <Trip>
     <isActive>true</isActive>
     <ID>1</ID>
     <LineID>2</LineID>
@@ -39,8 +39,8 @@
       <Minutes>38</Minutes>
       <Seconds>31</Seconds>
     </FinishAt>
-  </LineTrip>
-  <LineTrip>
+  </Trip>
+  <Trip>
     <isActive>true</isActive>
     <ID>2</ID>
     <LineID>3</LineID>
@@ -99,5 +99,5 @@
       <Minutes>55</Minutes>
       <Seconds>42</Seconds>
     </FinishAt>
-  </LineTrip>
+  </Trip>
 </LineTrips>
