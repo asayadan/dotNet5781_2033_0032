@@ -1,0 +1,97 @@
+﻿<Window x:Class="PlGui.AddLineTripWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        mc:Ignorable="d"
+        Title="AddLineTripWindow" Height="400" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.7*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <Label Content="Time of the start of the LineTrip: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0" Height="Auto"/>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Hours" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0"/>
+            <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+            <Label Content="Minutes" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="2"/>
+            <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3"/>
+            <Label Content="Seconds" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="4"/>
+            <ComboBox x:Name="StartHoursComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="0" />
+            <ComboBox x:Name="StartMinutesComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />
+            <ComboBox x:Name="startSecondsComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="4" />
+        </Grid>
+        <Label Content="Time of the start of the LineTrip: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto"/>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Hours" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0"/>
+            <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+            <Label Content="Minutes" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="2"/>
+            <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3"/>
+            <Label Content="Seconds" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="4"/>
+            <ComboBox x:Name="lastHoursComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="0" />
+            <ComboBox x:Name="lastMinutesComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />
+            <ComboBox x:Name="lastSecondsComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="4" />
+        </Grid>
+        <Label Content="Time of the start of the LineTrip: " HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="0" Height="Auto"/>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Hours" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="0"/>
+            <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+            <Label Content="Minutes" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="2"/>
+            <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3"/>
+            <Label Content="Seconds" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.Row="0" Grid.Column="4"/>
+            <ComboBox x:Name="frequencyHoursComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="0" />
+            <ComboBox x:Name="frequencyMinutesComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />
+            <ComboBox x:Name="frequencySecondsComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="4" />
+        </Grid>
+        <TextBlock x:Name="tb_warnings" Grid.Row="3" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="" Foreground="Red"/>
+        <Button x:Name="bt_add" Grid.Column="1" Grid.Row="3" Content="Done" Click="bt_add_Click"/>
+    </Grid>
+</Window>
