@@ -25,6 +25,7 @@ namespace DL
         string LineTripPath = @"LineTripXml.xml";//XElement
         string StationPath = @"StationXml.xml";//
         string LineStationsPath = @"LineStationsXml.xml";//
+        string CounterPath = @"CounterXML.xml";
 
         #region AdjacentStations
         /// <summary>
@@ -561,10 +562,27 @@ namespace DL
             }
         }
         #endregion
+        #region Counters
+
+        public int RequestCounter(string type)
+        {
+            XElement CountersRootElem = XMLTools.LoadListFromXMLElement(CounterPath);
+
+            return int.Parse(CountersRootElem.Element(type).Value);
+        }
+
+        public void UpdateCounter(string type)
+        {
+            XElement CountersRootElem = XMLTools.LoadListFromXMLElement(CounterPath);
+
+            CountersRootElem.Element(type).Value = (int.Parse(CountersRootElem.Element(type).Value)+1).ToString();
+            XMLTools.SaveListToXMLElement(CountersRootElem, CounterPath);
+        }
+        #endregion
 
 
 
 
-       
+
     }
 }

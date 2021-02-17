@@ -6,6 +6,18 @@ namespace BLAPI
 {
     public interface IBL
     {
+        /// <summary>
+        /// gets the counter 
+        /// </summary>
+        /// <param name="coun">the name of teh object we want the counter for</param>
+        /// <returns>the counter</returns>
+        int GetCounters(string coun);
+        /// <summary>
+        /// gets the counter and adds one 
+        /// </summary>
+        /// <param name="coun">the name of teh object we want the counter for</param>
+        /// <returns>the counter</returns>
+        int GetCounterAndAdd(string coun);
         #region LineTrip
         /// <summary>
         /// Checks the lines that are suppose to pass in the given station.

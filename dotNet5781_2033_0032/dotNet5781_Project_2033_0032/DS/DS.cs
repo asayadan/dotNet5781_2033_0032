@@ -2772,6 +2772,7 @@ namespace DS
             //ListTrips = new List<Trip>(); Shlav 2
             //ListLineTrips = new List<LineTrip>(); shlav 2
             // ListBusesOnTrips = new List<BusOnTrip>(); Shlav 2
+            var help = new XElement("counters",new XElement("Line",6.ToString()),new XElement("LineTrip",5.ToString()));
             string AdjacentStationsPath = @"AdjacentStationsXml.xml";//XElement
             string BusPath = @"BusXml.xml";//XElement
             string LinePath = @"LineXml.xml";//
@@ -2779,6 +2780,8 @@ namespace DS
             string LineTripPath = @"LineTripXml.xml";//XElement
             string StationPath = @"StationXml.xml";//
             string LineStationsPath = @"LineStationsXml.xml";//
+            string CounterPath = @"CounterXML.xml";
+
             XMLTools.SaveListToXMLSerializer(ListUsers, UserPath);
             XMLTools.SaveListToXMLSerializer(ListLines, LinePath);
             XMLTools.SaveListToXMLSerializer(ListStations, StationPath);
@@ -2790,6 +2793,7 @@ namespace DS
                 adjElement.Add(item.ToXElement());
             }
             XMLTools.SaveListToXMLElement(adjElement, AdjacentStationsPath);
+            XMLTools.SaveListToXMLElement(help, CounterPath);
             foreach (var item in ListBuses)
             {
                 busElement.Add(item.ToXElement());
