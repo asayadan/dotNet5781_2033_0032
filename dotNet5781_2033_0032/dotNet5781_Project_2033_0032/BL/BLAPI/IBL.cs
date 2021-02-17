@@ -25,6 +25,9 @@ namespace BLAPI
         /// <param name="stationId">The station to check which lines go throught.</param>
         /// <returns>An IEnumerable of LineTiming sorted by first to last to get to the station.</returns>
         IEnumerable<LineTiming> RequestLineTimingFromStation(int stationId);
+
+         (BO.LineTiming, BO.LineTiming) LineInTwoStations(int station1Id, int station2Id, int LineID);
+
         /// <summary>
         /// Checks the line trips of the given line.
         /// </summary>

@@ -261,7 +261,7 @@ namespace BL
             var lineTripsInLine = GetAllLineTripsInLine(lineId);
             int min = 0;
             var currentTime = SimulationClock.GetTime;
-            var futureTrips = lineTripsInLine.Where(p => currentTime <= p.FinishAt);
+            var futureTrips = lineTripsInLine.Where(p => currentTime <= p.FinishAt+timeToStation);
             var lineTrip = futureTrips.LastOrDefault();
             if (lineTrip == null)
                 return (lineTrip, 0);
@@ -514,6 +514,17 @@ namespace BL
                    where first.LineId == second.LineId
                    where first.TimeToStation < second.TimeToStation
                    select (first, second);
+        }
+        public (BO.LineTiming, BO.LineTiming) LineInTwoStations(int station1Id, int station2Id,int LineID)
+        {
+            var help= (from stations in LinesInTwoStations(station1Id,station2Id)
+                 //  where stations.Item1.LineId==LineID
+                   select stations).ToList();
+            if (help.Count() !=0)
+            {
+                return help.FirstOrDefault();
+            }
+            else throw new BadLineTripException(station1Id,LineID);
         }
 
         public void UpdateStation(Station station)

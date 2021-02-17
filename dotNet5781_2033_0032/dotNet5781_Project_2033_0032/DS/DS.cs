@@ -2640,7 +2640,7 @@ namespace DS
                             DistFromLastStation = dist,
                             Station1 = ListLineStations[i].StationId,
                             Station2 = ListLineStations[i + 1].StationId,
-                            TimeSinceLastStation = DateTime.Now.AddHours(dist * 1000 / rnd.Next(60, 100)) - DateTime.Now
+                            TimeSinceLastStation = DateTime.Now.AddHours(dist  / rnd.Next(60, 100)) - DateTime.Now
                         });
                 }
                 if (ListLineStations[i].PrevStation == ListLineStations[i].StationId)
@@ -2811,7 +2811,7 @@ namespace DS
         static double DistanceBetween(Station station1, Station station2)
         {
             return Math.Sqrt(Math.Pow((station1.Latitude - station2.Latitude), 2) +
-                Math.Pow((station1.Longitude - station2.Longitude), 2));
+                Math.Pow((station1.Longitude - station2.Longitude), 2))*1000;
         }
     }
 }

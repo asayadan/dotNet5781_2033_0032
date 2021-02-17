@@ -42,7 +42,7 @@
         <Label Content="Select speed"  FontSize="25" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
         <Label Content="start time"  FontSize="25" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
         <Button x:Name="bt_activation" Content="Start" FontSize="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Click="Button_Click" />
-        <TextBox x:Name="tb_warnings" Text="" Foreground="Red" FontSize="25" TextAlignment="Center" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <TextBlock x:Name="tb_warnings" Text="" Foreground="Red" FontSize="25" TextAlignment="Center" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>

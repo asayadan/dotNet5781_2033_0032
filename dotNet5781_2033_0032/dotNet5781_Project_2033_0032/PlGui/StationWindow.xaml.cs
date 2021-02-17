@@ -180,7 +180,7 @@ namespace PlGui
         }
 
         #endregion
-
+        #region Trip Tab
         public void SetTripPlanTab()
         {
             getLinesInTwoStation.DoWork += GetLinesInBothStation;
@@ -240,12 +240,13 @@ namespace PlGui
 
         private void bt_startTrip_Click(object sender, RoutedEventArgs e)
         {
-            var tuple = ((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem;
-            tripEndTime = tuple.Item2.TimeToStation + BO.SimulationClock.GetTime;
+             var tuple = ((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem;
+            tripEndTime = bl.LineInTwoStations(firstStation.Code, secondStation.Code, tuple.Item1.LineCode).Item2.TimeToStation;
             LinesInBothStationsDataGrid.IsEnabled = false;
             pb_tripProgress.Visibility = Visibility.Visible;
-            pb_tripProgress.Minimum = BO.SimulationClock.GetTime.TotalMilliseconds - tripEndTime.TotalMilliseconds;
+            pb_tripProgress.Minimum = 0- tripEndTime.TotalMilliseconds;
             pb_tripProgress.Maximum = 0;
+            tripEndTime += BO.SimulationClock.GetTime;
             pb_tripProgress.Value = pb_tripProgress.Minimum;
             bt_startTrip.IsEnabled = false;
             tb_start.Text = "Trip Progress:";
@@ -289,6 +290,7 @@ namespace PlGui
             }
             else bt_startTrip.IsEnabled = false;
         }
+        #endregion
     }
 
     [ValueConversion(typeof(TimeSpan), typeof(String))]
