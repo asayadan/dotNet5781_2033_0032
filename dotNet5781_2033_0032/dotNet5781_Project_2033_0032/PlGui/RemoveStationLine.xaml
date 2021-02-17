@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="AddStationLine" Height="300" Width="500">
+        Title="Remove Station From Line" Height="300" Width="500">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

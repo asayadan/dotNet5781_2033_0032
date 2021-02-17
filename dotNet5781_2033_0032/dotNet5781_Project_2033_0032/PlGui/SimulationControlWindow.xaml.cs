@@ -63,12 +63,12 @@ namespace PlGui
             {
                 speed = int.Parse(tb_speed.Text);
             }
-            catch (FormatException ex)//shouldn't happen
+            catch (FormatException)//shouldn't happen
             {
                 tb_warnings.Text = "Invalid speed";
                 return;
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException)
             {
                 tb_warnings.Text = "Invalid speed";
                 return;

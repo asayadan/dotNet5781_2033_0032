@@ -680,7 +680,6 @@ namespace PlGui
     [ValueConversion(typeof(int), typeof(String))]
     public class IntTotationNameAsString : IValueConverter
     {
-        Func<object, object> func;
         Mutex mutx = new Mutex();
         /// <summary>
         /// converts between the code to the name
@@ -697,7 +696,7 @@ namespace PlGui
                 int code = (int)value;
                 return BLAPI.BLFactory.GetBL("").RequestStation(code).Name;
             }
-            catch (BO.InvalidStationIDException ex)
+            catch (BO.InvalidStationIDException)
             { return ""; }
         }
         /// <summary>

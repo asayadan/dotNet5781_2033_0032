@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LineTrips>
-  <Trip>
+  <LineTrip>
     <isActive>true</isActive>
     <ID>0</ID>
     <LineID>1</LineID>
@@ -19,8 +19,8 @@
       <Minutes>3</Minutes>
       <Seconds>47</Seconds>
     </FinishAt>
-  </Trip>
-  <Trip>
+  </LineTrip>
+  <LineTrip>
     <isActive>true</isActive>
     <ID>1</ID>
     <LineID>2</LineID>
@@ -39,8 +39,8 @@
       <Minutes>38</Minutes>
       <Seconds>31</Seconds>
     </FinishAt>
-  </Trip>
-  <Trip>
+  </LineTrip>
+  <LineTrip>
     <isActive>true</isActive>
     <ID>2</ID>
     <LineID>3</LineID>
@@ -59,8 +59,8 @@
       <Minutes>45</Minutes>
       <Seconds>15</Seconds>
     </FinishAt>
-  </Trip>
-  <Trip>
+  </LineTrip>
+  <LineTrip>
     <isActive>true</isActive>
     <ID>3</ID>
     <LineID>4</LineID>
@@ -79,8 +79,8 @@
       <Minutes>41</Minutes>
       <Seconds>45</Seconds>
     </FinishAt>
-  </Trip>
-  <Trip>
+  </LineTrip>
+  <LineTrip>
     <isActive>true</isActive>
     <ID>4</ID>
     <LineID>5</LineID>
@@ -99,5 +99,5 @@
       <Minutes>55</Minutes>
       <Seconds>42</Seconds>
     </FinishAt>
-  </Trip>
+  </LineTrip>
 </LineTrips>

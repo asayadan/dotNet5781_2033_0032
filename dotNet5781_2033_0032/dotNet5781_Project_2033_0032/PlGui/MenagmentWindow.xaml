@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="MenagmentWindow" Height="450" Width="800">
+        Title="Admin Window" Height="450" Width="800">
     
     <Window.Resources>
         <local:IntTotationNameAsString x:Key="intToStationNameConverter"/>
@@ -256,16 +256,16 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Content="License Plate Number:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3,3.333,0,3.333" Grid.Row="0" VerticalAlignment="Center"/>
+                        <Label Content="License Plate Number:" Grid.Column="0"  HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Center"/>
                         <TextBlock x:Name="licenseNumTextBlock" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="Auto" Grid.Row="0" Text="{Binding LicenseNum, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Width="Auto"/>
-                        <Label Content="From Date:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.667,0,3" Grid.Row="1" VerticalAlignment="Center"/>
-                        <DatePicker x:Name="fromDateDatePicker" Grid.Column="1" SelectedDate="{Binding FromDate}" HorizontalAlignment="Left" Height="Auto"  Margin="2.667,3.667,0,4" Grid.Row="1" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
-                        <Label Content="Mileage:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.667,0,3" Grid.Row="2" VerticalAlignment="Center"/>
-                        <TextBox x:Name="mileaseTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="2.667,4.333,0,5.333" Grid.Row="2" Text="{Binding TotalTrip, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Fuel:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.667,0,3" Grid.Row="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="fuelTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="2.667,4.333,0,5.333" Grid.Row="3" Text="{Binding FuelRemaining, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Status:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.667,0,3" Grid.Row="4" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="statusComboBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="2.667,4.333,0,5.333" Grid.Row="4" Text="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="From Date:" Grid.Column="0" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
+                        <DatePicker x:Name="fromDateDatePicker" Grid.Column="1" SelectedDate="{Binding FromDate}" HorizontalAlignment="Left" Height="Auto" Grid.Row="1" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
+                        <Label Content="Mileage:" Grid.Column="0" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBox x:Name="mileaseTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="2" Text="{Binding TotalTrip, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="Fuel:" Grid.Column="0" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center"/>
+                        <TextBox x:Name="fuelTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="3" Text="{Binding FuelRemaining, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="Status:" Grid.Column="0" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="statusComboBox" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Grid.Row="4" Text="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
 
 
 

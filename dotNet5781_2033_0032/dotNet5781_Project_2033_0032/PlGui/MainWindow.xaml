@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="Log In window" Height="300" Width="500">
+        Title="Log In Window" Height="300" Width="500">
     <Window.Resources>
 
         <Style x:Key="textBoxStyle"

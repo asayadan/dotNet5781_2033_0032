@@ -594,4 +594,15 @@
       <Seconds>47</Seconds>
     </Time>
   </AdjecentStations>
+  <AdjecentStations>
+    <isActive>true</isActive>
+    <Station1>38854</Station1>
+    <Station2>38854</Station2>
+    <Distance>8</Distance>
+    <Time>
+      <Hours>0</Hours>
+      <Minutes>0</Minutes>
+      <Seconds>0</Seconds>
+    </Time>
+  </AdjecentStations>
 </AdjacentStations>

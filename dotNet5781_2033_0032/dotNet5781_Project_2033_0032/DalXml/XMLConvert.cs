@@ -196,7 +196,7 @@ namespace DL
         /// <returns>the converted XElement</returns>
         public static XElement ToXElement(this LineTrip trip)
         {
-            return new XElement("Trip",
+            return new XElement("LineTrip",
                         new XElement("isActive", trip.isActive),
                         new XElement("ID", trip.Id),
                         new XElement("LineID", trip.LineId),

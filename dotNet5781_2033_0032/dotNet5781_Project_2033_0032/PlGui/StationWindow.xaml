@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="StationWindow" Height="450" Width="800">
+        Title="Passenger Window" Height="450" Width="800">
     <Window.Resources>
         <local:TimeSpanConverter x:Key="tsConverter"/>
         <local:TimeOfStartTwoLineTimingConverter x:Key="timeOfStartTwoLineTimingConverter"/>
