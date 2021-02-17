@@ -60,7 +60,7 @@
                             <DataGridTemplateColumn Width="0.3*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button x:Name="btRemoveTrip" Content="Remove" Background="Red" ToolTip="Remove station from current line." />
+                                        <Button x:Name="btRemoveTrip" Content="Remove" Background="Red" ToolTip="Remove station from current line." Click="btRemoveTrip_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -74,7 +74,6 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
                 </WrapPanel>
                 <DataGrid x:Name="StationsInLineDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1" BorderBrush="{x:Null}" Background="#FFB4EFB7">
                     <DataGrid.RenderTransform>
@@ -116,6 +115,7 @@
                 <Label Content="List of Stations for selected Line:" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"   Grid.Column="1"/>
                 <Grid x:Name="buttonGrid" Grid.Row="3"  Grid.ColumnSpan="3">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>

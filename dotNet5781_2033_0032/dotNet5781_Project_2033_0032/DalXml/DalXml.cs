@@ -360,7 +360,7 @@ namespace DL
                 else
                 {
                     Newtrip.isActive = true;
-                    tripRootElem.Add(helpTrip.ToXElement());
+                    tripRootElem.Add(Newtrip.ToXElement());
 
                     XMLTools.SaveListToXMLElement(tripRootElem, LineTripPath);
                 }
@@ -381,7 +381,7 @@ namespace DL
             {
                 XElement tripRootElem = XMLTools.LoadListFromXMLElement(LineTripPath);
                 var helpTrip = (from lineTrip in tripRootElem.Elements()
-                                where lineTrip.IsActive() && int.Parse(lineTrip.Element("LineID").Value) == tripID
+                                where lineTrip.IsActive() && int.Parse(lineTrip.Element("ID").Value) == tripID
                                 select lineTrip).FirstOrDefault();
                 if (helpTrip == null)
                     throw new DO.BadLineTripException(tripID, -1, "this line trip doesn't exists");

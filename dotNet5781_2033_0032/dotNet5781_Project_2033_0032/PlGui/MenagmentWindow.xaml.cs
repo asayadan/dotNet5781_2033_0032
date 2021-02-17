@@ -33,6 +33,8 @@ namespace PlGui
         BackgroundWorker removeStationFromLineWorker = new BackgroundWorker();//deletes a stations from the current line
         BackgroundWorker updateAdjecntStationsWorker = new BackgroundWorker();//updates a station in the memory (AdjecentStations)
         BackgroundWorker getLineTripWorker = new BackgroundWorker();//gets the Trips of this line
+        BackgroundWorker deleteLineTripWorker = new BackgroundWorker();//gets the Trips of this line
+
 
         #endregion
 
@@ -81,7 +83,7 @@ namespace PlGui
             SetBusTab();//sets the busses tab
         }
         #endregion
-        #region setters //
+        #region lines setters //
         void SetLinesTab()
         {
             cb_lines.DisplayMemberPath = "Code";//show only specific Property of object
@@ -101,7 +103,10 @@ namespace PlGui
             removeStationFromLineWorker.DoWork += removeStationFromLine;
             updateAdjecntStationsWorker.DoWork += UpdateAdjecentStation;
             getLineTripWorker.DoWork += SetAllTripsInLine;
+            deleteLineTripWorker.DoWork += DeleteLineTrip;
             stationsInLineWorker.WorkerSupportsCancellation = true;
+            getLineTripWorker.WorkerSupportsCancellation = true;
+            getLineTripWorker.WorkerSupportsCancellation = true;
             updateLineWorker.RunWorkerAsync();
         }
         /// <summary>
@@ -181,7 +186,7 @@ namespace PlGui
             }
         }
         #endregion
-        #region  functions
+        #region Lines functions
         /// <summary>
         /// what happens when the selection in cb_lines is changed 
         /// displays the new selected line
@@ -308,8 +313,10 @@ namespace PlGui
 
             stationsInLineWorker.CancelAsync();
             getLineTripWorker.CancelAsync();
+            getLineTripWorker.CancelAsync();
             stationsInLineWorker.RunWorkerAsync(curLine.Id);
             linesInStationWorker.RunWorkerAsync(curStation.Code);
+            getLineTripWorker.RunWorkerAsync();
         }
         public bool LineListContains(BO.Line line)
         {
@@ -340,6 +347,31 @@ namespace PlGui
             bl.UpdateLine(helpLine);
         }
 
+       public void DeleteLineTrip(object sender, DoWorkEventArgs e)
+        {
+            var helpLineTrip = e.Argument as BO.LineTrip;
+            try
+            {
+                bl.DeleteLineTrip(helpLineTrip.Id);
+                SetAllTripsInLine(sender,e);
+            }
+            catch (BO.BadLineTripException ex)//this shouldn't happen
+            {
+
+            }
+        }
+        private void btRemoveTrip_Click(object sender, RoutedEventArgs e)
+        {
+            deleteLineTripWorker.RunWorkerAsync((sender as Button).DataContext);
+        }
+        private void AddTrip_Click(object sender, RoutedEventArgs e)
+        {
+            var tripTiming = (from trip in tripsInLineCollection
+                              select (trip.StartAt, trip.FinishAt)).ToList();
+            var timingWin = new AddLineTripWindow(bl, curLine.Id, tripTiming);
+            timingWin.Closing += StationLineWin_Closing;
+            timingWin.Show();
+        }
         #endregion
         #region setters
 
@@ -672,6 +704,8 @@ namespace PlGui
             stationsInLineWorker.RunWorkerAsync(curLine);//displays the updated stations
 
         }
+
+
     }
 
     /// <summary>
