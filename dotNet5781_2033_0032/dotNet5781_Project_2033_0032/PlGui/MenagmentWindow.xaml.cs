@@ -394,7 +394,7 @@ namespace PlGui
 
         private void SetAllStations(object sender, DoWorkEventArgs e)
         {
-            var help = bl.RequestAllStations();//
+            var help = bl.RequestAllStations();
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
                 stationCollection.Clear();
