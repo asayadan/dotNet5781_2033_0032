@@ -225,6 +225,12 @@ namespace DLAPI
         /// <param name="tripID">The id of the line trip to be deleted.</param>
         /// <exception cref="BadLineTripException"/>
         void DeleteLineTrip(int tripID);
+        /// <summary>
+        /// Creates a new trip and saves it in the database.
+        /// </summary>
+        /// <param name="trip">The new trip.</param>
+        /// <exception cref="BadTripException"/>
+        void CreateTrip(Trip newTrip);
         #endregion
     }
 }

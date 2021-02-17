@@ -23,17 +23,19 @@ namespace PlGui
         IBL bl;
         private static Mutex lineStationMutex = new Mutex();
 
+        #region workers
         BackgroundWorker getAllStationsWorker = new BackgroundWorker();
         BackgroundWorker getLinesInStationWorker = new BackgroundWorker();
-        BackgroundWorker Searchworker = new BackgroundWorker();
-        BackgroundWorker getLinesInTwoStation = new BackgroundWorker();
-        BackgroundWorker tripWorker = new BackgroundWorker();
+        BackgroundWorker searchWorker = new BackgroundWorker();
+        BackgroundWorker getLinesInTwoStationWorker = new BackgroundWorker();
+        #endregion
 
-
+        #region ObservableCollection
         ObservableCollection<BO.Station> stationCollection = new ObservableCollection<BO.Station>();
         ObservableCollection<BO.LineTiming> allLinesInStation = new ObservableCollection<BO.LineTiming>();
         ObservableCollection<BO.LineTiming> timeOfLinesInStation = new ObservableCollection<BO.LineTiming>();
         ObservableCollection<(BO.LineTiming, BO.LineTiming)> linesInBothStations = new ObservableCollection<(BO.LineTiming, BO.LineTiming)>();
+        #endregion
 
         TimeSpan tripEndTime;
         BO.Station curStation;
@@ -45,7 +47,7 @@ namespace PlGui
         {
             bl = bL;
             InitializeComponent();
-            SimulationControlWindow win = new SimulationControlWindow(bl);
+            SimulationControlWindow win = new SimulationControlWindow(bl); // Opening the simulation window
             win.Show();
             lbl_username.DataContext = userName;
             getAllStationsWorker.DoWork += GetStations;
@@ -54,14 +56,11 @@ namespace PlGui
         }
 
         #region Yellow Sign Tab
-        /// <summary>
-        /// sets teh first tab
-        /// </summary>
-        void SetYellowSignTab()
+        void SetYellowSignTab() // Setting the yellow sign up
         {
             getAllStationsWorker.RunWorkerAsync();
             getLinesInStationWorker.DoWork += SetLinesInStation;
-            Searchworker.DoWork += Search;
+            searchWorker.DoWork += Search;
             BO.SimulationClock.valueChanged += (object sender, EventArgs e) => { getLinesInStationWorker.RunWorkerAsync(); };
         }
         /// <summary>
@@ -156,7 +155,7 @@ namespace PlGui
         }
         private void bt_search_Click(object sender, RoutedEventArgs e)
         {
-            Searchworker.RunWorkerAsync(new SearchData { changed = false, search = tb_search.Text });
+            searchWorker.RunWorkerAsync(new SearchData { changed = false, search = tb_search.Text });
 
         }
         private void Search(object sender, DoWorkEventArgs e)
@@ -183,11 +182,11 @@ namespace PlGui
         #region Trip Tab
         public void SetTripPlanTab()
         {
-            getLinesInTwoStation.DoWork += GetLinesInBothStation;
+            getLinesInTwoStationWorker.DoWork += GetLinesInBothStation;
             BO.SimulationClock.valueChanged += (object sender, EventArgs e) =>
             {
-                if (!getLinesInTwoStation.IsBusy)
-                    getLinesInTwoStation.RunWorkerAsync();
+                if (!getLinesInTwoStationWorker.IsBusy)
+                    getLinesInTwoStationWorker.RunWorkerAsync();
             };
             LinesInBothStationsDataGrid.DataContext = linesInBothStations;
         }
@@ -231,7 +230,7 @@ namespace PlGui
                 changed = true;
                 firstStation = cb_firstStation.SelectedItem as BO.Station;
                 secondStation = cb_secondStation.SelectedItem as BO.Station;
-                if (!getLinesInTwoStation.IsBusy) getLinesInTwoStation.RunWorkerAsync();
+                if (!getLinesInTwoStationWorker.IsBusy) getLinesInTwoStationWorker.RunWorkerAsync();
             }
 
             //else BO.SimulationClock.valueChanged -= (object _sender, EventArgs _e) => getLinesInTwoStation.RunWorkerAsync();

@@ -196,5 +196,11 @@
   <ItemGroup>
     <Resource Include="arrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="muvitLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MainBackground.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
