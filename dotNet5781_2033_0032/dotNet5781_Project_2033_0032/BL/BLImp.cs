@@ -590,7 +590,7 @@ namespace BL
                 {
                     isActive = true,
                     LineId = GetCounters("Line") - 1,
-                    LineStationIndex = 1,
+                    LineStationIndex = 0,
                     NextStation = lastStation,
                     PrevStation = firstStation,
                     StationId = firstStation
@@ -600,7 +600,7 @@ namespace BL
                 {
                     isActive = true,
                     LineId = GetCounters("Line") - 1,
-                    LineStationIndex = 0,
+                    LineStationIndex = 1,
                     NextStation = lastStation,
                     PrevStation = firstStation,
                     StationId = lastStation
