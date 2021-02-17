@@ -46,7 +46,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="Code:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-                        <TextBox x:Name="codeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <TextBox x:Name="codeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Code, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                         <Label Content="Area:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
                         <ComboBox x:Name="areaComboBox" Grid.Column="1" SelectedItem="{Binding Area}" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
                     </Grid>
@@ -121,11 +121,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="AddTrip" Content="Add new LineTrip" VerticalAlignment="Stretch" Grid.Column="0" HorizontalAlignment="Stretch" Background="#FF45F200" Click="AddTrip_Click"  />
-                    <Button x:Name="bt_DeleteLine" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Background="#FFC56853" Click="bt_DeleteLine_Click"/>
-                    <Button x:Name="bt_AddLine" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="3" Background="#FF6DB469" Click="bt_AddLine_Click"/>
-                    <Button x:Name="bt_UpdateLine" Content="Apply Changes on all the lines" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="4" Background="CadetBlue" Click="bt_UpdateLine_Click"/>
-                    <Button x:Name="bt_AddStationToLine" Content="add station to line " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Click="bt_AddStationToLine_Click" Background="#FFD1DA16"/>
+                    <Button x:Name="bt_DeleteLine" Content="Delete Current Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Background="#FFC56853" Click="bt_DeleteLine_Click"/>
+                    <Button x:Name="bt_AddLine" Content="Add New Line" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="2" Background="#FF6DB469" Click="bt_AddLine_Click"/>
+                    <Button x:Name="bt_UpdateLine" Content="Apply Changes on all the lines" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="3" Background="CadetBlue" Click="bt_UpdateLine_Click"/>
+                    <Button x:Name="bt_AddStationToLine" Content="Add station to line " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1" Click="bt_AddStationToLine_Click" Background="#FFD1DA16"/>
                 </Grid>
 
             </Grid>
