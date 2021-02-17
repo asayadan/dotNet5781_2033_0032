@@ -1,172 +1,172 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Busses>
   <Bus>
-    <isActive>False</isActive>
-    <licensePlateNumber>5482291</licensePlateNumber>
-    <Fuel>1200</Fuel>
-    <mileage>54</mileage>
+    <isActive>true</isActive>
+    <licensePlateNumber>84204364</licensePlateNumber>
+    <Fuel>54</Fuel>
+    <mileage>620</mileage>
+    <FromDate>
+      <Year>2018</Year>
+      <Month>4</Month>
+      <Day>29</Day>
+    </FromDate>
+    <lastTreatment>
+      <Year>2018</Year>
+      <Month>4</Month>
+      <Day>29</Day>
+    </lastTreatment>
+    <BusStatus>Ready</BusStatus>
+  </Bus>
+  <Bus>
+    <isActive>true</isActive>
+    <licensePlateNumber>18214584</licensePlateNumber>
+    <Fuel>695</Fuel>
+    <mileage>2787</mileage>
+    <FromDate>
+      <Year>2020</Year>
+      <Month>11</Month>
+      <Day>14</Day>
+    </FromDate>
+    <lastTreatment>
+      <Year>2020</Year>
+      <Month>11</Month>
+      <Day>14</Day>
+    </lastTreatment>
+    <BusStatus>Ready</BusStatus>
+  </Bus>
+  <Bus>
+    <isActive>true</isActive>
+    <licensePlateNumber>3936200</licensePlateNumber>
+    <Fuel>212</Fuel>
+    <mileage>2021</mileage>
     <FromDate>
       <Year>2017</Year>
-      <Month>11</Month>
-      <Day>27</Day>
-    </FromDate>
-    <lastTreatment>
-      <Year>2021</Year>
       <Month>2</Month>
-      <Day>17</Day>
-    </lastTreatment>
-    <BusStatus>Ready</BusStatus>
-  </Bus>
-  <Bus>
-    <isActive>true</isActive>
-    <licensePlateNumber>57310607</licensePlateNumber>
-    <Fuel>494</Fuel>
-    <mileage>646</mileage>
-    <FromDate>
-      <Year>2019</Year>
-      <Month>10</Month>
-      <Day>15</Day>
+      <Day>23</Day>
     </FromDate>
     <lastTreatment>
-      <Year>2019</Year>
-      <Month>10</Month>
-      <Day>15</Day>
+      <Year>2017</Year>
+      <Month>2</Month>
+      <Day>23</Day>
     </lastTreatment>
     <BusStatus>Ready</BusStatus>
   </Bus>
   <Bus>
     <isActive>true</isActive>
-    <licensePlateNumber>76822118</licensePlateNumber>
-    <Fuel>928</Fuel>
-    <mileage>234</mileage>
+    <licensePlateNumber>96329454</licensePlateNumber>
+    <Fuel>26</Fuel>
+    <mileage>3623</mileage>
     <FromDate>
       <Year>2018</Year>
-      <Month>8</Month>
-      <Day>19</Day>
-    </FromDate>
-    <lastTreatment>
-      <Year>2018</Year>
-      <Month>8</Month>
-      <Day>19</Day>
-    </lastTreatment>
-    <BusStatus>Ready</BusStatus>
-  </Bus>
-  <Bus>
-    <isActive>true</isActive>
-    <licensePlateNumber>2470471</licensePlateNumber>
-    <Fuel>865</Fuel>
-    <mileage>1175</mileage>
-    <FromDate>
-      <Year>2016</Year>
-      <Month>2</Month>
-      <Day>11</Day>
-    </FromDate>
-    <lastTreatment>
-      <Year>2016</Year>
-      <Month>2</Month>
-      <Day>11</Day>
-    </lastTreatment>
-    <BusStatus>Ready</BusStatus>
-  </Bus>
-  <Bus>
-    <isActive>true</isActive>
-    <licensePlateNumber>91232586</licensePlateNumber>
-    <Fuel>682</Fuel>
-    <mileage>4366</mileage>
-    <FromDate>
-      <Year>2019</Year>
-      <Month>11</Month>
-      <Day>9</Day>
-    </FromDate>
-    <lastTreatment>
-      <Year>2019</Year>
-      <Month>11</Month>
-      <Day>9</Day>
-    </lastTreatment>
-    <BusStatus>Ready</BusStatus>
-  </Bus>
-  <Bus>
-    <isActive>true</isActive>
-    <licensePlateNumber>36075231</licensePlateNumber>
-    <Fuel>534</Fuel>
-    <mileage>1376</mileage>
-    <FromDate>
-      <Year>2020</Year>
-      <Month>10</Month>
+      <Month>5</Month>
       <Day>6</Day>
     </FromDate>
     <lastTreatment>
-      <Year>2020</Year>
-      <Month>10</Month>
+      <Year>2018</Year>
+      <Month>5</Month>
       <Day>6</Day>
     </lastTreatment>
     <BusStatus>Ready</BusStatus>
   </Bus>
   <Bus>
     <isActive>true</isActive>
-    <licensePlateNumber>27680346</licensePlateNumber>
-    <Fuel>926</Fuel>
-    <mileage>565</mileage>
+    <licensePlateNumber>8130799</licensePlateNumber>
+    <Fuel>539</Fuel>
+    <mileage>31</mileage>
     <FromDate>
-      <Year>2020</Year>
-      <Month>3</Month>
-      <Day>11</Day>
-    </FromDate>
-    <lastTreatment>
-      <Year>2020</Year>
-      <Month>3</Month>
-      <Day>11</Day>
-    </lastTreatment>
-    <BusStatus>Ready</BusStatus>
-  </Bus>
-  <Bus>
-    <isActive>true</isActive>
-    <licensePlateNumber>28286972</licensePlateNumber>
-    <Fuel>1188</Fuel>
-    <mileage>2008</mileage>
-    <FromDate>
-      <Year>2018</Year>
-      <Month>9</Month>
-      <Day>17</Day>
-    </FromDate>
-    <lastTreatment>
-      <Year>2018</Year>
-      <Month>9</Month>
-      <Day>17</Day>
-    </lastTreatment>
-    <BusStatus>Ready</BusStatus>
-  </Bus>
-  <Bus>
-    <isActive>true</isActive>
-    <licensePlateNumber>11460187</licensePlateNumber>
-    <Fuel>718</Fuel>
-    <mileage>1997</mileage>
-    <FromDate>
-      <Year>2019</Year>
-      <Month>3</Month>
+      <Year>2017</Year>
+      <Month>7</Month>
       <Day>4</Day>
     </FromDate>
     <lastTreatment>
-      <Year>2019</Year>
-      <Month>3</Month>
+      <Year>2017</Year>
+      <Month>7</Month>
       <Day>4</Day>
     </lastTreatment>
     <BusStatus>Ready</BusStatus>
   </Bus>
   <Bus>
     <isActive>true</isActive>
-    <licensePlateNumber>1726148</licensePlateNumber>
-    <Fuel>979</Fuel>
-    <mileage>1952</mileage>
+    <licensePlateNumber>8688772</licensePlateNumber>
+    <Fuel>461</Fuel>
+    <mileage>2337</mileage>
+    <FromDate>
+      <Year>2017</Year>
+      <Month>10</Month>
+      <Day>14</Day>
+    </FromDate>
+    <lastTreatment>
+      <Year>2017</Year>
+      <Month>10</Month>
+      <Day>14</Day>
+    </lastTreatment>
+    <BusStatus>Ready</BusStatus>
+  </Bus>
+  <Bus>
+    <isActive>true</isActive>
+    <licensePlateNumber>8904375</licensePlateNumber>
+    <Fuel>493</Fuel>
+    <mileage>2113</mileage>
+    <FromDate>
+      <Year>2017</Year>
+      <Month>8</Month>
+      <Day>2</Day>
+    </FromDate>
+    <lastTreatment>
+      <Year>2017</Year>
+      <Month>8</Month>
+      <Day>2</Day>
+    </lastTreatment>
+    <BusStatus>Ready</BusStatus>
+  </Bus>
+  <Bus>
+    <isActive>true</isActive>
+    <licensePlateNumber>7047254</licensePlateNumber>
+    <Fuel>1001</Fuel>
+    <mileage>3518</mileage>
     <FromDate>
       <Year>2016</Year>
-      <Month>7</Month>
-      <Day>20</Day>
+      <Month>6</Month>
+      <Day>8</Day>
     </FromDate>
     <lastTreatment>
       <Year>2016</Year>
-      <Month>7</Month>
-      <Day>20</Day>
+      <Month>6</Month>
+      <Day>8</Day>
+    </lastTreatment>
+    <BusStatus>Ready</BusStatus>
+  </Bus>
+  <Bus>
+    <isActive>true</isActive>
+    <licensePlateNumber>52628295</licensePlateNumber>
+    <Fuel>1057</Fuel>
+    <mileage>202</mileage>
+    <FromDate>
+      <Year>2018</Year>
+      <Month>11</Month>
+      <Day>4</Day>
+    </FromDate>
+    <lastTreatment>
+      <Year>2018</Year>
+      <Month>11</Month>
+      <Day>4</Day>
+    </lastTreatment>
+    <BusStatus>Ready</BusStatus>
+  </Bus>
+  <Bus>
+    <isActive>true</isActive>
+    <licensePlateNumber>68406418</licensePlateNumber>
+    <Fuel>334</Fuel>
+    <mileage>1028</mileage>
+    <FromDate>
+      <Year>2020</Year>
+      <Month>9</Month>
+      <Day>13</Day>
+    </FromDate>
+    <lastTreatment>
+      <Year>2020</Year>
+      <Month>9</Month>
+      <Day>13</Day>
     </lastTreatment>
     <BusStatus>Ready</BusStatus>
   </Bus>
