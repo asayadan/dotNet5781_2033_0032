@@ -352,9 +352,4 @@ namespace PlGui
             throw new NotImplementedException();
         }
     }
-
-
-
-
-
 }

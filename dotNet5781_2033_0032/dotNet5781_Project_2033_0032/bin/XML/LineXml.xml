@@ -40,4 +40,28 @@
     <Area>North</Area>
     <Id>1</Id>
   </Line>
+  <Line>
+    <isActive>false</isActive>
+    <Code>123</Code>
+    <FirstStation>38833</FirstStation>
+    <LastStation>38832</LastStation>
+    <Area>North</Area>
+    <Id>6</Id>
+  </Line>
+  <Line>
+    <isActive>false</isActive>
+    <Code>123</Code>
+    <FirstStation>38833</FirstStation>
+    <LastStation>38832</LastStation>
+    <Area>General</Area>
+    <Id>6</Id>
+  </Line>
+  <Line>
+    <isActive>true</isActive>
+    <Code>123</Code>
+    <FirstStation>38833</FirstStation>
+    <LastStation>38832</LastStation>
+    <Area>South</Area>
+    <Id>6</Id>
+  </Line>
 </ArrayOfLine>

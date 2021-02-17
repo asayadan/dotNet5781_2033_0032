@@ -590,7 +590,7 @@ namespace BL
                 {
                     isActive = true,
                     LineId = Counters.lines - 1,
-                    LineStationIndex = 1,
+                    LineStationIndex = 0,
                     NextStation = lastStation,
                     PrevStation = firstStation,
                     StationId = firstStation
@@ -600,7 +600,7 @@ namespace BL
                 {
                     isActive = true,
                     LineId = Counters.lines - 1,
-                    LineStationIndex = 0,
+                    LineStationIndex = 1,
                     NextStation = lastStation,
                     PrevStation = firstStation,
                     StationId = lastStation
@@ -626,9 +626,18 @@ namespace BL
                         TimeSinceLastStation = timeSinceLastStation,
                         Station1 = firstStation,
                         Station2 = lastStation
-                    }); ;
+                    });
                 }
-                catch (DO.InvalidAdjacentStationIDException) { }
+                catch (DO.InvalidAdjacentStationIDException) { //In case the adjacent stations already exists
+                    dl.UpdateAdjacentStations(new DO.AdjacentStations
+                    {
+                        isActive = true,
+                        DistFromLastStation = distanceSinceLastStation,
+                        TimeSinceLastStation = timeSinceLastStation,
+                        Station1 = firstStation,
+                        Station2 = lastStation
+                    });
+                }
                 try
                 {
                     dl.CreateAdjacentStations(new DO.AdjacentStations

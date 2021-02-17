@@ -653,11 +653,11 @@
     <isActive>true</isActive>
     <Station1>38833</Station1>
     <Station2>38832</Station2>
-    <Distance>15</Distance>
+    <Distance>7</Distance>
     <Time>
       <Hours>0</Hours>
-      <Minutes>6</Minutes>
-      <Seconds>2</Seconds>
+      <Minutes>18</Minutes>
+      <Seconds>1</Seconds>
     </Time>
   </AdjecentStations>
   <AdjecentStations>
