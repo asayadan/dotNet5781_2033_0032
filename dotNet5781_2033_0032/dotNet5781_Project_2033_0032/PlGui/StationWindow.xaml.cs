@@ -28,6 +28,8 @@ namespace PlGui
         BackgroundWorker getLinesInStationWorker = new BackgroundWorker();
         BackgroundWorker searchWorker = new BackgroundWorker();
         BackgroundWorker getLinesInTwoStationWorker = new BackgroundWorker();
+        BackgroundWorker tripWorker = new BackgroundWorker();
+
         #endregion
 
         #region ObservableCollection
@@ -42,6 +44,7 @@ namespace PlGui
         BO.Station firstStation;
         BO.Station secondStation;
         bool changed = true;
+        string username;
 
         public StationWindow(IBL bL, string userName)
         {
@@ -50,6 +53,7 @@ namespace PlGui
             SimulationControlWindow win = new SimulationControlWindow(bl); // Opening the simulation window
             win.Show();
             lbl_username.DataContext = userName;
+            username = userName;
             getAllStationsWorker.DoWork += GetStations;
             SetYellowSignTab();
             SetTripPlanTab();
@@ -185,6 +189,12 @@ namespace PlGui
                     getLinesInTwoStationWorker.RunWorkerAsync();
             };
             LinesInBothStationsDataGrid.DataContext = linesInBothStations;
+            tripWorker.DoWork += CreateTrip;
+        }
+
+        private void CreateTrip(object sender, DoWorkEventArgs e)
+        {
+            //bl.CreateTrip(username, , firstStation.Code, , secondStation.Code, );
         }
 
         private void GetLinesInBothStation(object sender, DoWorkEventArgs e)
@@ -244,6 +254,7 @@ namespace PlGui
             pb_tripProgress.Value = pb_tripProgress.Minimum;
             bt_startTrip.IsEnabled = false;
             tb_start.Text = "Trip Progress:";
+
             BO.SimulationClock.valueChanged += Trip;
         }
         private void Trip(object sender, EventArgs e)
