@@ -514,11 +514,6 @@ namespace BL
                    where first.LineId == second.LineId
                    where first.TimeToStation < second.TimeToStation
                    select (first, second);
-            
-           
-
-
-
         }
 
         public void UpdateStation(Station station)

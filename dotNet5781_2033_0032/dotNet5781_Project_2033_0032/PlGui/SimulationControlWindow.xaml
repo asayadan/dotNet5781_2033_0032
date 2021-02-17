@@ -38,7 +38,7 @@
         <ComboBox x:Name="lastMinutesComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="2" />
         <ComboBox x:Name="lastSecondsComboBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="23" Width="50" Grid.Row="1" Grid.Column="4" />
     </Grid>
-        <TextBox x:Name="tb_time" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextAlignment="Center"  Visibility="Collapsed" IsReadOnly="True" Text="{Binding Mode=OneWay}"/>
+        <TextBox x:Name="tb_time" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextAlignment="Center"  Visibility="Collapsed" IsReadOnly="True" Text="{Binding Mode=OneWay}" FontSize="18" Foreground="#FF13E817"/>
         <Label Content="Select speed"  FontSize="25" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
         <Label Content="start time"  FontSize="25" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
         <Button x:Name="bt_activation" Content="Start" FontSize="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Click="Button_Click" />

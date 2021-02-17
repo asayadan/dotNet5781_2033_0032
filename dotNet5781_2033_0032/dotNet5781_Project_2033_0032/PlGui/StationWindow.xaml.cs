@@ -54,6 +54,9 @@ namespace PlGui
         }
 
         #region Yellow Sign Tab
+        /// <summary>
+        /// sets teh first tab
+        /// </summary>
         void SetYellowSignTab()
         {
             getAllStationsWorker.RunWorkerAsync();
@@ -61,6 +64,11 @@ namespace PlGui
             Searchworker.DoWork += Search;
             BO.SimulationClock.valueChanged += (object sender, EventArgs e) => { getLinesInStationWorker.RunWorkerAsync(); };
         }
+        /// <summary>
+        /// sets the and the arrival times lines in the scurrent stations a
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetLinesInStation(object sender, DoWorkEventArgs e)
         {
             if (curStation == null)

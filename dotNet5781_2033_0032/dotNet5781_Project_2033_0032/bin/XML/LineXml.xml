@@ -56,4 +56,20 @@
     <Area>North</Area>
     <Id>7</Id>
   </Line>
+  <Line>
+    <isActive>true</isActive>
+    <Code>9990</Code>
+    <FirstStation>38837</FirstStation>
+    <LastStation>38831</LastStation>
+    <Area>Center</Area>
+    <Id>9</Id>
+  </Line>
+  <Line>
+    <isActive>false</isActive>
+    <Code>432</Code>
+    <FirstStation>38837</FirstStation>
+    <LastStation>38860</LastStation>
+    <Area>Jerusalem</Area>
+    <Id>8</Id>
+  </Line>
 </ArrayOfLine>
