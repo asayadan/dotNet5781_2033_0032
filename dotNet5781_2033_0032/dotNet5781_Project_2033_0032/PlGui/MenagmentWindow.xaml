@@ -60,7 +60,7 @@
                             <DataGridTemplateColumn Width="0.3*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button x:Name="btRemoveStation" Content="Remove" Background="Red" ToolTip="Remove station from current line." Click="btRemoveStationFromLine_Click"/>
+                                        <Button x:Name="btRemoveTrip" Content="Remove" Background="Red" ToolTip="Remove station from current line." />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -68,7 +68,7 @@
                             <DataGridTemplateColumn Width="0.3*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button x:Name="bt_updatTripInLine" Content="Update" Background="ForestGreen" ToolTip="Update station properties from current line." Click="bt_updatStationInLine_Click"/>
+                                        <Button x:Name="bt_updatTripInLine" Content="Update" Background="ForestGreen" ToolTip="Update station properties from current line."/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

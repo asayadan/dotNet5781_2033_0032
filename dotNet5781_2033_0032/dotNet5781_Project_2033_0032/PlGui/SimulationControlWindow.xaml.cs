@@ -91,6 +91,10 @@ namespace PlGui
                 tb_time.Visibility = Visibility.Collapsed;
                 slider.IsEnabled = true;
                 bl.StopSimulator();
+                TimeSpan helpSpan = BO.SimulationClock.GetTime;
+                lastHoursComboBox.SelectedItem = helpSpan.Hours;
+                lastMinutesComboBox.SelectedItem = helpSpan.Minutes;
+                lastSecondsComboBox.SelectedItem = helpSpan.Seconds;
                 bt_activation.Content = "Start";
             }
             isWorking = !isWorking;

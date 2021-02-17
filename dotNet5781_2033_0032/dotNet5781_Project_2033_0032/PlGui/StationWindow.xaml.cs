@@ -67,8 +67,12 @@ namespace PlGui
             searchWorker.DoWork += Search;
             BO.SimulationClock.valueChanged += (object sender, EventArgs e) => { getLinesInStationWorker.RunWorkerAsync(); };
         }
-
-        private void SetLinesInStation(object sender, DoWorkEventArgs e) // Receives all lines in a given station
+        /// <summary>
+        /// sets the and the arrival times lines in the scurrent stations a
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetLinesInStation(object sender, DoWorkEventArgs e)
         {
             if (curStation == null)
             {
@@ -179,7 +183,7 @@ namespace PlGui
         }
 
         #endregion
-
+        #region Trip Tab
         public void SetTripPlanTab()
         {
             getLinesInTwoStationWorker.DoWork += GetLinesInBothStation;
@@ -245,12 +249,13 @@ namespace PlGui
 
         private void bt_startTrip_Click(object sender, RoutedEventArgs e)
         {
-            var tuple = ((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem;
-            tripEndTime = tuple.Item2.TimeToStation + BO.SimulationClock.GetTime;
+             var tuple = ((BO.LineTiming, BO.LineTiming))LinesInBothStationsDataGrid.SelectedItem;
+            tripEndTime = bl.LineInTwoStations(firstStation.Code, secondStation.Code, tuple.Item1.LineCode).Item2.TimeToStation;
             LinesInBothStationsDataGrid.IsEnabled = false;
             pb_tripProgress.Visibility = Visibility.Visible;
-            pb_tripProgress.Minimum = BO.SimulationClock.GetTime.TotalMilliseconds - tripEndTime.TotalMilliseconds;
+            pb_tripProgress.Minimum = 0- tripEndTime.TotalMilliseconds;
             pb_tripProgress.Maximum = 0;
+            tripEndTime += BO.SimulationClock.GetTime;
             pb_tripProgress.Value = pb_tripProgress.Minimum;
             bt_startTrip.IsEnabled = false;
             tb_start.Text = "Trip Progress:";
@@ -295,6 +300,7 @@ namespace PlGui
             }
             else bt_startTrip.IsEnabled = false;
         }
+        #endregion
     }
 
     [ValueConversion(typeof(TimeSpan), typeof(String))]

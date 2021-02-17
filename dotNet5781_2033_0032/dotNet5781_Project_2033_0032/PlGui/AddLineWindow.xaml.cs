@@ -51,18 +51,23 @@ namespace PlGui
                 lastStationComboBox.ItemsSource = help;
             });
         }
-
+        /// <summary>
+        /// sets the line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void AddLine(object sender, DoWorkEventArgs e)
         {
 
             int a = 0, firstStation = 0, lastStation = 0;
-            double distance=0;
+            double distance = 0;
             bool valid = true;
             BO.Areas b = BO.Areas.Center;
             TimeSpan timeSpan = TimeSpan.Zero;
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
-                try {
+                try
+                {//gets all the required parameters
                     a = int.Parse(CodeTextBox.Text);
                     b = (BO.Areas)areaComboBox.SelectedItem;
                     firstStation = (int)firstStationComboBox.SelectedValue;
@@ -79,12 +84,12 @@ namespace PlGui
                 }
                 catch (OverflowException)
                 {
-                    tbl_warnings.Text="Invalid code!";
+                    tbl_warnings.Text = "Invalid code!";
                     valid = false;
                 }
                 catch (FormatException)
                 {
-                tbl_warnings.Text = "Invalid code!";
+                    tbl_warnings.Text = "Invalid code!";
                     valid = false;
                 }
             });
@@ -94,7 +99,7 @@ namespace PlGui
                 if (valid)
                 {
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    bl.CreateLine(a, b, firstStation, lastStation,distance,timeSpan);
+                    bl.CreateLine(a, b, firstStation, lastStation, distance, timeSpan);
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
                         Close();
@@ -107,7 +112,7 @@ namespace PlGui
                 MessageBox.Show(ex.Message);
             }
         }
-       
+
 
         private void finishButton_Click(object sender, RoutedEventArgs e)
         {
