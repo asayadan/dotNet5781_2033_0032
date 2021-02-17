@@ -216,7 +216,10 @@ namespace DL
         {
             return lineTrip.Id == int.Parse(lineTripElement.Element("ID").Value);
         }
-
+        public static bool Equal(this XElement tripElement, DO.Trip trip)
+        {
+            return trip.Id == int.Parse(tripElement.Element("ID").Value);
+        }
         #endregion
         #region Bus
         /// <summary>

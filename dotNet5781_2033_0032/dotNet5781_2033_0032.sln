@@ -36,10 +36,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XML", "XML", "{E47AB9B5-D0D
 	ProjectSection(SolutionItems) = preProject
 		dotNet5781_Project_2033_0032\bin\XML\AdjacentStationsXml.xml = dotNet5781_Project_2033_0032\bin\XML\AdjacentStationsXml.xml
 		dotNet5781_Project_2033_0032\bin\XML\BusXml.xml = dotNet5781_Project_2033_0032\bin\XML\BusXml.xml
+		dotNet5781_Project_2033_0032\bin\xml\CounterXML.xml = dotNet5781_Project_2033_0032\bin\xml\CounterXML.xml
 		dotNet5781_Project_2033_0032\bin\XML\LineStationsXml.xml = dotNet5781_Project_2033_0032\bin\XML\LineStationsXml.xml
 		dotNet5781_Project_2033_0032\bin\XML\LineTripXml.xml = dotNet5781_Project_2033_0032\bin\XML\LineTripXml.xml
 		dotNet5781_Project_2033_0032\bin\XML\LineXml.xml = dotNet5781_Project_2033_0032\bin\XML\LineXml.xml
 		dotNet5781_Project_2033_0032\bin\XML\StationXml.xml = dotNet5781_Project_2033_0032\bin\XML\StationXml.xml
+		dotNet5781_Project_2033_0032\bin\xml\TripXml.xml = dotNet5781_Project_2033_0032\bin\xml\TripXml.xml
 		dotNet5781_Project_2033_0032\bin\XML\UserhXml.xml = dotNet5781_Project_2033_0032\bin\XML\UserhXml.xml
 	EndProjectSection
 EndProject

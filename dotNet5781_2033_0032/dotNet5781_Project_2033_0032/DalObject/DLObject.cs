@@ -279,5 +279,10 @@ namespace DL
         {
             throw new NotImplementedException();
         }
+
+        public void CreateTrip(DO.Trip newTrip)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

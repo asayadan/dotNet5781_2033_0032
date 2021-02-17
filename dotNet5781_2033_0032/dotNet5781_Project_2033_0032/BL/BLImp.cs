@@ -507,6 +507,7 @@ namespace BL
 
         }
 
+        
         public IEnumerable<(BO.LineTiming, BO.LineTiming)> LinesInTwoStations(int station1Id, int station2Id)
         {
             return from first in RequestLineTimingFromStation(station1Id)
