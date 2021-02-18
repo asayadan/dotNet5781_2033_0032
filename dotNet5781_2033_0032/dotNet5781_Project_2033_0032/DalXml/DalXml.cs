@@ -173,14 +173,10 @@ namespace DL
         {
             List<Line> ListLines = XMLTools.LoadListFromXMLSerializer<Line>(LinePath);
 
-            Line helpLine = (from line in ListLines
-                             where line.Id == Uline.Id && line.isActive
-                             select line).FirstOrDefault();
-            if (helpLine != null)
+            int index = ListLines.FindIndex(line => line.Id == Uline.Id && line.isActive);
+            if (index != -1)
             {
-                Uline.isActive = true;
-                ListLines.Remove(helpLine);
-                ListLines.Add(Uline);
+                ListLines[index] = Uline;
                 XMLTools.SaveListToXMLSerializer<Line>(ListLines, LinePath);
             }
             else throw new DO.InvalidLineIDException(Uline.Id, "this line id doesn't exists");
@@ -189,18 +185,18 @@ namespace DL
 
         #region bus
 
-        public void CreateBus(Bus NewBus)
+        public void CreateBus(Bus newBus)
         {
             XElement BusRootElem = XMLTools.LoadListFromXMLElement(BusPath);
 
             Bus thisSus = (from bus in BusRootElem.Elements()
-                           where bus.IsActive() && bus.Equal(NewBus.LicenseNum)
+                           where bus.IsActive() && bus.Equal(newBus.LicenseNum)
                            select bus.ToBus()).FirstOrDefault();
 
             if (thisSus != null)
-                throw new DO.InvalidBusLicenseNumberException(NewBus.LicenseNum, "we already have this bus");
+                throw new DO.InvalidBusLicenseNumberException(newBus.LicenseNum, "we already have this bus");
 
-            BusRootElem.Add(thisSus.ToXElement());
+            BusRootElem.Add(newBus.ToXElement());
 
             XMLTools.SaveListToXMLElement(BusRootElem, BusPath);
         }
@@ -576,16 +572,13 @@ namespace DL
         public void UpdateStation(Station Ustation)
         {
             List<Station> ListStation = XMLTools.LoadListFromXMLSerializer<Station>(StationPath);
-            Station helpStation = (from station in ListStation
-                                   where station.isActive && station.Code == Ustation.Code
-                                   select station).FirstOrDefault();
-            if (helpStation == null)
+            int index = ListStation.FindIndex(station => station.isActive && station.Code == Ustation.Code);
+            if (index == -1)
                 throw new DO.InvalidStationIDException(Ustation.Code, "Station id not found.");
             else
             {
                 Ustation.isActive = true;
-                ListStation.Remove(helpStation);
-                ListStation.Add(Ustation);
+                ListStation[index] = Ustation;
                 XMLTools.SaveListToXMLSerializer(ListStation, StationPath);
             }
         }

@@ -165,7 +165,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="First Station: " VerticalAlignment="Center" FontSize="30" FontFamily="David" HorizontalAlignment="Center" TextAlignment="Center"/>
                 <TextBlock Text="Second Station: " VerticalAlignment="Center" FontSize="30" FontFamily="David" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="1"/>
-                <TextBlock Text="Lines: " VerticalAlignment="Center" FontSize="30" FontFamily="David" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="2"/>
+                <TextBlock Text="Select Line: " VerticalAlignment="Center" FontSize="30" FontFamily="David" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="2"/>
 
 
                 <Button x:Name="bt_startTrip" IsEnabled="False" Content="Start Trip" Background="LightGreen" Click="bt_startTrip_Click" Height="50" Width="300" HorizontalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2"/>
@@ -189,6 +189,7 @@
                 </DataGrid>
                 <TextBlock x:Name="tb_start" Text="Waiting to start..." VerticalAlignment="Center" Grid.Row="1" FontSize="30" FontFamily="David" HorizontalAlignment="Center" Grid.Column="2" Grid.RowSpan="2" TextAlignment="Center"/>
                 <ProgressBar x:Name="pb_tripProgress" Grid.Row="2" Grid.Column="2" Visibility="Collapsed" Height="20" Width="220"/>
+                <TextBlock Text="נא לתקף את הרב-קו&#x0a; ,לפני כל נסיעה&#x0a;כולל בעלי מינויים" VerticalAlignment="Center" Grid.Row="0" FontSize="30" FontFamily="David" HorizontalAlignment="Center" Grid.Column="2" TextAlignment="Center"/>
 
             </Grid>
 

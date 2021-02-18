@@ -261,7 +261,7 @@ namespace BL
             var lineTripsInLine = GetAllLineTripsInLine(lineId);
             int min = 0;
             var currentTime = SimulationClock.GetTime;
-            var futureTrips = lineTripsInLine.Where(p => currentTime <= p.FinishAt+timeToStation);
+            var futureTrips = lineTripsInLine.Where(p => currentTime <= p.FinishAt + timeToStation);
             var lineTrip = futureTrips.LastOrDefault();
             if (lineTrip == null)
                 return (lineTrip, 0);
@@ -303,11 +303,15 @@ namespace BL
                 var curLine = RequestLine(lineId);
                 var stations = RequestLineStationsInLine(lineId);
                 if (index == 0)
+                {
                     curLine.FirstStation = stationId;
-
+                    UpdateLine(curLine);
+                }
                 if (index == stations.Count())
+                {
                     curLine.LastStation = stationId;
-
+                    UpdateLine(curLine);
+                }
                 foreach (var station in stations)
                 {
                     if (station.LineStationIndex >= index)
@@ -507,7 +511,7 @@ namespace BL
 
         }
 
-        
+
         public IEnumerable<(BO.LineTiming, BO.LineTiming)> LinesInTwoStations(int station1Id, int station2Id)
         {
             return from first in RequestLineTimingFromStation(station1Id)
@@ -516,16 +520,16 @@ namespace BL
                    where first.TimeToStation < second.TimeToStation
                    select (first, second);
         }
-        public (BO.LineTiming, BO.LineTiming) LineInTwoStations(int station1Id, int station2Id,int LineID)
+        public (BO.LineTiming, BO.LineTiming) LineInTwoStations(int station1Id, int station2Id, int LineID)
         {
-            var help= (from stations in LinesInTwoStations(station1Id,station2Id)
-                 //  where stations.Item1.LineId==LineID
-                   select stations).ToList();
-            if (help.Count() !=0)
+            var help = (from stations in LinesInTwoStations(station1Id, station2Id)
+                            //  where stations.Item1.LineId==LineID
+                        select stations).ToList();
+            if (help.Count() != 0)
             {
                 return help.FirstOrDefault();
             }
-            else throw new BadLineTripException(station1Id,LineID);
+            else throw new BadLineTripException(station1Id, LineID);
         }
 
         public void UpdateStation(Station station)
@@ -635,7 +639,8 @@ namespace BL
                         Station2 = lastStation
                     });
                 }
-                catch (DO.InvalidAdjacentStationIDException) { //In case the adjacent stations already exists
+                catch (DO.InvalidAdjacentStationIDException)
+                { //In case the adjacent stations already exists
                     dl.UpdateAdjacentStations(new DO.AdjacentStations
                     {
                         isActive = true,

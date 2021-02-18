@@ -594,4 +594,26 @@
       <Seconds>55</Seconds>
     </Time>
   </AdjecentStations>
+  <AdjecentStations>
+    <isActive>true</isActive>
+    <Station1>38841</Station1>
+    <Station2>38842</Station2>
+    <Distance>12</Distance>
+    <Time>
+      <Hours>0</Hours>
+      <Minutes>8</Minutes>
+      <Seconds>4</Seconds>
+    </Time>
+  </AdjecentStations>
+  <AdjecentStations>
+    <isActive>true</isActive>
+    <Station1>38842</Station1>
+    <Station2>38831</Station2>
+    <Distance>12</Distance>
+    <Time>
+      <Hours>0</Hours>
+      <Minutes>8</Minutes>
+      <Seconds>13</Seconds>
+    </Time>
+  </AdjecentStations>
 </AdjacentStations>

@@ -66,7 +66,7 @@ namespace PlGui
             getAllStationsWorker.RunWorkerAsync();
             getLinesInStationWorker.DoWork += SetLinesInStation;
             searchWorker.DoWork += Search;
-            BO.SimulationClock.valueChanged += (object sender, EventArgs e) => { getLinesInStationWorker.RunWorkerAsync(); };
+            BO.SimulationClock.valueChanged += (object sender, EventArgs e) => { if(!getLinesInStationWorker.IsBusy) getLinesInStationWorker.RunWorkerAsync(); };
         }
         /// <summary>
         /// sets the and the arrival times lines in the scurrent stations a
@@ -214,8 +214,8 @@ namespace PlGui
                 tb_start.Text = "Trip Progress:";
             });
             tripEndTime += BO.SimulationClock.GetTime;
-            
-           
+            tripStartTime += BO.SimulationClock.GetTime;
+
             bl.CreateTrip(username, lineCode, firstStation.Code, tripStartTime, secondStation.Code, tripEndTime);
             BO.SimulationClock.valueChanged += Trip;
         }

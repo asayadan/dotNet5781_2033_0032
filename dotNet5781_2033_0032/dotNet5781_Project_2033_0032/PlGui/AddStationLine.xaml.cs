@@ -55,7 +55,7 @@ namespace PlGui
                 }
                 for (int i = 0; i < stationsInLine.Count + 1; i++)
                     indexStationComboBox.Items.Add(i);
-                
+
                 newStationComboBox.DisplayMemberPath = "Name";
                 newStationComboBox.SelectedValuePath = "Code";
             });
@@ -72,9 +72,9 @@ namespace PlGui
                 lastSecondsComboBox.SelectedItem != null && nextSecondsComboBox.SelectedItem != null
                 ||
                 indexStationComboBox.SelectedIndex == indexStationComboBox.Items.Count - 1 &&
-                lastDistanceTextBox != null && 
-                lastHoursComboBox.SelectedItem != null && 
-                lastMinutesComboBox.SelectedItem != null && 
+                lastDistanceTextBox != null &&
+                lastHoursComboBox.SelectedItem != null &&
+                lastMinutesComboBox.SelectedItem != null &&
                 lastSecondsComboBox.SelectedItem != null
                 ||
                 indexStationComboBox.SelectedIndex == 0 &&
@@ -84,7 +84,7 @@ namespace PlGui
                 nextSecondsComboBox.SelectedItem != null
                 ))
             {
-                worker= new BackgroundWorker();
+                worker = new BackgroundWorker();
                 worker.DoWork += AddStation;
                 worker.RunWorkerAsync();
             }
@@ -100,29 +100,43 @@ namespace PlGui
 
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
+                station = newStationComboBox.SelectedItem as BO.Station;
+                index = (int)indexStationComboBox.SelectedItem;
+
+
+
+
                 try
                 {
-                    station = newStationComboBox.SelectedItem as BO.Station;
                     lastDistance = double.Parse(lastDistanceTextBox.Text);
-                    nextDistance = double.Parse(nextDistanceTextBox.Text);
-                    index = (int)indexStationComboBox.SelectedItem;
                     lastTimeSpan = new TimeSpan((int)lastHoursComboBox.SelectedItem,
-                                        (int)lastMinutesComboBox.SelectedItem,
-                                        (int)lastSecondsComboBox.SelectedItem);
+                                            (int)lastMinutesComboBox.SelectedItem,
+                                            (int)lastSecondsComboBox.SelectedItem);
+                }
+                catch (Exception)
+                {
+                    if (index != 0)
+                    {
+                        MessageBox.Show("Invalid details!");
+                        valid = false;
+                    }
+                }
+
+                try
+                {
+                    nextDistance = double.Parse(nextDistanceTextBox.Text);
                     nextTimeSpan = new TimeSpan((int)nextHoursComboBox.SelectedItem,
                                         (int)nextMinutesComboBox.SelectedItem,
                                         (int)nextSecondsComboBox.SelectedItem);
+                }
 
-                }
-                catch (OverflowException)
+                catch (Exception)
                 {
-                    MessageBox.Show("Invalid distance!");
-                    valid = false;
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Invalid distance!");
-                    valid = false;
+                    if (index != indexStationComboBox.Items.Count - 1)
+                    {
+                        MessageBox.Show("Invalid details!");
+                        valid = false;
+                    }
                 }
             });
 
@@ -153,7 +167,8 @@ namespace PlGui
                 for (int i = 2; i <= 5; i++)
                     MainGrid.RowDefinitions.ElementAt(i).Height = GridLength.Auto;
 
-            if (indexStationComboBox.SelectedIndex == 0) {
+            if (indexStationComboBox.SelectedIndex == 0)
+            {
                 MainGrid.RowDefinitions.ElementAt(2).Height = new GridLength(0);
                 MainGrid.RowDefinitions.ElementAt(3).Height = new GridLength(0);
             }

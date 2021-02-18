@@ -355,7 +355,7 @@ namespace PlGui
                 bl.DeleteLineTrip(helpLineTrip.Id);
                 SetAllTripsInLine(sender,e);
             }
-            catch (BO.BadLineTripException ex)//this shouldn't happen
+            catch (BO.BadLineTripException)//this shouldn't happen
             {
 
             }

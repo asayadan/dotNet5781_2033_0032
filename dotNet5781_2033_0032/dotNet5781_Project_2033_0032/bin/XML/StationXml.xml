@@ -376,7 +376,7 @@
     <Code>38895</Code>
     <Name>בן גוריון/פוקס</Name>
     <Latitude>31.806959</Latitude>
-    <Longitude>34.773504</Longitude>
+    <Longitude>35.773504</Longitude>
   </Station>
   <Station>
     <isActive>true</isActive>
@@ -2092,5 +2092,12 @@
     <Name>שדרות וייצמן/יהודה הנשיא</Name>
     <Latitude>32.337669</Latitude>
     <Longitude>34.859541</Longitude>
+  </Station>
+  <Station>
+    <isActive>false</isActive>
+    <Code>11111</Code>
+    <Name>ניימן</Name>
+    <Latitude>33.333333</Latitude>
+    <Longitude>33.333333</Longitude>
   </Station>
 </ArrayOfStation>

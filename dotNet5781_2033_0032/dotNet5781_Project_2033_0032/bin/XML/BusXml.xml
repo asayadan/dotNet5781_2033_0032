@@ -122,7 +122,7 @@
   <Bus>
     <isActive>true</isActive>
     <licensePlateNumber>7047254</licensePlateNumber>
-    <Fuel>1001</Fuel>
+    <Fuel>1200</Fuel>
     <mileage>3518</mileage>
     <FromDate>
       <Year>2016</Year>
@@ -137,7 +137,7 @@
     <BusStatus>Ready</BusStatus>
   </Bus>
   <Bus>
-    <isActive>true</isActive>
+    <isActive>False</isActive>
     <licensePlateNumber>52628295</licensePlateNumber>
     <Fuel>1057</Fuel>
     <mileage>202</mileage>
@@ -154,7 +154,7 @@
     <BusStatus>Ready</BusStatus>
   </Bus>
   <Bus>
-    <isActive>true</isActive>
+    <isActive>False</isActive>
     <licensePlateNumber>68406418</licensePlateNumber>
     <Fuel>334</Fuel>
     <mileage>1028</mileage>
@@ -167,6 +167,23 @@
       <Year>2020</Year>
       <Month>9</Month>
       <Day>13</Day>
+    </lastTreatment>
+    <BusStatus>Ready</BusStatus>
+  </Bus>
+  <Bus>
+    <isActive>true</isActive>
+    <licensePlateNumber>12345678</licensePlateNumber>
+    <Fuel>1200</Fuel>
+    <mileage>1234</mileage>
+    <FromDate>
+      <Year>2021</Year>
+      <Month>2</Month>
+      <Day>18</Day>
+    </FromDate>
+    <lastTreatment>
+      <Year>1</Year>
+      <Month>1</Month>
+      <Day>1</Day>
     </lastTreatment>
     <BusStatus>Ready</BusStatus>
   </Bus>
